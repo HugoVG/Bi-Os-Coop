@@ -10,6 +10,22 @@ namespace Bi_Os_Coop
     {
         static void Main(string[] args)
         {
+            Console.BackgroundColor = ConsoleColor.Red;
+            Console.Write("A1");
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.Write(" ");
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.Write("B1");
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.Write(" ");
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.Write("C1");
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.Write(" ");
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.Write("D1");
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ReadLine();
         }
     }
 }
