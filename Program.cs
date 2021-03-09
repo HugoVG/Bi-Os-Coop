@@ -18,7 +18,7 @@ namespace Bi_Os_Coop
 
 
 
-            //Hogo
+            
         }
         /// <summary>
         /// Will write a new text to the console making the Main take up less space
