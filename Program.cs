@@ -10,24 +10,30 @@ namespace Bi_Os_Coop
     {
         static void Main(string[] args)
         {
-            Console.BackgroundColor = ConsoleColor.Red;
-            Console.Write("A1");
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.Write(" ");
-            Console.BackgroundColor = ConsoleColor.White;
-            Console.Write("B1");
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.Write(" ");
-            Console.BackgroundColor = ConsoleColor.White;
-            Console.Write("C1");
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.Write(" ");
-            Console.BackgroundColor = ConsoleColor.White;
-            Console.Write("D1");
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ReadLine();
-            //this is my commment
+            newEntry("A1", ConsoleColor.Red, ConsoleColor.Black);
+            newEntry("B1", ConsoleColor.Red, ConsoleColor.Black);
+            newEntry("C1", ConsoleColor.Red, ConsoleColor.Black);
+            newEntry("D1", ConsoleColor.Red, ConsoleColor.Black);
+            string read = Console.ReadLine();
+
+
+
             
+        }
+        /// <summary>
+        /// Will write a new text to the console making the Main take up less space
+        /// </summary>
+        /// <param name="text">Required Paramater: Text that will be displayed to screen</param>
+        /// <param name="colorfg">Foreground Color</param>
+        /// <param name="colorbg">Background Color</param>
+        static void newEntry(string text, ConsoleColor colorfg = ConsoleColor.White, ConsoleColor colorbg = ConsoleColor.Black)
+        {
+            Console.BackgroundColor = colorbg;
+            Console.ForegroundColor = colorfg;
+            Console.Write(text);
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.Write(" ");
+
         }
     }
 }
