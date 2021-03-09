@@ -33,7 +33,7 @@ namespace Bi_Os_Coop
             Console.Write(text);
             Console.BackgroundColor = ConsoleColor.Black;
             Console.Write(" ");
-
+            //tinybrain Thissa
         }
     }
 }
