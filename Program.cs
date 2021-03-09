@@ -33,10 +33,6 @@ namespace Bi_Os_Coop
             Console.Write(text);
             Console.BackgroundColor = ConsoleColor.Black;
             Console.Write(" ");
-            //lmao ik ben echt fucking dom
-            //ik snap hier echt de ballen van
-            //send help
-            //bitch im dumb as shit
         }
     }
 }
