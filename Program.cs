@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define DEBUG
+//#undef DEBUG
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,15 +13,18 @@ namespace Bi_Os_Coop
     {
         static void Main(string[] args)
         {
+            /*
             newEntry("A1", ConsoleColor.Red, ConsoleColor.Black);
             newEntry("B1", ConsoleColor.Red, ConsoleColor.Black);
             newEntry("C1", ConsoleColor.Red, ConsoleColor.Black);
             newEntry("D1", ConsoleColor.Red, ConsoleColor.Black);
             string read = Console.ReadLine();
+            */
+            CPeople.Poggers();
 
-
-
-            
+#if (DEBUG)
+            Console.ReadKey();
+#endif
         }
         /// <summary>
         /// Will write a new text to the console making the Main take up less space
