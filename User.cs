@@ -1,9 +1,9 @@
 ﻿using System;
 namespace Bi_Os_Coop
 {
-    public class DifferentRoles
+    public class User
     {
-        public DifferentRoles()
+        public User()
         {
         }
     }
