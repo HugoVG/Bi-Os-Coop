@@ -13,7 +13,8 @@ namespace Bi_Os_Coop
     {
         static void Main(string[] args)
         {
-            loginscherm.login();
+
+            //loginscherm.login();
             /*
             newEntry("A1", ConsoleColor.Red, ConsoleColor.Black);
             newEntry("B1", ConsoleColor.Red, ConsoleColor.Black);
@@ -21,7 +22,8 @@ namespace Bi_Os_Coop
             newEntry("D1", ConsoleColor.Red, ConsoleColor.Black);
             string read = Console.ReadLine();
             */
-            CPeople.Poggers();
+
+            //CPeople.Poggers();
 
 #if (DEBUG)
             Console.ReadKey();
