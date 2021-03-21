@@ -13,6 +13,7 @@ namespace Bi_Os_Coop
     {
         static void Main(string[] args)
         {
+            loginscherm.login();
             /*
             newEntry("A1", ConsoleColor.Red, ConsoleColor.Black);
             newEntry("B1", ConsoleColor.Red, ConsoleColor.Black);
