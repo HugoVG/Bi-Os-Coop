@@ -72,12 +72,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CPeople.cs" />
+    <Compile Include="Json.cs" />
+    <Compile Include="loginscherm.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Json\Accounts.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions />
 </Project>
