@@ -8,6 +8,21 @@ namespace Bi_Os_Coop
 {
     class loginscherm
     {
+        public static bool mailwachtvragen(string username, string password)
+        {   
+            string account = Json.ReadJson("Accounts");
+            CPeople.People accounts = new CPeople.People();
+            accounts = accounts.FromJson(account);
+            try
+            {
+                CPeople.Person persoon = accounts.peopleList.Single(henk => henk.email == username && henk.password == password);
+                return true;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
+        }
         public static void login()
         {
             ///vragen naar e-mail en wachtwoord
@@ -19,18 +34,24 @@ namespace Bi_Os_Coop
                 Console.WriteLine("Wachtwoord:");
                 string password = Console.ReadLine();
 
-                ///check uitvoeren of wachtwoord juist is bij e-mail adress 
-                if (username != "valid" || password != "valid")
+                if (mailwachtvragen(username, password))
                 {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Succesvol ingelogd!");
+                    System.Threading.Thread.Sleep(1000);
+                    Console.ForegroundColor = ConsoleColor.Gray;
                     Console.Clear();
-                    Console.WriteLine("E-mail of wachtwoord onjuist!", Console.ForegroundColor = ConsoleColor.Red);
+                    break;
                 }
                 else
                 {
                     Console.Clear();
-                    Console.WriteLine("Succesvol ingelogd!", Console.ForegroundColor = ConsoleColor.Green);
-                    break;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("E-mail of wachtwoord onjuist!");
+                    Console.ForegroundColor = ConsoleColor.Gray;
                 }
+ 
+                ///check uitvoeren of wachtwoord juist is bij e-mail adress 
             }
             Console.ForegroundColor = ConsoleColor.Gray;
         }
