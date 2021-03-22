@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-// dertigste test - Hajar
 
 namespace Bi_Os_Coop
 {
@@ -17,7 +16,8 @@ namespace Bi_Os_Coop
             newEntry("D1", ConsoleColor.Red, ConsoleColor.Black);
             string read = Console.ReadLine();
 
-
+            User Bjorn = new User("Bjorn", 30);
+            Console.WriteLine(Bjorn.Name);
 
             
         }
@@ -34,9 +34,7 @@ namespace Bi_Os_Coop
             Console.Write(text);
             Console.BackgroundColor = ConsoleColor.Black;
             Console.Write(" ");
-            //tinybrain Thissa
+      
         }
-        // dit is nog een test
-        // dit is de tweede test
     }
 }
