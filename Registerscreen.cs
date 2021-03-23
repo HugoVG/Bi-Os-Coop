@@ -11,31 +11,15 @@ namespace Bi_Os_Coop
         public static void accountInfo()
         {
             int id = createID();
-            string naam = "";
-            string email = "";
-            bool validEmail = false;
-            string password = "";
-            string date = "";
-
-            Console.WriteLine("Typ hier uw voor- en achternaam:");
-            naam = Console.ReadLine();
-
-            while(!validEmail){
-                Console.WriteLine("\nTyp hier uw e-mailadres:");
-                email = Console.ReadLine();
-                if (emailCheck(email))
-                    validEmail = true;
-            }
-
-            Console.WriteLine("\nTyp hier uw wachtwoord:");
-            password = Console.ReadLine();
-
-            Console.WriteLine("\nTyp hier uw geboortedatum (dd/mm/jjjj):");
-            date = Console.ReadLine();
+            string naam = validCheck("voor- en achternaam", lengthCheck);
+            string email = validCheck("e-mailadres", emailCheck);
+            string password = validCheck("wachtwoord", lengthCheck);
+            string date = validCheck("geboortedatum (dd/mm/jjjj)", dateCheck);
 
             var customer = new CPeople.Person();
             customer.setPerson(id, naam, email, password, date);
         }
+
         public static int createID()
         {
             string ret = "";
@@ -47,6 +31,22 @@ namespace Bi_Os_Coop
 
             return int.Parse(ret);
         }
+
+        public static string validCheck(string print, Func<string, bool> function)
+        {
+            bool valid = false;
+            string input = "";
+
+            while (!valid)
+            {
+                Console.WriteLine($"\nTyp hier uw {print}:");
+                input = Console.ReadLine();
+                if (function(input))
+                    valid = true;
+            }
+            return input;
+        }
+
         public static bool emailCheck(string email)
         {
             bool at = false;
@@ -64,9 +64,29 @@ namespace Bi_Os_Coop
             }
             if (at && dot)
                 return true;
-            Program.newEntry("\nVoer alstublieft een valide e-mailadres in!", ConsoleColor.Red);
+            Program.newEntry("Dit is geen geldige input!\n", ConsoleColor.Red);
             return false;
         }
+
+        public static bool dateCheck(string date)
+        {
+            if (lengthCheck(date))
+            {
+                if (date[2] == '/' && date[5] == '/')
+                    return true;
+            }
+            Program.newEntry("Vul uw geboortedatum alstublieft in volgens de volgende format: dd/mm/jjjj\n", ConsoleColor.Red);
+            return false;
+        }
+
+        public static bool lengthCheck(string s)
+        {
+            if (s.Length != 0)
+                return true;
+            Program.newEntry("Dit is geen geldige input!\n", ConsoleColor.Red);
+            return false;
+        }
+
         public static int ageCalc(string date)
         {
             DateTime todaysDate = DateTime.Now.Date;

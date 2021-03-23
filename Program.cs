@@ -24,6 +24,7 @@ namespace Bi_Os_Coop
             string read = Console.ReadLine();
             */
             CPeople.Poggers();
+            Registerscreen.accountInfo();
 
 #if (DEBUG)
             Console.ReadKey();
@@ -42,7 +43,6 @@ namespace Bi_Os_Coop
             Console.Write(text);
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(" ");
         }
     }
 }
