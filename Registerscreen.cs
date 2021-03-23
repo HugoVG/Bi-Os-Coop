@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace Bi_Os_Coop
 {
@@ -24,11 +25,11 @@ namespace Bi_Os_Coop
         {
             string ret = "";
             Random randint = new Random();
+
             for(int i = 0; i < 5; i++)
             {
                 ret = ret + randint.Next(0, 10).ToString();
             }
-
             return int.Parse(ret);
         }
 
