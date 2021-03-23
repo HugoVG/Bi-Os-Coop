@@ -9,19 +9,19 @@ namespace Bi_Os_Coop
 {
     class CPeople
     {
-        //public static void Poggers()
-        //{
-        //    People people = new People();
-        //    people.addPersonByFunction(1, "Henk", "henk@henkino.com", "H3nko", 0);
+        public static void Poggers()
+        {
+            People people = new People();
+            people.addPersonByFunction(1, "Henk", "henk@henkino.com", "H3nko", 0);
 
-        //    people.writePeople();
-        //    Console.WriteLine(people.ToJson());
-        //    People newPeople = people.FromJson(people.ToJson());
+            people.writePeople();
+            Console.WriteLine(people.ToJson());
+            People newPeople = people.FromJson(people.ToJson());
 
-        //    newPeople.writePeople();
-        //    people = people.FromJson(people.ToJson());
+            newPeople.writePeople();
+            people = people.FromJson(people.ToJson());
 
-        //}
+        }
         /// <summary>
         /// Person class
         /// Fields:
@@ -67,6 +67,8 @@ namespace Bi_Os_Coop
 
             /// <summary>
             /// adds an Person class Object to the peopleList
+            /// adds an Admin class Object to the adminList
+            /// adds an Employee class Object to the employeeList
             /// </summary>
             /// <param name="personToAdd"></param>
             public void AddPerson(Person personToAdd)
@@ -127,6 +129,7 @@ namespace Bi_Os_Coop
                 temp.setPerson(id, name, email, password, age);
                 AddPerson(temp);
             }
+
 
             public void writePeople()
             {
