@@ -36,15 +36,13 @@ namespace Bi_Os_Coop
         /// <param name="text">Required Paramater: Text that will be displayed to screen</param>
         /// <param name="colorfg">Foreground Color</param>
         /// <param name="colorbg">Background Color</param>
-        static void newEntry(string text, ConsoleColor colorfg = ConsoleColor.White, ConsoleColor colorbg = ConsoleColor.Black)
+        public static void newEntry(string text, ConsoleColor colorfg = ConsoleColor.White, ConsoleColor colorbg = ConsoleColor.Black)
         {
             Console.BackgroundColor = colorbg;
             Console.ForegroundColor = colorfg;
             Console.Write(text);
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.Write(" ");
-            //tinybrain Thissa
+            Console.ForegroundColor = ConsoleColor.White;
         }
-        // dit is nog een test
     }
 }
