@@ -12,7 +12,7 @@ namespace Bi_Os_Coop
         public static void Poggers()
         {
             People people = new People();
-            people.addPersonByFunction(1, "Henk", "henk@henkino.com", "H3nko", 0);
+            people.addPersonByFunction(1, "Henk", "henk@henkino.com", "H3nko", "23/3/2021");
 
             people.writePeople();
             Console.WriteLine(people.ToJson());
@@ -33,9 +33,9 @@ namespace Bi_Os_Coop
             public string name { get; set; }
             public string email { get; set; }
             public string password { get; set; }
-            public int age { get; set; }
+            public string age { get; set; }
             //If you gonna edit this EDIT ALL
-            public void setPerson(int id, string name, string email, string password, int age)
+            public void setPerson(int id, string name, string email, string password, string age)
             {
                 this.id = id;
                 this.name = name;
@@ -76,7 +76,7 @@ namespace Bi_Os_Coop
             /// <param name="email"></param>
             /// <param name="password"></param>
             /// <param name="age"></param>
-            public void addPersonByFunction(int id, string name, string email, string password, int age)
+            public void addPersonByFunction(int id, string name, string email, string password, string age)
             {
                 Person temp = new Person();
                 temp.setPerson(id, name, email, password, age);

@@ -13,6 +13,9 @@ namespace Bi_Os_Coop
     {
         static void Main(string[] args)
         {
+
+
+            //loginscherm.login();
             /*
             newEntry("A1", ConsoleColor.Red, ConsoleColor.Black);
             newEntry("B1", ConsoleColor.Red, ConsoleColor.Black);
@@ -32,15 +35,14 @@ namespace Bi_Os_Coop
         /// <param name="text">Required Paramater: Text that will be displayed to screen</param>
         /// <param name="colorfg">Foreground Color</param>
         /// <param name="colorbg">Background Color</param>
-        static void newEntry(string text, ConsoleColor colorfg = ConsoleColor.White, ConsoleColor colorbg = ConsoleColor.Black)
+        public static void newEntry(string text, ConsoleColor colorfg = ConsoleColor.White, ConsoleColor colorbg = ConsoleColor.Black)
         {
             Console.BackgroundColor = colorbg;
             Console.ForegroundColor = colorfg;
             Console.Write(text);
             Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
             Console.Write(" ");
-            //tinybrain Thissa
         }
-        // dit is nog een test
     }
 }
