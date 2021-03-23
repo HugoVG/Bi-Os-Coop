@@ -24,7 +24,6 @@ namespace Bi_Os_Coop
             string read = Console.ReadLine();
             */
             CPeople.Poggers();
-            Registerscreen.accountInfo();
 
 #if (DEBUG)
             Console.ReadKey();

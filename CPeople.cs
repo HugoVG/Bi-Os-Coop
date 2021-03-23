@@ -20,6 +20,8 @@ namespace Bi_Os_Coop
 
             newPeople.writePeople();
             people = people.FromJson(people.ToJson());
+            //Person Harrie = people.peopleList.Single(henk => henk.email == "mijnfakeEmail@test.com" && henk.password == "H3nk123");
+            //Harrie.ChangePassword();
 
         }
         /// <summary>
@@ -68,8 +70,8 @@ namespace Bi_Os_Coop
                 }
             }
             /// <summary>
-            ///     Makes a new Person using a function and adding it to the object, 
-            ///     so it will put the json good  
+            ///     Makes a new Person using a function and adding it to the object,
+            ///     so it will put the json good
             /// </summary>
             /// <param name="id"></param>
             /// <param name="name"></param>
@@ -94,7 +96,7 @@ namespace Bi_Os_Coop
                 }
             }
             /// <summary>
-            /// Will return This object 
+            /// Will return This object
             /// </summary>
             /// <returns></returns>
             public string ToJson()
