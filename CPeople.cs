@@ -45,18 +45,84 @@ namespace Bi_Os_Coop
                 this.password = password;
                 this.age = age;
             }
+
+            // general methods
+            public void Login()
+            {
+
+            }
+
+            public void Logout()
+            {
+
+            }
+
+            public void ChangePassword()
+            {
+
+            }
+
+            public void ViewMovies()
+            {
+
+            }
+
+            public void BookTicket()
+            {
+
+            }
+
+            public void CancelTicket()
+            {
+
+            }
         }
+
+        public class Admin : Person
+        {
+            public void AddMovies()
+            {
+
+            }
+
+            public void UpdateMovies()
+            {
+
+            }
+
+            public void DeleteMovies()
+            {
+
+            }
+
+            public void ChangeCinemaHalls()
+            {
+
+            }
+        }
+
+        public class Employee : Person
+        {
+
+        }
+
+
         /// <summary>
         /// People class for JSON
         /// </summary>
         public class People
         {
             public List<Person> peopleList { get; set; }
+            public List<Admin>  adminList { get; set; }
+            public List<Employee> employeeList { get; set; }
+
             /// <summary>
             /// adds an Person class Object to the peopleList
+            /// adds an Admin class Object to the adminList
+            /// adds an Employee class Object to the employeeList
             /// </summary>
             /// <param name="personToAdd"></param>
-            public void AddContent(Person personToAdd)
+            public void AddPerson(Person personToAdd)
             {
                 if (peopleList == null)
                 {
@@ -69,6 +135,36 @@ namespace Bi_Os_Coop
                     peopleList.Add(personToAdd);
                 }
             }
+
+            public void AddAdmin(Admin personToAdd)
+            {
+                if (adminList == null)
+                {
+                    List<Admin> newAdmin = new List<Admin>();
+                    newAdmin.Add(personToAdd);
+                    adminList = newAdmin;
+                }
+                else
+                {
+                    adminList.Add(personToAdd);
+                }
+            }
+
+            public void AddEmployee(Employee personToAdd)
+            {
+                if (employeeList == null)
+                {
+                    List<Employee> newEmployee = new List<Employee>();
+                    newEmployee.Add(personToAdd);
+                    employeeList = newEmployee;
+                }
+                else
+                {
+                    employeeList.Add(personToAdd);
+                }
+            }
+
+
             /// <summary>
             ///     Makes a new Person using a function and adding it to the object,
             ///     so it will put the json good
@@ -82,8 +178,10 @@ namespace Bi_Os_Coop
             {
                 Person temp = new Person();
                 temp.setPerson(id, name, email, password, age);
-                AddContent(temp);
+                AddPerson(temp);
             }
+
+
             public void writePeople()
             {
                 foreach (Person person in this.peopleList)
@@ -95,6 +193,8 @@ namespace Bi_Os_Coop
                     Console.Write($"age:{person.age} \n");
                 }
             }
+
+
             /// <summary>
             /// Will return This object
             /// </summary>
@@ -105,7 +205,6 @@ namespace Bi_Os_Coop
             }
             public People FromJson(string json)
             {
-
                 return JsonSerializer.Deserialize<People>(json);
             }
         }
