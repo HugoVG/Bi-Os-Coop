@@ -82,6 +82,7 @@
     <None Include="App.config" />
     <None Include="Json\Accounts.json" />
     <None Include="packages.config" />
+    <None Include="Json\Films.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions />

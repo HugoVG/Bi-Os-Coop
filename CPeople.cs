@@ -43,11 +43,60 @@ namespace Bi_Os_Coop
                 this.password = password;
                 this.age = age;
             }
+
+            // general methods
+            public void Login()
+            {
+
+            }
+
+            public void Logout()
+            {
+
+            }
+
+            public void ChangePassword()
+            {
+
+            }
+
+            public void ViewMovies()
+            {
+
+            }
+
+            public void BookTicket()
+            {
+
+            }
+
+            public void CancelTicket()
+            {
+
+            }
         }
 
         public class Admin : Person
         {
+            public void AddMovies()
+            {
 
+            }
+
+            public void UpdateMovies()
+            {
+
+            }
+
+            public void DeleteMovies()
+            {
+
+            }
+
+            public void ChangeCinemaHalls()
+            {
+
+            }
         }
 
         public class Employee : Person
