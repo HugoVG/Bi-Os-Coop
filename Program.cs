@@ -13,7 +13,9 @@ namespace Bi_Os_Coop
     {
         static void Main(string[] args)
         {
-
+            //Test Gelukt
+            ZAALTESTERNIETGEBRUIKEN test = new ZAALTESTERNIETGEBRUIKEN();
+            test.Test();
 
             //loginscherm.login();
             /*
