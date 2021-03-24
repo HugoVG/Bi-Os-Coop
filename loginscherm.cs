@@ -8,7 +8,7 @@ namespace Bi_Os_Coop
 {
     class loginscherm
     {
-        public static bool mailwachtvragen(string username, string password)
+        public static CPeople.Person mailwachtvragen(string username, string password)
         {
             string account = Json.ReadJson("Accounts");
             CPeople.People accounts = new CPeople.People();
@@ -16,25 +16,29 @@ namespace Bi_Os_Coop
             try
             {
                 CPeople.Person persoon = accounts.peopleList.Single(henk => henk.email == username && henk.password == password);
-                return true;
+                return persoon;
             }
             catch (InvalidOperationException)
             {
-                return false;
+                CPeople.Person persoon = new CPeople.Person();
+                return persoon;
             }
         }
-        public static void login()
+        public static CPeople.Person login()
         {
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("E-mail:");
             string username = Console.ReadLine();
             Console.WriteLine("Wachtwoord:");
             string password = Console.ReadLine();
-            loginscherm.check(username, password);
+            CPeople.Person inglof = loginscherm.mailwachtvragen(username, password);
+
+            return inglof;
+
         }
         public static void check(string username, string password)
         {
-
+            /*
             if (mailwachtvragen(username, password))
             {
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -51,7 +55,7 @@ namespace Bi_Os_Coop
                 Console.ForegroundColor = ConsoleColor.Gray;
                 loginscherm.login();
             }
+            */
         }
     }
 }
-   
