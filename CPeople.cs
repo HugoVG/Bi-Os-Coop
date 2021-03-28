@@ -201,7 +201,9 @@ namespace Bi_Os_Coop
             /// <returns></returns>
             public string ToJson()
             {
-                return JsonSerializer.Serialize(this);
+                JsonSerializerOptions seri = new JsonSerializerOptions();
+                seri.WriteIndented = true;
+                return JsonSerializer.Serialize(this, seri);
             }
             public People FromJson(string json)
             {
