@@ -30,6 +30,7 @@ namespace Bi_Os_Coop
             {
                 ret = ret + randint.Next(0, 10).ToString();
             }
+            Console.WriteLine(ret);
             return int.Parse(ret);
         }
 
@@ -45,6 +46,7 @@ namespace Bi_Os_Coop
                 if (function(input))
                     valid = true;
             }
+            Console.WriteLine(input);
             return input;
         }
 
