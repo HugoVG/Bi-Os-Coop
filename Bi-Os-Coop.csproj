@@ -74,6 +74,7 @@
     <Compile Include="CPeople.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="loginscherm.cs" />
+    <Compile Include="MainMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
