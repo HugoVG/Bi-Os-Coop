@@ -17,8 +17,14 @@ namespace Bi_Os_Coop
             string password = validCheck("wachtwoord", lengthCheck);
             string date = validCheck("geboortedatum (dd/mm/jjjj)", dateCheck);
 
-            var customer = new CPeople.Person();
+            CPeople.Person customer = new CPeople.Person();
             customer.setPerson(id, naam, email, password, date);
+            //ik ga er van uit dat je hier json wilt lezen en schrijven
+            string json = Json.ReadJson("Accounts");
+            CPeople.People jsonPeople = new CPeople.People();
+            jsonPeople = jsonPeople.FromJson(json);
+            jsonPeople.AddPerson(customer);
+            //that's it, het was gewoon dat je branch ver achter liep
         }
 
         public static int createID()
