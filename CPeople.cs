@@ -107,7 +107,7 @@ namespace Bi_Os_Coop
                     Console.WriteLine("Vul uw emailadres in:");
                     string currentEmail = Console.ReadLine();
 
-                    Console.WriteLine("Vul uw geboortedatum in:");
+                    Console.WriteLine("Vul uw geboortedatum in: (dd/mm/jjjj)");
                     string currentAge = Console.ReadLine();
 
                     if (MailLeeftijdCheck(currentEmail, currentAge))
@@ -117,9 +117,13 @@ namespace Bi_Os_Coop
                     else
                     {
                         Console.WriteLine("Sorry, dit account bestaat niet.");
-                        Console.WriteLine("Wilt u een nieuw account aanmaken? (Antwoord met ja of nee)");
+                        Console.WriteLine("Wilt u een nieuw account aanmaken? (ja/nee)");
                         string antwoordAanmakenNieuwAccount = Console.ReadLine();
                         if (antwoordAanmakenNieuwAccount.ToLower() == "ja")
+                        {
+                            Registerscreen.createAccount();
+                        }
+                        else if (antwoordAanmakenNieuwAccount.ToLower() == "nee")
                         {
 
                         }
