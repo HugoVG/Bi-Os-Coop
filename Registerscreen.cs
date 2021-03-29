@@ -9,8 +9,12 @@ namespace Bi_Os_Coop
 {
     class Registerscreen
     {
-        public static void accountInfo()
+        public static void CreateAccount()
         {
+            string json = Json.ReadJson("Accounts");
+            CPeople.People jsonPeople = new CPeople.People();
+            jsonPeople = jsonPeople.FromJson(json);
+
             int id = createID();
             string naam = validCheck("voor- en achternaam", lengthCheck);
             string email = validCheck("e-mailadres", emailCheck);
@@ -19,16 +23,16 @@ namespace Bi_Os_Coop
 
             CPeople.Person customer = new CPeople.Person();
             customer.setPerson(id, naam, email, password, date);
-            //ik ga er van uit dat je hier json wilt lezen en schrijven
-            string json = Json.ReadJson("Accounts");
-            CPeople.People jsonPeople = new CPeople.People();
-            jsonPeople = jsonPeople.FromJson(json);
             jsonPeople.AddPerson(customer);
-            //that's it, het was gewoon dat je branch ver achter liep
+            string add = jsonPeople.ToJson();
+            Json.WriteJson("Accounts", add);
         }
 
         public static int createID()
         {
+            string json = Json.ReadJson("Accounts");
+            CPeople.People jsonPeople = new CPeople.People();
+            jsonPeople = jsonPeople.FromJson(json);
             string ret = "";
             Random randint = new Random();
 
@@ -36,7 +40,17 @@ namespace Bi_Os_Coop
             {
                 ret = ret + randint.Next(0, 10).ToString();
             }
-            return int.Parse(ret);
+            try
+            {
+                CPeople.Person persoon = jsonPeople.peopleList.Single(x => x.id == int.Parse(ret));
+                return createID();
+            }
+            catch (InvalidOperationException)
+            {
+                CPeople.Person persoon = new CPeople.Person();
+                Console.WriteLine(ret);
+                return int.Parse(ret);
+            }
         }
 
         public static string validCheck(string print, Func<string, bool> function)
@@ -51,15 +65,20 @@ namespace Bi_Os_Coop
                 if (function(input))
                     valid = true;
             }
+
+
             return input;
         }
 
-        public static bool emailCheck(string email)
+        public static bool emailCheck(string input)
         {
+            string json = Json.ReadJson("Accounts");
+            CPeople.People jsonPeople = new CPeople.People();
+            jsonPeople = jsonPeople.FromJson(json);
             bool at = false;
             bool dot = false;
 
-            foreach (char element in email)
+            foreach (char element in input)
             {
                 if (element == '@'){
                     at = true;
@@ -69,8 +88,19 @@ namespace Bi_Os_Coop
                     dot = true;
                 }
             }
-            if (at && dot)
-                return true;
+            if (at && dot){
+                try
+                {
+                    CPeople.Person persoon = jsonPeople.peopleList.Single(x => x.email == input);
+                    Program.newEntry("Dit e-mailadres is al gekoppeld aan een account.", ConsoleColor.Red);
+                    return false;
+                }
+                catch (InvalidOperationException)
+                {
+                    CPeople.Person persoon = new CPeople.Person();
+                    return true;
+                }
+            }
             Program.newEntry("Dit is geen geldige input!\n", ConsoleColor.Red);
             return false;
         }
@@ -94,7 +124,7 @@ namespace Bi_Os_Coop
             return false;
         }
 
-        public static int ageCalc(string date)
+        public static int AgeCalc(string date)
         {
             DateTime todaysDate = DateTime.Now.Date;
             int currentDay = todaysDate.Day;
