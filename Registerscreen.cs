@@ -18,13 +18,13 @@ namespace Bi_Os_Coop
             int id = createID();
             string naam = validCheck("voor- en achternaam", lengthCheck);
             string email = validCheck("e-mailadres", emailCheck);
-            int phoneNumber = phoneValidCheck("mobiele telefoonnummer", phoneCheck);
+            string phoneNumber = validCheck("mobiele telefoonnummer", phoneCheck);
             string password = validCheck("wachtwoord", lengthCheck);
-            string date = validCheck("geboortedatum (dd/mm/jjjj)", dateCheck);
+            string birthdate = validCheck("geboortedatum (dd/mm/jjjj)", dateCheck);
 
-            if (AgeVerify(date, 14)) {
+            if (AgeVerify(birthdate, 14)) {
                 CPeople.Person customer = new CPeople.Person();
-                customer.setPerson(id, naam, email, password, date, phoneNumber);
+                customer.setPerson(id, naam, email, password, birthdate, phoneNumber);
                 jsonPeople.AddPerson(customer);
                 string add = jsonPeople.ToJson();
                 Json.WriteJson("Accounts", add);
@@ -53,7 +53,6 @@ namespace Bi_Os_Coop
             catch (InvalidOperationException)
             {
                 CPeople.Person persoon = new CPeople.Person();
-                Console.WriteLine(ret);
                 return int.Parse(ret);
             }
         }
@@ -73,10 +72,6 @@ namespace Bi_Os_Coop
 
 
             return input;
-        }
-        public static int phoneValidCheck(string print, Func<string, bool> function)
-        {
-            return int.Parse(validCheck(print, function));
         }
 
         public static bool emailCheck(string input)
@@ -121,17 +116,19 @@ namespace Bi_Os_Coop
             jsonPeople = jsonPeople.FromJson(json);
             int value;
             if (input.Length == 10){
-                if (int.TryParse(input, out value)){
-                    try
-                    {
-                        CPeople.Person persoon = jsonPeople.peopleList.Single(x => x.phonenumber == value);
-                        Program.newEntry("Dit telefoonnummer is al gekoppeld aan een account.\n", ConsoleColor.Red);
-                        return false;
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        CPeople.Person persoon = new CPeople.Person();
-                        return true;
+                if (input.Substring(0, 2) == "06"){
+                    if (int.TryParse(input, out value)){
+                        try
+                        {
+                            CPeople.Person persoon = jsonPeople.peopleList.Single(x => x.phonenumber == input);
+                            Program.newEntry("Dit telefoonnummer is al gekoppeld aan een account.\n", ConsoleColor.Red);
+                            return false;
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            CPeople.Person persoon = new CPeople.Person();
+                            return true;
+                        }
                     }
                 }
             }

@@ -7,33 +7,33 @@ using System.Text.Json;
 
 namespace Bi_Os_Coop
 {
-    public class ZAALTESTERNIETGEBRUIKEN
-    {
-        public void Test()
-        {
-            Zalen testzaal = new Zalen();
-            Zaal tijdelijkeZaal = new Zaal();
-            tijdelijkeZaal.setZaal(10, "30-01-2021", "13:00", 100, "Miauwer");
-            tijdelijkeZaal.showStool();
-            CPeople.Person Henk = new CPeople.Person();
-            Henk.setPerson(69, "Henk", "Henkerino@HahaHenk.com", "0nlyWams", "30-01-2021");
-            tijdelijkeZaal.occupyStool(10, Henk);
-            Console.ReadKey();
-            testzaal.AddZaal(tijdelijkeZaal);
-            testzaal.writeZalen();
-            string json  = testzaal.ToJson();
-            Json.WriteJson("Zalen", json);
-            Console.ReadKey();
-            Zalen testzaal2 = new Zalen();
-            string json2 = Json.ReadJson("Zalen");
-            testzaal2 = testzaal2.FromJson(json2);
-            foreach (Zaal zaal in testzaal2.zalenList)
-            {
-                zaal.showStool();
-            }
+    //public class ZAALTESTERNIETGEBRUIKEN
+    //{
+    //    public void Test()
+    //    {
+    //        Zalen testzaal = new Zalen();
+    //        Zaal tijdelijkeZaal = new Zaal();
+    //        tijdelijkeZaal.setZaal(10, "30-01-2021", "13:00", 100, "Miauwer");
+    //        tijdelijkeZaal.showStool();
+    //        CPeople.Person Henk = new CPeople.Person();
+    //        Henk.setPerson(69, "Henk", "Henkerino@HahaHenk.com", "0nlyWams", "30-01-2021");
+    //        tijdelijkeZaal.occupyStool(10, Henk);
+    //        Console.ReadKey();
+    //        testzaal.AddZaal(tijdelijkeZaal);
+    //        testzaal.writeZalen();
+    //        string json  = testzaal.ToJson();
+    //        Json.WriteJson("Zalen", json);
+    //        Console.ReadKey();
+    //        Zalen testzaal2 = new Zalen();
+    //        string json2 = Json.ReadJson("Zalen");
+    //        testzaal2 = testzaal2.FromJson(json2);
+    //        foreach (Zaal zaal in testzaal2.zalenList)
+    //        {
+    //            zaal.showStool();
+    //        }
 
-        }
-    }
+    //    }
+    //}
     class Zalen
     {
         public List<Zaal> zalenList { get; set; }
