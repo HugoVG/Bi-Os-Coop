@@ -121,11 +121,11 @@ namespace Bi_Os_Coop
                         string antwoordAanmakenNieuwAccount = Console.ReadLine();
                         if (antwoordAanmakenNieuwAccount.ToLower() == "ja")
                         {
-                            Registerscreen.createAccount();
+                            Registerscreen.CreateAccount();
                         }
                         else if (antwoordAanmakenNieuwAccount.ToLower() == "nee")
                         {
-
+                            // doorverwezen naar het hoofdmenu
                         }
                     }
                 }
