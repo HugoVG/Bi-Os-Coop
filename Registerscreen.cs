@@ -18,14 +18,19 @@ namespace Bi_Os_Coop
             int id = createID();
             string naam = validCheck("voor- en achternaam", lengthCheck);
             string email = validCheck("e-mailadres", emailCheck);
+            int phoneNumber = phoneValidCheck("mobiele telefoonnummer", phoneCheck);
             string password = validCheck("wachtwoord", lengthCheck);
             string date = validCheck("geboortedatum (dd/mm/jjjj)", dateCheck);
 
-            CPeople.Person customer = new CPeople.Person();
-            customer.setPerson(id, naam, email, password, date);
-            jsonPeople.AddPerson(customer);
-            string add = jsonPeople.ToJson();
-            Json.WriteJson("Accounts", add);
+            if (AgeVerify(date, 14)) {
+                CPeople.Person customer = new CPeople.Person();
+                customer.setPerson(id, naam, email, password, date, phoneNumber);
+                jsonPeople.AddPerson(customer);
+                string add = jsonPeople.ToJson();
+                Json.WriteJson("Accounts", add);
+            }
+            else
+                Program.newEntry("Sorry, je kunt pas een account aanmaken als je 14 jaar of ouder bent.", ConsoleColor.Red);
         }
 
         public static int createID()
@@ -69,6 +74,10 @@ namespace Bi_Os_Coop
 
             return input;
         }
+        public static int phoneValidCheck(string print, Func<string, bool> function)
+        {
+            return int.Parse(validCheck(print, function));
+        }
 
         public static bool emailCheck(string input)
         {
@@ -92,7 +101,7 @@ namespace Bi_Os_Coop
                 try
                 {
                     CPeople.Person persoon = jsonPeople.peopleList.Single(x => x.email == input);
-                    Program.newEntry("Dit e-mailadres is al gekoppeld aan een account.", ConsoleColor.Red);
+                    Program.newEntry("Dit e-mailadres is al gekoppeld aan een account.\n", ConsoleColor.Red);
                     return false;
                 }
                 catch (InvalidOperationException)
@@ -101,10 +110,34 @@ namespace Bi_Os_Coop
                     return true;
                 }
             }
-            Program.newEntry("Dit is geen geldige input!\n", ConsoleColor.Red);
+            Program.newEntry("Vul uw e-mailadres alstublieft in volgens de volgende format: iemand@example.nl\n", ConsoleColor.Red);
             return false;
         }
 
+        public static bool phoneCheck(string input)
+        {
+            string json = Json.ReadJson("Accounts");
+            CPeople.People jsonPeople = new CPeople.People();
+            jsonPeople = jsonPeople.FromJson(json);
+            int value;
+            if (input.Length == 10){
+                if (int.TryParse(input, out value)){
+                    try
+                    {
+                        CPeople.Person persoon = jsonPeople.peopleList.Single(x => x.phonenumber == value);
+                        Program.newEntry("Dit telefoonnummer is al gekoppeld aan een account.\n", ConsoleColor.Red);
+                        return false;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        CPeople.Person persoon = new CPeople.Person();
+                        return true;
+                    }
+                }
+            }
+            Program.newEntry("Vul uw telefoonnummer alstublieft in volgens de volgende format: 06XXXXXXXX\n", ConsoleColor.Red);
+            return false;
+        }
         public static bool dateCheck(string date)
         {
             if (lengthCheck(date))
@@ -124,15 +157,15 @@ namespace Bi_Os_Coop
             return false;
         }
 
-        public static int AgeCalc(string date)
+        public static bool AgeVerify(string birthdate, int minimalAge)
         {
             DateTime todaysDate = DateTime.Now.Date;
             int currentDay = todaysDate.Day;
             int currentMonth = todaysDate.Month;
             int currentYear = todaysDate.Year;
-            int birthYear = int.Parse(date.Substring(6));
-            int month = int.Parse(date.Substring(3, 2));
-            int day = int.Parse(date.Substring(0, 2));
+            int birthYear = int.Parse(birthdate.Substring(6));
+            int month = int.Parse(birthdate.Substring(3, 2));
+            int day = int.Parse(birthdate.Substring(0, 2));
             int age = currentYear - birthYear;
 
             if (month > currentMonth)
@@ -146,7 +179,9 @@ namespace Bi_Os_Coop
                     age -= 1;
                 }
             }
-            return age;
+            if (minimalAge < age)
+                return true;
+            return false;
         }
     }
 }
