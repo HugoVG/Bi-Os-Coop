@@ -15,14 +15,15 @@ namespace Bi_Os_Coop
             CPeople.People jsonPeople = new CPeople.People();
             jsonPeople = jsonPeople.FromJson(json);
 
-            int id = createID();
             string naam = validCheck("voor- en achternaam", lengthCheck);
-            string email = validCheck("e-mailadres", emailCheck);
-            string phoneNumber = validCheck("mobiele telefoonnummer", phoneCheck);
-            string password = validCheck("wachtwoord", lengthCheck);
             string birthdate = validCheck("geboortedatum (dd/mm/jjjj)", dateCheck);
-
             if (AgeVerify(birthdate, 14)) {
+
+                int id = createID();
+                string email = validCheck("e-mailadres", emailCheck);
+                string phoneNumber = validCheck("mobiele telefoonnummer", phoneCheck);
+                string password = validCheck("wachtwoord", lengthCheck);
+
                 CPeople.Person customer = new CPeople.Person();
                 customer.setPerson(id, naam, email, password, birthdate, phoneNumber);
                 jsonPeople.AddPerson(customer);

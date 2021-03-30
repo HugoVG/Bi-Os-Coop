@@ -1,1 +1,18 @@
-{"peopleList":[{"id":1,"name":"hugo","email":"mijnfakeEmail@test.com","password":"H3nk123","age":20},{"id":2,"name":"Lilo","email":"Lilo@stitch.com","password":"m@tress","age":19}]}
+{
+  "peopleList": [
+    {
+      "id": 1,
+      "name": "hugo",
+      "email": "mijnfakeEmail@test.com",
+      "password": "H3nk123",
+      "age": "16/05/2000"
+    },
+    {
+      "id": 2,
+      "name": "Lilo",
+      "email": "Lilo@stitch.com",
+      "password": "m@tress",
+      "age":"16/05/2000"
+    }
+  ]
+}
