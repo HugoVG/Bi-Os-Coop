@@ -106,7 +106,7 @@ namespace Bi_Os_Coop
                     return true;
                 }
             }
-            Program.newEntry("Vul uw e-mailadres alstublieft in volgens de volgende format: iemand@example.nl\n", ConsoleColor.Red);
+            errorMessage("e-mailadres", "iemand@example.nl");
             return false;
         }
 
@@ -133,17 +133,18 @@ namespace Bi_Os_Coop
                     }
                 }
             }
-            Program.newEntry("Vul uw telefoonnummer alstublieft in volgens de volgende format: 06XXXXXXXX\n", ConsoleColor.Red);
+            errorMessage("telefoonnummer", "06XXXXXXXX");
             return false;
         }
         public static bool dateCheck(string date)
         {
             if (lengthCheck(date))
             {
-                if (date[2] == '/' && date[5] == '/')
+                int i;
+                if (!(int.TryParse(date[2].ToString(), out i) && int.TryParse(date[5].ToString(), out i)))
                     return true;
             }
-            Program.newEntry("Vul uw geboortedatum alstublieft in volgens de volgende format: dd/mm/jjjj\n", ConsoleColor.Red);
+            errorMessage("geboortedatum", "dd/mm/jjjj");
             return false;
         }
 
@@ -153,6 +154,10 @@ namespace Bi_Os_Coop
                 return true;
             Program.newEntry("Dit is geen geldige input!\n", ConsoleColor.Red);
             return false;
+        }
+        public static void errorMessage(string s, string t)
+        {
+            Program.newEntry($"Vul uw {s} alstublieft in volgens de volgende format: {t}\n", ConsoleColor.Red);
         }
 
         public static bool AgeVerify(string birthdate, int minimalAge)
