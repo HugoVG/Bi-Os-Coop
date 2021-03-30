@@ -61,7 +61,8 @@ namespace Bi_Os_Coop
         }
         public string ToJson()
         {
-            return JsonSerializer.Serialize(this);
+            JsonSerializerOptions opt = new JsonSerializerOptions() { WriteIndented = true };
+            return JsonSerializer.Serialize(this, opt);
         }
         public Zalen FromJson(string json)
         {

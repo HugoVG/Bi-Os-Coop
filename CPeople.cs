@@ -350,7 +350,8 @@ namespace Bi_Os_Coop
             /// <returns></returns>
             public string ToJson()
             {
-                return JsonSerializer.Serialize(this);
+                JsonSerializerOptions opt = new JsonSerializerOptions() { WriteIndented = true };
+                return JsonSerializer.Serialize(this, opt);
             }
             public People FromJson(string json)
             {
