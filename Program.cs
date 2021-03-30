@@ -26,7 +26,6 @@ namespace Bi_Os_Coop
             newEntry("C1", ConsoleColor.Red, ConsoleColor.Black);
             newEntry("D1", ConsoleColor.Red, ConsoleColor.Black);
             string read = Console.ReadLine();
-            */
 
             //CPeople.Poggers();
 
