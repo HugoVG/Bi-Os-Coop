@@ -8,7 +8,10 @@ namespace Bi_Os_Coop
 {
     class loginscherm
     {
-        public static CPeople.Person mailwachtvragen(string username, string password)
+        /// <summary>
+        /// ik gebruik Dynamic hier want we willen admin//employee//User
+        /// </summary>
+        public static dynamic mailwachtvragen(string username, string password)
         {
             string account = Json.ReadJson("Accounts");
             CPeople.People accounts = new CPeople.People();
@@ -20,42 +23,46 @@ namespace Bi_Os_Coop
             }
             catch (InvalidOperationException)
             {
-                CPeople.Person persoon = new CPeople.Person();
-                return persoon;
+                try
+                {
+                    CPeople.Admin admin = accounts.adminList.Single(henk => henk.email == username && henk.password == password);
+                    return admin;
+                }
+                catch (InvalidOperationException)
+                {
+                    try
+                    {
+                        CPeople.Employee employee = accounts.employeeList.Single(henk => henk.email == username && henk.password == password);
+                        return employee;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        check();
+                        return false;
+                    }
+                }
             }
         }
-        public static CPeople.Person login()
+        public static dynamic login()
         {
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("E-mail:");
             string username = Console.ReadLine();
             Console.WriteLine("Wachtwoord:");
             string password = Console.ReadLine();
-            CPeople.Person inglof = loginscherm.mailwachtvragen(username, password);
 
-            return inglof;
+            var inlog = loginscherm.mailwachtvragen(username, password);
 
+            return inlog;
         }
-        public static void check(string username, string password)
+        public static void check()
         {
-            /*
-            if (mailwachtvragen(username, password))
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Succesvol ingelogd!");
-                System.Threading.Thread.Sleep(1000);
-                Console.ForegroundColor = ConsoleColor.Gray;
-                Console.Clear();
-            }
-            else
-            {
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("E-mail of wachtwoord onjuist!");
-                Console.ForegroundColor = ConsoleColor.Gray;
-                loginscherm.login();
-            }
-            */
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("E-mail of wachtwoord onjuist!");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            login();
+
         }
     }
 }
