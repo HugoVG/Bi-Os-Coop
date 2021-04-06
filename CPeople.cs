@@ -309,7 +309,7 @@ namespace Bi_Os_Coop
                 string date = Console.ReadLine();
                 Console.WriteLine("Op welk tijdstip wilt u dat deze film draait?");
                 string time = Console.ReadLine();
-                
+
                 zaal.setZaal(chairWidth, date, time, totalChairs, film);
             }
 
