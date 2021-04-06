@@ -17,7 +17,8 @@ namespace Bi_Os_Coop
             //ZAALTESTERNIETGEBRUIKEN test = new ZAALTESTERNIETGEBRUIKEN();
             //test.Test();
 
-            Registerscreen.CreateAccount();
+            adminMenu.AM();
+            //Registerscreen.CreateAccount();
 
             //loginscherm.login();
             /*
