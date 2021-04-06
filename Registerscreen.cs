@@ -8,7 +8,7 @@ using System.Text.Json;
 namespace Bi_Os_Coop
 {
     class Registerscreen
-    {
+    {   
         public static void CreateAccount()
         {
             string json = Json.ReadJson("Accounts");
@@ -31,7 +31,7 @@ namespace Bi_Os_Coop
                 Json.WriteJson("Accounts", add);
             }
             else
-                Program.newEntry("Sorry, je kunt pas een account aanmaken als je 14 jaar of ouder bent.", ConsoleColor.Red);
+                Program.newEntry("\nSorry, je kunt pas een account aanmaken als je 14 jaar of ouder bent.", ConsoleColor.Red);
         }
 
         public static int createID()
@@ -82,28 +82,29 @@ namespace Bi_Os_Coop
             jsonPeople = jsonPeople.FromJson(json);
             bool at = false;
             bool dot = false;
-
-            foreach (char element in input)
-            {
-                if (element == '@'){
-                    at = true;
-                }
-                if (element == '.')
+            if (lengthCheck(input)){
+                foreach (char element in input)
                 {
-                    dot = true;
+                    if (element == '@'){
+                        at = true;
+                    }
+                    if (element == '.')
+                    {
+                        dot = true;
+                    }
                 }
-            }
-            if (at && dot){
-                try
-                {
-                    CPeople.Person persoon = jsonPeople.peopleList.Single(x => x.email == input);
-                    Program.newEntry("Dit e-mailadres is al gekoppeld aan een account.\n", ConsoleColor.Red);
-                    return false;
-                }
-                catch (InvalidOperationException)
-                {
-                    CPeople.Person persoon = new CPeople.Person();
-                    return true;
+                if (at && dot){
+                    try
+                    {
+                        CPeople.Person persoon = jsonPeople.peopleList.Single(x => x.email == input);
+                        Program.newEntry("Dit e-mailadres is al gekoppeld aan een account.\n", ConsoleColor.Red);
+                        return false;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        CPeople.Person persoon = new CPeople.Person();
+                        return true;
+                    }
                 }
             }
             errorMessage("e-mailadres", "iemand@example.nl");
