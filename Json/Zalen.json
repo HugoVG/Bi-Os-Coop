@@ -1,1 +1,512 @@
-{"zalenList":[{"stoelWidth":10,"date":"30-01-2021","time":"13:00","stoelen":[{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":true,"isOccupiedBy":69,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10},{"isOccupied":false,"isOccupiedBy":1,"Price":10}],"film":"Miauwer"}]}
+{
+  "zalenList": [
+    {
+      "stoelWidth": 10,
+      "date": "30-01-2021",
+      "time": "13:00",
+      "stoelen": [
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": true,
+          "isOccupiedBy": 69,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": true,
+          "isOccupiedBy": 69,
+          "Price": 10
+        },
+        {
+          "isOccupied": true,
+          "isOccupiedBy": 69,
+          "Price": 10
+        },
+        {
+          "isOccupied": true,
+          "isOccupiedBy": 69,
+          "Price": 10
+        },
+        {
+          "isOccupied": true,
+          "isOccupiedBy": 69,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        }
+      ],
+      "film": "Miauwer"
+    }
+  ]
+}

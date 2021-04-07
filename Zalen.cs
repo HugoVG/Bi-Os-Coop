@@ -7,33 +7,43 @@ using System.Text.Json;
 
 namespace Bi_Os_Coop
 {
-    //public class ZAALTESTERNIETGEBRUIKEN
-    //{
-    //    public void Test()
-    //    {
-    //        Zalen testzaal = new Zalen();
-    //        Zaal tijdelijkeZaal = new Zaal();
-    //        tijdelijkeZaal.setZaal(10, "30-01-2021", "13:00", 100, "Miauwer");
-    //        tijdelijkeZaal.showStool();
-    //        CPeople.Person Henk = new CPeople.Person();
-    //        Henk.setPerson(69, "Henk", "Henkerino@HahaHenk.com", "0nlyWams", "30-01-2021");
-    //        tijdelijkeZaal.occupyStool(10, Henk);
-    //        Console.ReadKey();
-    //        testzaal.AddZaal(tijdelijkeZaal);
-    //        testzaal.writeZalen();
-    //        string json  = testzaal.ToJson();
-    //        Json.WriteJson("Zalen", json);
-    //        Console.ReadKey();
-    //        Zalen testzaal2 = new Zalen();
-    //        string json2 = Json.ReadJson("Zalen");
-    //        testzaal2 = testzaal2.FromJson(json2);
-    //        foreach (Zaal zaal in testzaal2.zalenList)
-    //        {
-    //            zaal.showStool();
-    //        }
+    public class ZAALTESTERNIETGEBRUIKEN
+    {
+        public void Test()
+        {
+            Zalen testzaal = new Zalen();
+            Zaal tijdelijkeZaal = new Zaal();
+            tijdelijkeZaal.setZaal(10, "30-01-2021", "13:00", 100, "Miauwer");
+            tijdelijkeZaal.showStool();
+            CPeople.Person Henk = new CPeople.Person();
+            Henk.setPerson(69, "Henk", "Henkerino@HahaHenk.com", "0nlyWams", "30-01-2021", "06111111");
+            tijdelijkeZaal.occupyStool(10, Henk);
+            Console.ReadKey();
+            testzaal.AddZaal(tijdelijkeZaal);
+            testzaal.writeZalen();
+            string json = testzaal.ToJson();
+            Json.WriteJson("Zalen", json);
+            Console.ReadKey();
+            Zalen testzaal2 = new Zalen();
+            string json2 = Json.ReadJson("Zalen");
+            testzaal2 = testzaal2.FromJson(json2);
+            int[] gfdjhfskd = new int[] { 31, 32, 33, 34 };
+            testzaal2.Reserveseats(gfdjhfskd, Henk, "30-01-2021", "13:00");
+            foreach(Zaal zaal in testzaal2.zalenList)
+            {
+                zaal.showStool();
+            }
+            Console.ReadKey();
+            json2 = testzaal2.ToJson();
+            Json.WriteJson("Zalen", json2);
+            testzaal2 = testzaal2.FromJson(json2);
+            foreach (Zaal zaal in testzaal2.zalenList)
+            {
+                zaal.showStool();
+            }
 
-    //    }
-    //}
+        }
+    }
     class Zalen
     {
         public List<Zaal> zalenList { get; set; }
@@ -59,15 +69,33 @@ namespace Bi_Os_Coop
                 Console.Write($"movie:{zaal.film} \n");
             }
         }
+
         public string ToJson()
         {
             JsonSerializerOptions opt = new JsonSerializerOptions() { WriteIndented = true };
             return JsonSerializer.Serialize(this, opt);
         }
+
         public Zalen FromJson(string json)
         {
             return JsonSerializer.Deserialize<Zalen>(json);
         }
+
+        public void Reserveseats(int[] indexes, CPeople.Person orderer, string date, string time)
+        {
+            Zaal gekozenzaal = zalenList.Single(movie => movie.date == date && movie.time == time);
+            foreach(int index in indexes)
+            {
+                gekozenzaal.occupyStool(index, orderer);
+            }
+        }
+
+        public void Reserveseats(int index, CPeople.Person orderer, string date, string time)
+        {
+            Zaal gekozenzaal = zalenList.Single(movie => movie.date == date && movie.time == time);
+            gekozenzaal.occupyStool(index, orderer);
+        }
+
     }
     class Zaal
     {
@@ -89,7 +117,6 @@ namespace Bi_Os_Coop
                 nstoelen.Add(stoel);
                 stoelen = nstoelen;
             }
-
         }
         public void occupyStool(int index, CPeople.Person orderer)
         {
@@ -112,6 +139,9 @@ namespace Bi_Os_Coop
             stoelen.ElementAt(index).isOccupiedBy = orderer.id;
 
         }
+        /// <summary>
+        /// DIT IS CONOLSE
+        /// </summary>
         public void showStool()
         {
             Console.Clear();
@@ -152,6 +182,7 @@ namespace Bi_Os_Coop
             }
         }
     }
+
     class Stoel
     {
         public bool isOccupied { get; set; } = false;
