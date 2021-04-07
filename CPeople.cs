@@ -46,17 +46,22 @@ namespace Bi_Os_Coop
             }
 
             // general methods
-            public void Login()
+            public Person Login()
             {
                 Console.Clear();
-                //Person Ingelogd = loginscherm.login();
-                //return Ingelogd;
+                Person Ingelogd = loginscherm.login();
+                return Ingelogd;
             }
 
             public Person Logout()
             {
                 Person Ingelogd = new Person();
                 return Ingelogd;
+            }
+
+            public void DeleteAccount()
+            {
+
             }
 
             public void ChangePassword(Person ingelogdepersoon)
@@ -125,7 +130,7 @@ namespace Bi_Os_Coop
                         }
                         else if (antwoordAanmakenNieuwAccount.ToLower() == "nee")
                         {
-                            // doorverwezen naar het hoofdmenu
+                            MainMenu.MainMenuShow();
                         }
                     }
                 }
@@ -230,12 +235,59 @@ namespace Bi_Os_Coop
         {
             public void AddMovies()
             {
+                Console.Clear();
 
+                string json = Json.ReadJson("Films");
+                Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
+                List<string> genresFilm = new List<string>();
+                List<string> acteursFilm = new List<string>();
+
+                Console.WriteLine("Voeg hier een nieuwe film toe.");
+                Console.WriteLine("Naam film:");
+                string naamFilm = Console.ReadLine();
+                Console.WriteLine("Releasedatum film:");
+                string releasedatumFilm = Console.ReadLine();
+                Console.WriteLine("Voeg tussen elke genre een komma toe, bijv: Komedie, Actie, Thriller");
+                Console.WriteLine("Genres film:");
+                string genres = Console.ReadLine();
+                genresFilm = genres.Split(',').ToList();
+                Console.WriteLine("Voeg tussen elke acteur een komma toe, bijv: Sean Connery, Ryan Gosling, Ryan Reynolds");
+                Console.WriteLine("Acteurs film:");
+                string acteurs = Console.ReadLine();
+                acteursFilm = acteurs.Split(',').ToList();
+                Console.WriteLine("Minimumleeftijd film:");
+                int minimumLeeftijd = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Beoordeling film:");
+                double scoreFilm = Convert.ToDouble(Console.ReadLine());
+
+                jsonFilms.addMovieByFunction(1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, scoreFilm, acteursFilm);
+                json = JsonSerializer.Serialize(jsonFilms);
+                Json.WriteJson("Films", json);
             }
 
             public void UpdateMovies()
             {
+                Console.Clear();
+                string json = Json.ReadJson("Films");
+                Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
 
+                Console.WriteLine("Welke film wilt u updaten:");
+                string naamFilm = Console.ReadLine();
+                bool filmBestaat = false;
+                try
+                {
+                    MovieInterpreter tempMovie = jsonFilms.movieList.Single(movie => movie.name == naamFilm);
+                    filmBestaat = true;
+                }
+                catch (InvalidOperationException)
+                {
+                    Console.WriteLine("Deze film bestaat niet.");
+                }
+
+                if (filmBestaat == true)
+                {
+
+                }
             }
 
             public void DeleteMovies()
@@ -243,7 +295,25 @@ namespace Bi_Os_Coop
 
             }
 
-            public void ChangeCinemaHalls()
+            public void AddCinemaHall()
+            {
+                Zaal zaal = new Zaal();
+                Console.WriteLine();
+                Console.WriteLine("Hoeveel stoelen heeft de zaal in totaal?");
+                int totalChairs = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Hoeveel stoelen wilt u per rij? (0-100)");
+                int chairWidth = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Welke film wilt u dat er op dit tijdstip draait?");
+                string film = Console.ReadLine();
+                Console.WriteLine("Op welke datum wilt u dat deze film draait?");
+                string date = Console.ReadLine();
+                Console.WriteLine("Op welk tijdstip wilt u dat deze film draait?");
+                string time = Console.ReadLine();
+
+                zaal.setZaal(chairWidth, date, time, totalChairs, film);
+            }
+
+            public void DeleteCinemaHall()
             {
 
             }
