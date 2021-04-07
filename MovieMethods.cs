@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 
@@ -6,12 +7,12 @@ namespace Bi_Os_Coop
 {
     public class MovieMethods
     {
-        public static void UpdateMovieMenu(string naamFilm)
+        public static void UpdateMovieMenu(string json, Films jsonFilms, MovieInterpreter tempMovie)
         {
-            string json = Json.ReadJson("Films");
-            Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
+            //string json = Json.ReadJson("Films");
+            //Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
 
-            MovieInterpreter tempMovie = jsonFilms.movieList.Single(movie => movie.name == naamFilm);
+            //MovieInterpreter tempMovie = jsonFilms.movieList.Single(movie => movie.name == naamFilm);
 
             bool done = false;
             while (done == false)
@@ -23,44 +24,165 @@ namespace Bi_Os_Coop
                 Console.WriteLine("4. Acteurs aanpassen");
                 Console.WriteLine("5. Minimumleeftijd aanpassen");
                 Console.WriteLine("6. Beoordeling aanpassen");
+                //Console.WriteLine("7. Andere film aanpassen");
                 Console.WriteLine("7. Exit");
                
-                Console.WriteLine($"Wat wilt u aanpassen aan de film {naamFilm}");
+                Console.WriteLine($"Wat wilt u aanpassen aan de film {tempMovie.name}");
                 string choice = Console.ReadLine();
 
                 switch (choice)
                 {
                     case "1":
-                        UpdateNameMovie(tempMovie.name);
+                        UpdateNameMovie(json, jsonFilms, tempMovie);
                         break;
                     case "2":
-                        Console.WriteLine();
+                        UpdateReleaseDate(json, jsonFilms, tempMovie);
                         break;
                     case "3":
-                        Console.WriteLine();
+                        UpdateGenres(json, jsonFilms, tempMovie);
                         break;
                     case "4":
-                        Console.WriteLine();
+                        UpdateActors(json, jsonFilms, tempMovie);
                         break;
                     case "5":
-                        Console.WriteLine();
+                        UpdateMinimumAge(json, jsonFilms, tempMovie);
                         break;
                     case "6":
-                        Console.WriteLine();
+                        UpdateReviewScore(json, jsonFilms, tempMovie);
                         break;
+                    //case "7":
+                        // ingelogdeAdmin.UpdateMovies()
+                        //break;
                     case "7":
                         adminMenu.hoofdPagina();
                         break;
                     default:
-                        UpdateMovieMenu(naamFilm);
+                        Console.WriteLine("Kies voor optie 1-7 of verlaat het menu.");
+                        UpdateMovieMenu(json, jsonFilms, tempMovie);
                         break;
                 }
             }
         }
 
-        public static void UpdateNameMovie(string naamFilm)
+        public static void UpdateNameMovie(string json, Films jsonFilms, MovieInterpreter tempMovie)
         {
+            Console.WriteLine($"Wat is de nieuwe naam van de film {tempMovie.name}?");
+            string newName = Console.ReadLine();
+            tempMovie.name = newName;
 
+            json = JsonSerializer.Serialize(jsonFilms);
+            Json.WriteJson("Films", json);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("De naam is succesvol gewijzigd.");
+            System.Threading.Thread.Sleep(1000);
+            Console.Clear();
+            UpdateMovieMenu(json, jsonFilms, tempMovie);
         }
+
+        public static void UpdateReleaseDate(string json, Films jsonFilms, MovieInterpreter tempMovie)
+        {
+            Console.WriteLine($"Wat is de nieuwe releasedatum van de film {tempMovie.name}?");
+            string newReleaseDate = Console.ReadLine();
+            tempMovie.releasedate = newReleaseDate;
+
+            json = JsonSerializer.Serialize(jsonFilms);
+            Json.WriteJson("Films", json);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("De releasedatum is succesvol gewijzigd.");
+            System.Threading.Thread.Sleep(1000);
+            Console.Clear();
+            UpdateMovieMenu(json, jsonFilms, tempMovie);
+        }
+
+        public static void UpdateGenres(string json, Films jsonFilms, MovieInterpreter tempMovie)
+        {
+            Console.WriteLine($"Wat is/zijn de nieuwe genre(s) van de film {tempMovie.name}?");
+            Console.WriteLine("Voeg tussen elke genre een komma toe, bijv: Komedie, Actie, Thriller");
+            Console.WriteLine("Genres film:");
+            string genres = Console.ReadLine();
+            List<string> newGenres = genres.Split(',').ToList();
+            tempMovie.genres = newGenres;
+
+            json = JsonSerializer.Serialize(jsonFilms);
+            Json.WriteJson("Films", json);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("De genre(s) is/zijn succesvol gewijzigd.");
+            System.Threading.Thread.Sleep(1000);
+            Console.Clear();
+            UpdateMovieMenu(json, jsonFilms, tempMovie);
+        }
+
+        public static void UpdateActors(string json, Films jsonFilms, MovieInterpreter tempMovie)
+        {
+            Console.WriteLine($"Wie is/zijn de nieuwe acteurs van de film {tempMovie.name}?");
+            Console.WriteLine("Voeg tussen elke acteur een komma toe, bijv: Sean Connery, Ryan Gosling, Ryan Reynolds");
+            Console.WriteLine("Acteurs film:");
+            string actors = Console.ReadLine();
+            List<string> newActors = actors.Split(',').ToList();
+            tempMovie.genres = newActors;
+
+            json = JsonSerializer.Serialize(jsonFilms);
+            Json.WriteJson("Films", json);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("De acteur(s) is/zijn succesvol gewijzigd.");
+            System.Threading.Thread.Sleep(1000);
+            Console.Clear();
+            UpdateMovieMenu(json, jsonFilms, tempMovie);
+        }
+
+        public static void UpdateMinimumAge(string json, Films jsonFilms, MovieInterpreter tempMovie)
+        {
+            Console.WriteLine($"Wat is de nieuwe minimum leeftijd van de film {tempMovie.name}? (0-18)");
+            string newMinimumAge = Console.ReadLine();
+            try
+            {
+                tempMovie.leeftijd = Convert.ToInt32(newMinimumAge);
+            }
+            catch (InvalidOperationException)
+            {
+                Console.WriteLine("Voer een getal tussen de 0 en 18 in.");
+                System.Threading.Thread.Sleep(1000);
+                UpdateMinimumAge(json, jsonFilms, tempMovie);
+            }
+
+            json = JsonSerializer.Serialize(jsonFilms);
+            Json.WriteJson("Films", json);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("De minimumleeftijd is succesvol gewijzigd.");
+            System.Threading.Thread.Sleep(1000);
+            Console.Clear();
+            UpdateMovieMenu(json, jsonFilms, tempMovie);
+        }
+
+        public static void UpdateReviewScore(string json, Films jsonFilms, MovieInterpreter tempMovie)
+        {
+            Console.WriteLine($"Wat is de nieuwe beoordeling van de film {tempMovie.name}? (0-10.0)");
+            string newScore = Console.ReadLine();
+            try
+            {
+                tempMovie.beoordeling = Convert.ToDouble(newScore);
+            }
+            catch (InvalidOperationException)
+            {
+                Console.WriteLine("Voer een getal tussen de 0 en 10.0 in.");
+                System.Threading.Thread.Sleep(1000);
+                UpdateReviewScore(json, jsonFilms, tempMovie);
+            }
+
+            json = JsonSerializer.Serialize(jsonFilms);
+            Json.WriteJson("Films", json);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("De beoordeling is succesvol gewijzigd.");
+            System.Threading.Thread.Sleep(1000);
+            Console.Clear();
+            UpdateMovieMenu(json, jsonFilms, tempMovie);
+        }
+
     }
 }

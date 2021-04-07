@@ -181,43 +181,59 @@ namespace Bi_Os_Coop
             public void UpdateMovies()
             {
                 Console.Clear();
-                string json = Json.ReadJson("Films");
-                Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
-
-                Console.WriteLine("Welke film wilt u updaten:");
+                Console.WriteLine("Welke film wilt u updaten?");
                 string naamFilm = Console.ReadLine();
-                bool filmBestaat = false;
+
                 try
                 {
+                    string json = Json.ReadJson("Films");
+                    Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
                     MovieInterpreter tempMovie = jsonFilms.movieList.Single(movie => movie.name == naamFilm);
-                    filmBestaat = true;
+                    MovieMethods.UpdateMovieMenu(json, jsonFilms, tempMovie);
                 }
                 catch (InvalidOperationException)
                 {
                     Console.WriteLine("Deze film bestaat niet.");
-                    Console.WriteLine("Wilt u een andere film aanpassen?");
-                    string antwoord = Console.ReadLine();
-                    if (antwoord == "ja")
+                    Console.WriteLine("Wilt u een andere film aanpassen? (ja/nee)");
+                    string answer = Console.ReadLine();
+                    if (answer.ToLower() == "ja")
                     {
                         Console.Clear();
                         UpdateMovies();
                     }
-                    else if (antwoord == "nee")
+                    else if (answer.ToLower() == "nee")
                     {
                         Console.Clear();
                         adminMenu.hoofdPagina();
                     }
-                }
-
-                if (filmBestaat == true)
-                {
-                    MovieMethods.UpdateMovieMenu(naamFilm);
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
                 }
             }
 
             public void DeleteMovies()
             {
+                Console.Clear();
+                Console.WriteLine("Welke film wilt u verwijderen?");
+                string naamFilm = Console.ReadLine();
 
+                try
+                {
+                    string json = Json.ReadJson("Films");
+                    Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
+                    MovieInterpreter tempMovie = jsonFilms.movieList.Single(movie => movie.name == naamFilm);
+
+                    tempMovie = new MovieInterpreter();
+
+                    json = JsonSerializer.Serialize(jsonFilms);
+                    Json.WriteJson("Films", json);
+                }
+                catch (InvalidOperationException)
+                {
+
+                }
             }
 
             public void AddCinemaHall()
