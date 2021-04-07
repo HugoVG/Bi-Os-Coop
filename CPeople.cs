@@ -151,9 +151,7 @@ namespace Bi_Os_Coop
                 Console.Clear();
 
                 string json = Json.ReadJson("Films");
-                Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
-                List<string> genresFilm = new List<string>();
-                List<string> acteursFilm = new List<string>();
+                Films MovieLibrary = JsonSerializer.Deserialize<Films>(json);
 
                 Console.WriteLine("Voeg hier een nieuwe film toe.");
                 Console.WriteLine("Naam film:");
@@ -163,18 +161,25 @@ namespace Bi_Os_Coop
                 Console.WriteLine("Voeg tussen elke genre een komma toe, bijv: Komedie, Actie, Thriller");
                 Console.WriteLine("Genres film:");
                 string genres = Console.ReadLine();
-                genresFilm = genres.Split(',').ToList();
+                List<string> genresFilm = genres.Split(',').ToList();
                 Console.WriteLine("Voeg tussen elke acteur een komma toe, bijv: Sean Connery, Ryan Gosling, Ryan Reynolds");
                 Console.WriteLine("Acteurs film:");
                 string acteurs = Console.ReadLine();
-                acteursFilm = acteurs.Split(',').ToList();
+                List<string> acteursFilm = acteurs.Split(',').ToList();
                 Console.WriteLine("Minimumleeftijd film:");
                 int minimumLeeftijd = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Beoordeling film:");
                 double beoordelingFilm = Convert.ToDouble(Console.ReadLine());
 
-                jsonFilms.addMovieByFunction(1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm);
-                json = JsonSerializer.Serialize(jsonFilms);
+                MovieInterpreter Movie = new MovieInterpreter();
+                Movie.setFilm(1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm);
+
+                //MovieLibrary = new Films();
+                MovieLibrary.addFilm(Movie);
+                json = JsonSerializer.Serialize(MovieLibrary);
+
+                //jsonFilms.addMovieByFunction(1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm);
+                //json = JsonSerializer.Serialize(jsonFilms);
                 Json.WriteJson("Films", json);
             }
 
@@ -217,22 +222,33 @@ namespace Bi_Os_Coop
             {
                 Console.Clear();
                 Console.WriteLine("Welke film wilt u verwijderen?");
-                string naamFilm = Console.ReadLine();
+                string movieToRemove = Console.ReadLine();
 
                 try
                 {
                     string json = Json.ReadJson("Films");
                     Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
-                    MovieInterpreter tempMovie = jsonFilms.movieList.Single(movie => movie.name == naamFilm);
 
-                    tempMovie = new MovieInterpreter();
+                    if (jsonFilms.movieList != null)
+                    {
+                        //MovieInterpreter tempMovie = jsonFilms.movieList.Single(movie => movie.name == movieToRemove);
+                        int index = jsonFilms.movieList.FindIndex(movie => movie.name == movieToRemove);
+                        jsonFilms.movieList.RemoveAt(index);
 
-                    json = JsonSerializer.Serialize(jsonFilms);
-                    Json.WriteJson("Films", json);
+                        json = JsonSerializer.Serialize(jsonFilms);
+                        Json.WriteJson("Films", json);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Er draaien op dit moment geen films.");
+                        //adminMenu.hoofdPagina();
+                    }
+                    
                 }
                 catch (InvalidOperationException)
                 {
-
+                    Console.WriteLine("Film bestaat niet.");
+                    DeleteMovies();
                 }
             }
 

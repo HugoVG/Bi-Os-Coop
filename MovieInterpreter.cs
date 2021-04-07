@@ -16,7 +16,7 @@ namespace Bi_Os_Coop
         public double beoordeling { get; set; }
         public List<string> acteurs { get; set; }
         public string trailer { get; set; }
-        public void setFilm(int movieid, string name, string releasedate, string[] genres, int leeftijd, double beoordeling, string[] acteurs, string trailer)
+        public void setFilm(int movieid, string name, string releasedate, List<string> genres, int leeftijd, double beoordeling, List<string> acteurs, string trailer = null)
         {
             this.movieid = movieid;
             this.name = name;

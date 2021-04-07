@@ -74,7 +74,7 @@ namespace Bi_Os_Coop
             Json.WriteJson("Films", json);
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("De naam is succesvol gewijzigd.");
+            Console.WriteLine("Film naam is succesvol gewijzigd.");
             System.Threading.Thread.Sleep(1000);
             Console.Clear();
             UpdateMovieMenu(json, jsonFilms, tempMovie);
