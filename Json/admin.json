@@ -1,4 +1,5 @@
-﻿// mijn poging tot JSON
 {
-"leegte":"leegte"
+  "aantalZalen": 0,
+  "HomeAlone": null,
+  "BlackWidow": null
 }

@@ -7,17 +7,34 @@ using System.Text.Json;
 
 namespace Bi_Os_Coop
 {
-    class adminMenu
+    class admin
+    {
+        public int aantalZalen { get; set; }
+        public string[] HomeAlone { get; set; }
+        public string[] BlackWidow { get; set; }
+    }
+    
+    public class adminMenu
     {
         public static void AM()
         {
+            string path = "../../Json/admin.json";
+            string tekstUitJson = System.IO.File.ReadAllText(path);
+            admin objectTest = new admin();
+            objectTest = JsonSerializer.Deserialize<admin>(tekstUitJson);
+
+            JsonSerializerOptions options = new JsonSerializerOptions() { WriteIndented = true };
+            tekstUitJson = JsonSerializer.Serialize(objectTest, options);
+            System.IO.File.WriteAllText(path, tekstUitJson);
+
+            
+            // deze twee zijn er alleen zodat de rest niet 20483 errors geeft 
             Tuple<string, string, string>[] filmsArray = new Tuple<string, string, string>[15];
             int aantalFilms = 0;
-            int zalen = 2;
 
             // while loop die hoofdPagina loopt tot je "0" in tikt
-            while (true)
-            {
+            //while (true)
+            //{
                 string keuze = hoofdPagina();
                 if (keuze == "0")
                 {
@@ -25,13 +42,17 @@ namespace Bi_Os_Coop
                 }
                 else if (keuze == "1")
                 {
-                    zalen = Convert.ToInt32(AantalZalen());
+                    Console.Clear();
+                    Console.WriteLine("Hoeveel zalen wilt u?");
+                    objectTest.aantalZalen = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine(objectTest.aantalZalen);
                 }
                 else if (keuze == "2")
                 {
                     filmsArray[aantalFilms] = FilmsToevoegen();
                     aantalFilms += 1;
                 }
+                
                 else if (keuze == "3")
                 {
                     Console.WriteLine(FilmsAanpassen());
@@ -52,8 +73,7 @@ namespace Bi_Os_Coop
                     Console.WriteLine(zalen);
                 }
                 */
-            }
-
+            //}
         }
 
         public static string hoofdPagina()
@@ -72,13 +92,13 @@ namespace Bi_Os_Coop
             return keuze;
         }
 
-        public static string AantalZalen()
-        {
-            Console.Clear();
-            Console.WriteLine("Hoeveel zalen wilt u?");
-            string zalen = Console.ReadLine();
-            return zalen;
-        }
+        //public static string AantalZalen()
+        //{
+        //    Console.Clear();
+        //    Console.WriteLine("Hoeveel zalen wilt u?");
+        //    string zalen = Console.ReadLine();
+        //    return zalen;
+        //}
 
         public static Tuple<string, string, string> FilmsToevoegen()
         {
