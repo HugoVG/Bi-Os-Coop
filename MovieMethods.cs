@@ -9,11 +9,7 @@ namespace Bi_Os_Coop
     {
         public static void UpdateMovieMenu(string json, Films jsonFilms, MovieInterpreter tempMovie)
         {
-            //string json = Json.ReadJson("Films");
-            //Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
-
-            //MovieInterpreter tempMovie = jsonFilms.movieList.Single(movie => movie.name == naamFilm);
-
+            Console.Clear();
             bool done = false;
             while (done == false)
             {
@@ -24,10 +20,10 @@ namespace Bi_Os_Coop
                 Console.WriteLine("4. Acteurs aanpassen");
                 Console.WriteLine("5. Minimumleeftijd aanpassen");
                 Console.WriteLine("6. Beoordeling aanpassen");
-                //Console.WriteLine("7. Andere film aanpassen");
-                Console.WriteLine("7. Exit");
+                Console.WriteLine("7. Andere film aanpassen");
+                Console.WriteLine("8. Exit");
                
-                Console.WriteLine($"Wat wilt u aanpassen aan de film {tempMovie.name}");
+                Console.WriteLine($"\nWat wilt u aanpassen aan de film {tempMovie.name}?");
                 string choice = Console.ReadLine();
 
                 switch (choice)
@@ -50,10 +46,11 @@ namespace Bi_Os_Coop
                     case "6":
                         UpdateReviewScore(json, jsonFilms, tempMovie);
                         break;
-                    //case "7":
-                        // ingelogdeAdmin.UpdateMovies()
-                        //break;
                     case "7":
+                        CPeople.Admin admin = new CPeople.Admin();
+                        admin.UpdateMovies();
+                        break;
+                    case "8":
                         adminMenu.hoofdPagina();
                         break;
                     default:
@@ -66,6 +63,7 @@ namespace Bi_Os_Coop
 
         public static void UpdateNameMovie(string json, Films jsonFilms, MovieInterpreter tempMovie)
         {
+            Console.Clear();
             Console.WriteLine($"Wat is de nieuwe naam van de film {tempMovie.name}?");
             string newName = Console.ReadLine();
             tempMovie.name = newName;
@@ -76,12 +74,14 @@ namespace Bi_Os_Coop
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Film naam is succesvol gewijzigd.");
             System.Threading.Thread.Sleep(1000);
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.Clear();
             UpdateMovieMenu(json, jsonFilms, tempMovie);
         }
 
         public static void UpdateReleaseDate(string json, Films jsonFilms, MovieInterpreter tempMovie)
         {
+            Console.Clear();
             Console.WriteLine($"Wat is de nieuwe releasedatum van de film {tempMovie.name}?");
             string newReleaseDate = Console.ReadLine();
             tempMovie.releasedate = newReleaseDate;
@@ -92,12 +92,14 @@ namespace Bi_Os_Coop
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("De releasedatum is succesvol gewijzigd.");
             System.Threading.Thread.Sleep(1000);
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.Clear();
             UpdateMovieMenu(json, jsonFilms, tempMovie);
         }
 
         public static void UpdateGenres(string json, Films jsonFilms, MovieInterpreter tempMovie)
         {
+            Console.Clear();
             Console.WriteLine($"Wat is/zijn de nieuwe genre(s) van de film {tempMovie.name}?");
             Console.WriteLine("Voeg tussen elke genre een komma toe, bijv: Komedie, Actie, Thriller");
             Console.WriteLine("Genres film:");
@@ -111,12 +113,14 @@ namespace Bi_Os_Coop
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("De genre(s) is/zijn succesvol gewijzigd.");
             System.Threading.Thread.Sleep(1000);
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.Clear();
             UpdateMovieMenu(json, jsonFilms, tempMovie);
         }
 
         public static void UpdateActors(string json, Films jsonFilms, MovieInterpreter tempMovie)
         {
+            Console.Clear();
             Console.WriteLine($"Wie is/zijn de nieuwe acteurs van de film {tempMovie.name}?");
             Console.WriteLine("Voeg tussen elke acteur een komma toe, bijv: Sean Connery, Ryan Gosling, Ryan Reynolds");
             Console.WriteLine("Acteurs film:");
@@ -130,22 +134,26 @@ namespace Bi_Os_Coop
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("De acteur(s) is/zijn succesvol gewijzigd.");
             System.Threading.Thread.Sleep(1000);
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.Clear();
             UpdateMovieMenu(json, jsonFilms, tempMovie);
         }
 
         public static void UpdateMinimumAge(string json, Films jsonFilms, MovieInterpreter tempMovie)
         {
+            Console.Clear();
             Console.WriteLine($"Wat is de nieuwe minimum leeftijd van de film {tempMovie.name}? (0-18)");
             string newMinimumAge = Console.ReadLine();
             try
             {
                 tempMovie.leeftijd = Convert.ToInt32(newMinimumAge);
             }
-            catch (InvalidOperationException)
+            catch (FormatException)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Voer een getal tussen de 0 en 18 in.");
                 System.Threading.Thread.Sleep(1000);
+                Console.ForegroundColor = ConsoleColor.Gray;
                 UpdateMinimumAge(json, jsonFilms, tempMovie);
             }
 
@@ -155,22 +163,26 @@ namespace Bi_Os_Coop
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("De minimumleeftijd is succesvol gewijzigd.");
             System.Threading.Thread.Sleep(1000);
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.Clear();
             UpdateMovieMenu(json, jsonFilms, tempMovie);
         }
 
         public static void UpdateReviewScore(string json, Films jsonFilms, MovieInterpreter tempMovie)
         {
+            Console.Clear();
             Console.WriteLine($"Wat is de nieuwe beoordeling van de film {tempMovie.name}? (0-10.0)");
             string newScore = Console.ReadLine();
             try
             {
                 tempMovie.beoordeling = Convert.ToDouble(newScore);
             }
-            catch (InvalidOperationException)
+            catch (FormatException)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Voer een getal tussen de 0 en 10.0 in.");
                 System.Threading.Thread.Sleep(1000);
+                Console.ForegroundColor = ConsoleColor.Gray;
                 UpdateReviewScore(json, jsonFilms, tempMovie);
             }
 
@@ -180,6 +192,7 @@ namespace Bi_Os_Coop
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("De beoordeling is succesvol gewijzigd.");
             System.Threading.Thread.Sleep(1000);
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.Clear();
             UpdateMovieMenu(json, jsonFilms, tempMovie);
         }

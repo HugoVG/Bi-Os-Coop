@@ -1,1 +1,1 @@
-﻿{ "movieList": [ {} ] }
+{"movieList":[{"movieid":0,"name":null,"releasedate":null,"genres":null,"leeftijd":0,"beoordeling":0,"acteurs":null,"trailer":null},{"movieid":1,"name":"JsonBjorn","releasedate":"13/04/2021","genres":["Actie"," Thriller"],"leeftijd":13,"beoordeling":8.5,"acteurs":["Ryan Reynold"],"trailer":null}]}

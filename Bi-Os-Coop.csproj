@@ -85,6 +85,7 @@
     <Compile Include="Zalen.cs" />
     <Compile Include="PasswordMethods.cs" />
     <Compile Include="MovieMethods.cs" />
+    <Compile Include="DeleteMovieMethod.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

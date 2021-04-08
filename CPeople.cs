@@ -59,9 +59,109 @@ namespace Bi_Os_Coop
                 return Ingelogd;
             }
 
-            public void DeleteAccount()
+            public void DeleteAccount(Person ingelogdepersoon)
             {
+                Console.Clear();
+                Console.WriteLine("Wilt u uw account verwijderen? (ja/nee)");
+                string answer = Console.ReadLine();
+                if (answer == "ja")
+                {
+                    // asks for email and password of the person
+                    Console.WriteLine("Vul uw emailadres in:");
+                    string currentEmail = Console.ReadLine();
 
+                    Console.WriteLine("Vul uw huidige wachtwoord in:");
+                    string currentPassword = Console.ReadLine();
+
+                    // checks if email and password are in the peopleList
+                    if (PasswordMethods.MailWachtwoordCheck(currentEmail, currentPassword)) // both are correct
+                    {
+                        try
+                        {
+                            string json = Json.ReadJson("Accounts");
+                            People jsonPeople = JsonSerializer.Deserialize<People>(json);
+
+                            if (jsonPeople.peopleList != null)
+                            {
+                                int index = jsonPeople.peopleList.FindIndex(person => person.name == ingelogdepersoon.name);
+                                if (index == -1)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
+                                    Console.WriteLine("Account niet gevonden. Neem contact op met de klantenservice.");
+                                    System.Threading.Thread.Sleep(1000);
+                                    Console.ForegroundColor = ConsoleColor.Gray;
+                                    MainMenu.MainMenuShow();
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Account gevonden. Weet u zeker dat u hem wilt verwijderen? (ja/nee)");
+                                    answer = Console.ReadLine().ToLower();
+
+                                    if (answer == "ja")
+                                    {
+                                        jsonPeople.peopleList.RemoveAt(index);
+                                        json = JsonSerializer.Serialize(jsonPeople);
+                                        Json.WriteJson("Accounts", json);
+
+                                        Console.ForegroundColor = ConsoleColor.Red;
+                                        Console.WriteLine("Uw account is succesvol verwijderd.");
+                                        System.Threading.Thread.Sleep(1000);
+                                        Console.ForegroundColor = ConsoleColor.Gray;
+                                        MainMenu.MainMenuShow();
+                                    }
+                                    else if (answer == "nee")
+                                    {
+                                        Console.ForegroundColor = ConsoleColor.Green;
+                                        Console.WriteLine("Bedankt voor het blijven!");
+                                        Console.WriteLine("U wordt nu teruggestuurd naar het hoofdmenu.");
+                                        System.Threading.Thread.Sleep(1000);
+                                        Console.ForegroundColor = ConsoleColor.Gray;
+                                        MainMenu.MainMenuShow();
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Antwoord niet begrepen. U wordt nu teruggestuurd naar het hoofdmenu.");
+                                        System.Threading.Thread.Sleep(1000);
+                                        Console.ForegroundColor = ConsoleColor.Gray;
+                                        MainMenu.MainMenuShow();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Account bestaat niet.");
+                                Console.WriteLine("U wordt nu teruggestuurd naar het hoofdmenu.");
+                                System.Threading.Thread.Sleep(1000);
+                                Console.ForegroundColor = ConsoleColor.Gray;
+                                MainMenu.MainMenuShow();
+                            }
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Account niet gevonden. Probeer het later nog een keer.");
+                            System.Threading.Thread.Sleep(1000);
+                            Console.ForegroundColor = ConsoleColor.Gray;
+                            MainMenu.MainMenuShow();
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Wachtwoord of email onjuist. Probeer het later nog eens.");
+                        System.Threading.Thread.Sleep(2000);
+                        Console.Clear();
+                        MainMenu.MainMenuShow();
+                    }
+                }
+                else if (answer == "nee")
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Bedankt voor het blijven!");
+                    Console.WriteLine("U wordt nu teruggestuurd naar het admin menu.");
+                    System.Threading.Thread.Sleep(1000);
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    adminMenu.hoofdPagina();
+                }              
             }
 
             public void ChangePassword(Person ingelogdepersoon)
@@ -198,7 +298,7 @@ namespace Bi_Os_Coop
                 }
                 catch (InvalidOperationException)
                 {
-                    Console.WriteLine("Deze film bestaat niet.");
+                    Console.WriteLine("Film niet gevonden.");
                     Console.WriteLine("Wilt u een andere film aanpassen? (ja/nee)");
                     string answer = Console.ReadLine();
                     if (answer.ToLower() == "ja")
@@ -213,7 +313,8 @@ namespace Bi_Os_Coop
                     }
                     else
                     {
-                        throw new NotImplementedException();
+                        Console.WriteLine("Antwoord niet begrepen. U keert automatisch terug naar het admin menu.");
+                        adminMenu.hoofdPagina();
                     }
                 }
             }
@@ -231,23 +332,23 @@ namespace Bi_Os_Coop
 
                     if (jsonFilms.movieList != null)
                     {
-                        //MovieInterpreter tempMovie = jsonFilms.movieList.Single(movie => movie.name == movieToRemove);
-                        int index = jsonFilms.movieList.FindIndex(movie => movie.name == movieToRemove);
-                        jsonFilms.movieList.RemoveAt(index);
-
-                        json = JsonSerializer.Serialize(jsonFilms);
-                        Json.WriteJson("Films", json);
+                        DeleteMovieMethod.DeleteMovie(json, jsonFilms, movieToRemove);
                     }
                     else
                     {
-                        Console.WriteLine("Er draaien op dit moment geen films.");
-                        //adminMenu.hoofdPagina();
-                    }
-                    
+                        Console.WriteLine("Filmlijst is op dit moment leeg.");
+                        Console.WriteLine("U wordt nu teruggestuurd naar het admin menu.");
+                        System.Threading.Thread.Sleep(1000);
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        adminMenu.hoofdPagina();
+                    }               
                 }
                 catch (InvalidOperationException)
                 {
-                    Console.WriteLine("Film bestaat niet.");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Film niet gevonden. Probeer het nog een keer.");
+                    System.Threading.Thread.Sleep(1000);
+                    Console.ForegroundColor = ConsoleColor.Gray;
                     DeleteMovies();
                 }
             }
