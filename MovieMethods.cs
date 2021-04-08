@@ -22,35 +22,34 @@ namespace Bi_Os_Coop
                 Console.WriteLine("6. Beoordeling aanpassen");
                 Console.WriteLine("7. Andere film aanpassen");
                 Console.WriteLine("8. Exit");
-               
-                Console.WriteLine($"\nWat wilt u aanpassen aan de film {tempMovie.name}?");
-                string choice = Console.ReadLine();
 
-                switch (choice)
+                ConsoleKeyInfo keyReaded = Console.ReadKey();
+
+                switch (keyReaded.Key)
                 {
-                    case "1":
+                    case ConsoleKey.D1: 
                         UpdateNameMovie(json, jsonFilms, tempMovie);
                         break;
-                    case "2":
+                    case ConsoleKey.D2:
                         UpdateReleaseDate(json, jsonFilms, tempMovie);
                         break;
-                    case "3":
+                    case ConsoleKey.D3:
                         UpdateGenres(json, jsonFilms, tempMovie);
                         break;
-                    case "4":
+                    case ConsoleKey.D4:
                         UpdateActors(json, jsonFilms, tempMovie);
                         break;
-                    case "5":
+                    case ConsoleKey.D5:
                         UpdateMinimumAge(json, jsonFilms, tempMovie);
                         break;
-                    case "6":
+                    case ConsoleKey.D6:
                         UpdateReviewScore(json, jsonFilms, tempMovie);
                         break;
-                    case "7":
+                    case ConsoleKey.D7:
                         CPeople.Admin admin = new CPeople.Admin();
                         admin.UpdateMovies();
                         break;
-                    case "8":
+                    case ConsoleKey.D8:
                         adminMenu.hoofdPagina();
                         break;
                     default:

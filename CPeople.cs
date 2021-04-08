@@ -309,12 +309,17 @@ namespace Bi_Os_Coop
                 int chairWidth = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Welke film wilt u dat er op dit tijdstip draait?");
                 string film = Console.ReadLine();
-                Console.WriteLine("Op welke datum wilt u dat deze film draait?");
+                Console.WriteLine("Op welke datum wilt u dat deze film draait? (dd/mm/yyyy)");
                 string date = Console.ReadLine();
-                Console.WriteLine("Op welk tijdstip wilt u dat deze film draait?");
+                Console.WriteLine("Op welk tijdstip wilt u dat deze film draait? (HH:MM)");
                 string time = Console.ReadLine();
 
                 zaal.setZaal(chairWidth, date, time, totalChairs, film);
+            }
+
+            public void UpdateCinemaHall()
+            {
+
             }
 
             public void DeleteCinemaHall()
