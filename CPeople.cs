@@ -19,6 +19,7 @@ namespace Bi_Os_Coop
             json = JsonSerializer.Serialize(jsonPeople);
             Json.WriteJson("Accounts", json);
             //Console.WriteLine(jsonPeople);
+            // mac doet weer eens raar test
         }
 
         /// <summary>
