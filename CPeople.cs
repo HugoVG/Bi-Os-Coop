@@ -59,158 +59,171 @@ namespace Bi_Os_Coop
                 return Ingelogd;
             }
 
-            public void DeleteAccount()
+            public void DeleteAccount(Person ingelogdepersoon)
             {
-
-            }
-
-            public void ChangePassword(Person ingelogdepersoon)
-            {
-                if (ingelogdepersoon.id != 0) // person is logged in
+                Console.Clear();
+                Console.WriteLine("Wilt u uw account verwijderen? (ja/nee)");
+                string answer = Console.ReadLine();
+                if (answer == "ja")
                 {
+                    // asks for email and password of the person
                     Console.WriteLine("Vul uw emailadres in:");
                     string currentEmail = Console.ReadLine();
 
                     Console.WriteLine("Vul uw huidige wachtwoord in:");
                     string currentPassword = Console.ReadLine();
 
-                    if (MailWachtwoordCheck(currentEmail, currentPassword))
+                    // checks if email and password are in the peopleList
+                    if (PasswordMethods.MailWachtwoordCheck(currentEmail, currentPassword)) // both are correct
                     {
-                        SetNewPassword();
-                    }
-                    else
-                    {
-                        int amountOfPasswordEntries = 3;
-                        while (amountOfPasswordEntries > 0)
+                        try
                         {
-                            Console.WriteLine($"Wachtwoord of email onjuist. U heeft nog {amountOfPasswordEntries} pogingen.");
-                            Console.WriteLine("Vul nogmaals uw emailadres in:");
-                            currentEmail = Console.ReadLine();
+                            string json = Json.ReadJson("Accounts");
+                            People jsonPeople = JsonSerializer.Deserialize<People>(json);
 
-                            Console.WriteLine("Vul nogmaals uw wachtwoord in:");
-                            currentPassword = Console.ReadLine();
-
-                            if (currentPassword == password && currentEmail == email)
+                            if (jsonPeople.peopleList != null)
                             {
-                                SetNewPassword();
-                                break;
+                                int index = jsonPeople.peopleList.FindIndex(person => person.name == ingelogdepersoon.name);
+                                if (index == -1)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
+                                    Console.WriteLine("Account niet gevonden. Neem contact op met de klantenservice.");
+                                    System.Threading.Thread.Sleep(1000);
+                                    Console.ForegroundColor = ConsoleColor.Gray;
+                                    MainMenu.MainMenuShow();
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Account gevonden. Weet u zeker dat u hem wilt verwijderen? (ja/nee)");
+                                    answer = Console.ReadLine().ToLower();
+
+                                    if (answer == "ja")
+                                    {
+                                        jsonPeople.peopleList.RemoveAt(index);
+                                        json = JsonSerializer.Serialize(jsonPeople);
+                                        Json.WriteJson("Accounts", json);
+
+                                        Console.ForegroundColor = ConsoleColor.Red;
+                                        Console.WriteLine("Uw account is succesvol verwijderd.");
+                                        System.Threading.Thread.Sleep(1000);
+                                        Console.ForegroundColor = ConsoleColor.Gray;
+                                        MainMenu.MainMenuShow();
+                                    }
+                                    else if (answer == "nee")
+                                    {
+                                        Console.ForegroundColor = ConsoleColor.Green;
+                                        Console.WriteLine("Bedankt voor het blijven!");
+                                        Console.WriteLine("U wordt nu teruggestuurd naar het hoofdmenu.");
+                                        System.Threading.Thread.Sleep(1000);
+                                        Console.ForegroundColor = ConsoleColor.Gray;
+                                        MainMenu.MainMenuShow();
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Antwoord niet begrepen. U wordt nu teruggestuurd naar het hoofdmenu.");
+                                        System.Threading.Thread.Sleep(1000);
+                                        Console.ForegroundColor = ConsoleColor.Gray;
+                                        MainMenu.MainMenuShow();
+                                    }
+                                }
                             }
                             else
                             {
-                                amountOfPasswordEntries--;
-                                if (amountOfPasswordEntries == 0)
-                                {
-                                    Console.WriteLine("0 pogingen. Probeer het later nog eens.");
-                                }
+                                Console.WriteLine("Account bestaat niet.");
+                                Console.WriteLine("U wordt nu teruggestuurd naar het hoofdmenu.");
+                                System.Threading.Thread.Sleep(1000);
+                                Console.ForegroundColor = ConsoleColor.Gray;
+                                MainMenu.MainMenuShow();
                             }
                         }
+                        catch (InvalidOperationException)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Account niet gevonden. Probeer het later nog een keer.");
+                            System.Threading.Thread.Sleep(1000);
+                            Console.ForegroundColor = ConsoleColor.Gray;
+                            MainMenu.MainMenuShow();
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Wachtwoord of email onjuist. Probeer het later nog eens.");
+                        System.Threading.Thread.Sleep(2000);
+                        Console.Clear();
+                        MainMenu.MainMenuShow();
+                    }
+                }
+                else if (answer == "nee")
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Bedankt voor het blijven!");
+                    Console.WriteLine("U wordt nu teruggestuurd naar het admin menu.");
+                    System.Threading.Thread.Sleep(1000);
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    adminMenu.hoofdPagina();
+                }              
+            }
+
+            public void ChangePassword(Person ingelogdepersoon)
+            {
+                // Checks if the person is logged in by checking if it has an ID
+                if (ingelogdepersoon.id != 0) // person is logged in
+                {
+                    // asks for email and password of the person
+                    Console.WriteLine("Vul uw emailadres in:");
+                    string currentEmail = Console.ReadLine();
+
+                    Console.WriteLine("Vul uw huidige wachtwoord in:");
+                    string currentPassword = Console.ReadLine();
+
+                    // checks if email and password are in the peopleList
+                    if (PasswordMethods.MailWachtwoordCheck(currentEmail, currentPassword)) // both are correct
+                    {
+                        PasswordMethods.SetNewPassword(currentEmail, currentPassword);
+                    }
+                    else
+                    {
+                        PasswordMethods.PasswordEntries(); // if one of the two data is incorrect they get 3 entries
                     }
                 }
 
                 else if (ingelogdepersoon.id == 0) // person is not logged in
                 {
+                    // if the person is not logged in we ask for email and birthdate
                     Console.WriteLine("Vul uw emailadres in:");
                     string currentEmail = Console.ReadLine();
 
                     Console.WriteLine("Vul uw geboortedatum in: (dd/mm/jjjj)");
                     string currentAge = Console.ReadLine();
 
-                    if (MailLeeftijdCheck(currentEmail, currentAge))
+                    // checks if email and age are in the peopleList
+                    if (PasswordMethods.MailLeeftijdCheck(currentEmail, currentAge))
                     {
-                        SetNewPassword();
+                        PasswordMethods.SetNewPassword(currentEmail, currentAge); // both are correct
                     }
                     else
                     {
+                        // if the person doesn't exist we ask if the person wants to make a new account, if not send to Main Menu
                         Console.WriteLine("Sorry, dit account bestaat niet.");
                         Console.WriteLine("Wilt u een nieuw account aanmaken? (ja/nee)");
                         string antwoordAanmakenNieuwAccount = Console.ReadLine();
-                        if (antwoordAanmakenNieuwAccount.ToLower() == "ja")
+                        if (antwoordAanmakenNieuwAccount.ToLower() == "ja") // person wants to create a new account
                         {
+                            Console.Clear();
                             Registerscreen.CreateAccount();
                         }
-                        else if (antwoordAanmakenNieuwAccount.ToLower() == "nee")
+                        else if (antwoordAanmakenNieuwAccount.ToLower() == "nee") // person is send to main menu
                         {
+                            Console.Clear();
                             MainMenu.MainMenuShow();
                         }
                     }
                 }
 
+                // in case the person has an ID other than 0 or not 0
                 else
                 {
                     throw new NotImplementedException();
-                }
-            }
-
-            public void SetNewPassword()
-            {
-                Console.Clear();
-                Console.WriteLine("Vul nu uw nieuwe wachtwoord in:");
-                string newPassword = Console.ReadLine();
-                Console.WriteLine("Vul nogmaals uw nieuwe wachtwoord in:");
-                string tempNewPassword = Console.ReadLine();
-
-                if (tempNewPassword == newPassword)
-                {
-                    string json = Json.ReadJson("Accounts");
-                    People jsonPeople = JsonSerializer.Deserialize<People>(json);
-                    try
-                    {
-                        Person tempPerson = jsonPeople.peopleList.Single(person => person.email == email && person.password == password);
-                        password = newPassword;
-                        tempPerson.password = newPassword;
-
-                        json = JsonSerializer.Serialize(jsonPeople);
-                        Json.WriteJson("Accounts", json);
-
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("U heeft uw wachtwoord succesvol gewijzigd.");
-                        System.Threading.Thread.Sleep(2000);
-                        Console.ForegroundColor = ConsoleColor.Gray;
-                        Console.Clear();
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        Console.WriteLine("Dit account bestaat niet.");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("U had niet tweemaal hetzelfde nieuwe wachtwoord ingevoerd.");
-                    System.Threading.Thread.Sleep(2000);
-                    SetNewPassword();
-                }
-            }
-
-
-            public static bool MailLeeftijdCheck(string username, string age)
-            {
-                string account = Json.ReadJson("Accounts");
-                People accounts = new People();
-                accounts = accounts.FromJson(account);
-                try
-                {
-                    Person persoon = accounts.peopleList.Single(person => person.email == username && person.age == age);
-                    return true;
-                }
-                catch (InvalidOperationException)
-                {
-                    return false;
-                }
-            }
-
-            public static bool MailWachtwoordCheck(string username, string password)
-            {
-                string account = Json.ReadJson("Accounts");
-                People accounts = new People();
-                accounts = accounts.FromJson(account);
-                try
-                {
-                    Person persoon = accounts.peopleList.Single(person => person.email == username && person.password == password);
-                    return true;
-                }
-                catch (InvalidOperationException)
-                {
-                    return false;
                 }
             }
 
@@ -238,9 +251,7 @@ namespace Bi_Os_Coop
                 Console.Clear();
 
                 string json = Json.ReadJson("Films");
-                Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
-                List<string> genresFilm = new List<string>();
-                List<string> acteursFilm = new List<string>();
+                Films MovieLibrary = JsonSerializer.Deserialize<Films>(json);
 
                 Console.WriteLine("Voeg hier een nieuwe film toe.");
                 Console.WriteLine("Naam film:");
@@ -250,53 +261,101 @@ namespace Bi_Os_Coop
                 Console.WriteLine("Voeg tussen elke genre een komma toe, bijv: Komedie, Actie, Thriller");
                 Console.WriteLine("Genres film:");
                 string genres = Console.ReadLine();
-                genresFilm = genres.Split(',').ToList();
+                List<string> genresFilm = genres.Split(',').ToList();
                 Console.WriteLine("Voeg tussen elke acteur een komma toe, bijv: Sean Connery, Ryan Gosling, Ryan Reynolds");
                 Console.WriteLine("Acteurs film:");
                 string acteurs = Console.ReadLine();
-                acteursFilm = acteurs.Split(',').ToList();
+                List<string> acteursFilm = acteurs.Split(',').ToList();
                 Console.WriteLine("Minimumleeftijd film:");
                 int minimumLeeftijd = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Beoordeling film:");
-                double scoreFilm = Convert.ToDouble(Console.ReadLine());
+                double beoordelingFilm = Convert.ToDouble(Console.ReadLine());
 
-                jsonFilms.addMovieByFunction(1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, scoreFilm, acteursFilm);
-                json = JsonSerializer.Serialize(jsonFilms);
+                MovieInterpreter Movie = new MovieInterpreter();
+                Movie.setFilm(1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm);
+
+                //MovieLibrary = new Films();
+                MovieLibrary.addFilm(Movie);
+                json = JsonSerializer.Serialize(MovieLibrary);
+
+                //jsonFilms.addMovieByFunction(1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm);
+                //json = JsonSerializer.Serialize(jsonFilms);
                 Json.WriteJson("Films", json);
             }
 
             public void UpdateMovies()
             {
                 Console.Clear();
-                string json = Json.ReadJson("Films");
-                Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
-
-                Console.WriteLine("Welke film wilt u updaten:");
+                Console.WriteLine("Welke film wilt u updaten?");
                 string naamFilm = Console.ReadLine();
-                bool filmBestaat = false;
+
                 try
                 {
+                    string json = Json.ReadJson("Films");
+                    Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
                     MovieInterpreter tempMovie = jsonFilms.movieList.Single(movie => movie.name == naamFilm);
-                    filmBestaat = true;
+                    MovieMethods.UpdateMovieMenu(json, jsonFilms, tempMovie);
                 }
                 catch (InvalidOperationException)
                 {
-                    Console.WriteLine("Deze film bestaat niet.");
-                }
-
-                if (filmBestaat == true)
-                {
-
+                    Console.WriteLine("Film niet gevonden.");
+                    Console.WriteLine("Wilt u een andere film aanpassen? (ja/nee)");
+                    string answer = Console.ReadLine();
+                    if (answer.ToLower() == "ja")
+                    {
+                        Console.Clear();
+                        UpdateMovies();
+                    }
+                    else if (answer.ToLower() == "nee")
+                    {
+                        Console.Clear();
+                        adminMenu.hoofdPagina();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Antwoord niet begrepen. U keert automatisch terug naar het admin menu.");
+                        adminMenu.hoofdPagina();
+                    }
                 }
             }
 
             public void DeleteMovies()
             {
+                Console.Clear();
+                Console.WriteLine("Welke film wilt u verwijderen?");
+                string movieToRemove = Console.ReadLine();
 
+                try
+                {
+                    string json = Json.ReadJson("Films");
+                    Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
+
+                    if (jsonFilms.movieList != null)
+                    {
+                        DeleteMovieMethod.DeleteMovie(json, jsonFilms, movieToRemove);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Filmlijst is op dit moment leeg.");
+                        Console.WriteLine("U wordt nu teruggestuurd naar het admin menu.");
+                        System.Threading.Thread.Sleep(1000);
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        adminMenu.hoofdPagina();
+                    }               
+                }
+                catch (InvalidOperationException)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Film niet gevonden. Probeer het nog een keer.");
+                    System.Threading.Thread.Sleep(1000);
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    DeleteMovies();
+                }
             }
 
             public void AddCinemaHall()
             {
+                Console.Clear();
                 Zaal zaal = new Zaal();
                 Console.WriteLine();
                 Console.WriteLine("Hoeveel stoelen heeft de zaal in totaal?");

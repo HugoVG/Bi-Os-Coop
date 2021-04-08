@@ -1,4 +1,4 @@
-﻿#define DEBUG
+#define DEBUG
 //#undef DEBUG
 using System;
 using System.Collections.Generic;
@@ -17,8 +17,12 @@ namespace Bi_Os_Coop
             //ZAALTESTERNIETGEBRUIKEN test = new ZAALTESTERNIETGEBRUIKEN();
             //test.Test();
 
+<<<<<<< HEAD
             //MainMenu.MainMenuShow();
             adminMenu.AM();
+=======
+            //adminMenu.AM();
+>>>>>>> AdminMethods
             //Registerscreen.CreateAccount();
 
             //loginscherm.login();
