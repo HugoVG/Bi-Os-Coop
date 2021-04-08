@@ -86,6 +86,7 @@
     <Compile Include="PasswordMethods.cs" />
     <Compile Include="MovieMethods.cs" />
     <Compile Include="DeleteMovieMethod.cs" />
+    <Compile Include="DeleteAccountMethod.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
