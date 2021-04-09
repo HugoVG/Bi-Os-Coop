@@ -14,8 +14,8 @@ namespace Bi_Os_Coop
         {
             //1e keer films toevoegen
             MovieInterpreter Movie = new MovieInterpreter();
-            string[] genres = new string[4] { "Romance", "Supernatural", "School", "Drama" };
-            string[] Acteurs = new string[2] { "Mone Kamishiraishi", "Ryunosuke Kamiki" };
+            List<string> genres = new List<string> { "Romance", "Supernatural", "School", "Drama" };
+            List<string> Acteurs = new List<string> { "Mone Kamishiraishi", "Ryunosuke Kamiki" };
             //Ik zou voor genres en acteurs het omwisselen naar lists, aangezien je perse bij een array moet aangeven hoeveel items er in een array moeten zitten.
             Movie.setFilm(1, "Kimi no Na wa.", "2016", genres, 13, 8.95, Acteurs, "https://www.youtube.com/watch?v=3KR8_igDs1Y");
             // voor movieid had ik in gedachten om voor het toevoegen zoiets als dit te doen. int listlength = lengte list; movieid = listlength+1;

@@ -13,19 +13,18 @@ namespace Bi_Os_Coop
     {
         static void Main(string[] args)
         {
+
+#if (DEBUG)
+            //Hier in de testen
+            ZAALTESTERNIETGEBRUIKEN test = new ZAALTESTERNIETGEBRUIKEN();
+            test.Test();
             //Test Gelukt
-            //ZAALTESTERNIETGEBRUIKEN test = new ZAALTESTERNIETGEBRUIKEN();
-            //test.Test();
 
-<<<<<<< HEAD
-            //MainMenu.MainMenuShow();
+            MainMenu.MainMenuShow();
             adminMenu.AM();
-=======
-            //adminMenu.AM();
->>>>>>> AdminMethods
-            //Registerscreen.CreateAccount();
+            Registerscreen.CreateAccount();
 
-            //loginscherm.login();
+            loginscherm.login();
             /*
             newEntry("A1", ConsoleColor.Red, ConsoleColor.Black);
             newEntry("B1", ConsoleColor.Red, ConsoleColor.Black);
@@ -34,10 +33,11 @@ namespace Bi_Os_Coop
             string read = Console.ReadLine();
             */
             //CPeople.Poggers();
-
-#if (DEBUG)
             Console.ReadKey();
 #endif
+            // Hieronder normaal programma
+
+
         }
         /// <summary>
         /// Will write a new text to the console making the Main take up less space
