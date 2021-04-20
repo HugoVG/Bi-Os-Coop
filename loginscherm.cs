@@ -35,7 +35,7 @@ namespace Bi_Os_Coop
                         CPeople.Employee employee = accounts.employeeList.Single(henk => henk.email == username && henk.password == password);
                         return employee;
                     }
-                    catch (InvalidOperationException)
+                    catch (Exception)
                     {
                         check();
                         return false;
