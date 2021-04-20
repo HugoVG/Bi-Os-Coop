@@ -132,7 +132,7 @@ namespace Bi_Os_Coop
              */
             if (stoelen.ElementAt(index).isOccupied)
             {
-                Console.WriteLine("this stool is already reserverd");
+                Console.WriteLine("this stool is already reserved");
                 return;
             }
             stoelen.ElementAt(index).isOccupied = true;
