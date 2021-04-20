@@ -17,7 +17,7 @@ namespace Bi_Os_Coop
             tijdelijkeZaal.showStool();
             CPeople.Person Henk = new CPeople.Person();
             Henk.setPerson(69, "Henk", "Henkerino@HahaHenk.com", "0nlyWams", "30-01-2021", "06111111");
-            tijdelijkeZaal.occupyStool(10, Henk);
+            //tijdelijkeZaal.Reser(-5, Henk);
             Console.ReadKey();
             testzaal.AddZaal(tijdelijkeZaal);
             testzaal.writeZalen();
@@ -27,7 +27,8 @@ namespace Bi_Os_Coop
             Zalen testzaal2 = new Zalen();
             string json2 = Json.ReadJson("Zalen");
             testzaal2 = testzaal2.FromJson(json2);
-            int[] gfdjhfskd = new int[] { 31, 32, 33, 34 };
+            //int[] gfdjhfskd = new int[] { 31, 32, 33, 34 };
+            int gfdjhfskd = 30;
             testzaal2.Reserveseats(gfdjhfskd, Henk, "30-01-2021", "13:00");
             foreach(Zaal zaal in testzaal2.zalenList)
             {
@@ -51,8 +52,7 @@ namespace Bi_Os_Coop
         {
             if (zalenList == null)
             {
-                List<Zaal> newZaal = new List<Zaal>();
-                newZaal.Add(zaal);
+                List<Zaal> newZaal = new List<Zaal>{zaal};
                 zalenList = newZaal;
             }
             else
@@ -64,7 +64,7 @@ namespace Bi_Os_Coop
         {
             foreach (Zaal zaal in this.zalenList)
             {
-                Console.Write($"date:{zaal.date} \t");
+                Console.Write($"\ndate:{zaal.date} \t");
                 Console.Write($"time:{zaal.time} \t");
                 Console.Write($"movie:{zaal.film} \n");
             }
@@ -84,16 +84,15 @@ namespace Bi_Os_Coop
         public void Reserveseats(int[] indexes, CPeople.Person orderer, string date, string time)
         {
             Zaal gekozenzaal = zalenList.Single(movie => movie.date == date && movie.time == time);
-            foreach(int index in indexes)
-            {
-                gekozenzaal.occupyStool(index, orderer);
-            }
+            gekozenzaal.occupyStool(indexes, orderer);
         }
 
         public void Reserveseats(int index, CPeople.Person orderer, string date, string time)
         {
             Zaal gekozenzaal = zalenList.Single(movie => movie.date == date && movie.time == time);
-            gekozenzaal.occupyStool(index, orderer);
+            int[] indexs = new int[1];
+            indexs[0] = index;
+            gekozenzaal.occupyStool(indexs, orderer);
         }
 
     }
@@ -118,27 +117,34 @@ namespace Bi_Os_Coop
                 stoelen = nstoelen;
             }
         }
-        public void occupyStool(int index, CPeople.Person orderer)
+        /// <summary>
+        /// Occupies a stool
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="orderer"></param>
+        public int occupyStool(int[] indexs, CPeople.Person orderer)
         {
-            //orderer is the 'Owner' of that chair
-            index -= 1; // we have to count the seats from 1 but in code from 0 so if someone wants to order Seat 1 in code it will be seat 0
-
-            /* 20 seats Rows of seats are divided by one or more aisles so that there are seldom more than 20 seats in a row.
-             * This allows easier access to seating, as the space between rows is very narrow.
-             * Depending on the angle of rake of the seats, the aisles have steps.
-             * 1 2 3 4 5 6 7 8 9 10;
-             * 11 12 13 14 15 16 17 18 19 20;
-             * I'm going to prompt it the numbers 001, 002, 003, 004, 005, 006, 007, 008, 009, 010... in return
-             */
-            if (stoelen.ElementAt(index).isOccupied)
+            try
             {
-                Console.WriteLine("this stool is already reserved");
-                return;
+                foreach (int index in indexs)
+                {
+                    if (stoelen.ElementAt(index).isOccupied)
+                    {
+                        Console.WriteLine($"{index} stool is already ");
+                        return -1;
+                    }
+                    stoelen.ElementAt(index).isOccupied = true;
+                    stoelen.ElementAt(index).isOccupiedBy = orderer.id;
+                }
+                return 1;
             }
-            stoelen.ElementAt(index).isOccupied = true;
-            stoelen.ElementAt(index).isOccupiedBy = orderer.id;
-
+            catch (ArgumentOutOfRangeException)
+            {
+                Console.WriteLine($"\n\none of the chairs is not valid"); // Textbox.Hint
+                return 0;
+            }
         }
+
         /// <summary>
         /// DIT IS CONOLSE
         /// </summary>
