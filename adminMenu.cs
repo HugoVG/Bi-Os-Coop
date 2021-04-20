@@ -9,11 +9,10 @@ namespace Bi_Os_Coop
 {
     class admin
     {
-        public int aantalZalen { get; set; }
-        public string[] HomeAlone { get; set; }
-        public string[] BlackWidow { get; set; }
+        public int zalen { get; set; }
+        public string[] Film { get; set; }
     }
-    
+
     public class adminMenu
     {
         public static void AM()
@@ -32,9 +31,9 @@ namespace Bi_Os_Coop
             Tuple<string, string, string>[] filmsArray = new Tuple<string, string, string>[15];
             int aantalFilms = 0;
 
-            // while loop die hoofdPagina loopt tot je "0" in tikt
-            //while (true)
-            //{
+            //while loop die hoofdPagina loopt tot je "0" in tikt
+            while (true)
+            {
                 string keuze = hoofdPagina();
                 if (keuze == "0")
                 {
@@ -44,8 +43,8 @@ namespace Bi_Os_Coop
                 {
                     Console.Clear();
                     Console.WriteLine("Hoeveel zalen wilt u?");
-                    objectTest.aantalZalen = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine(objectTest.aantalZalen);
+                    objectTest.zalen = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine(objectTest.zalen);
                 }
                 else if (keuze == "2")
                 {
@@ -73,7 +72,7 @@ namespace Bi_Os_Coop
                     Console.WriteLine(zalen);
                 }
                 */
-            //}
+            }
         }
 
         public static string hoofdPagina()
