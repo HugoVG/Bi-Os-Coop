@@ -21,21 +21,21 @@ namespace Bi_Os_Coop
                 CPeople.Person persoon = accounts.peopleList.Single(henk => henk.email == username && henk.password == password);
                 return persoon;
             }
-            catch (InvalidOperationException)
+            catch (Exception)
             {
                 try
                 {
                     CPeople.Admin admin = accounts.adminList.Single(henk => henk.email == username && henk.password == password);
                     return admin;
                 }
-                catch (InvalidOperationException)
+                catch (Exception)
                 {
                     try
                     {
                         CPeople.Employee employee = accounts.employeeList.Single(henk => henk.email == username && henk.password == password);
                         return employee;
                     }
-                    catch (InvalidOperationException)
+                    catch (Exception)
                     {
                         check();
                         return false;
