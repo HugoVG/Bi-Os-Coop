@@ -124,17 +124,28 @@ namespace Bi_Os_Coop
         /// <param name="orderer"></param>
         public int occupyStool(int[] indexs, CPeople.Person orderer)
         {
+            //orderer is the 'Owner' of that chair
+            //index -= 1; // we have to count the seats from 1 but in code from 0 so if someone wants to order Seat 1 in code it will be seat 0
+
+            /* 20 seats Rows of seats are divided by one or more aisles so that there are seldom more than 20 seats in a row.
+             * This allows easier access to seating, as the space between rows is very narrow.
+             * Depending on the angle of rake of the seats, the aisles have steps.
+             * 1 2 3 4 5 6 7 8 9 10;
+             * 11 12 13 14 15 16 17 18 19 20;
+             * I'm going to prompt it the numbers 001, 002, 003, 004, 005, 006, 007, 008, 009, 010... in return
+             */
             try
             {
                 foreach (int index in indexs)
                 {
+
                     if (stoelen.ElementAt(index).isOccupied)
                     {
-                        Console.WriteLine($"{index} stool is already ");
+                        Console.WriteLine($"{index-1} stool is already ");
                         return -1;
                     }
-                    stoelen.ElementAt(index).isOccupied = true;
-                    stoelen.ElementAt(index).isOccupiedBy = orderer.id;
+                    stoelen.ElementAt(index-1).isOccupied = true;
+                    stoelen.ElementAt(index-1).isOccupiedBy = orderer.id;
                 }
                 return 1;
             }
