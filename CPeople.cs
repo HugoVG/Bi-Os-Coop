@@ -8,6 +8,20 @@ using System.IO;
 
 namespace Bi_Os_Coop
 {
+    public class PeopleTest
+    {
+        public static void newADMIN()
+        {
+            string json = Json.ReadJson("Accounts");
+            CPeople.People jsonPeople = JsonSerializer.Deserialize<CPeople.People>(json);
+            CPeople.Admin adm = new CPeople.Admin();
+            adm.setPerson(1, "Hugo", "Coolste@min.com", "nietzoveilig", "30", "06123456789");
+            jsonPeople.AddAdmin(adm);
+            JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+            json = JsonSerializer.Serialize(jsonPeople, opt);
+            Json.WriteJson("Accounts", json);
+        }
+    }
     public class CPeople
     {
         public static void NewUser()

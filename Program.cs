@@ -1,5 +1,5 @@
 #define DEBUG
-#undef DEBUG
+//#undef DEBUG
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,16 +15,17 @@ namespace Bi_Os_Coop
         {
 
 #if (DEBUG)
+
             //Hier in de testen
             //ZAALTESTERNIETGEBRUIKEN test = new ZAALTESTERNIETGEBRUIKEN();
             //test.Test();
             //Test Gelukt
-
-            MainMenu.MainMenuShow();
-            adminMenu.AM();
+            //PeopleTest.newADMIN();
+            //MainMenu.MainMenuShow();
+            //adminMenu.AM();
             //Registerscreen.CreateAccount();
 
-            loginscherm.login();
+            //loginscherm.login();
             /*
             newEntry("A1", ConsoleColor.Red, ConsoleColor.Black);
             newEntry("B1", ConsoleColor.Red, ConsoleColor.Black);

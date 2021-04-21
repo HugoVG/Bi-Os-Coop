@@ -25,6 +25,15 @@
       "phonenumber": "0657050124"
     }
   ],
-  "adminList": null,
+  "adminList": [
+    {
+      "id": 1,
+      "name": "Hugo",
+      "email": "Coolste@min.com",
+      "password": "nietzoveilig",
+      "age": "30",
+      "phonenumber": "06123456789"
+    }
+  ],
   "employeeList": null
 }
