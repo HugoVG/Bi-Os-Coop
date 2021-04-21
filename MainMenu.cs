@@ -160,7 +160,7 @@ namespace Bi_Os_Coop
                     for (int j = 1; j < origWidth; j++) { spaces += " "; }
                     Console.WriteLine(spaces + loginstructions);
 
-                    string reginstructions = "Druk op 'R' om in te loggen";
+                    string reginstructions = "Druk op 'R' om te registreren";
                     stringlength = reginstructions.Length;
                     origWidth = Console.WindowWidth - stringlength;
                     spaces = "";
