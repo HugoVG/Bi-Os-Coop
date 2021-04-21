@@ -177,7 +177,7 @@ namespace Bi_Os_Coop
                     Console.Clear();
                     return 1;
                 }
-                else if (Console.ReadKey(true).Key == ConsoleKey.R && !login)
+                if (Console.ReadKey(true).Key == ConsoleKey.R && !login)
                 {
                     Console.Clear();
                     return 0;
