@@ -30,8 +30,10 @@ namespace Bi_Os_Coop
                 string add = jsonPeople.ToJson();
                 Json.WriteJson("Accounts", add);
             }
-            else
+            else{
                 Program.newEntry("\nSorry, je kunt pas een account aanmaken als je 14 jaar of ouder bent.", ConsoleColor.Red);
+            }
+            Console.Clear();
         }
 
         public static int createID()
