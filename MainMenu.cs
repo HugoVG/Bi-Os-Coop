@@ -61,7 +61,10 @@ namespace Bi_Os_Coop
             List<string> namesort = new List<string>();
             foreach (KeyValuePair<int, string> name in movielistname)
             {
-                namesort.Add(name.Value);
+                if (name.Value != null)
+                {
+                    namesort.Add(name.Value);
+                }
             }
             namesort = namesort.OrderBy(q => q).ToList();
             return namesort;
@@ -139,7 +142,7 @@ namespace Bi_Os_Coop
                 }
             }
         }
-        public static void MainMenuShow(string language = "Nederlands", string sort = "release")
+        public static void MainMenuShow(string language = "Nederlands", string sort = "name")
         {
             Logo();
             if (language == "Nederlands")

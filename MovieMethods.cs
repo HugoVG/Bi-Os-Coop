@@ -104,7 +104,13 @@ namespace Bi_Os_Coop
             Console.WriteLine("Genres film:");
             string genres = Console.ReadLine();
             List<string> newGenres = genres.Split(',').ToList();
-            tempMovie.genres = newGenres;
+            List<string> newGenres2 = new List<string>();
+            foreach (string genre in newGenres)
+            {
+                string genre2 = genre.Trim();
+                newGenres2.Add(genre2);
+            }
+            tempMovie.genres = newGenres2;
 
             json = JsonSerializer.Serialize(jsonFilms);
             Json.WriteJson("Films", json);
