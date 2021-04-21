@@ -154,6 +154,13 @@ namespace Bi_Os_Coop
                     string spaces = "";
                     for (int j = 1; j < origWidth; j++) { spaces += " "; }
                     Console.WriteLine(spaces + loginstructions);
+
+                    string reginstructions = "Druk op 'R' om in te loggen";
+                    stringlength = reginstructions.Length;
+                    origWidth = Console.WindowWidth - stringlength;
+                    spaces = "";
+                    for (int j = 1; j < origWidth; j++) { spaces += " "; }
+                    Console.WriteLine(spaces + reginstructions);
                 }
                 Console.WriteLine("ACTUELE FILMS:");
                 //var movielistrating = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, beoordeling => beoordeling.beoordeling);
@@ -169,6 +176,11 @@ namespace Bi_Os_Coop
                 {
                     Console.Clear();
                     return 1;
+                }
+                else if (Console.ReadKey(true).Key == ConsoleKey.R && !login)
+                {
+                    Console.Clear();
+                    return 0;
                 }
                 return -1;
             }

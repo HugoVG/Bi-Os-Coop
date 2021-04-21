@@ -41,6 +41,13 @@ namespace Bi_Os_Coop
             bool isPerson = false; // for some reason mocht dit niet als Bool isPerson, isAdmin, isEmployee = false;
             bool isAdmin = false;
             bool isEmployee = false;
+            if (MM == 0)
+            {
+                Console.Clear();
+                Registerscreen.CreateAccount();
+                Console.Clear();
+                MM = 1;
+            }
             if (MM == 1)
             {
                 var user = loginscherm.login();
