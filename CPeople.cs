@@ -219,7 +219,7 @@ namespace Bi_Os_Coop
                 double beoordelingFilm = Convert.ToDouble(Console.ReadLine());
 
                 MovieInterpreter Movie = new MovieInterpreter();
-                Movie.setFilm(1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm);
+                Movie.setFilm(MovieLibrary.movieList.Count, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm);
 
                 //MovieLibrary = new Films();
                 MovieLibrary.addFilm(Movie);
