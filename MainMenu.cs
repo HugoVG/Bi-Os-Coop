@@ -177,12 +177,13 @@ namespace Bi_Os_Coop
                 {
                     printlist(sortbyrelease());
                 }
-                if (Console.ReadKey(true).Key == ConsoleKey.I && !login)
+                ConsoleKey keypressed = Console.ReadKey(true).Key;
+                if (keypressed == ConsoleKey.I && !login)
                 {
                     Console.Clear();
                     return 1;
                 }
-                if (Console.ReadKey(true).Key == ConsoleKey.R && !login)
+                if (keypressed == ConsoleKey.R && !login)
                 {
                     Console.Clear();
                     return 0;
