@@ -26,6 +26,7 @@ namespace Bi_Os_Coop
             CPeople.Person bjorn = new CPeople.Person();
             bjorn.setPerson(3, "Bjorn", "json@bjorn.com", "jsonBjorn", "30", "06123456789");
             bjorn.DeleteAccount(bjorn);
+            // kleine aanpassing om te committen
         }
 
         /// <summary>
