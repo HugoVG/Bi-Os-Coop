@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace Bi_Os_Coop
 {
@@ -52,7 +53,93 @@ namespace Bi_Os_Coop
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write(dashes + "\n\n");
         }
-        public static void MainMenuShow(string language = "Nederlands")
+        public static List<string> sortbyname()
+        {
+            string json = Json.ReadJson("Films");
+            Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
+            var movielistname = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, name => name.name);
+            List<string> namesort = new List<string>();
+            foreach (KeyValuePair<int, string> name in movielistname)
+            {
+                namesort.Add(name.Value);
+            }
+            namesort = namesort.OrderBy(q => q).ToList();
+            return namesort;
+        }
+        public static List<string> sortbyrelease()
+        {
+            string json = Json.ReadJson("Films");
+            Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
+            var movielistname = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, name => name.name);
+            var movielistrelease = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, releasedate => releasedate.releasedate);
+            List<KeyValuePair<int, string>> newlist = new List<KeyValuePair<int, string>>();
+            foreach(KeyValuePair<int, string> release in movielistrelease)
+            {
+                if (newlist.Count == 0){
+                    if (release.Value != null)
+                    {
+                        newlist.Add(release);
+                    }
+                }
+                else if (newlist.Count > 0 && release.Value != null)
+                {
+                    int year = int.Parse(release.Value.Substring(6));
+                    int monthnumber = int.Parse(release.Value.Substring(3, 2));
+                    int day = int.Parse(release.Value.Substring(0, 2));
+                    foreach (KeyValuePair<int, string> member in newlist)
+                    {
+                        int year2 = int.Parse(member.Value.Substring(6));
+                        int monthnumber2 = int.Parse(member.Value.Substring(3, 2));
+                        int day2 = int.Parse(member.Value.Substring(0, 2));
+                        if (year > year2)
+                        {
+                            int index = newlist.IndexOf(member);
+                            newlist.Insert(index, release);
+                            break;
+                        }
+                        else if (year == year2)
+                        {
+                            if (monthnumber > monthnumber2)
+                            {
+                                int index = newlist.IndexOf(member);
+                                newlist.Insert(index, release);
+                                break;
+                            }
+                            else if (monthnumber == monthnumber2){
+                                if (day > day2)
+                                {
+                                    int index = newlist.IndexOf(member);
+                                    newlist.Insert(index, release);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            List<string> sortlist = new List<string>();
+            foreach (KeyValuePair<int, string> movie in newlist)
+            {
+                MovieInterpreter Moviesorted = jsonFilms.movieList.Single(movie1 => movie1.movieid == movie.Key);
+                sortlist.Add(Moviesorted.name);
+            }
+            return sortlist;
+        }
+        public static void printlist(List<string> printablelist)
+        {
+            for (int i = 1; i < 11; i++)
+            {
+                try
+                {
+                    Console.WriteLine($"{i}. {printablelist[i - 1]}");
+                }
+                catch
+                {
+                    break;
+                }
+            }
+        }
+        public static void MainMenuShow(string language = "Nederlands", string sort = "release")
         {
             Logo();
             if (language == "Nederlands")
@@ -64,21 +151,15 @@ namespace Bi_Os_Coop
                 for (int j = 1; j < origWidth; j++) { spaces += " "; }
                 Console.WriteLine(spaces + loginstructions);
                 Console.WriteLine("ACTUELE FILMS:");
-                var Movies = new List<string>()
+                //var movielistrating = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, beoordeling => beoordeling.beoordeling);
+                if (sort == "name")
                 {
-                    "Bon Bini: Judeska in da House (2020)",
-                    "Monster Hunter (2020)",
-                    "Honest Thief (2020)",
-                    "Roald Dahl's The Witches (2020)",
-                    "Cats & Dogs: Paws Unite (2020)",
-                    "All My Life (2020)",
-                    "Kom Hier Dat Ik U Kus (2020)",
-                    "Ammonite (2020)",
-                    "Freaky (2020)",
-                    "The Comeback Trail (2020)"
-                };
-                int i = 1;
-                Movies.ForEach(num => Console.WriteLine(i++ + ". " + num));
+                    printlist(sortbyname());
+                }
+                else if (sort == "release")
+                {
+                    printlist(sortbyrelease());
+                }
                 if (Console.ReadKey(true).Key == ConsoleKey.I)
                 {
                     Console.Clear();
