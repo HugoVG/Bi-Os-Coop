@@ -1,5 +1,5 @@
 #define DEBUG
-//#undef DEBUG
+#undef DEBUG
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +60,7 @@ namespace Bi_Os_Coop
                 else if (userType.Equals(typeof(CPeople.Admin))) { isAdmin = true; }
                 else if (userType.Equals(typeof(CPeople.Employee))) { isEmployee = true; }
 
-                if (isAdmin) { adminMenu.hoofdPagina(); }
+                if (isAdmin) { adminMenu.AM(); }
                 else if (isPerson) { MainMenu.MainMenuShow(); }
                 else if (isEmployee) { throw new IdiotException(); }
             }

@@ -25,6 +25,7 @@ namespace Bi_Os_Coop
 
             //while loop die hoofdPagina loopt tot je "0" in tikt
             bool inDitMenu = true;
+
             while (inDitMenu)
             {
                 string keuze = hoofdPagina();
