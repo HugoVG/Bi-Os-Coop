@@ -142,17 +142,19 @@ namespace Bi_Os_Coop
                 }
             }
         }
-        public static void MainMenuShow(string language = "Nederlands", string sort = "name")
+        public static int MainMenuShow(bool login = true, string language = "Nederlands", string sort = "name")
         {
             Logo();
             if (language == "Nederlands")
             {
-                string loginstructions = "Druk op 'I' om in te loggen";
-                int stringlength = loginstructions.Length;
-                int origWidth = Console.WindowWidth - stringlength;
-                string spaces = "";
-                for (int j = 1; j < origWidth; j++) { spaces += " "; }
-                Console.WriteLine(spaces + loginstructions);
+                if (!login){
+                    string loginstructions = "Druk op 'I' om in te loggen";
+                    int stringlength = loginstructions.Length;
+                    int origWidth = Console.WindowWidth - stringlength;
+                    string spaces = "";
+                    for (int j = 1; j < origWidth; j++) { spaces += " "; }
+                    Console.WriteLine(spaces + loginstructions);
+                }
                 Console.WriteLine("ACTUELE FILMS:");
                 //var movielistrating = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, beoordeling => beoordeling.beoordeling);
                 if (sort == "name")
@@ -163,11 +165,16 @@ namespace Bi_Os_Coop
                 {
                     printlist(sortbyrelease());
                 }
-                if (Console.ReadKey(true).Key == ConsoleKey.I)
+                if (Console.ReadKey(true).Key == ConsoleKey.I && !login)
                 {
                     Console.Clear();
-                    loginscherm.login();
-                };
+                    return 1;
+                }
+                return -1;
+            }
+            else
+            {
+                return -1;
             }
         }
     }

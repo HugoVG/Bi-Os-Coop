@@ -1,5 +1,5 @@
 #define DEBUG
-//#undef DEBUG
+#undef DEBUG
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,23 +36,26 @@ namespace Bi_Os_Coop
             Console.ReadKey();
 #endif
             // Hieronder normaal programma
-
+            int MM = MainMenu.MainMenuShow(false);
             // maakt een user aan met een dynamic type
-            var user = loginscherm.login();
-            Type userType = user.GetType();
-            // krijgt de type van Variabele User
             bool isPerson = false; // for some reason mocht dit niet als Bool isPerson, isAdmin, isEmployee = false;
             bool isAdmin = false;
             bool isEmployee = false;
+            if (MM == 1)
+            {
+                var user = loginscherm.login();
+                Console.Clear();
+                Type userType = user.GetType();
+                // krijgt de type van Variabele User
 
-            if (userType.Equals(typeof(CPeople.Person))) { isPerson = true; }
-            else if (userType.Equals(typeof(CPeople.Admin))) { isAdmin = true; }
-            else if (userType.Equals(typeof(CPeople.Employee))) { isEmployee = true; }
+                if (userType.Equals(typeof(CPeople.Person))) { isPerson = true; }
+                else if (userType.Equals(typeof(CPeople.Admin))) { isAdmin = true; }
+                else if (userType.Equals(typeof(CPeople.Employee))) { isEmployee = true; }
 
-            if (isAdmin) { adminMenu.hoofdPagina(); }
-            else if (isPerson) { MainMenu.MainMenuShow(); }
-            else if (isEmployee) { throw new IdiotException(); }
-
+                if (isAdmin) { adminMenu.hoofdPagina(); }
+                else if (isPerson) { MainMenu.MainMenuShow(); }
+                else if (isEmployee) { throw new IdiotException(); }
+            }
         }
         /// <summary>
         /// Will write a new text to the console making the Main take up less space
