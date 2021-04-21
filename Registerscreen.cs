@@ -9,7 +9,7 @@ namespace Bi_Os_Coop
 {
     class Registerscreen
     {   
-        public static void CreateAccount()
+        public static bool CreateAccount()
         {
             string json = Json.ReadJson("Accounts");
             CPeople.People jsonPeople = new CPeople.People();
@@ -29,11 +29,18 @@ namespace Bi_Os_Coop
                 jsonPeople.AddPerson(customer);
                 string add = jsonPeople.ToJson();
                 Json.WriteJson("Accounts", add);
+                Program.newEntry("\nUw account is gemaakt.\nDruk op ENTER om verder te gaan.");
+                Console.ReadLine();
+                Console.Clear();
+                return true;
             }
             else{
                 Program.newEntry("\nSorry, je kunt pas een account aanmaken als je 14 jaar of ouder bent.", ConsoleColor.Red);
+                Program.newEntry("\nDruk op enter om terug te gaan.");
+                Console.ReadLine();
+                Console.Clear();
+                return false;
             }
-            Console.Clear();
         }
 
         public static int createID()
