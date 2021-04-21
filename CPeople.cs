@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Bi_Os_Coop
 {
-    class CPeople
+    public class CPeople
     {
         public static void NewUser()
         {
@@ -18,8 +18,20 @@ namespace Bi_Os_Coop
             jsonPeople.addPersonByFunction(3, "Bjorn", "json@bjorn.com", "jsonBjorn", "30", "06123456789");
             json = JsonSerializer.Serialize(jsonPeople);
             Json.WriteJson("Accounts", json);
+<<<<<<< HEAD
             //Console.WriteLine(jsonPeople);
             // mac doet weer eens raar test
+=======
+            Console.WriteLine(jsonPeople);
+        }
+
+        public static void TestMethodPerson()
+        {
+            CPeople.Person bjorn = new CPeople.Person();
+            bjorn.setPerson(3, "Bjorn", "json@bjorn.com", "jsonBjorn", "30", "06123456789");
+            bjorn.DeleteAccount(bjorn);
+            // kleine aanpassing om te committen
+>>>>>>> AdminMethods
         }
 
         /// <summary>
@@ -63,9 +75,9 @@ namespace Bi_Os_Coop
             public void DeleteAccount(Person ingelogdepersoon)
             {
                 Console.Clear();
-                Console.WriteLine("Wilt u uw account verwijderen? (ja/nee)");
-                string answer = Console.ReadLine();
-                if (answer == "ja")
+                Console.WriteLine("Wilt u uw account verwijderen? (j/n)");
+                //string answer = Console.ReadLine();
+                if (Console.ReadKey(true).Key == ConsoleKey.J)
                 {
                     // asks for email and password of the person
                     Console.WriteLine("Vul uw emailadres in:");
@@ -77,74 +89,7 @@ namespace Bi_Os_Coop
                     // checks if email and password are in the peopleList
                     if (PasswordMethods.MailWachtwoordCheck(currentEmail, currentPassword)) // both are correct
                     {
-                        try
-                        {
-                            string json = Json.ReadJson("Accounts");
-                            People jsonPeople = JsonSerializer.Deserialize<People>(json);
-
-                            if (jsonPeople.peopleList != null)
-                            {
-                                int index = jsonPeople.peopleList.FindIndex(person => person.name == ingelogdepersoon.name);
-                                if (index == -1)
-                                {
-                                    Console.ForegroundColor = ConsoleColor.Yellow;
-                                    Console.WriteLine("Account niet gevonden. Neem contact op met de klantenservice.");
-                                    System.Threading.Thread.Sleep(1000);
-                                    Console.ForegroundColor = ConsoleColor.Gray;
-                                    MainMenu.MainMenuShow();
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Account gevonden. Weet u zeker dat u hem wilt verwijderen? (ja/nee)");
-                                    answer = Console.ReadLine().ToLower();
-
-                                    if (answer == "ja")
-                                    {
-                                        jsonPeople.peopleList.RemoveAt(index);
-                                        json = JsonSerializer.Serialize(jsonPeople);
-                                        Json.WriteJson("Accounts", json);
-
-                                        Console.ForegroundColor = ConsoleColor.Red;
-                                        Console.WriteLine("Uw account is succesvol verwijderd.");
-                                        System.Threading.Thread.Sleep(1000);
-                                        Console.ForegroundColor = ConsoleColor.Gray;
-                                        MainMenu.MainMenuShow();
-                                    }
-                                    else if (answer == "nee")
-                                    {
-                                        Console.ForegroundColor = ConsoleColor.Green;
-                                        Console.WriteLine("Bedankt voor het blijven!");
-                                        Console.WriteLine("U wordt nu teruggestuurd naar het hoofdmenu.");
-                                        System.Threading.Thread.Sleep(1000);
-                                        Console.ForegroundColor = ConsoleColor.Gray;
-                                        MainMenu.MainMenuShow();
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Antwoord niet begrepen. U wordt nu teruggestuurd naar het hoofdmenu.");
-                                        System.Threading.Thread.Sleep(1000);
-                                        Console.ForegroundColor = ConsoleColor.Gray;
-                                        MainMenu.MainMenuShow();
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                Console.WriteLine("Account bestaat niet.");
-                                Console.WriteLine("U wordt nu teruggestuurd naar het hoofdmenu.");
-                                System.Threading.Thread.Sleep(1000);
-                                Console.ForegroundColor = ConsoleColor.Gray;
-                                MainMenu.MainMenuShow();
-                            }
-                        }
-                        catch (InvalidOperationException)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Account niet gevonden. Probeer het later nog een keer.");
-                            System.Threading.Thread.Sleep(1000);
-                            Console.ForegroundColor = ConsoleColor.Gray;
-                            MainMenu.MainMenuShow();
-                        }
+                        DeleteAccountMethod.DeleteAccount(ingelogdepersoon);
                     }
                     else
                     {
@@ -154,15 +99,19 @@ namespace Bi_Os_Coop
                         MainMenu.MainMenuShow();
                     }
                 }
-                else if (answer == "nee")
+                else if (Console.ReadKey(true).Key == ConsoleKey.N)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Bedankt voor het blijven!");
-                    Console.WriteLine("U wordt nu teruggestuurd naar het admin menu.");
-                    System.Threading.Thread.Sleep(1000);
+                    Console.WriteLine("U wordt nu teruggestuurd naar het hoofdmenu.");
+                    System.Threading.Thread.Sleep(2000);
                     Console.ForegroundColor = ConsoleColor.Gray;
-                    adminMenu.hoofdPagina();
-                }              
+                    MainMenu.MainMenuShow();
+                }
+                else
+                {
+                    DeleteAccount(ingelogdepersoon);
+                }
             }
 
             public void ChangePassword(Person ingelogdepersoon)
@@ -206,14 +155,14 @@ namespace Bi_Os_Coop
                     {
                         // if the person doesn't exist we ask if the person wants to make a new account, if not send to Main Menu
                         Console.WriteLine("Sorry, dit account bestaat niet.");
-                        Console.WriteLine("Wilt u een nieuw account aanmaken? (ja/nee)");
-                        string antwoordAanmakenNieuwAccount = Console.ReadLine();
-                        if (antwoordAanmakenNieuwAccount.ToLower() == "ja") // person wants to create a new account
+                        Console.WriteLine("Wilt u een nieuw account aanmaken? (j/n)");
+              
+                        if (Console.ReadKey(true).Key == ConsoleKey.J) // person wants to create a new account
                         {
                             Console.Clear();
                             Registerscreen.CreateAccount();
                         }
-                        else if (antwoordAanmakenNieuwAccount.ToLower() == "nee") // person is send to main menu
+                        else if (Console.ReadKey(true).Key == ConsoleKey.N) // person is send to main menu
                         {
                             Console.Clear();
                             MainMenu.MainMenuShow();
@@ -300,14 +249,14 @@ namespace Bi_Os_Coop
                 catch (InvalidOperationException)
                 {
                     Console.WriteLine("Film niet gevonden.");
-                    Console.WriteLine("Wilt u een andere film aanpassen? (ja/nee)");
+                    Console.WriteLine("Wilt u een andere film aanpassen? (j/n)");
                     string answer = Console.ReadLine();
-                    if (answer.ToLower() == "ja")
+                    if (Console.ReadKey(true).Key == ConsoleKey.J)
                     {
                         Console.Clear();
                         UpdateMovies();
                     }
-                    else if (answer.ToLower() == "nee")
+                    else if (Console.ReadKey(true).Key == ConsoleKey.N)
                     {
                         Console.Clear();
                         adminMenu.hoofdPagina();
@@ -315,6 +264,7 @@ namespace Bi_Os_Coop
                     else
                     {
                         Console.WriteLine("Antwoord niet begrepen. U keert automatisch terug naar het admin menu.");
+                        System.Threading.Thread.Sleep(2000);
                         adminMenu.hoofdPagina();
                     }
                 }
@@ -365,12 +315,17 @@ namespace Bi_Os_Coop
                 int chairWidth = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Welke film wilt u dat er op dit tijdstip draait?");
                 string film = Console.ReadLine();
-                Console.WriteLine("Op welke datum wilt u dat deze film draait?");
+                Console.WriteLine("Op welke datum wilt u dat deze film draait? (dd/mm/yyyy)");
                 string date = Console.ReadLine();
-                Console.WriteLine("Op welk tijdstip wilt u dat deze film draait?");
+                Console.WriteLine("Op welk tijdstip wilt u dat deze film draait? (HH:MM)");
                 string time = Console.ReadLine();
 
                 zaal.setZaal(chairWidth, date, time, totalChairs, film);
+            }
+
+            public void UpdateCinemaHall()
+            {
+
             }
 
             public void DeleteCinemaHall()
