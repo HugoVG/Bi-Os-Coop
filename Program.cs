@@ -37,6 +37,21 @@ namespace Bi_Os_Coop
 #endif
             // Hieronder normaal programma
 
+            // maakt een user aan met een dynamic type
+            var user = loginscherm.login();
+            Type userType = user.GetType();
+            // krijgt de type van Variabele User
+            bool isPerson = false; // for some reason mocht dit niet als Bool isPerson, isAdmin, isEmployee = false;
+            bool isAdmin = false;
+            bool isEmployee = false;
+
+            if (userType.Equals(typeof(CPeople.Person))) { isPerson = true; }
+            else if (userType.Equals(typeof(CPeople.Admin))) { isAdmin = true; }
+            else if (userType.Equals(typeof(CPeople.Employee))) { isEmployee = true; }
+
+            if (isAdmin) { adminMenu.hoofdPagina(); }
+            else if (isPerson) { MainMenu.MainMenuShow(); }
+            else if (isEmployee) { throw new IdiotException(); }
 
         }
         /// <summary>

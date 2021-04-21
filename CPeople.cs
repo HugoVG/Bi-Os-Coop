@@ -18,10 +18,8 @@ namespace Bi_Os_Coop
             jsonPeople.addPersonByFunction(3, "Bjorn", "json@bjorn.com", "jsonBjorn", "30", "06123456789");
             json = JsonSerializer.Serialize(jsonPeople);
             Json.WriteJson("Accounts", json);
-<<<<<<< HEAD
             //Console.WriteLine(jsonPeople);
             // mac doet weer eens raar test
-=======
             Console.WriteLine(jsonPeople);
         }
 
@@ -31,7 +29,6 @@ namespace Bi_Os_Coop
             bjorn.setPerson(3, "Bjorn", "json@bjorn.com", "jsonBjorn", "30", "06123456789");
             bjorn.DeleteAccount(bjorn);
             // kleine aanpassing om te committen
->>>>>>> AdminMethods
         }
 
         /// <summary>
@@ -156,7 +153,7 @@ namespace Bi_Os_Coop
                         // if the person doesn't exist we ask if the person wants to make a new account, if not send to Main Menu
                         Console.WriteLine("Sorry, dit account bestaat niet.");
                         Console.WriteLine("Wilt u een nieuw account aanmaken? (j/n)");
-              
+
                         if (Console.ReadKey(true).Key == ConsoleKey.J) // person wants to create a new account
                         {
                             Console.Clear();
@@ -292,7 +289,7 @@ namespace Bi_Os_Coop
                         System.Threading.Thread.Sleep(1000);
                         Console.ForegroundColor = ConsoleColor.Gray;
                         adminMenu.hoofdPagina();
-                    }               
+                    }
                 }
                 catch (InvalidOperationException)
                 {
