@@ -117,6 +117,11 @@ namespace Bi_Os_Coop
                                 }
                             }
                         }
+                        if (newlist.IndexOf(member) == (newlist.Count - 1))
+                        {
+                            newlist.Add(release);
+                            break;
+                        }
                     }
                 }
             }
@@ -142,7 +147,7 @@ namespace Bi_Os_Coop
                 }
             }
         }
-        public static int MainMenuShow(bool login = true, string language = "Nederlands", string sort = "name")
+        public static int MainMenuShow(bool login = true, string language = "Nederlands", string sort = "release")
         {
             Logo();
             if (language == "Nederlands")
