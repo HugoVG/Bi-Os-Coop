@@ -5,14 +5,26 @@
       "name": "hugo",
       "email": "mijnfakeEmail@test.com",
       "password": "H3nk123",
-      "age": "16/05/2000"
+      "age": "16/05/2000",
+      "phonenumber": null
     },
     {
       "id": 2,
       "name": "Lilo",
       "email": "Lilo@stitch.com",
       "password": "m@tress",
-      "age":"16/05/2000"
+      "age": "16/05/2000",
+      "phonenumber": null
+    },
+    {
+      "id": 54327,
+      "name": "Rick Slingerland",
+      "email": "rickyman2002.rick@gmail.com",
+      "password": "Zook2012",
+      "age": "15/06/2002",
+      "phonenumber": "0657050124"
     }
-  ]
+  ],
+  "adminList": null,
+  "employeeList": null
 }
