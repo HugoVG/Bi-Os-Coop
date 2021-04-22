@@ -21,38 +21,38 @@ namespace Bi_Os_Coop
 
             //JsonSerializerOptions options = new JsonSerializerOptions() { WriteIndented = true };
             //tekstUitJson = JsonSerializer.Serialize(objectTest, options);
-            //System.IO.File.WriteAllText(path, tekstUitJson);     
+            //System.IO.File.WriteAllText(path, tekstUitJson);
 
             //while loop die hoofdPagina loopt tot je "0" in tikt
             bool inDitMenu = true;
 
             while (inDitMenu)
             {
-                string keuze = hoofdPagina();
-                if (keuze == "0")
+                ConsoleKey keuze = hoofdPagina();
+                if (keuze == ConsoleKey.D0)
                 {
                     Environment.Exit(0);
                 }
-                else if (keuze == "1")
+                else if (keuze == ConsoleKey.D1)
                 {
                     inDitMenu = false;
                     Console.Clear();
                     MainMenu.MainMenuShow();
                 }
-                else if (keuze == "2")
+                else if (keuze == ConsoleKey.D2)
                 {
                     admin.AddMovies();
                 }
 
-                else if (keuze == "3")
+                else if (keuze == ConsoleKey.D3)
                 {
                     admin.UpdateMovies();
                 }
-                else if (keuze == "4")
+                else if (keuze == ConsoleKey.D4)
                 {
                     admin.DeleteMovies();
                 }
-                else if (keuze == "5")
+                else if (keuze == ConsoleKey.D5)
                 {
                     admin.AddCinemaHall();
                 }
@@ -67,7 +67,7 @@ namespace Bi_Os_Coop
             }
         }
 
-        public static string hoofdPagina()
+        public static ConsoleKey hoofdPagina()
         {
             Console.Clear();
             MainMenu.Logo();
@@ -82,7 +82,7 @@ namespace Bi_Os_Coop
             //Console.WriteLine("7) Admin Toevoegen");
             Console.WriteLine("Of type '0' om te stoppen");
             Console.Write("\nKies een pagina: ");
-            string keuze = Console.ReadLine();
+            ConsoleKey keuze = Console.ReadKey(true).Key;
             return keuze;
         }
     }
