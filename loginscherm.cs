@@ -18,21 +18,21 @@ namespace Bi_Os_Coop
             accounts = accounts.FromJson(account);
             try
             {
-                CPeople.Person persoon = accounts.peopleList.Single(henk => henk.email == username && henk.password == password);
+                CPeople.Person persoon = accounts.peopleList.Single(henk => henk.email.ToLower() == username.ToLower() && henk.password == password);
                 return persoon;
             }
             catch (Exception)
             {
                 try
                 {
-                    CPeople.Admin admin = accounts.adminList.Single(henk => henk.email == username && henk.password == password);
+                    CPeople.Admin admin = accounts.adminList.Single(henk => henk.email.ToLower() == username.ToLower() && henk.password == password);
                     return admin;
                 }
                 catch (Exception)
                 {
                     try
                     {
-                        CPeople.Employee employee = accounts.employeeList.Single(henk => henk.email == username && henk.password == password);
+                        CPeople.Employee employee = accounts.employeeList.Single(henk => henk.email.ToLower() == username.ToLower() && henk.password == password);
                         return employee;
                     }
                     catch (Exception)
