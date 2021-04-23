@@ -53,27 +53,31 @@ namespace Bi_Os_Coop
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write(dashes + "\n\n");
         }
-        public static List<string> sortbyname()
+        public static List<int> sortbyname()
         {
             string json = Json.ReadJson("Films");
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
             var movielistname = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, name => name.name);
-            List<string> namesort = new List<string>();
+            List<KeyValuePair<int, string>> namesort = new List<KeyValuePair<int, string>>();
+            List<int> movieids = new List<int>();
             foreach (KeyValuePair<int, string> name in movielistname)
             {
                 if (name.Value != null)
                 {
-                    namesort.Add(name.Value);
+                    namesort.Add(name);
                 }
             }
-            namesort = namesort.OrderBy(q => q).ToList();
-            return namesort;
+            namesort = namesort.OrderBy(q => q.Value).ToList();
+            foreach (KeyValuePair<int, string> id in namesort)
+            {
+                movieids.Add(id.Key);
+            }
+            return movieids;
         }
-        public static List<string> sortbyrelease()
+        public static List<int> sortbyrelease()
         {
             string json = Json.ReadJson("Films");
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
-            var movielistname = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, name => name.name);
             var movielistrelease = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, releasedate => releasedate.releasedate);
             List<KeyValuePair<int, string>> newlist = new List<KeyValuePair<int, string>>();
             foreach(KeyValuePair<int, string> release in movielistrelease)
@@ -125,21 +129,29 @@ namespace Bi_Os_Coop
                     }
                 }
             }
-            List<string> sortlist = new List<string>();
+            List<int> sortlist = new List<int>();
             foreach (KeyValuePair<int, string> movie in newlist)
             {
-                MovieInterpreter Moviesorted = jsonFilms.movieList.Single(movie1 => movie1.movieid == movie.Key);
-                sortlist.Add(Moviesorted.name);
+
+                sortlist.Add(movie.Key);
             }
             return sortlist;
         }
-        public static void printlist(List<string> printablelist)
+        public static List<int> sortbyrating()
         {
-            for (int i = 1; i < 11; i++)
+            List<int> sortlist = new List<int>();
+            return sortlist;
+        }
+        public static void printlist(List<int> printablelist, int index)
+        {
+            for (int i = ((index * 10 + 1) - 10); i < (index * 10 + 1); i++)
             {
                 try
                 {
-                    Console.WriteLine($"{i}. {printablelist[i - 1]}");
+                    string json = Json.ReadJson("Films");
+                    Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
+                    MovieInterpreter mov = jsonFilms.movieList.Single(movie1 => movie1.movieid == printablelist[i - 1]);
+                    Console.WriteLine($"{i}. {mov.name} ({mov.releasedate}) Leeftijd: {mov.leeftijd} Beoordeling: {mov.beoordeling}");
                 }
                 catch
                 {
@@ -171,11 +183,11 @@ namespace Bi_Os_Coop
                 //var movielistrating = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, beoordeling => beoordeling.beoordeling);
                 if (sort == "name")
                 {
-                    printlist(sortbyname());
+                    printlist(sortbyname(), 1);
                 }
                 else if (sort == "release")
                 {
-                    printlist(sortbyrelease());
+                    printlist(sortbyrelease(), 1);
                 }
                 ConsoleKey keypressed = Console.ReadKey(true).Key;
                 if (keypressed == ConsoleKey.I && !login)
