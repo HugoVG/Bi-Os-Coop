@@ -59,7 +59,6 @@ namespace Bi_Os_Coop
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
             var movielistname = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, name => name.name);
             List<KeyValuePair<int, string>> namesort = new List<KeyValuePair<int, string>>();
-            List<int> movieids = new List<int>();
             foreach (KeyValuePair<int, string> name in movielistname)
             {
                 if (name.Value != null)
@@ -68,6 +67,7 @@ namespace Bi_Os_Coop
                 }
             }
             namesort = namesort.OrderBy(q => q.Value).ToList();
+            List<int> movieids = new List<int>();
             foreach (KeyValuePair<int, string> id in namesort)
             {
                 movieids.Add(id.Key);
@@ -139,19 +139,41 @@ namespace Bi_Os_Coop
         }
         public static List<int> sortbyrating()
         {
+            string json = Json.ReadJson("Films");
+            Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
+            var movielistrating = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, beoordeling => beoordeling.beoordeling);
+            List<KeyValuePair<int, double>> namesort = new List<KeyValuePair<int, double>>();
+            foreach (KeyValuePair<int, double> rate in movielistrating)
+            {
+                if (rate.Value > 0)
+                {
+                    namesort.Add(rate);
+                }
+            }
+            namesort = namesort.OrderBy(q => q.Value).ToList();
             List<int> sortlist = new List<int>();
+            foreach (KeyValuePair<int, double> rating in namesort)
+            {
+                sortlist.Insert(0, rating.Key);
+            }
             return sortlist;
         }
         public static void printlist(List<int> printablelist, int index)
         {
+            string json = Json.ReadJson("Films");
+            Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
             for (int i = ((index * 10 + 1) - 10); i < (index * 10 + 1); i++)
             {
                 try
                 {
-                    string json = Json.ReadJson("Films");
-                    Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
                     MovieInterpreter mov = jsonFilms.movieList.Single(movie1 => movie1.movieid == printablelist[i - 1]);
-                    Console.WriteLine($"{i}. {mov.name} ({mov.releasedate}) Leeftijd: {mov.leeftijd} Beoordeling: {mov.beoordeling}");
+                    string name;
+                    if (mov.name.Length > 35){ name = mov.name.Substring(0, 35).Trim() + "..."; }
+                    else{ name = mov.name; }
+                    string firststring = $"e.\t{name} ({mov.releasedate})";
+                    string space = "";
+                    for (int j = 1; j < 58 - firststring.Length; j++) { space += " "; }
+                    Console.WriteLine($"{i}.\t{name} ({mov.releasedate}){space}Leeftijd: {mov.leeftijd}\tBeoordeling: {mov.beoordeling}");
                 }
                 catch
                 {
@@ -159,28 +181,31 @@ namespace Bi_Os_Coop
                 }
             }
         }
-        public static int MainMenuShow(bool login = true, string language = "Nederlands", string sort = "release")
+        public static void logintext()
+        {
+            string loginstructions = "Druk op 'I' om in te loggen";
+            int stringlength = loginstructions.Length;
+            int origWidth = Console.WindowWidth - stringlength;
+            string spaces = "";
+            for (int j = 1; j < origWidth; j++) { spaces += " "; }
+            Console.WriteLine(spaces + loginstructions);
+
+            string reginstructions = "Druk op 'R' om te registreren";
+            stringlength = reginstructions.Length;
+            origWidth = Console.WindowWidth - stringlength;
+            spaces = "";
+            for (int j = 1; j < origWidth; j++) { spaces += " "; }
+            Console.WriteLine(spaces + reginstructions);
+        }
+        public static int MainMenuShow(bool login = true, string language = "Nederlands", string sort = "rating")
         {
             Logo();
             if (language == "Nederlands")
             {
                 if (!login){
-                    string loginstructions = "Druk op 'I' om in te loggen";
-                    int stringlength = loginstructions.Length;
-                    int origWidth = Console.WindowWidth - stringlength;
-                    string spaces = "";
-                    for (int j = 1; j < origWidth; j++) { spaces += " "; }
-                    Console.WriteLine(spaces + loginstructions);
-
-                    string reginstructions = "Druk op 'R' om te registreren";
-                    stringlength = reginstructions.Length;
-                    origWidth = Console.WindowWidth - stringlength;
-                    spaces = "";
-                    for (int j = 1; j < origWidth; j++) { spaces += " "; }
-                    Console.WriteLine(spaces + reginstructions);
+                    logintext();
                 }
                 Console.WriteLine("ACTUELE FILMS:");
-                //var movielistrating = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, beoordeling => beoordeling.beoordeling);
                 if (sort == "name")
                 {
                     printlist(sortbyname(), 1);
@@ -188,6 +213,10 @@ namespace Bi_Os_Coop
                 else if (sort == "release")
                 {
                     printlist(sortbyrelease(), 1);
+                }
+                else if (sort == "rating")
+                {
+                    printlist(sortbyrating(), 1);
                 }
                 ConsoleKey keypressed = Console.ReadKey(true).Key;
                 if (keypressed == ConsoleKey.I && !login)
