@@ -197,6 +197,21 @@ namespace Bi_Os_Coop
             for (int j = 1; j < origWidth; j++) { spaces += " "; }
             Console.WriteLine(spaces + reginstructions);
         }
+        public static void actualmovies(string sort)
+        {
+            if (sort == "name")
+            {
+                printlist(sortbyname(), 1);
+            }
+            else if (sort == "release")
+            {
+                printlist(sortbyrelease(), 1);
+            }
+            else if (sort == "rating")
+            {
+                printlist(sortbyrating(), 1);
+            }
+        }
         public static int MainMenuShow(bool login = true, string language = "Nederlands", string sort = "rating")
         {
             Logo();
@@ -206,18 +221,7 @@ namespace Bi_Os_Coop
                     logintext();
                 }
                 Console.WriteLine("ACTUELE FILMS:");
-                if (sort == "name")
-                {
-                    printlist(sortbyname(), 1);
-                }
-                else if (sort == "release")
-                {
-                    printlist(sortbyrelease(), 1);
-                }
-                else if (sort == "rating")
-                {
-                    printlist(sortbyrating(), 1);
-                }
+                actualmovies(sort);
                 ConsoleKey keypressed = Console.ReadKey(true).Key;
                 if (keypressed == ConsoleKey.I && !login)
                 {
