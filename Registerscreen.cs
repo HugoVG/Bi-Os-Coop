@@ -25,7 +25,7 @@ namespace Bi_Os_Coop
                 string password = validCheck("wachtwoord", lengthCheck);
 
                 CPeople.Person customer = new CPeople.Person();
-                customer.setPerson(id, naam, email, password, birthdate, phoneNumber);
+                customer.setPerson(id, naam, email.ToLower(), password, birthdate, phoneNumber);
                 jsonPeople.AddPerson(customer);
                 string add = jsonPeople.ToJson();
                 Json.WriteJson("Accounts", add);

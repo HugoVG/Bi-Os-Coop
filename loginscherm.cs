@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security;
 
 namespace Bi_Os_Coop
 {
@@ -49,11 +50,35 @@ namespace Bi_Os_Coop
             Console.WriteLine("E-mail:");
             string username = Console.ReadLine();
             Console.WriteLine("Wachtwoord:");
-            string password = Console.ReadLine();
+            SecureString pass = maskInputString();
+            string password = new System.Net.NetworkCredential(string.Empty, pass).Password;
 
-            var inlog = loginscherm.mailwachtvragen(username, password);
+            var inlog = loginscherm.mailwachtvragen(username.ToLower(), password);
 
             return inlog;
+        }
+        private static SecureString maskInputString()
+        {
+            SecureString pass = new SecureString();
+            ConsoleKeyInfo keyInfo;
+            do
+            {
+                keyInfo = Console.ReadKey(true);
+                if (!char.IsControl(keyInfo.KeyChar))
+                {
+                    pass.AppendChar(keyInfo.KeyChar);
+                    Console.Write("*");
+                }
+                else if (keyInfo.Key == ConsoleKey.Backspace && pass.Length > 0)
+                {
+                    pass.RemoveAt(pass.Length - 1);
+                    Console.Write("\b\b");
+                }
+            }
+            while (keyInfo.Key != ConsoleKey.Enter);
+            {
+                return pass;
+            }
         }
         public static void check()
         {

@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "hugo",
-      "email": "mijnfakeEmail@test.com",
+      "email": "mijnfakeemail@test.com",
       "password": "H3nk123",
       "age": "16/05/2000",
       "phonenumber": null
@@ -11,7 +11,7 @@
     {
       "id": 2,
       "name": "Lilo",
-      "email": "Lilo@stitch.com",
+      "email": "lilo@stitch.com",
       "password": "m@tress",
       "age": "16/05/2000",
       "phonenumber": null
@@ -29,7 +29,7 @@
     {
       "id": 1,
       "name": "Hugo",
-      "email": "Coolste@min.com",
+      "email": "coolste@min.com",
       "password": "nietzoveilig",
       "age": "30",
       "phonenumber": "06123456789"

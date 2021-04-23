@@ -11,51 +11,31 @@ namespace Bi_Os_Coop
     {
         public static void Logo()
         {
-            Console.ForegroundColor = ConsoleColor.White;
             string dashes = "";
             for (int i = 1; i < Console.WindowWidth; i++) { dashes += "-"; }
-            Console.Write(dashes + "\n");
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.Write("oooooooooo  o88");
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            Console.Write("              ooooooo");
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.Write("                          oooooooo8\n");
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.Write(" 888    888 oooo");
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            Console.Write("           o888   888o  oooooooo8");
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.Write("           o888     88   ooooooo     ooooooo  ooooooooo\n");
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.Write(" 888oooo88   888");
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write(" ooooooooo");
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            Console.Write(" 888     888 888ooooooo");
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write(" ooooooooo");
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.Write(" 888         888     888 888     888 888    888\n");
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.Write(" 888    888  888");
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            Console.Write("           888o   o888         888");
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.Write("          888o     oo 888     888 888     888 888    888\n");
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.Write("o888ooo888  o888o");
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            Console.Write("            88ooo88   88oooooo88");
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.Write("            888oooo88    88ooo88     88ooo88   888ooo88\n                                                                                               o888\n");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(dashes);
+            Program.newEntry(dashes + "\n");
+            Program.newEntry("oooooooooo  o88", ConsoleColor.Magenta);
+            Program.newEntry("              ooooooo", ConsoleColor.DarkMagenta);
+            Program.newEntry("                          oooooooo8\n", ConsoleColor.DarkBlue);
+            Program.newEntry(" 888    888 oooo", ConsoleColor.Magenta);
+            Program.newEntry("           o888   888o  oooooooo8", ConsoleColor.DarkMagenta);
+            Program.newEntry("           o888     88   ooooooo     ooooooo  ooooooooo\n", ConsoleColor.DarkBlue);
+            Program.newEntry(" 888oooo88   888", ConsoleColor.Magenta);
+            Program.newEntry(" ooooooooo", ConsoleColor.DarkYellow);
+            Program.newEntry(" 888     888 888ooooooo", ConsoleColor.DarkMagenta);
+            Program.newEntry(" ooooooooo", ConsoleColor.DarkYellow);
+            Program.newEntry(" 888         888     888 888     888 888    888\n", ConsoleColor.DarkBlue);
+            Program.newEntry(" 888    888  888", ConsoleColor.Magenta);
+            Program.newEntry("           888o   o888         888", ConsoleColor.DarkMagenta);
+            Program.newEntry("          888o     oo 888     888 888     888 888    888\n", ConsoleColor.DarkBlue);
+            Program.newEntry("o888ooo888  o888o", ConsoleColor.Magenta);
+            Program.newEntry("            88ooo88   88oooooo88", ConsoleColor.DarkMagenta);
+            Program.newEntry("            888oooo88    88ooo88     88ooo88   888ooo88\n                                                                                               o888\n", ConsoleColor.DarkBlue);
+            Program.newEntry(dashes + "\n");
         }
         public static List<int> sortbyname()
         {
-            string json = Json.ReadJson("Films");
-            Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
+            Films jsonFilms = getfilmlist();
             var movielistname = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, name => name.name);
             List<KeyValuePair<int, string>> namesort = new List<KeyValuePair<int, string>>();
             foreach (KeyValuePair<int, string> name in movielistname)
@@ -72,123 +52,95 @@ namespace Bi_Os_Coop
             if (reverse) { listing.Reverse(); }
             return listing;
         }
-        public static List<int> sortbyrelease()
+        public static Bi_Os_Coop.Films getfilmlist()
         {
             string json = Json.ReadJson("Films");
-            Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
+            return JsonSerializer.Deserialize<Films>(json);
+            
+        }
+        public static List<int> sortbyrelease()
+        {
+            Films jsonFilms = getfilmlist();
             var movielistrelease = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, releasedate => releasedate.releasedate);
+
             List<KeyValuePair<int, string>> newlist = new List<KeyValuePair<int, string>>();
-            foreach(KeyValuePair<int, string> release in movielistrelease)
-            {
+            foreach(KeyValuePair<int, string> release in movielistrelease){
                 if (newlist.Count == 0 && release.Value != null) { newlist.Add(release); }
-                else if (newlist.Count > 0 && release.Value != null)
-                {
+                else if (newlist.Count > 0 && release.Value != null){
                     int year = int.Parse(release.Value.Substring(6));
                     int monthnumber = int.Parse(release.Value.Substring(3, 2));
                     int day = int.Parse(release.Value.Substring(0, 2));
-                    foreach (KeyValuePair<int, string> member in newlist)
-                    {
+                    foreach (KeyValuePair<int, string> member in newlist){
                         int year2 = int.Parse(member.Value.Substring(6));
                         int monthnumber2 = int.Parse(member.Value.Substring(3, 2));
                         int day2 = int.Parse(member.Value.Substring(0, 2));
-                        if (year > year2)
-                        {
+                        if (year > year2) {
                             int index = newlist.IndexOf(member);
                             newlist.Insert(index, release);
                             break;
                         }
-                        else if (year == year2)
-                        {
-                            if (monthnumber > monthnumber2)
-                            {
+                        else if (year == year2){
+                            if (monthnumber > monthnumber2){
                                 int index = newlist.IndexOf(member);
                                 newlist.Insert(index, release);
                                 break;
                             }
                             else if (monthnumber == monthnumber2){
-                                if (day > day2)
-                                {
+                                if (day > day2){
                                     int index = newlist.IndexOf(member);
                                     newlist.Insert(index, release);
                                     break;
                                 }
                             }
                         }
-                        if (newlist.IndexOf(member) == (newlist.Count - 1))
-                        {
-                            newlist.Add(release);
-                            break;
-                        }
+                        if (newlist.IndexOf(member) == (newlist.Count - 1)){ newlist.Add(release); break;}
                     }
                 }
             }
             List<int> sortlist = new List<int>();
-            foreach (KeyValuePair<int, string> movie in newlist)
-            {
-
-                sortlist.Add(movie.Key);
-            }
+            foreach (KeyValuePair<int, string> movie in newlist){ sortlist.Add(movie.Key); }
             return sortlist;
         }
         public static List<int> sortbyrating()
         {
-            string json = Json.ReadJson("Films");
-            Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
+            Films jsonFilms = getfilmlist();
             var movielistrating = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, beoordeling => beoordeling.beoordeling);
+
             List<KeyValuePair<int, double>> namesort = new List<KeyValuePair<int, double>>();
-            foreach (KeyValuePair<int, double> rate in movielistrating)
-            {
-                if (rate.Value > 0)
-                {
-                    namesort.Add(rate);
-                }
-            }
+            foreach (KeyValuePair<int, double> rate in movielistrating){ if (rate.Value > 0){ namesort.Add(rate);}}
+
             namesort = namesort.OrderBy(q => q.Value).ToList();
             List<int> sortlist = new List<int>();
-            foreach (KeyValuePair<int, double> rating in namesort)
-            {
-                sortlist.Insert(0, rating.Key);
-            }
+            foreach (KeyValuePair<int, double> rating in namesort){sortlist.Insert(0, rating.Key);}
             return sortlist;
         }
         public static void printlist(List<int> printablelist, int index)
         {
-            string json = Json.ReadJson("Films");
-            Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
-            for (int i = ((index * 10 + 1) - 10); i < (index * 10 + 1); i++)
-            {
-                try
-                {
+            Films jsonFilms = getfilmlist();
+            for (int i = ((index * 10 + 1) - 10); i < (index * 10 + 1); i++){
+                try{
                     MovieInterpreter mov = jsonFilms.movieList.Single(movie1 => movie1.movieid == printablelist[i - 1]);
                     string name;
                     if (mov.name.Length > 35){ name = mov.name.Substring(0, 35).Trim() + "..."; }
                     else{ name = mov.name; }
-                    string firststring = $"e.\t{name} ({mov.releasedate})";
-                    string space = "";
-                    for (int j = 1; j < 58 - firststring.Length; j++) { space += " "; }
-                    Console.WriteLine($"{i}.\t{name} ({mov.releasedate}){space}Leeftijd: {mov.leeftijd}\tBeoordeling: {mov.beoordeling}");
+                    Console.WriteLine($"{i}.\t{name} ({mov.releasedate}){lengthmakerthing(58 - $"e.\t{name} ({mov.releasedate})".Length, ' ')}Leeftijd: {mov.leeftijd}\tBeoordeling: {mov.beoordeling}");
                 }
-                catch
-                {
-                    break;
-                }
+                catch{break;}
             }
+        }
+        public static string lengthmakerthing(int length, char character)
+        {
+            string spaces = "";
+            for (int j = 1; j < length; j++) { spaces += character; }
+            return spaces;
         }
         public static void logintext()
         {
             string loginstructions = "Druk op 'I' om in te loggen";
-            int stringlength = loginstructions.Length;
-            int origWidth = Console.WindowWidth - stringlength;
-            string spaces = "";
-            for (int j = 1; j < origWidth; j++) { spaces += " "; }
-            Console.WriteLine(spaces + loginstructions);
+            Console.WriteLine(lengthmakerthing(Console.WindowWidth - loginstructions.Length, ' ') + loginstructions);
 
             string reginstructions = "Druk op 'R' om te registreren";
-            stringlength = reginstructions.Length;
-            origWidth = Console.WindowWidth - stringlength;
-            spaces = "";
-            for (int j = 1; j < origWidth; j++) { spaces += " "; }
-            Console.WriteLine(spaces + reginstructions);
+            Console.WriteLine(lengthmakerthing(Console.WindowWidth - reginstructions.Length, ' ') + reginstructions);
         }
         public static void actualmovies(string sort, bool reverse)
         {
