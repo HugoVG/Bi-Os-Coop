@@ -12,9 +12,8 @@ namespace Bi_Os_Coop
         public static void Logo()
         {
             Console.ForegroundColor = ConsoleColor.White;
-            int origWidth = Console.WindowWidth;
             string dashes = "";
-            for (int i = 1; i < origWidth; i++) { dashes += "-"; }
+            for (int i = 1; i < Console.WindowWidth; i++) { dashes += "-"; }
             Console.Write(dashes + "\n");
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.Write("oooooooooo  o88");
@@ -51,7 +50,7 @@ namespace Bi_Os_Coop
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.Write("            888oooo88    88ooo88     88ooo88   888ooo88\n                                                                                               o888\n");
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(dashes + "\n\n");
+            Console.WriteLine(dashes);
         }
         public static List<int> sortbyname()
         {
@@ -61,18 +60,17 @@ namespace Bi_Os_Coop
             List<KeyValuePair<int, string>> namesort = new List<KeyValuePair<int, string>>();
             foreach (KeyValuePair<int, string> name in movielistname)
             {
-                if (name.Value != null)
-                {
-                    namesort.Add(name);
-                }
+                if (name.Value != null) { namesort.Add(name); }
             }
             namesort = namesort.OrderBy(q => q.Value).ToList();
             List<int> movieids = new List<int>();
-            foreach (KeyValuePair<int, string> id in namesort)
-            {
-                movieids.Add(id.Key);
-            }
+            foreach (KeyValuePair<int, string> id in namesort) { movieids.Add(id.Key); }
             return movieids;
+        }
+        public static List<int> reversing(List<int> listing, bool reverse)
+        {
+            if (reverse) { listing.Reverse(); }
+            return listing;
         }
         public static List<int> sortbyrelease()
         {
@@ -82,12 +80,7 @@ namespace Bi_Os_Coop
             List<KeyValuePair<int, string>> newlist = new List<KeyValuePair<int, string>>();
             foreach(KeyValuePair<int, string> release in movielistrelease)
             {
-                if (newlist.Count == 0){
-                    if (release.Value != null)
-                    {
-                        newlist.Add(release);
-                    }
-                }
+                if (newlist.Count == 0 && release.Value != null) { newlist.Add(release); }
                 else if (newlist.Count > 0 && release.Value != null)
                 {
                     int year = int.Parse(release.Value.Substring(6));
@@ -197,42 +190,25 @@ namespace Bi_Os_Coop
             for (int j = 1; j < origWidth; j++) { spaces += " "; }
             Console.WriteLine(spaces + reginstructions);
         }
-        public static void actualmovies(string sort)
+        public static void actualmovies(string sort, bool reverse)
         {
-            if (sort == "name")
-            {
-                printlist(sortbyname(), 1);
-            }
-            else if (sort == "release")
-            {
-                printlist(sortbyrelease(), 1);
-            }
-            else if (sort == "rating")
-            {
-                printlist(sortbyrating(), 1);
-            }
+            if (sort == "name") { printlist(reversing(sortbyname(), reverse), 1); }
+            else if (sort == "release") { printlist(reversing(sortbyrelease(), reverse), 1); }
+            else if (sort == "rating") { printlist(reversing(sortbyrating(), reverse), 1); }
         }
-        public static int MainMenuShow(bool login = true, string language = "Nederlands", string sort = "rating")
+        public static int MainMenuShow(bool login = true, string sort = "release", bool reverse = false, string language = "Nederlands")
         {
             Logo();
             if (language == "Nederlands")
             {
-                if (!login){
-                    logintext();
-                }
+                if (!login){ logintext(); }
+
                 Console.WriteLine("ACTUELE FILMS:");
-                actualmovies(sort);
+                actualmovies(sort, reverse);
+
                 ConsoleKey keypressed = Console.ReadKey(true).Key;
-                if (keypressed == ConsoleKey.I && !login)
-                {
-                    Console.Clear();
-                    return 1;
-                }
-                if (keypressed == ConsoleKey.R && !login)
-                {
-                    Console.Clear();
-                    return 0;
-                }
+                if (keypressed == ConsoleKey.I && !login) { Console.Clear(); return 1; }
+                if (keypressed == ConsoleKey.R && !login) { Console.Clear(); return 0; }
                 return -1;
             }
             else
