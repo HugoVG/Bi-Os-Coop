@@ -40,7 +40,7 @@ namespace Bi_Os_Coop
             {
                 MainMenu.printlist(MainMenu.sortbyrelease(), index);
             };
-            Console.WriteLine($"                                                                                Bladzijde {index} van {highestpage}");
+            Console.WriteLine($"\t\t\t\t\t\t\t\t\t\tBladzijde {index} van {highestpage}");
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Kies de pagina waar u naar toe wilt scrollen: ");
             Console.ForegroundColor = ConsoleColor.Gray;
