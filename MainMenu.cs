@@ -139,8 +139,13 @@ namespace Bi_Os_Coop
             string loginstructions = "Druk op 'I' om in te loggen";
             Console.WriteLine(lengthmakerthing(Console.WindowWidth - loginstructions.Length, ' ') + loginstructions);
 
-            string reginstructions = "Druk op 'R' om te registreren";
+            string reginstructions = "Druk op 'O' om te registreren";
             Console.WriteLine(lengthmakerthing(Console.WindowWidth - reginstructions.Length, ' ') + reginstructions);
+        }
+        public static void logouttext()
+        {
+            string logoutstructions = "Druk op 'U' om uit te loggen";
+            Console.WriteLine(lengthmakerthing(Console.WindowWidth - logoutstructions.Length, ' ') + logoutstructions);
         }
         public static void actualmovies(string sort, bool reverse)
         {
@@ -148,25 +153,86 @@ namespace Bi_Os_Coop
             else if (sort == "release") { printlist(reversing(sortbyrelease(), reverse), 1); }
             else if (sort == "rating") { printlist(reversing(sortbyrating(), reverse), 1); }
         }
-        public static int MainMenuShow(bool login = true, string sort = "release", bool reverse = false, string language = "Nederlands")
+        public static Tuple<string, dynamic> loginscreenthing(string login)
+        {
+            Console.Clear();
+            var user = loginscherm.login();
+            Console.Clear();
+            Type userType = user.GetType();
+            if (userType.Equals(typeof(CPeople.Person))) { return new Tuple<string, dynamic>("Person", user); }
+            else if (userType.Equals(typeof(CPeople.Admin))) { return new Tuple<string, dynamic>("Admin", user); }
+            else if (userType.Equals(typeof(CPeople.Employee))) { return new Tuple<string, dynamic>("Employee", user); }
+            return new Tuple<string, dynamic>("None", false);
+        }
+        public static void sorttext(string sort)
+        {
+            Program.newEntry(lengthmakerthing(Console.WindowWidth - 46, ' '));
+            if (sort == "name")
+            {
+                Program.newEntry("Naam (Y)", ConsoleColor.Red);
+                Program.newEntry(", Beoordeling (T), Publicatiedatum (R)\n");
+            }
+            if (sort == "release")
+            {
+                Program.newEntry("Naam (Y), Beoordeling (T), ");
+                Program.newEntry("Publicatiedatum (R)\n", ConsoleColor.Red);
+            }
+            if (sort == "rating")
+            {
+                Program.newEntry("Naam (Y), ");
+                Program.newEntry("Beoordeling (T)", ConsoleColor.Red);
+                Program.newEntry(", Publicatiedatum (R)\n");
+            }
+        }
+        public static void MainMenuShow(dynamic user, string sort = "name", bool reverse = false, string login = "None", string language = "Nederlands")
         {
             Logo();
             if (language == "Nederlands")
             {
-                if (!login){ logintext(); }
+                if (user == null) { logintext(); }
+                else { logouttext(); }
+                sorttext(sort);
 
                 Console.WriteLine("ACTUELE FILMS:");
                 actualmovies(sort, reverse);
 
                 ConsoleKey keypressed = Console.ReadKey(true).Key;
-                if (keypressed == ConsoleKey.I && !login) { Console.Clear(); return 1; }
-                if (keypressed == ConsoleKey.R && !login) { Console.Clear(); return 0; }
-                return -1;
+                if (keypressed == ConsoleKey.I && user == null)
+                {
+                    Tuple<string, dynamic> login2 = loginscreenthing(login);
+                    login = login2.Item1;
+                    if (login != "None") { user = login2.Item2; }
+                }
+                if (keypressed == ConsoleKey.O && user == null) {
+                    Console.Clear();
+                    bool createduser = Registerscreen.CreateAccount();
+                    if (createduser)
+                    {
+                        Tuple<string, dynamic> login2 = loginscreenthing(login);
+                        login = login2.Item1;
+                        if (login != "None") { user = login2.Item2; }
+                    }
+                }
+                if (keypressed == ConsoleKey.Y && sort != "name")
+                {
+                    sort = "name";
+                }
+                if (keypressed == ConsoleKey.T && sort != "rating")
+                {
+                    sort = "rating";
+                }
+                if (keypressed == ConsoleKey.R && sort != "release")
+                {
+                    sort = "release";
+                }
+                if (keypressed == ConsoleKey.U && login != "None")
+                {
+                    login = "None";
+                    user = null;
+                }
             }
-            else
-            {
-                return -1;
-            }
+            Console.Clear();
+            MainMenuShow(user, sort, reverse, login, language);
         }
     }
 }

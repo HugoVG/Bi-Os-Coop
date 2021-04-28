@@ -11,7 +11,7 @@ namespace Bi_Os_Coop
 {
     class MovieMenu
     {
-        public static void mainPagina(string sort = "name", int index = 1)
+        public static void mainPagina(List<dynamic> mainmenuthings, string sort = "name", int index = 1)
         {
             string json = Json.ReadJson("Films");
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
@@ -56,8 +56,7 @@ namespace Bi_Os_Coop
             else if(indexstring == "0")
             {
                 Console.Clear();
-                //temp set to false, login will be linked later
-                MainMenu.MainMenuShow(false);
+                MainMenu.MainMenuShow(mainmenuthings[0], mainmenuthings[1], mainmenuthings[2], mainmenuthings[3], mainmenuthings[4]);
             }
             else
             {
@@ -81,14 +80,13 @@ namespace Bi_Os_Coop
                     Thread.Sleep(1000);
                 }
             }
-            MovieMenu.mainPagina(sort, index);
+            MovieMenu.mainPagina(mainmenuthings, sort, index);
         }
         public static void search(string searchmov)
         {
             Console.WriteLine("This movie does not exist!");
             Console.ReadLine();
             Console.Clear();
-            MovieMenu.mainPagina();
         }
     }
 }
