@@ -9,7 +9,7 @@ namespace Bi_Os_Coop
 {
     public class adminMenu
     {
-        public static void AM()
+        public static void AM(List<dynamic> mainmenuthings)
         {
             CPeople.Admin admin = new CPeople.Admin();
             CPeople.Person adminAccount = new CPeople.Person();
@@ -37,7 +37,7 @@ namespace Bi_Os_Coop
                 {
                     inDitMenu = false;
                     Console.Clear();
-                    MainMenu.MainMenuShow();
+                    MainMenu.MainMenuShow(mainmenuthings[0], mainmenuthings[1], mainmenuthings[2], mainmenuthings[3], mainmenuthings[4]);
                 }
                 else if (keuze == ConsoleKey.D2)
                 {

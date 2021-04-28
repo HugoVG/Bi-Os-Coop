@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Text.Json;
+using System.Collections.Generic;
 
 namespace Bi_Os_Coop
 {
     public class DeleteAccountMethod
     {
-        public static void DeleteAccount(CPeople.Person ingelogdepersoon)
+        public static void DeleteAccount(CPeople.Person ingelogdepersoon, List<dynamic> mainmenuthings)
         {
             try
             {
@@ -21,7 +22,7 @@ namespace Bi_Os_Coop
                         Console.WriteLine("Account niet gevonden. Neem contact op met de klantenservice.");
                         System.Threading.Thread.Sleep(1000);
                         Console.ForegroundColor = ConsoleColor.Gray;
-                        MainMenu.MainMenuShow();
+                        MainMenu.MainMenuShow(mainmenuthings[0], mainmenuthings[1], mainmenuthings[2], mainmenuthings[3], mainmenuthings[4]);
                     }
                     else
                     {
@@ -37,7 +38,7 @@ namespace Bi_Os_Coop
                             Console.WriteLine("Uw account is succesvol verwijderd.");
                             System.Threading.Thread.Sleep(2000);
                             Console.ForegroundColor = ConsoleColor.Gray;
-                            MainMenu.MainMenuShow();
+                            MainMenu.MainMenuShow(mainmenuthings[0], mainmenuthings[1], mainmenuthings[2], mainmenuthings[3], mainmenuthings[4]);
                         }
                         else if (Console.ReadKey(true).Key == ConsoleKey.N)
                         {
@@ -46,14 +47,14 @@ namespace Bi_Os_Coop
                             Console.WriteLine("U wordt nu teruggestuurd naar het hoofdmenu.");
                             System.Threading.Thread.Sleep(2000);
                             Console.ForegroundColor = ConsoleColor.Gray;
-                            MainMenu.MainMenuShow();
+                            MainMenu.MainMenuShow(mainmenuthings[0], mainmenuthings[1], mainmenuthings[2], mainmenuthings[3], mainmenuthings[4]); ;
                         }
                         else
                         {
                             Console.WriteLine("Antwoord niet begrepen. U wordt nu teruggestuurd naar het hoofdmenu.");
                             System.Threading.Thread.Sleep(1000);
                             Console.ForegroundColor = ConsoleColor.Gray;
-                            MainMenu.MainMenuShow();
+                            MainMenu.MainMenuShow(mainmenuthings[0], mainmenuthings[1], mainmenuthings[2], mainmenuthings[3], mainmenuthings[4]);
                         }
                     }
                 }
@@ -63,7 +64,7 @@ namespace Bi_Os_Coop
                     Console.WriteLine("U wordt nu teruggestuurd naar het hoofdmenu.");
                     System.Threading.Thread.Sleep(1000);
                     Console.ForegroundColor = ConsoleColor.Gray;
-                    MainMenu.MainMenuShow();
+                    MainMenu.MainMenuShow(mainmenuthings[0], mainmenuthings[1], mainmenuthings[2], mainmenuthings[3], mainmenuthings[4]);
                 }
             }
             catch (InvalidOperationException)
@@ -72,7 +73,7 @@ namespace Bi_Os_Coop
                 Console.WriteLine("Account niet gevonden. Neem contact op met de klantenservice.");
                 System.Threading.Thread.Sleep(1000);
                 Console.ForegroundColor = ConsoleColor.Gray;
-                MainMenu.MainMenuShow();
+                MainMenu.MainMenuShow(mainmenuthings[0], mainmenuthings[1], mainmenuthings[2], mainmenuthings[3], mainmenuthings[4]);
             }
         }
     }
