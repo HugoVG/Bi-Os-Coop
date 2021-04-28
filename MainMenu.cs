@@ -164,25 +164,28 @@ namespace Bi_Os_Coop
             else if (userType.Equals(typeof(CPeople.Employee))) { return new Tuple<string, dynamic>("Employee", user); }
             return new Tuple<string, dynamic>("None", false);
         }
-        public static void sorttext(string sort)
+        public static void sorttext(string sort, bool reverse)
         {
             Program.newEntry(lengthmakerthing(Console.WindowWidth - 46, ' '));
             if (sort == "name")
             {
-                Program.newEntry("Naam (Y)", ConsoleColor.Red);
-                Program.newEntry(", Beoordeling (T), Publicatiedatum (R)\n");
+                Program.newEntry("Naam (R)", ConsoleColor.Red);
+                Program.newEntry(", Beoordeling (T), Publicatiedatum (Y)\n");
             }
             if (sort == "release")
             {
-                Program.newEntry("Naam (Y), Beoordeling (T), ");
-                Program.newEntry("Publicatiedatum (R)\n", ConsoleColor.Red);
+                Program.newEntry("Naam (R), Beoordeling (T), ");
+                Program.newEntry("Publicatiedatum (Y)\n", ConsoleColor.Red);
             }
             if (sort == "rating")
             {
-                Program.newEntry("Naam (Y), ");
+                Program.newEntry("Naam (R), ");
                 Program.newEntry("Beoordeling (T)", ConsoleColor.Red);
-                Program.newEntry(", Publicatiedatum (R)\n");
+                Program.newEntry(", Publicatiedatum (Y)\n");
             }
+            Program.newEntry(lengthmakerthing(Console.WindowWidth - 11, ' '));
+            if (reverse) { Program.newEntry("Omkeren (P)\n", ConsoleColor.Green); }
+            else { Program.newEntry("Omkeren (P)\n"); }
         }
         public static void MainMenuShow(dynamic user, string sort = "name", bool reverse = false, string login = "None", string language = "Nederlands")
         {
@@ -191,7 +194,7 @@ namespace Bi_Os_Coop
             {
                 if (user == null) { logintext(); }
                 else { logouttext(); }
-                sorttext(sort);
+                sorttext(sort, reverse);
 
                 Console.WriteLine("ACTUELE FILMS:");
                 actualmovies(sort, reverse);
@@ -213,7 +216,7 @@ namespace Bi_Os_Coop
                         if (login != "None") { user = login2.Item2; }
                     }
                 }
-                if (keypressed == ConsoleKey.Y && sort != "name")
+                if (keypressed == ConsoleKey.R && sort != "name")
                 {
                     sort = "name";
                 }
@@ -221,7 +224,7 @@ namespace Bi_Os_Coop
                 {
                     sort = "rating";
                 }
-                if (keypressed == ConsoleKey.R && sort != "release")
+                if (keypressed == ConsoleKey.Y && sort != "release")
                 {
                     sort = "release";
                 }
@@ -229,6 +232,10 @@ namespace Bi_Os_Coop
                 {
                     login = "None";
                     user = null;
+                }
+                if (keypressed == ConsoleKey.P)
+                {
+                    reverse = !reverse;
                 }
             }
             Console.Clear();
