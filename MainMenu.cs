@@ -122,7 +122,25 @@ namespace Bi_Os_Coop
             foreach (KeyValuePair<int, double> rating in namesort) { sortlist.Insert(0, rating.Key); }
             return sortlist;
         }
-        public static void printlist(List<int> printablelist, int index)
+        public static List<string> namelistthing(List<int> printablelist, int index)
+        {
+            List<string> listthing = new List<string>();
+            Films jsonFilms = getfilmlist();
+            for (int i = ((index * 10 + 1) - 10); i < (index * 10 + 1); i++)
+            {
+                try
+                {
+                    MovieInterpreter mov = jsonFilms.movieList.Single(movie1 => movie1.movieid == printablelist[i - 1]);
+                    listthing.Add(mov.name);
+                }
+                catch
+                {
+                    break;
+                }
+            }
+            return listthing;
+        }
+        public static List<string> printlist(List<int> printablelist, int index)
         {
             Films jsonFilms = getfilmlist();
             for (int i = ((index * 10 + 1) - 10); i < (index * 10 + 1); i++)
@@ -137,6 +155,7 @@ namespace Bi_Os_Coop
                 }
                 catch { break; }
             }
+            return namelistthing(printablelist, index);
         }
         public static string lengthmakerthing(int length, char character)
         {
@@ -157,11 +176,13 @@ namespace Bi_Os_Coop
             string logoutstructions = "Druk op 'U' om uit te loggen";
             Console.WriteLine(lengthmakerthing(Console.WindowWidth - logoutstructions.Length, ' ') + logoutstructions);
         }
-        public static void actualmovies(string sort, bool reverse, int index)
+        public static List<string> actualmovies(string sort, bool reverse, int index)
         {
-            if (sort == "name") { printlist(reversing(sortbyname(), reverse), index); }
-            else if (sort == "release") { printlist(reversing(sortbyrelease(), reverse), index); }
-            else if (sort == "rating") { printlist(reversing(sortbyrating(), reverse), index); }
+            List<string> returninglist = new List<string>();
+            if (sort == "name") { returninglist = printlist(reversing(sortbyname(), reverse), index); }
+            else if (sort == "release") { returninglist = printlist(reversing(sortbyrelease(), reverse), index); }
+            else if (sort == "rating") { returninglist = printlist(reversing(sortbyrating(), reverse), index); }
+            return returninglist;
         }
         public static Tuple<string, dynamic> loginscreenthing(string login)
         {
