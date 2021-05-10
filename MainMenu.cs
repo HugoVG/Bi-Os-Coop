@@ -126,7 +126,7 @@ namespace Bi_Os_Coop
         {
             List<string> listthing = new List<string>();
             Films jsonFilms = getfilmlist();
-            for (int i = ((index * 10 + 1) - 10); i < (index * 10 + 1); i++)
+            for (int i = 1; i < jsonFilms.movieList.Count(); i++)
             {
                 try
                 {
