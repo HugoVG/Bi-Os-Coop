@@ -238,7 +238,6 @@ namespace Bi_Os_Coop
                     reverse = !reverse;
                 }
             }
-
             Console.Clear();
             MainMenuShow(user, sort, reverse, login, language);
         }
