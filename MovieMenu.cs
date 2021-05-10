@@ -33,7 +33,7 @@ namespace Bi_Os_Coop
             Console.WriteLine("Of type '0' om terug te gaan naar de main menu");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("Beschikbare films:\n");
-            MainMenu.actualmovies(mainmenuthings[1], mainmenuthings[2]);
+            MainMenu.actualmovies(mainmenuthings[1], mainmenuthings[2], index);
             Console.WriteLine($"\t\t\t\t\t\t\t\t\t\t\t\tBladzijde {index} van {highestpage}");
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Type een paginanummer of sorteerfunctie: ");
