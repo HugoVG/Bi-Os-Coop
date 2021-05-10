@@ -11,6 +11,7 @@ namespace Bi_Os_Coop
     {
         public void Test()
         {
+            
             Zalen testzaal = new Zalen();
             Zaal tijdelijkeZaal = new Zaal();
             tijdelijkeZaal.setZaal(10, "30-01-2021", "13:00", 100, "Miauwer");
