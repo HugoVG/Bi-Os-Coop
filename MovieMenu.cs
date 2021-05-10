@@ -33,7 +33,7 @@ namespace Bi_Os_Coop
             Console.WriteLine("Of type '0' om terug te gaan naar de main menu");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("Beschikbare films:\n");
-            MainMenu.actualmovies(mainmenuthings[1], mainmenuthings[2], index);
+            List<string> mainmenulist = MainMenu.actualmovies(mainmenuthings[1], mainmenuthings[2], index);
             Console.WriteLine($"\t\t\t\t\t\t\t\t\t\t\t\tBladzijde {index} van {highestpage}");
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Type een paginanummer of sorteerfunctie: ");
@@ -62,7 +62,7 @@ namespace Bi_Os_Coop
                 Console.Write("Type hier de film die u wilt zoeken: ");
                 Console.ForegroundColor = ConsoleColor.Gray;
                 string movsearch = Console.ReadLine();
-                MovieMenu.search(movsearch);
+                MovieMenu.search(movsearch, mainmenulist);
             }
             else if (indexstring == "0")
             {
@@ -93,11 +93,20 @@ namespace Bi_Os_Coop
             }
             MovieMenu.mainPagina(mainmenuthings, index);
         }
-        public static void search(string searchmov)
+        public static void search(string searchmov, List<string> mainmenulist)
         {
             string json = Json.ReadJson("Films");
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
             List<string> moviesearchlist = new List<string>();
+            try
+            {
+                int result = Int32.Parse(searchmov) - 1;
+                searchmov = mainmenulist[result];
+            }
+            catch(Exception)
+            {
+
+            }
             for(int i = 1; i < jsonFilms.movieList.Count(); i++)
             {
                     moviesearchlist.Add(jsonFilms.movieList[i].name.ToLower()); 
@@ -120,7 +129,7 @@ namespace Bi_Os_Coop
         {
             string json = Json.ReadJson("Films");
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
-            Console.WriteLine(jsonFilms.movieList[tempMovie]);
+            Console.WriteLine(jsonFilms.movieList[tempMovie].name);
             Console.ReadLine();
         }
     }
