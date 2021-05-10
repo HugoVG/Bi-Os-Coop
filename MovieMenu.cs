@@ -11,7 +11,7 @@ namespace Bi_Os_Coop
 {
     class MovieMenu
     {
-        public static void mainPagina(List<dynamic> mainmenuthings, string sort = "name", int index = 1)
+        public static void mainPagina(List<dynamic> mainmenuthings, int index = 1)
         {
             string json = Json.ReadJson("Films");
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
@@ -28,24 +28,35 @@ namespace Bi_Os_Coop
             MainMenu.Logo();
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Film Menu\n");
+            MainMenu.sorttext(mainmenuthings[1], mainmenuthings[2]);
             Console.WriteLine("Type S om een film te zoeken");
             Console.WriteLine("Of type '0' om terug te gaan naar de main menu");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("Beschikbare films:\n");
-            if (sort == "name")
-            {
-                MainMenu.printlist(MainMenu.sortbyname(), index);
-            }
-            else if (sort == "release")
-            {
-                MainMenu.printlist(MainMenu.sortbyrelease(), index);
-            };
-            Console.WriteLine($"\t\t\t\t\t\t\t\t\t\tBladzijde {index} van {highestpage}");
+            MainMenu.actualmovies(mainmenuthings[1], mainmenuthings[2]);
+            Console.WriteLine($"\t\t\t\t\t\t\t\t\t\t\t\tBladzijde {index} van {highestpage}");
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("Kies de pagina waar u naar toe wilt scrollen: ");
+            Console.Write("Type een paginanummer of sorteerfunctie: ");
             Console.ForegroundColor = ConsoleColor.Gray;
             string indexstring = Console.ReadLine();
-            if(indexstring == "s" || indexstring == "S") 
+            if (indexstring.ToLower() == "r" && mainmenuthings[1] != "name")
+            {
+                mainmenuthings[1] = "name";
+            }
+            else if (indexstring.ToLower() == "t" && mainmenuthings[1] != "rating")
+            {
+                mainmenuthings[1] = "rating";
+            }
+            else if (indexstring.ToLower() == "y" && mainmenuthings[1] != "release")
+            {
+                mainmenuthings[1] = "release";
+            }
+            else if (indexstring.ToLower() == "p")
+            {
+                mainmenuthings[2] = !mainmenuthings[2];
+                Console.Clear();
+            }
+            else if (indexstring.ToLower() == "s") 
             {
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.Write("Type hier de film die u wilt zoeken: ");
@@ -80,7 +91,7 @@ namespace Bi_Os_Coop
                     Thread.Sleep(1000);
                 }
             }
-            MovieMenu.mainPagina(mainmenuthings, sort, index);
+            MovieMenu.mainPagina(mainmenuthings, index);
         }
         public static void search(string searchmov)
         {
