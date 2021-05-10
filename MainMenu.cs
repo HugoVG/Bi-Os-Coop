@@ -56,7 +56,7 @@ namespace Bi_Os_Coop
         {
             string json = Json.ReadJson("Films");
             return JsonSerializer.Deserialize<Films>(json);
-            
+
         }
         public static List<int> sortbyrelease()
         {
@@ -64,41 +64,49 @@ namespace Bi_Os_Coop
             var movielistrelease = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, releasedate => releasedate.releasedate);
 
             List<KeyValuePair<int, string>> newlist = new List<KeyValuePair<int, string>>();
-            foreach(KeyValuePair<int, string> release in movielistrelease){
+            foreach (KeyValuePair<int, string> release in movielistrelease)
+            {
                 if (newlist.Count == 0 && release.Value != null) { newlist.Add(release); }
-                else if (newlist.Count > 0 && release.Value != null){
+                else if (newlist.Count > 0 && release.Value != null)
+                {
                     int year = int.Parse(release.Value.Substring(6));
                     int monthnumber = int.Parse(release.Value.Substring(3, 2));
                     int day = int.Parse(release.Value.Substring(0, 2));
-                    foreach (KeyValuePair<int, string> member in newlist){
+                    foreach (KeyValuePair<int, string> member in newlist)
+                    {
                         int year2 = int.Parse(member.Value.Substring(6));
                         int monthnumber2 = int.Parse(member.Value.Substring(3, 2));
                         int day2 = int.Parse(member.Value.Substring(0, 2));
-                        if (year > year2) {
+                        if (year > year2)
+                        {
                             int index = newlist.IndexOf(member);
                             newlist.Insert(index, release);
                             break;
                         }
-                        else if (year == year2){
-                            if (monthnumber > monthnumber2){
+                        else if (year == year2)
+                        {
+                            if (monthnumber > monthnumber2)
+                            {
                                 int index = newlist.IndexOf(member);
                                 newlist.Insert(index, release);
                                 break;
                             }
-                            else if (monthnumber == monthnumber2){
-                                if (day > day2){
+                            else if (monthnumber == monthnumber2)
+                            {
+                                if (day > day2)
+                                {
                                     int index = newlist.IndexOf(member);
                                     newlist.Insert(index, release);
                                     break;
                                 }
                             }
                         }
-                        if (newlist.IndexOf(member) == (newlist.Count - 1)){ newlist.Add(release); break;}
+                        if (newlist.IndexOf(member) == (newlist.Count - 1)) { newlist.Add(release); break; }
                     }
                 }
             }
             List<int> sortlist = new List<int>();
-            foreach (KeyValuePair<int, string> movie in newlist){ sortlist.Add(movie.Key); }
+            foreach (KeyValuePair<int, string> movie in newlist) { sortlist.Add(movie.Key); }
             return sortlist;
         }
         public static List<int> sortbyrating()
@@ -107,25 +115,27 @@ namespace Bi_Os_Coop
             var movielistrating = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, beoordeling => beoordeling.beoordeling);
 
             List<KeyValuePair<int, double>> namesort = new List<KeyValuePair<int, double>>();
-            foreach (KeyValuePair<int, double> rate in movielistrating){ if (rate.Value > 0){ namesort.Add(rate);}}
+            foreach (KeyValuePair<int, double> rate in movielistrating) { if (rate.Value > 0) { namesort.Add(rate); } }
 
             namesort = namesort.OrderBy(q => q.Value).ToList();
             List<int> sortlist = new List<int>();
-            foreach (KeyValuePair<int, double> rating in namesort){sortlist.Insert(0, rating.Key);}
+            foreach (KeyValuePair<int, double> rating in namesort) { sortlist.Insert(0, rating.Key); }
             return sortlist;
         }
         public static void printlist(List<int> printablelist, int index)
         {
             Films jsonFilms = getfilmlist();
-            for (int i = ((index * 10 + 1) - 10); i < (index * 10 + 1); i++){
-                try{
+            for (int i = ((index * 10 + 1) - 10); i < (index * 10 + 1); i++)
+            {
+                try
+                {
                     MovieInterpreter mov = jsonFilms.movieList.Single(movie1 => movie1.movieid == printablelist[i - 1]);
                     string name;
-                    if (mov.name.Length > 35){ name = mov.name.Substring(0, 35).Trim() + "..."; }
-                    else{ name = mov.name; }
+                    if (mov.name.Length > 35) { name = mov.name.Substring(0, 35).Trim() + "..."; }
+                    else { name = mov.name; }
                     Console.WriteLine($"{i}.\t{name} ({mov.releasedate}){lengthmakerthing(58 - $"e.\t{name} ({mov.releasedate})".Length, ' ')}Leeftijd: {mov.leeftijd}\tBeoordeling: {mov.beoordeling}");
                 }
-                catch{break;}
+                catch { break; }
             }
         }
         public static string lengthmakerthing(int length, char character)
@@ -147,11 +157,11 @@ namespace Bi_Os_Coop
             string logoutstructions = "Druk op 'U' om uit te loggen";
             Console.WriteLine(lengthmakerthing(Console.WindowWidth - logoutstructions.Length, ' ') + logoutstructions);
         }
-        public static void actualmovies(string sort, bool reverse)
+        public static void actualmovies(string sort, bool reverse, int index)
         {
-            if (sort == "name") { printlist(reversing(sortbyname(), reverse), 1); }
-            else if (sort == "release") { printlist(reversing(sortbyrelease(), reverse), 1); }
-            else if (sort == "rating") { printlist(reversing(sortbyrating(), reverse), 1); }
+            if (sort == "name") { printlist(reversing(sortbyname(), reverse), index); }
+            else if (sort == "release") { printlist(reversing(sortbyrelease(), reverse), index); }
+            else if (sort == "rating") { printlist(reversing(sortbyrating(), reverse), index); }
         }
         public static Tuple<string, dynamic> loginscreenthing(string login)
         {
@@ -197,7 +207,7 @@ namespace Bi_Os_Coop
                 sorttext(sort, reverse);
 
                 Console.WriteLine("ACTUELE FILMS:");
-                actualmovies(sort, reverse);
+                actualmovies(sort, reverse, 1);
                 string moviemenugo = "Meer Films (E)";
                 Console.WriteLine(lengthmakerthing(Console.WindowWidth - moviemenugo.Length - 22, ' ') + moviemenugo);
                 ConsoleKey keypressed = Console.ReadKey(true).Key;
@@ -212,7 +222,8 @@ namespace Bi_Os_Coop
                     login = login2.Item1;
                     if (login != "None") { user = login2.Item2; }
                 }
-                if (keypressed == ConsoleKey.O && user == null) {
+                if (keypressed == ConsoleKey.O && user == null)
+                {
                     Console.Clear();
                     bool createduser = Registerscreen.CreateAccount();
                     if (createduser)
@@ -245,7 +256,16 @@ namespace Bi_Os_Coop
                 }
             }
             Console.Clear();
-            Type userType = user.GetType();
+            Type userType;
+            try
+            {
+                userType = user.GetType();
+            }
+            catch
+            {
+                string strinng = "";
+                userType = strinng.GetType();
+            }
             if (userType.Equals(typeof(CPeople.Admin)))
             {
                 List<dynamic> mainmenuthings = new List<dynamic>() { user, sort, reverse, login, language };
