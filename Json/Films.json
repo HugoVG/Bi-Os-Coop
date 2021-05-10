@@ -68,7 +68,8 @@
       "leeftijd": 16,
       "beoordeling": 9,
       "acteurs": [ "Henkbo Baggins", "Sauron" ],
-      "trailer": null
+      "trailer": null,
+      "beschrijving": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel pulvinar sapien. Ut bibendum tortor sed eros condimentum, nec facilisis ante ullamcorper. Aliquam molestie egestas tincidunt. Praesent tempor mi et dolor ultrices, id scelerisque risus feugiat. Etiam ornare odio blandit eros dictum convallis. Vivamus ut massa nunc. Suspendisse at iaculis ipsum, sit amet consectetur leo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean et lobortis arcu, nec vehicula ipsum. Quisque auctor porttitor diam, id varius dolor venenatis eu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas."
     },
     {
       "movieid": 7,
@@ -128,6 +129,16 @@
       "leeftijd": 6,
       "beoordeling": 9,
       "acteurs": [ "Diana", "Allesandro" ],
+      "trailer": null
+    },
+    {
+      "movieid": 13,
+      "name": "nullmov",
+      "releasedate": null,
+      "genres": null,
+      "leeftijd": 6,
+      "beoordeling": 5,
+      "acteurs": null,
       "trailer": null
     }
   ]

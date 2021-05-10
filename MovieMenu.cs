@@ -129,7 +129,77 @@ namespace Bi_Os_Coop
         {
             string json = Json.ReadJson("Films");
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
-            Console.WriteLine(jsonFilms.movieList[tempMovie].name);
+            string gen = null;
+            string act = null;
+            bool newline = false;
+            if (jsonFilms.movieList[tempMovie].genres != null)
+            {
+                if (jsonFilms.movieList[tempMovie].genres.Count() <= 1)
+                {
+                    gen = "Genre";
+                }
+                else
+                {
+                    gen = "Genres";
+                }
+            }
+            if (jsonFilms.movieList[tempMovie].acteurs != null)
+            {
+                if (jsonFilms.movieList[tempMovie].acteurs.Count() <= 1)
+                {
+                    act = "Acteur";
+                }
+                else
+                {
+                    act = "Acteurs";
+                }
+            }
+            MainMenu.Logo();
+            Console.WriteLine($"{jsonFilms.movieList[tempMovie].name}\n");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            if (jsonFilms.movieList[tempMovie].releasedate != null)
+            {
+                Console.WriteLine($"Publicatiedatum: {jsonFilms.movieList[tempMovie].releasedate}");
+            }
+            Console.WriteLine($"Minimumleeftijd: {jsonFilms.movieList[tempMovie].leeftijd}");
+            if (jsonFilms.movieList[tempMovie].genres != null)
+            {
+                Console.WriteLine($"{gen}: {String.Join(", ", jsonFilms.movieList[tempMovie].genres)}");
+            }
+            if (jsonFilms.movieList[tempMovie].acteurs != null)
+            {
+                Console.WriteLine($"{act}: {String.Join(", ", jsonFilms.movieList[tempMovie].acteurs)}");
+            }
+            Console.WriteLine($"Beoordeling: {jsonFilms.movieList[tempMovie].beoordeling}");
+            if (jsonFilms.movieList[tempMovie].beschrijving != null)
+            {
+                Console.WriteLine("\nBeschrijving: ");
+                for (int i = 0; i < jsonFilms.movieList[tempMovie].beschrijving.Length; i++)
+                {
+                    char c = jsonFilms.movieList[tempMovie].beschrijving[i];
+                    if ((i % 90 == 0 && i != 0) || newline == true)
+                    {
+                        if (c == ' ')
+                        {
+                            Console.Write("\n");
+                            newline = false;
+                        }
+                        else
+                        {
+                            Console.Write(c);
+                            newline = true;
+                        }
+                    }
+                    else
+                    {
+                        Console.Write(c);
+                        newline = false;
+                    }
+                }
+                Console.Write("\n");
+            }
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\nWilt u deze film reserveren? (J/N)");
             Console.ReadLine();
         }
     }
