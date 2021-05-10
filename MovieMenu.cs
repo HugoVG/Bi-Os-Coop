@@ -56,7 +56,7 @@ namespace Bi_Os_Coop
                 mainmenuthings[2] = !mainmenuthings[2];
                 Console.Clear();
             }
-            else if (indexstring.ToLower() == "s") 
+            else if (indexstring.ToLower() == "s")
             {
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.Write("Type hier de film die u wilt zoeken: ");
@@ -64,7 +64,7 @@ namespace Bi_Os_Coop
                 string movsearch = Console.ReadLine();
                 MovieMenu.search(movsearch);
             }
-            else if(indexstring == "0")
+            else if (indexstring == "0")
             {
                 Console.Clear();
                 MainMenu.MainMenuShow(mainmenuthings[0], mainmenuthings[1], mainmenuthings[2], mainmenuthings[3], mainmenuthings[4]);
@@ -95,9 +95,33 @@ namespace Bi_Os_Coop
         }
         public static void search(string searchmov)
         {
-            Console.WriteLine("This movie does not exist!");
+            string json = Json.ReadJson("Films");
+            Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
+            List<string> moviesearchlist = new List<string>();
+            for(int i = 1; i < jsonFilms.movieList.Count(); i++)
+            {
+                    moviesearchlist.Add(jsonFilms.movieList[i].name.ToLower()); 
+            }
+            if (moviesearchlist.Contains(searchmov.ToLower()))
+            {
+                int tempMovie = moviesearchlist.IndexOf(searchmov.ToLower()) + 1;
+                Console.Clear();
+                MovieMenu.showmov(tempMovie);
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Film niet gevonden, probeer opnieuw!");
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Thread.Sleep(1000);
+            }
+        }
+        public static void showmov(int tempMovie)
+        {
+            string json = Json.ReadJson("Films");
+            Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
+            Console.WriteLine(jsonFilms.movieList[tempMovie]);
             Console.ReadLine();
-            Console.Clear();
         }
     }
 }
