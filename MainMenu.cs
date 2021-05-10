@@ -198,8 +198,14 @@ namespace Bi_Os_Coop
 
                 Console.WriteLine("ACTUELE FILMS:");
                 actualmovies(sort, reverse);
-
+                string moviemenugo = "Meer Films (E)";
+                Console.WriteLine(lengthmakerthing(Console.WindowWidth - moviemenugo.Length - 22, ' ') + moviemenugo);
                 ConsoleKey keypressed = Console.ReadKey(true).Key;
+                if (keypressed == ConsoleKey.E)
+                {
+                    List<dynamic> mainmenuthings = new List<dynamic>() { user, sort, reverse, login, language };
+                    MovieMenu.mainPagina(mainmenuthings);
+                }
                 if (keypressed == ConsoleKey.I && user == null)
                 {
                     Tuple<string, dynamic> login2 = loginscreenthing(login);
@@ -238,9 +244,17 @@ namespace Bi_Os_Coop
                     reverse = !reverse;
                 }
             }
-
             Console.Clear();
-            MainMenuShow(user, sort, reverse, login, language);
+            Type userType = user.GetType();
+            if (userType.Equals(typeof(CPeople.Admin)))
+            {
+                List<dynamic> mainmenuthings = new List<dynamic>() { user, sort, reverse, login, language };
+                adminMenu.AM(mainmenuthings);
+            }
+            else
+            {
+                MainMenuShow(user, sort, reverse, login, language);
+            }
         }
     }
 }
