@@ -11,7 +11,7 @@ namespace Bi_Os_Coop
 {
     class MovieMenu
     {
-        public static void mainPagina(List<dynamic> mainmenuthings, int index = 1)
+        public static void mainPagina(int index = 1)
         {
             string json = Json.ReadJson("Films");
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
@@ -28,32 +28,33 @@ namespace Bi_Os_Coop
             MainMenu.Logo();
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Film Menu\n");
-            MainMenu.sorttext(mainmenuthings[1], mainmenuthings[2]);
+            MainMenuThings mainmenuthings = MainMenu.jsonfileloader();
+            MainMenu.sorttext(mainmenuthings.sort, mainmenuthings.reverse);
             Console.WriteLine("Type S om een film te zoeken");
             Console.WriteLine("Of type '0' om terug te gaan naar de main menu");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("Beschikbare films:\n");
-            List<string> mainmenulist = MainMenu.actualmovies(mainmenuthings[1], mainmenuthings[2], index);
+            List<string> mainmenulist = MainMenu.actualmovies(mainmenuthings.sort, mainmenuthings.reverse, index);
             Console.WriteLine($"\t\t\t\t\t\t\t\t\t\t\t\tBladzijde {index} van {highestpage}");
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Type een paginanummer of sorteerfunctie: ");
             Console.ForegroundColor = ConsoleColor.Gray;
             string indexstring = Console.ReadLine();
-            if (indexstring.ToLower() == "r" && mainmenuthings[1] != "name")
+            if (indexstring.ToLower() == "r" && mainmenuthings.sort != "name")
             {
-                mainmenuthings[1] = "name";
+                MainMenu.jsonmainmenu(mainmenuthings.user, "name", mainmenuthings.reverse, mainmenuthings.login, mainmenuthings.language);
             }
-            else if (indexstring.ToLower() == "t" && mainmenuthings[1] != "rating")
+            else if (indexstring.ToLower() == "t" && mainmenuthings.sort != "rating")
             {
-                mainmenuthings[1] = "rating";
+                MainMenu.jsonmainmenu(mainmenuthings.user, "rating", mainmenuthings.reverse, mainmenuthings.login, mainmenuthings.language);
             }
-            else if (indexstring.ToLower() == "y" && mainmenuthings[1] != "release")
+            else if (indexstring.ToLower() == "y" && mainmenuthings.sort != "release")
             {
-                mainmenuthings[1] = "release";
+                MainMenu.jsonmainmenu(mainmenuthings.user, "release", mainmenuthings.reverse, mainmenuthings.login, mainmenuthings.language);
             }
             else if (indexstring.ToLower() == "p")
             {
-                mainmenuthings[2] = !mainmenuthings[2];
+                MainMenu.jsonmainmenu(mainmenuthings.user, mainmenuthings.sort, !mainmenuthings.reverse, mainmenuthings.login, mainmenuthings.language);
                 Console.Clear();
             }
             else if (indexstring.ToLower() == "s")
@@ -67,7 +68,7 @@ namespace Bi_Os_Coop
             else if (indexstring == "0")
             {
                 Console.Clear();
-                MainMenu.MainMenuShow(mainmenuthings[0], mainmenuthings[1], mainmenuthings[2], mainmenuthings[3], mainmenuthings[4]);
+                MainMenu.MainMenuShow();
             }
             else
             {
@@ -91,7 +92,7 @@ namespace Bi_Os_Coop
                     Thread.Sleep(1000);
                 }
             }
-            MovieMenu.mainPagina(mainmenuthings, index);
+            MovieMenu.mainPagina(index);
         }
         public static void search(string searchmov, List<string> mainmenulist)
         {

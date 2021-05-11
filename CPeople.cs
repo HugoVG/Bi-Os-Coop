@@ -42,7 +42,7 @@ namespace Bi_Os_Coop
         {
             CPeople.Person bjorn = new CPeople.Person();
             bjorn.setPerson(3, "Bjorn", "json@bjorn.com", "jsonBjorn", "30", "06123456789");
-            bjorn.DeleteAccount(bjorn, new List<dynamic>());
+            bjorn.DeleteAccount(bjorn);
             // kleine aanpassing om te committen
         }
 
@@ -83,7 +83,7 @@ namespace Bi_Os_Coop
                 Person Ingelogd = new Person();
                 return Ingelogd;
             }
-            public void DeleteAccount(Person ingelogdepersoon, List<dynamic> mainmenuthings)
+            public void DeleteAccount(Person ingelogdepersoon)
             {
                 Console.Clear();
                 Console.WriteLine("Wilt u uw account verwijderen? (j/n)");
@@ -101,14 +101,14 @@ namespace Bi_Os_Coop
                     // checks if email and password are in the peopleList
                     if (PasswordMethods.MailWachtwoordCheck(currentEmail, currentPassword)) // both are correct
                     {
-                        DeleteAccountMethod.DeleteAccount(ingelogdepersoon, mainmenuthings);
+                        DeleteAccountMethod.DeleteAccount(ingelogdepersoon);
                     }
                     else
                     {
                         Console.WriteLine("Wachtwoord of email onjuist. Probeer het later nog eens.");
                         System.Threading.Thread.Sleep(2000);
                         Console.Clear();
-                        MainMenu.MainMenuShow(mainmenuthings[0], mainmenuthings[1], mainmenuthings[2], mainmenuthings[3], mainmenuthings[4]);
+                        MainMenu.MainMenuShow();
                     }
                 }
                 else if (Console.ReadKey(true).Key == ConsoleKey.N)
@@ -118,15 +118,15 @@ namespace Bi_Os_Coop
                     Console.WriteLine("U wordt nu teruggestuurd naar het hoofdmenu.");
                     System.Threading.Thread.Sleep(2000);
                     Console.ForegroundColor = ConsoleColor.Gray;
-                    MainMenu.MainMenuShow(mainmenuthings[0], mainmenuthings[1], mainmenuthings[2], mainmenuthings[3], mainmenuthings[4]);
+                    MainMenu.MainMenuShow();
                 }
                 else
                 {
-                    DeleteAccount(ingelogdepersoon, mainmenuthings);
+                    DeleteAccount(ingelogdepersoon);
                 }
             }
 
-            public void ChangePassword(Person ingelogdepersoon, List<dynamic> mainmenuthings)
+            public void ChangePassword(Person ingelogdepersoon)
             {
                 // Checks if the person is logged in by checking if it has an ID
                 if (ingelogdepersoon.id != 0) // person is logged in
@@ -141,11 +141,11 @@ namespace Bi_Os_Coop
                     // checks if email and password are in the peopleList
                     if (PasswordMethods.MailWachtwoordCheck(currentEmail, currentPassword)) // both are correct
                     {
-                        PasswordMethods.SetNewPassword(currentEmail, currentPassword, mainmenuthings);
+                        PasswordMethods.SetNewPassword(currentEmail, currentPassword);
                     }
                     else
                     {
-                        PasswordMethods.PasswordEntries(mainmenuthings); // if one of the two data is incorrect they get 3 entries
+                        PasswordMethods.PasswordEntries(); // if one of the two data is incorrect they get 3 entries
                     }
                 }
 
@@ -161,7 +161,7 @@ namespace Bi_Os_Coop
                     // checks if email and age are in the peopleList
                     if (PasswordMethods.MailLeeftijdCheck(currentEmail, currentAge))
                     {
-                        PasswordMethods.SetNewPassword(currentEmail, currentAge, mainmenuthings); // both are correct
+                        PasswordMethods.SetNewPassword(currentEmail, currentAge); // both are correct
                     }
                     else
                     {
@@ -177,7 +177,7 @@ namespace Bi_Os_Coop
                         else if (Console.ReadKey(true).Key == ConsoleKey.N) // person is send to main menu
                         {
                             Console.Clear();
-                            MainMenu.MainMenuShow(mainmenuthings[0], mainmenuthings[1], mainmenuthings[2], mainmenuthings[3], mainmenuthings[4]);
+                            MainMenu.MainMenuShow();
                         }
                     }
                 }

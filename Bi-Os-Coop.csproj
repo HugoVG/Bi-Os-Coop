@@ -80,6 +80,7 @@
     <Compile Include="Json.cs" />
     <Compile Include="loginscherm.cs" />
     <Compile Include="MainMenu.cs" />
+    <Compile Include="MainMenuThings.cs" />
     <Compile Include="MovieInterpreter.cs" />
     <Compile Include="MovieMenu.cs" />
     <Compile Include="Program.cs" />
