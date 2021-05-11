@@ -232,7 +232,7 @@ namespace Bi_Os_Coop
                 int minimumLeeftijd = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Beoordeling film:");
                 double beoordelingFilm = Convert.ToDouble(Console.ReadLine());
-                Console.WriteLine("Beoordeling taal:");
+                Console.WriteLine("Taal film:");
                 string taalfilm = Console.ReadLine();
                 Console.WriteLine("Beschrijving film:");
                 string beschrijvingfilm = Console.ReadLine();
