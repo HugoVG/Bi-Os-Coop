@@ -218,6 +218,17 @@ namespace Bi_Os_Coop
             if (reverse) { Program.newEntry("Omkeren (P)\n", ConsoleColor.Green); }
             else { Program.newEntry("Omkeren (P)\n"); }
         }
+        public static Type Typegetter(dynamic gettype)
+        {
+            Type userType;
+            try { userType = gettype.GetType(); }
+            catch
+            {
+                string strinng = "";
+                userType = strinng.GetType();
+            }
+            return userType;
+        }
         public static void MainMenuShow(dynamic user, string sort = "name", bool reverse = false, string login = "None", string language = "Nederlands")
         {
             Logo();
@@ -237,13 +248,19 @@ namespace Bi_Os_Coop
                     List<dynamic> mainmenuthings = new List<dynamic>() { user, sort, reverse, login, language };
                     MovieMenu.mainPagina(mainmenuthings);
                 }
-                if (keypressed == ConsoleKey.I && user == null)
+                else if (keypressed == ConsoleKey.I && user == null)
                 {
                     Tuple<string, dynamic> login2 = loginscreenthing(login);
                     login = login2.Item1;
                     if (login != "None") { user = login2.Item2; }
+                    Type userType = Typegetter(user);
+                    if (userType.Equals(typeof(CPeople.Admin)))
+                    {
+                        List<dynamic> mainmenuthings = new List<dynamic>() { user, sort, reverse, login, language };
+                        adminMenu.AM(mainmenuthings);
+                    }
                 }
-                if (keypressed == ConsoleKey.O && user == null)
+                else if (keypressed == ConsoleKey.O && user == null)
                 {
                     Console.Clear();
                     bool createduser = Registerscreen.CreateAccount();
@@ -254,48 +271,14 @@ namespace Bi_Os_Coop
                         if (login != "None") { user = login2.Item2; }
                     }
                 }
-                if (keypressed == ConsoleKey.R && sort != "name")
-                {
-                    sort = "name";
-                }
-                if (keypressed == ConsoleKey.T && sort != "rating")
-                {
-                    sort = "rating";
-                }
-                if (keypressed == ConsoleKey.Y && sort != "release")
-                {
-                    sort = "release";
-                }
-                if (keypressed == ConsoleKey.U && login != "None")
-                {
-                    login = "None";
-                    user = null;
-                }
-                if (keypressed == ConsoleKey.P)
-                {
-                    reverse = !reverse;
-                }
+                else if (keypressed == ConsoleKey.R && sort != "name") { sort = "name"; }
+                else if (keypressed == ConsoleKey.T && sort != "rating") { sort = "rating"; }
+                else if (keypressed == ConsoleKey.Y && sort != "release") { sort = "release"; }
+                else if (keypressed == ConsoleKey.U && login != "None") { login = "None"; user = null; }
+                else if (keypressed == ConsoleKey.P) { reverse = !reverse; }
             }
             Console.Clear();
-            Type userType;
-            try
-            {
-                userType = user.GetType();
-            }
-            catch
-            {
-                string strinng = "";
-                userType = strinng.GetType();
-            }
-            if (userType.Equals(typeof(CPeople.Admin)))
-            {
-                List<dynamic> mainmenuthings = new List<dynamic>() { user, sort, reverse, login, language };
-                adminMenu.AM(mainmenuthings);
-            }
-            else
-            {
-                MainMenuShow(user, sort, reverse, login, language);
-            }
+            MainMenuShow(user, sort, reverse, login, language);
         }
     }
 }

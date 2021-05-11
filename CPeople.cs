@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.IO;
+using System.Security;
 
 namespace Bi_Os_Coop
 {
@@ -82,7 +83,6 @@ namespace Bi_Os_Coop
                 Person Ingelogd = new Person();
                 return Ingelogd;
             }
-
             public void DeleteAccount(Person ingelogdepersoon, List<dynamic> mainmenuthings)
             {
                 Console.Clear();
@@ -95,7 +95,8 @@ namespace Bi_Os_Coop
                     string currentEmail = Console.ReadLine();
 
                     Console.WriteLine("Vul uw huidige wachtwoord in:");
-                    string currentPassword = Console.ReadLine();
+                    SecureString pass = loginscherm.maskInputString();
+                    string currentPassword = new System.Net.NetworkCredential(string.Empty, pass).Password;
 
                     // checks if email and password are in the peopleList
                     if (PasswordMethods.MailWachtwoordCheck(currentEmail, currentPassword)) // both are correct
@@ -231,9 +232,12 @@ namespace Bi_Os_Coop
                 int minimumLeeftijd = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Beoordeling film:");
                 double beoordelingFilm = Convert.ToDouble(Console.ReadLine());
-
+                Console.WriteLine("Taal film:");
+                string taalfilm = Console.ReadLine();
+                Console.WriteLine("Beschrijving film:");
+                string beschrijvingfilm = Console.ReadLine();
                 MovieInterpreter Movie = new MovieInterpreter();
-                Movie.setFilm(MovieLibrary.movieList.Count, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm);
+                Movie.setFilm(MovieLibrary.movieList.Count, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm, taalfilm, beschrijvingfilm);
 
                 //MovieLibrary = new Films();
                 MovieLibrary.addFilm(Movie);

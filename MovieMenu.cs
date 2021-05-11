@@ -161,6 +161,10 @@ namespace Bi_Os_Coop
             {
                 Console.WriteLine($"Publicatiedatum: {jsonFilms.movieList[tempMovie].releasedate}");
             }
+            if (jsonFilms.movieList[tempMovie].taal != null)
+            {
+                Console.WriteLine($"Taal: {jsonFilms.movieList[tempMovie].taal}");
+            }
             Console.WriteLine($"Minimumleeftijd: {jsonFilms.movieList[tempMovie].leeftijd}");
             if (jsonFilms.movieList[tempMovie].genres != null)
             {
