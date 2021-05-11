@@ -54,7 +54,8 @@ namespace Bi_Os_Coop
             string password = new System.Net.NetworkCredential(string.Empty, pass).Password;
 
             var inlog = loginscherm.mailwachtvragen(username.ToLower(), password);
-
+            try { if (inlog == false) { inlog = login(); } }
+            catch { }
             return inlog;
         }
         public static SecureString maskInputString()
@@ -86,8 +87,6 @@ namespace Bi_Os_Coop
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("E-mail of wachtwoord onjuist!");
             Console.ForegroundColor = ConsoleColor.Gray;
-            login();
-
         }
     }
 }

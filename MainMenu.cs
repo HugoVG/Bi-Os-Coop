@@ -69,40 +69,44 @@ namespace Bi_Os_Coop
                 if (newlist.Count == 0 && release.Value != null) { newlist.Add(release); }
                 else if (newlist.Count > 0 && release.Value != null)
                 {
-                    int year = int.Parse(release.Value.Substring(6));
-                    int monthnumber = int.Parse(release.Value.Substring(3, 2));
-                    int day = int.Parse(release.Value.Substring(0, 2));
-                    foreach (KeyValuePair<int, string> member in newlist)
+                    try
                     {
-                        int year2 = int.Parse(member.Value.Substring(6));
-                        int monthnumber2 = int.Parse(member.Value.Substring(3, 2));
-                        int day2 = int.Parse(member.Value.Substring(0, 2));
-                        if (year > year2)
+                        int year = int.Parse(release.Value.Substring(6));
+                        int monthnumber = int.Parse(release.Value.Substring(3, 2));
+                        int day = int.Parse(release.Value.Substring(0, 2));
+                        foreach (KeyValuePair<int, string> member in newlist)
                         {
-                            int index = newlist.IndexOf(member);
-                            newlist.Insert(index, release);
-                            break;
-                        }
-                        else if (year == year2)
-                        {
-                            if (monthnumber > monthnumber2)
+                            int year2 = int.Parse(member.Value.Substring(6));
+                            int monthnumber2 = int.Parse(member.Value.Substring(3, 2));
+                            int day2 = int.Parse(member.Value.Substring(0, 2));
+                            if (year > year2)
                             {
                                 int index = newlist.IndexOf(member);
                                 newlist.Insert(index, release);
                                 break;
                             }
-                            else if (monthnumber == monthnumber2)
+                            else if (year == year2)
                             {
-                                if (day > day2)
+                                if (monthnumber > monthnumber2)
                                 {
                                     int index = newlist.IndexOf(member);
                                     newlist.Insert(index, release);
                                     break;
                                 }
+                                else if (monthnumber == monthnumber2)
+                                {
+                                    if (day > day2)
+                                    {
+                                        int index = newlist.IndexOf(member);
+                                        newlist.Insert(index, release);
+                                        break;
+                                    }
+                                }
                             }
+                            if (newlist.IndexOf(member) == (newlist.Count - 1)) { newlist.Add(release); break; }
                         }
-                        if (newlist.IndexOf(member) == (newlist.Count - 1)) { newlist.Add(release); break; }
                     }
+                    catch { }
                 }
             }
             List<int> sortlist = new List<int>();
