@@ -232,10 +232,12 @@ namespace Bi_Os_Coop
                 int minimumLeeftijd = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Beoordeling film:");
                 double beoordelingFilm = Convert.ToDouble(Console.ReadLine());
+                Console.WriteLine("Beoordeling taal:");
+                string taalfilm = Console.ReadLine();
                 Console.WriteLine("Beschrijving film:");
                 string beschrijvingfilm = Console.ReadLine();
                 MovieInterpreter Movie = new MovieInterpreter();
-                Movie.setFilm(MovieLibrary.movieList.Count, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm, beschrijvingfilm);
+                Movie.setFilm(MovieLibrary.movieList.Count, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm, taalfilm, beschrijvingfilm);
 
                 //MovieLibrary = new Films();
                 MovieLibrary.addFilm(Movie);

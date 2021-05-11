@@ -15,9 +15,9 @@ namespace Bi_Os_Coop
         public int leeftijd { get; set; }
         public double beoordeling { get; set; }
         public List<string> acteurs { get; set; }
-        public string trailer { get; set; }
+        public string taal { get; set; }
         public string beschrijving { get; set; }
-        public void setFilm(int movieid, string name, string releasedate, List<string> genres, int leeftijd, double beoordeling, List<string> acteurs, string trailer = null, string beschrijving = null)
+        public void setFilm(int movieid, string name, string releasedate, List<string> genres, int leeftijd, double beoordeling, List<string> acteurs, string taal = null, string beschrijving = null)
         {
             this.movieid = movieid;
             this.name = name;
@@ -26,7 +26,7 @@ namespace Bi_Os_Coop
             this.leeftijd = leeftijd;
             this.beoordeling = beoordeling;
             this.acteurs = acteurs.ToList();
-            this.trailer = trailer;
+            this.taal = taal;
             this.beschrijving = beschrijving;
         }
     }
