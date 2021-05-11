@@ -72,7 +72,7 @@ namespace Bi_Os_Coop
                 else if (keyInfo.Key == ConsoleKey.Backspace && pass.Length > 0)
                 {
                     pass.RemoveAt(pass.Length - 1);
-                    Console.Write("\b\b");
+                    Console.Write("\b \b");
                 }
             }
             while (keyInfo.Key != ConsoleKey.Enter);
