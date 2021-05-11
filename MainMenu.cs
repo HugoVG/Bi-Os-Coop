@@ -224,7 +224,7 @@ namespace Bi_Os_Coop
             try { userType = gettype.GetType(); }
             catch
             {
-                string strinng = null;
+                string strinng = "";
                 userType = strinng.GetType();
             }
             return userType;
