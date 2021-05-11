@@ -207,7 +207,7 @@ namespace Bi_Os_Coop
 
         public class Admin : Person
         {
-            public void AddMovies()
+            public MovieInterpreter AddMovies()
             {
                 Console.Clear();
 
@@ -237,11 +237,13 @@ namespace Bi_Os_Coop
 
                 //MovieLibrary = new Films();
                 MovieLibrary.addFilm(Movie);
-                json = JsonSerializer.Serialize(MovieLibrary);
+                JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+                json = JsonSerializer.Serialize(MovieLibrary, opt);
 
                 //jsonFilms.addMovieByFunction(1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm);
                 //json = JsonSerializer.Serialize(jsonFilms);
                 Json.WriteJson("Films", json);
+                return Movie;
             }
 
             public void UpdateMovies()
@@ -324,14 +326,41 @@ namespace Bi_Os_Coop
                 int totalChairs = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Hoeveel stoelen wilt u per rij? (0-100)");
                 int chairWidth = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Welke film wilt u dat er op dit tijdstip draait?");
-                string film = Console.ReadLine();
+                MovieInterpreter film = new MovieInterpreter();
+                while (true)
+                {
+                    Console.WriteLine("Welke film wilt u dat er op dit tijdstip draait?");
+                    
+                    string moviename = Console.ReadLine();
+                    var movie = MovieMethods.DoesMovieExist(moviename);
+                    if (movie.Item1)
+                    {
+                        film = movie.Item2;
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("looks like the movie does not exist do you want to add it or Search? A/S");
+                        ConsoleKey k = Console.ReadKey(true).Key;
+                        if (k == ConsoleKey.A) { 
+                            film = AddMovies();
+                            break;
+                        }
+                        else if( k == ConsoleKey.S) { }
+                    }
+                }
+                
                 Console.WriteLine("Op welke datum wilt u dat deze film draait? (dd/mm/yyyy)");
                 string date = Console.ReadLine();
                 Console.WriteLine("Op welk tijdstip wilt u dat deze film draait? (HH:MM)");
                 string time = Console.ReadLine();
 
-                zaal.setZaal(chairWidth, date, time, totalChairs, film);
+                zaal.setZaal(chairWidth, date, time, totalChairs, film); // someone has to fix this
+                Zalen zalen = new Zalen();
+                //zalen = zalen.FromJson(Json.ReadJson("Zalen"));
+                zalen.AddZaal(zaal);
+                
+                Json.WriteJson("Zalen",zalen.ToJson());
             }
 
             public void UpdateCinemaHall()

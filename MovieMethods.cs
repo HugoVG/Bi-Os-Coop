@@ -59,6 +59,35 @@ namespace Bi_Os_Coop
                 }
             }
         }
+        /// <summary>
+        /// Checks if movie exists in json, if found returns the movie
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static Tuple<bool, MovieInterpreter> DoesMovieExist(string movname)
+        {
+            MovieInterpreter noMovie = new MovieInterpreter();
+            try
+            {
+                string json = Json.ReadJson("Films");
+                Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
+                try
+                {
+                    MovieInterpreter tempMovie = new MovieInterpreter();
+                    tempMovie = jsonFilms.movieList.Single(movie => movie.name.ToLower() == movname.ToLower());
+                    return Tuple.Create(true, tempMovie);
+                }
+                catch (NullReferenceException ex)
+                {
+                    return Tuple.Create(false, noMovie);
+                }
+                
+            }
+            catch (Exception ex)
+            {                
+                return Tuple.Create(false, noMovie);
+            }
+        }
 
         public static void UpdateNameMovie(string json, Films jsonFilms, MovieInterpreter tempMovie)
         {

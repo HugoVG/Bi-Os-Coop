@@ -50,6 +50,7 @@ namespace Bi_Os_Coop
         public static void WriteJson(string filename, string content)
         {
             File.WriteAllText($"../../Json/{filename}.json", content);
+
         }
     }
     [Serializable]

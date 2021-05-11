@@ -14,7 +14,7 @@ namespace Bi_Os_Coop
             
             Zalen testzaal = new Zalen();
             Zaal tijdelijkeZaal = new Zaal();
-            tijdelijkeZaal.setZaal(10, "30-01-2021", "13:00", 100, "Miauwer");
+            //tijdelijkeZaal.setZaal(10, "30-01-2021", "13:00", 100);
             tijdelijkeZaal.showStool();
             CPeople.Person Henk = new CPeople.Person();
             Henk.setPerson(69, "Henk", "Henkerino@HahaHenk.com", "0nlyWams", "30-01-2021", "06111111");
@@ -67,7 +67,7 @@ namespace Bi_Os_Coop
             {
                 Console.Write($"\ndate:{zaal.date} \t");
                 Console.Write($"time:{zaal.time} \t");
-                Console.Write($"movie:{zaal.film} \n");
+                Console.Write($"movie:{zaal.film.name} \n");
             }
         }
 
@@ -102,9 +102,9 @@ namespace Bi_Os_Coop
         public int stoelWidth { get; set; }
         public string date { get; set; }
         public string time { get; set; }
+        public MovieInterpreter film { get; set; } //Film film {get; set;}
         public List<Stoel> stoelen { get; set; }
-        public string film { get; set; } //Film film {get; set;}
-        public void setZaal(int stoelwidth, string date, string time, int totalStools, string film)
+        public void setZaal(int stoelwidth, string date, string time, int totalStools, MovieInterpreter film = null)
         {
             this.stoelWidth = stoelwidth;
             this.date = date;

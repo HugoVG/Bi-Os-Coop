@@ -1,5 +1,5 @@
 #define DEBUG
-#undef DEBUG
+//#undef DEBUG
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,8 @@ namespace Bi_Os_Coop
         {
 
 #if (DEBUG)
-
+            CPeople.Admin tempadm = new CPeople.Admin();
+            tempadm.AddCinemaHall();
             //Hier in de testen
             //ZAALTESTERNIETGEBRUIKEN test = new ZAALTESTERNIETGEBRUIKEN();
             //test.Test();

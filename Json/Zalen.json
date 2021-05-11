@@ -2,8 +2,24 @@
   "zalenList": [
     {
       "stoelWidth": 10,
-      "date": "30-01-2021",
-      "time": "13:00",
+      "date": "12/05/2021",
+      "time": "10:00",
+      "film": {
+        "movieid": 1,
+        "name": "JsonBjorn",
+        "releasedate": "14/04/2021",
+        "genres": [
+          "Actie",
+          " Thriller"
+        ],
+        "leeftijd": 13,
+        "beoordeling": 8,
+        "acteurs": [
+          "Ryan Reynold"
+        ],
+        "trailer": null,
+        "beschrijving": null
+      },
       "stoelen": [
         {
           "isOccupied": false,
@@ -51,11 +67,6 @@
           "Price": 10
         },
         {
-          "isOccupied": true,
-          "isOccupiedBy": 69,
-          "Price": 10
-        },
-        {
           "isOccupied": false,
           "isOccupiedBy": 1,
           "Price": 10
@@ -156,23 +167,28 @@
           "Price": 10
         },
         {
-          "isOccupied": true,
-          "isOccupiedBy": 69,
+          "isOccupied": false,
+          "isOccupiedBy": 1,
           "Price": 10
         },
         {
-          "isOccupied": true,
-          "isOccupiedBy": 69,
+          "isOccupied": false,
+          "isOccupiedBy": 1,
           "Price": 10
         },
         {
-          "isOccupied": true,
-          "isOccupiedBy": 69,
+          "isOccupied": false,
+          "isOccupiedBy": 1,
           "Price": 10
         },
         {
-          "isOccupied": true,
-          "isOccupiedBy": 69,
+          "isOccupied": false,
+          "isOccupiedBy": 1,
+          "Price": 10
+        },
+        {
+          "isOccupied": false,
+          "isOccupiedBy": 1,
           "Price": 10
         },
         {
@@ -505,8 +521,7 @@
           "isOccupiedBy": 1,
           "Price": 10
         }
-      ],
-      "film": "Miauwer"
+      ]
     }
   ]
 }
