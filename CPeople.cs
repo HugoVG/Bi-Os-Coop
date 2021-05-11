@@ -237,7 +237,7 @@ namespace Bi_Os_Coop
                 Console.WriteLine("Beschrijving film:");
                 string beschrijvingfilm = Console.ReadLine();
                 MovieInterpreter Movie = new MovieInterpreter();
-                Movie.setFilm(MovieLibrary.movieList.Count, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm, taalfilm, beschrijvingfilm);
+                Movie.setFilm(MovieLibrary.movieList.Count + 1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm, taalfilm, beschrijvingfilm);
 
                 //MovieLibrary = new Films();
                 MovieLibrary.addFilm(Movie);
