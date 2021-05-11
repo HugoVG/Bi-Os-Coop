@@ -209,13 +209,14 @@ namespace Bi_Os_Coop
         {
             Console.Clear();
             Console.WriteLine($"Wat is de nieuwe beschrijving van de film {tempMovie.name}?");
-            string newDescription = Console.ReadLine();
+            string newName = Console.ReadLine();
+            tempMovie.beschrijving = newName;
+
             json = JsonSerializer.Serialize(jsonFilms);
             Json.WriteJson("Films", json);
 
-            tempMovie.beschrijving = newDescription;
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("De beschrijving is succesvol gewijzigd.");
+            Console.WriteLine("Film beschrijving is succesvol gewijzigd.");
             System.Threading.Thread.Sleep(1000);
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.Clear();
