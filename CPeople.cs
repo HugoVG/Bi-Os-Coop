@@ -326,15 +326,37 @@ namespace Bi_Os_Coop
                 Console.Clear();
                 Zaal zaal = new Zaal();
                 Console.WriteLine();
-                Console.WriteLine("Hoeveel stoelen heeft de zaal in totaal?");
-                int totalChairs = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Hoeveel stoelen wilt u per rij? (0-100)");
-                int chairWidth = Convert.ToInt32(Console.ReadLine());
+                int totalChairs;
+                while (true)
+                {
+                    Console.WriteLine("Hoeveel stoelen heeft de zaal in totaal? Options \t(M)egaChonker = 500, \t(H)eftyChonk = 300 \t(C)honk = 150\tOr Q to quit");
+                    ConsoleKey chonkChart = Console.ReadKey(true).Key;
+                    if (chonkChart == ConsoleKey.M)
+                    {
+                        totalChairs = (int)Zaal.Size.MegaChonker;
+                        break;
+                    }
+                    else if (chonkChart == ConsoleKey.H)
+                    {
+                        totalChairs = (int)Zaal.Size.heftyChonk;
+                        break;
+                    }
+                    else if( chonkChart == ConsoleKey.C)
+                    {
+                        totalChairs = (int)Zaal.Size.chonk;
+                        break;
+                    }
+                    else if (chonkChart == ConsoleKey.Q)
+                    {
+                        goto exit; // EXIT uit de Addmovies
+                    }
+                }
+
                 MovieInterpreter film = new MovieInterpreter();
                 while (true)
                 {
                     Console.WriteLine("Welke film wilt u dat er op dit tijdstip draait?");
-                    
+
                     string moviename = Console.ReadLine();
                     var movie = MovieMethods.DoesMovieExist(moviename);
                     if (movie.Item1)
@@ -344,27 +366,31 @@ namespace Bi_Os_Coop
                     }
                     else
                     {
-                        Console.WriteLine("looks like the movie does not exist do you want to add it or Search? A/S");
+                        Console.WriteLine("looks like the movie does not exist do you want to add it or Search or Quit? A/S/Q");
                         ConsoleKey k = Console.ReadKey(true).Key;
-                        if (k == ConsoleKey.A) { 
+                        if (k == ConsoleKey.A)
+                        {
                             film = AddMovies();
                             break;
                         }
-                        else if( k == ConsoleKey.S) { }
+                        else if (k == ConsoleKey.S) { }
+                        else if (k == ConsoleKey.Q) { goto exit; } // EXIT uit de Addmovies
                     }
                 }
-                
+
                 Console.WriteLine("Op welke datum wilt u dat deze film draait? (dd/mm/yyyy)");
                 string date = Console.ReadLine();
                 Console.WriteLine("Op welk tijdstip wilt u dat deze film draait? (HH:MM)");
                 string time = Console.ReadLine();
 
-                zaal.setZaal(chairWidth, date, time, totalChairs, film); // someone has to fix this
+                zaal.setZaal(date, time, totalChairs, film); // someone has to fix this
                 Zalen zalen = new Zalen();
-                //zalen = zalen.FromJson(Json.ReadJson("Zalen"));
+                zalen = zalen.FromJson(Json.ReadJson("Zalen"));
                 zalen.AddZaal(zaal);
-                
+
                 Json.WriteJson("Zalen",zalen.ToJson());
+            exit:
+                return;
             }
 
             public void UpdateCinemaHall()
