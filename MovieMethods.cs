@@ -85,13 +85,13 @@ namespace Bi_Os_Coop
                     tempMovie = jsonFilms.movieList.Single(movie => movie.name.ToLower() == movname.ToLower());
                     return Tuple.Create(true, tempMovie);
                 }
-                catch (NullReferenceException ex)
+                catch (NullReferenceException)
                 {
                     return Tuple.Create(false, noMovie);
                 }
                 
             }
-            catch (Exception ex)
+            catch (Exception)
             {                
                 return Tuple.Create(false, noMovie);
             }
