@@ -20,8 +20,9 @@ namespace Bi_Os_Coop
                 Console.WriteLine("4. Acteurs aanpassen");
                 Console.WriteLine("5. Minimumleeftijd aanpassen");
                 Console.WriteLine("6. Beoordeling aanpassen");
-                Console.WriteLine("7. Andere film aanpassen");
-                Console.WriteLine("8. Exit");
+                Console.WriteLine("7. Beschrijving aanpassen");
+                Console.WriteLine("8. Andere film aanpassen");
+                Console.WriteLine("9. Exit");
 
                 ConsoleKeyInfo keyReaded = Console.ReadKey();
 
@@ -46,14 +47,17 @@ namespace Bi_Os_Coop
                         UpdateReviewScore(json, jsonFilms, tempMovie);
                         break;
                     case ConsoleKey.D7:
+                        UpdateDescription(json, jsonFilms, tempMovie);
+                        break;
+                    case ConsoleKey.D8:
                         CPeople.Admin admin = new CPeople.Admin();
                         admin.UpdateMovies();
                         break;
-                    case ConsoleKey.D8:
+                    case ConsoleKey.D9:
                         adminMenu.hoofdPagina();
                         break;
                     default:
-                        Console.WriteLine("Kies voor optie 1-7 of verlaat het menu.");
+                        Console.WriteLine("Kies voor optie 1-8 of verlaat het menu.");
                         UpdateMovieMenu(json, jsonFilms, tempMovie);
                         break;
                 }
@@ -201,6 +205,21 @@ namespace Bi_Os_Coop
             Console.Clear();
             UpdateMovieMenu(json, jsonFilms, tempMovie);
         }
+        public static void UpdateDescription(string json, Films jsonFilms, MovieInterpreter tempMovie)
+        {
+            Console.Clear();
+            Console.WriteLine($"Wat is de nieuwe beschrijving van de film {tempMovie.name}?");
+            string newDescription = Console.ReadLine();
+            json = JsonSerializer.Serialize(jsonFilms);
+            Json.WriteJson("Films", json);
 
+            tempMovie.beschrijving = newDescription;
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("De beschrijving is succesvol gewijzigd.");
+            System.Threading.Thread.Sleep(1000);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Clear();
+            UpdateMovieMenu(json, jsonFilms, tempMovie);
+        }
     }
 }
