@@ -1,5 +1,5 @@
 #define DEBUG
-//#undef DEBUG
+#undef DEBUG
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,6 @@ namespace Bi_Os_Coop
     {
         static void Main(string[] args)
         {
-
 #if (DEBUG)
             CPeople.Admin tempadm = new CPeople.Admin();
             tempadm.AddCinemaHall();
