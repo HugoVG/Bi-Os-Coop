@@ -77,7 +77,6 @@
   <ItemGroup>
     <Compile Include="adminMenu.cs" />
     <Compile Include="CPeople.cs" />
-    <Compile Include="Filmaddtojsonfile.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="loginscherm.cs" />
     <Compile Include="MainMenu.cs" />
