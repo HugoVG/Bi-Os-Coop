@@ -57,7 +57,7 @@ namespace Bi_Os_Coop
 
             return inlog;
         }
-        private static SecureString maskInputString()
+        public static SecureString maskInputString()
         {
             SecureString pass = new SecureString();
             ConsoleKeyInfo keyInfo;
