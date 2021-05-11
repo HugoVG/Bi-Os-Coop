@@ -1,5 +1,5 @@
 #define DEBUG
-//#undef DEBUG
+#undef DEBUG
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +37,7 @@ namespace Bi_Os_Coop
             Console.ReadKey();
 #endif
             // Hieronder normaal programma
-            MainMenu.MainMenuShow(null);
+            MainMenu.MainMenuShow();
         }
         /// <summary>
         /// Will write a new text to the console making the Main take up less space

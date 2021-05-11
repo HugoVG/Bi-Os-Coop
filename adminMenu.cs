@@ -9,7 +9,7 @@ namespace Bi_Os_Coop
 {
     public class adminMenu
     {
-        public static void AM(List<dynamic> mainmenuthings)
+        public static void AM()
         {
             CPeople.Admin admin = new CPeople.Admin();
             CPeople.Person adminAccount = new CPeople.Person();
@@ -37,8 +37,6 @@ namespace Bi_Os_Coop
                 else if (keuze == ConsoleKey.D1)
                 {
                     inDitMenu = false;
-                    Console.Clear();
-                    MainMenu.MainMenuShow(mainmenuthings[0], mainmenuthings[1], mainmenuthings[2], mainmenuthings[3], mainmenuthings[4]);
                 }
                 else if (keuze == ConsoleKey.D2)
                 {
@@ -70,7 +68,7 @@ namespace Bi_Os_Coop
                 //{
                 //    admin.DeleteCinemaHall();
                 //}
-                //else if (keuze == ConsoleKey.D6)
+                //else if (keuze == ConsoleKey.D7)
                 //{
                 //    AddAdmin();
                 //}

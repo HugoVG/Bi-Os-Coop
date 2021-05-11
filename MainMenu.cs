@@ -169,15 +169,15 @@ namespace Bi_Os_Coop
         }
         public static void logintext()
         {
-            string loginstructions = "Druk op 'I' om in te loggen";
+            string loginstructions = "Inloggen (I)";
             Console.WriteLine(lengthmakerthing(Console.WindowWidth - loginstructions.Length, ' ') + loginstructions);
 
-            string reginstructions = "Druk op 'O' om te registreren";
+            string reginstructions = "Registreren (O)";
             Console.WriteLine(lengthmakerthing(Console.WindowWidth - reginstructions.Length, ' ') + reginstructions);
         }
         public static void logouttext()
         {
-            string logoutstructions = "Druk op 'U' om uit te loggen";
+            string logoutstructions = "Uitloggen (U)";
             Console.WriteLine(lengthmakerthing(Console.WindowWidth - logoutstructions.Length, ' ') + logoutstructions);
         }
         public static List<string> actualmovies(string sort, bool reverse, int index)
@@ -233,13 +233,31 @@ namespace Bi_Os_Coop
             }
             return userType;
         }
-        public static void MainMenuShow(dynamic user, string sort = "name", bool reverse = false, string login = "None", string language = "Nederlands")
+        public static void jsonmainmenu(dynamic user, string sort, bool reverse, string login, string language)
+        {
+            MainMenuThings jj = new MainMenuThings();
+            jj.setlog(user, sort, reverse, login, language);
+            JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+            string json = JsonSerializer.Serialize(jj, opt);
+            Json.WriteJson("MainMenu", json);
+        }
+        public static MainMenuThings jsonfileloader()
+        {
+            string json = Json.ReadJson("MainMenu");
+            return JsonSerializer.Deserialize<MainMenuThings>(json);
+        }
+
+        public static void MainMenuShow()
         {
             Logo();
+            MainMenuThings things = jsonfileloader();
+            dynamic user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
             if (language == "Nederlands")
             {
-                if (user == null) { logintext(); }
+                if (login  == "None") { logintext(); }
                 else { logouttext(); }
+                string goAM = "Admin Menu (W)";
+                if (login == "Admin") { Console.WriteLine(lengthmakerthing(Console.WindowWidth - goAM.Length, ' ') + goAM); }
                 sorttext(sort, reverse);
 
                 Console.WriteLine("ACTUELE FILMS:");
@@ -247,24 +265,16 @@ namespace Bi_Os_Coop
                 string moviemenugo = "Meer Films (E)";
                 Console.WriteLine(lengthmakerthing(Console.WindowWidth - moviemenugo.Length - 22, ' ') + moviemenugo);
                 ConsoleKey keypressed = Console.ReadKey(true).Key;
-                if (keypressed == ConsoleKey.E)
-                {
-                    List<dynamic> mainmenuthings = new List<dynamic>() { user, sort, reverse, login, language };
-                    MovieMenu.mainPagina(mainmenuthings);
-                }
-                else if (keypressed == ConsoleKey.I && user == null)
+                if (keypressed == ConsoleKey.E) { MovieMenu.mainPagina(); }
+                else if (keypressed == ConsoleKey.I && login == "None")
                 {
                     Tuple<string, dynamic> login2 = loginscreenthing(login);
                     login = login2.Item1;
-                    if (login != "None") { user = login2.Item2; }
-                    Type userType = Typegetter(user);
-                    if (userType.Equals(typeof(CPeople.Admin)))
-                    {
-                        List<dynamic> mainmenuthings = new List<dynamic>() { user, sort, reverse, login, language };
-                        adminMenu.AM(mainmenuthings);
-                    }
+                    if (login != "None") { user = login2.Item2; login = login2.Item1; }
+                    jsonmainmenu(user, sort, reverse, login, language);
+                    if (login == "Admin") { adminMenu.AM(); }
                 }
-                else if (keypressed == ConsoleKey.O && user == null)
+                else if (keypressed == ConsoleKey.O && login == "None")
                 {
                     Console.Clear();
                     bool createduser = Registerscreen.CreateAccount();
@@ -275,14 +285,16 @@ namespace Bi_Os_Coop
                         if (login != "None") { user = login2.Item2; }
                     }
                 }
+                else if (keypressed == ConsoleKey.W) { if (login == "Admin") { adminMenu.AM(); } }
                 else if (keypressed == ConsoleKey.R && sort != "name") { sort = "name"; }
                 else if (keypressed == ConsoleKey.T && sort != "rating") { sort = "rating"; }
                 else if (keypressed == ConsoleKey.Y && sort != "release") { sort = "release"; }
                 else if (keypressed == ConsoleKey.U && login != "None") { login = "None"; user = null; }
                 else if (keypressed == ConsoleKey.P) { reverse = !reverse; }
             }
+            jsonmainmenu(user, sort, reverse, login, language);
             Console.Clear();
-            MainMenuShow(user, sort, reverse, login, language);
+            MainMenuShow();
         }
     }
 }
