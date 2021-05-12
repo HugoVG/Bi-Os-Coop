@@ -1,1 +1,235 @@
-{"movieList":[{"movieid":1,"name":"JsonBjorn","releasedate":"14/04/2021","genres":["Actie"," Thriller"],"leeftijd":13,"beoordeling":8,"acteurs":["Ryan Reynold"],"taal":null,"beschrijving":null},{"movieid":2,"name":"Henk en de zeven henkjes","releasedate":"18/05/2020","genres":["Horror"," Komedie"],"leeftijd":12,"beoordeling":9,"acteurs":["Henk"," Herman"],"taal":null,"beschrijving":null},{"movieid":3,"name":"Wat als het niet zo was?","releasedate":"17/03/2020","genres":["Romantiek","Komedie"],"leeftijd":16,"beoordeling":7,"acteurs":["Margriet","Hermelien"],"taal":null,"beschrijving":null},{"movieid":4,"name":"Henk en grietje","releasedate":"16/03/1999","genres":["Kinderfilm","Spanning"],"leeftijd":6,"beoordeling":5,"acteurs":["Henk","Grietje"],"taal":null,"beschrijving":null},{"movieid":5,"name":"Boku no pico","releasedate":"11/03/2017","genres":["Pornografie","Komedie"],"leeftijd":16,"beoordeling":8,"acteurs":["Subara Yokishima","Hermaneru Japenseru"],"taal":null,"beschrijving":null},{"movieid":6,"name":"The henk of the rings","releasedate":"12/12/2003","genres":["Actie","Fantasie"],"leeftijd":16,"beoordeling":9,"acteurs":["Henkbo Baggins","Sauron"],"taal":null,"beschrijving":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel pulvinar sapien. Ut bibendum tortor sed eros condimentum, nec facilisis ante ullamcorper. Aliquam molestie egestas tincidunt. Praesent tempor mi et dolor ultrices, id scelerisque risus feugiat. Etiam ornare odio blandit eros dictum convallis. Vivamus ut massa nunc. Suspendisse at iaculis ipsum, sit amet consectetur leo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean et lobortis arcu, nec vehicula ipsum. Quisque auctor porttitor diam, id varius dolor venenatis eu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas."},{"movieid":7,"name":"The good, the bad and the henk","releasedate":"14/08/1966","genres":["Chickflic","Komedie"],"leeftijd":16,"beoordeling":4,"acteurs":["Henk"," Herman"],"taal":null,"beschrijving":null},{"movieid":8,"name":"Henk fiction","releasedate":"03/01/1994","genres":["Actie","Avontuur"],"leeftijd":12,"beoordeling":7,"acteurs":["Hajar","Hugo"],"taal":null,"beschrijving":null},{"movieid":9,"name":"12 angry henks","releasedate":"14/04/1957","genres":["Actie","Thriller"],"leeftijd":16,"beoordeling":7,"acteurs":["Michael Bay"],"taal":null,"beschrijving":null},{"movieid":10,"name":"The dark henk","releasedate":"11/07/2008","genres":["Actie","Sci-fi"],"leeftijd":12,"beoordeling":8,"acteurs":["Rick","Bjorn"],"taal":null,"beschrijving":null},{"movieid":11,"name":"The henkfather","releasedate":"14/06/1975","genres":["Actie","Mafia"],"leeftijd":16,"beoordeling":3,"acteurs":["Victor","Felix"],"taal":null,"beschrijving":null},{"movieid":12,"name":"Tutte le strade portano a Roma","releasedate":"09/04/1994","genres":["Drama"," Komedie"],"leeftijd":6,"beoordeling":9,"acteurs":["Diana","Allesandro"],"taal":null,"beschrijving":null},{"movieid":13,"name":"50 shades of henk","releasedate":"11/06/2021","genres":["Sexy"," BDSM"," amateur"],"leeftijd":18,"beoordeling":11,"acteurs":["henk"," gerda"],"taal":null,"beschrijving":null}]}
+{
+  "movieList": [
+    {
+      "movieid": 1,
+      "name": "JsonBjorn",
+      "releasedate": "14/04/2021",
+      "genres": [ "Actie", " Thriller" ],
+      "leeftijd": 13,
+      "beoordeling": 8,
+      "acteurs": [ "Ryan Reynold" ],
+      "taal": "Engels",
+      "beschrijving": "De gevaarlijkste voormalige piloot van de KLM wordt uit zijn schuilplaats gehaald om meer explosieve waarheden over zijn verleden te ontdekken."
+    },
+    {
+      "movieid": 2,
+      "name": "Henk en de Zeven Henkjes",
+      "releasedate": "18/05/2020",
+      "genres": [ "Horror", " Komedie" ],
+      "leeftijd": 12,
+      "beoordeling": 9,
+      "acteurs": [ "Henk", " Herman" ],
+      "taal": "Nederlands",
+      "beschrijving": "Het zijn zeven henkjes die overdag in de mijnen werken, op zoek naar een reden om te leven. Ze steken hun zeven lantaarntjes aan en zien dat er iemand in het huisje is geweest. Ze gaan op zoek en vinden Henk slapend in het zevende bedje. Ze zijn onder de indruk van zijn schoonheid en besluiten hem te laten slapen."
+    },
+    {
+      "movieid": 3,
+      "name": "Wat als het niet zo was?",
+      "releasedate": "17/03/2020",
+      "genres": [ "Romantiek", "Komedie" ],
+      "leeftijd": 16,
+      "beoordeling": 7,
+      "acteurs": [ "Margriet", "Hermelien" ],
+      "taal": "Nederlands",
+      "beschrijving": "Op een dag werd Margriet wakker en dacht \u0027Wat als het niet zo was?\u0027"
+    },
+    {
+      "movieid": 4,
+      "name": "Henk en Grietje",
+      "releasedate": "16/03/1999",
+      "genres": [ "Kinderfilm", "Spanning" ],
+      "leeftijd": 6,
+      "beoordeling": 5,
+      "acteurs": [ "Henk", "Grietje" ],
+      "taal": "Nederlands",
+      "beschrijving": "Henk en Grietje wonen met hun vader (die programmeur is) en hun stiefmoeder aan de rand van een klif. Op een nacht besluit de stiefmoeder, zeer tegen de wil van haar man (de programmeur), om de twee kinderen de volgende dag in het bos achter te laten, aangezien er niet genoeg eten meer is voor hen alle vier aangezien de programmeur kansloos is in programmeren en niet veel verdient. Nu is de programmeur boos!"
+    },
+    {
+      "movieid": 5,
+      "name": "Boku no Pico",
+      "releasedate": "11/03/2017",
+      "genres": [ "Pornografie", "Komedie" ],
+      "leeftijd": 16,
+      "beoordeling": 8,
+      "acteurs": [ "Subara Yokishima", "Hermaneru Japenseru" ],
+      "taal": "Japans",
+      "beschrijving": "Don\u0027t ever, EVER watch an anime called \u0027Boku\u0027. Man this poop is so wrong in so many m***********g levels yo...I was talking to one of my white friends and he sent me 3 videos with the name only labeled \u0027Boku\u0027 I said to this dude, What\u0027s this what\u0027s this s**t? He just giggled and said \u0027Just watch them and MAKE SURE NOBODY IS AROUND YOU WHEN YOU\u0027RE WATCHING IT!\u0027. Then I thought it was some weird p**no or some strange s**t but as I watched the first video, I was like \u0027Yo.....what the f**k..\u0027 THEN IT CONTINUED and I was like \u0027Yoooooooooooooooooooooooo.......\u0027 THEN THEY GOT IN THE M***********G CAR AND THEN I SAID \u0027YYYYYYYYYYYYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO!!!!!\u0027 I couldn\u0027t f*****g believe what I just saw, It was like Satan gave me his p***o collection, s**t was so disturbing..YET I COULDN\u0027T STOP WATCHING IT. THEN VIDEO TWO AND IT WAS TWO OF THEM.....THOSE N****S...YOOOOOOO.......THOSE N****S....AND THAT GIRL SAW THEM THEN SHE...YYYYYYYYYOOOOOOOOOOOOOOOOOOOOOO... THEN THAT N***A TOOK THAT DOG TOY THEN YYYYYYYYYYYYYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO........IT WAS LIKE YOUR B***H WANTED TO HAVE SEX WITH YOU BUT SHE WANTED TO SOMETHING \u0027DIFFERENT\u0027 AND IT WAS SO F****D UP AND CREEPY, YOU JUST...KEPT WATCHING IT...AND THAT\u0027S WHAT I f*****G DID!!!!! THEN I SAW VIDEO THREE...THREE N****S...THRRREEEEE!!!!!! IT... WAS... THHHHHHRRRRRRRRRREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!! AND COCO WAS HIS NAME N***A, COCO WAS HIS M***********G NAME!!!!!! OH MY GOD,I AIN\u0027T GOING TO HEAVEN N****S, I ALREADY SOLD MY SOUL TO LUCIFER! So I Just want to tell you all right now..DON\u0027T WATCH AN ANIME LABELED BOKU, DON\u0027T DO IT N***A, IT\u0027S LIKE SUCCUBUS. REMEMBER WHAT I\u0027M SAYING TO YOU N****S!"
+    },
+    {
+      "movieid": 6,
+      "name": "The Henk of The Rings",
+      "releasedate": "12/12/2003",
+      "genres": [ "Actie", "Fantasie" ],
+      "leeftijd": 16,
+      "beoordeling": 9,
+      "acteurs": [ "Henkbo Baggins", "Sauron" ],
+      "taal": "Engels",
+      "beschrijving": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel pulvinar sapien. Ut bibendum tortor sed eros condimentum, nec facilisis ante ullamcorper. Aliquam molestie egestas tincidunt. Praesent tempor mi et dolor ultrices, id scelerisque risus feugiat. Etiam ornare odio blandit eros dictum convallis. Vivamus ut massa nunc. Suspendisse at iaculis ipsum, sit amet consectetur leo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean et lobortis arcu, nec vehicula ipsum. Quisque auctor porttitor diam, id varius dolor venenatis eu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas."
+    },
+    {
+      "movieid": 7,
+      "name": "The Good, The Bad and The Henk",
+      "releasedate": "14/08/1966",
+      "genres": [ "Chickflic", "Komedie" ],
+      "leeftijd": 16,
+      "beoordeling": 4,
+      "acteurs": [ "Henk", " Herman" ],
+      "taal": "Engels",
+      "beschrijving": "The Good, the Bad and the Henk vertelt het verhaal over twee vrijbuiters en een henk die tijdens de Henkse Burgeroorlog jacht maken op een goudschat. Hoewel ze elkaar haten, worden ze door een samenloop van omstandigheden gedwongen tot samenwerking."
+    },
+    {
+      "movieid": 8,
+      "name": "Henk Fiction",
+      "releasedate": "03/01/1994",
+      "genres": [ "Actie", "Avontuur" ],
+      "leeftijd": 12,
+      "beoordeling": 7,
+      "acteurs": [ "Hajar", "Hugo" ],
+      "taal": "Engels",
+      "beschrijving": "De film vertelt vier verhalen, die in een niet-chronologische volgorde getoond worden. Elk verhaal afzonderlijk speelt zich wel chronologisch af. De vier verhalen zijn ook onderling verweven, waarbij Henk de enige is die in de vier verhalen een rol speelt."
+    },
+    {
+      "movieid": 9,
+      "name": "12 Angry Henks",
+      "releasedate": "14/04/1957",
+      "genres": [ "Actie", "Thriller" ],
+      "leeftijd": 16,
+      "beoordeling": 7,
+      "acteurs": [ "Michael Bay" ],
+      "taal": "Engels",
+      "beschrijving": "Een jonge tiener, afkomstig uit de achterbuurten van de stad, wordt er van beschuldigd zijn vader (henk) te hebben vermoord. Het is aan de Angry Henks om zich uit te spreken over de zaak. De twaalf leden van de Angry Henks krijgen te horen dat als ze het \u0027schuldig\u0027 uitspreken, de jongen de doodstraf zal krijgen. Belangrijk is ook dat het oordeel \u0027schuldig\u0027 of \u0027onschuldig\u0027 unaniem moet zijn. De Angry Henks trekken zich terug in de jurykamer voor beraad. Bij de eerste stemming zijn elf Angry Henks voor \u0027schuldig\u0027."
+    },
+    {
+      "movieid": 10,
+      "name": "The Dark Henk",
+      "releasedate": "11/07/2008",
+      "genres": [ "Actie", "Sci-fi" ],
+      "leeftijd": 12,
+      "beoordeling": 8,
+      "acteurs": [ "Rick", "Bjorn" ],
+      "taal": "Engels",
+      "beschrijving": "Wanneer de dreiging die bekend staat als de Joker verwoesting en chaos veroorzaakt bij de mensen van Henkam, moet Henk een van de grootste psychologische en fysieke tests accepteren van zijn vermogen om onrecht te bestrijden."
+    },
+    {
+      "movieid": 11,
+      "name": "The Henkfather",
+      "releasedate": "14/06/1975",
+      "genres": [ "Actie", "Mafia" ],
+      "leeftijd": 16,
+      "beoordeling": 3,
+      "acteurs": [ "Victor", "Felix" ],
+      "taal": "Engels",
+      "beschrijving": "Het is halverwege de jaren veertig. Henk Vito Corleone is het hoofd van de New Yorkse maffiafamilie Henkeone. Tradities en respect zijn de codewoorden in deze wereld. De film begint tijdens de bruiloft van Hennie Henkeone en Henko Henki. Het feest wordt in de tuin van het complex van de familie Henkeone gehouden. Doordat zijn dochter trouwt op deze dag, kan Vito Henkeone, volgens oud Siciliaans gebruik, deze dag geen diensten weigeren."
+    },
+    {
+      "movieid": 12,
+      "name": "Tutte le Strade Portano a Roma",
+      "releasedate": "09/04/1994",
+      "genres": [ "Drama", " Komedie" ],
+      "leeftijd": 6,
+      "beoordeling": 9,
+      "acteurs": [ "Diana", "Allesandro" ],
+      "taal": "Italiaans",
+      "beschrijving": "Diana en Allesandro hebben net alle Henk films gekeken en proberen de weg te vinden naar Rome. Gellukig leiden alle wegen naar Rome."
+    },
+    {
+      "movieid": 13,
+      "name": "50 Shades of Henk",
+      "releasedate": "11/06/2021",
+      "genres": [ "Sexy", " BDSM", "Amateur", "Pornografie" ],
+      "leeftijd": 18,
+      "beoordeling": 11,
+      "acteurs": [ "Henk", " Gerda" ],
+      "taal": "Engels",
+      "beschrijving": "Het verhaal speelt zich af in de Amerikaanse stad Henkattle en gaat over de net afgestudeerde Anahenkia Henkle die een seksuele relatie krijgt met de jonge zakenman Henktian Henk. Henktian en Anahenkia onderhandelen over de inhoud van een bdsm-contract waarin staat dat Henktian haar mag onderwerpen in sadomasochistische rollenspellen."
+    },
+    {
+      "movieid": 14,
+      "name": "The Shawhenk Redemption",
+      "releasedate": "10/09/1994",
+      "genres": [ "Drama", "Misdaad" ],
+      "leeftijd": 12,
+      "beoordeling": 10,
+      "acteurs": [ "Henk", "Morgan Henkman" ],
+      "taal": "Engels",
+      "beschrijving": "The Shawhenk Redemption is een film over het leven in de Amerikaanse Shawhenkgevangenis, waar corruptie bij bewakers en directie een grote rol speelt. Henk Dufresne, een bankier, wordt tot levenslang veroordeeld voor de moord op zijn vrouw en haar minnaar. Hij blijft echter volhouden dat hij onschuldig is. In Shawhenk raakt hij na een moeilijk begin eigen met zijn medegevangenen. Een van hen is Blue, de verteller van het verhaal, die gecharmeerd raakt door de enorme slimheid van Henk. Als Henk aan Blue vraagt of hij aan een geologenhamer kan komen, levert Blue, die maten heeft bij de wasserij, dit hamertje aan Henk. Het contact bloeit op tot een vriendschap."
+    },
+    {
+      "movieid": 15,
+      "name": "The Henkers",
+      "releasedate": "11/04/2012",
+      "genres": [ "Actie" ],
+      "leeftijd": 12,
+      "beoordeling": 8,
+      "acteurs": [ "Iron Henk", "Hunk", "Henk Fury", "Captain Henkica", "Henkeye" ],
+      "taal": "Engels",
+      "beschrijving": "Henk Fury arriveert tijdens een evacuatie in een afgelegen basis van H.E.N.K.. Het blijkt dat de Tesseract (dezelfde als die in Captain Henkica: The First Henkger) tijdens experimenten van H.E.N.K. zichzelf heeft geactiveerd. De kubus veroorzaakt een wormgat waarlangs Henki op aarde is beland. Henki is blijkbaar tussen het moment dat hij aan het eind van de film Henk in het wormgat van de Bifr\uFFFDst viel en zijn aankomst op aarde in contact gekomen met een buitenaards ras genaamd de Chitauri, en heeft hen de kubus beloofd in ruil voor hun hulp de aarde te veroveren. Eenmaal op aarde neemt Loki enkele H.E.N.K.-medewerkers in zijn macht, waaronder Dr. Henk Selvig en Agent Henk Barton, en steelt de kubus."
+    },
+    {
+      "movieid": 16,
+      "name": "Kill Henk Vol. 1",
+      "releasedate": "17/10/2003",
+      "genres": [ "Actie", "Misdaad", "Drama" ],
+      "leeftijd": 16,
+      "beoordeling": 8,
+      "acteurs": [ "Uma Thurman", "David Carradine", "Daryl Hannah" ],
+      "taal": "Engels",
+      "beschrijving": "Een voormalige henkmoordenaar ontwaakt uit een coma van vier jaar en neemt wraak op het team van henkmoordenaars die haar hebben verraden."
+    },
+    {
+      "movieid": 17,
+      "name": "Who is Henk?",
+      "releasedate": "09/07/1999",
+      "genres": [ "Actie", "Avontuur", "Komedie" ],
+      "leeftijd": 12,
+      "beoordeling": 7,
+      "acteurs": [ "Henkie Chan", "Michelle Ferre", "Mirai Yamamoto" ],
+      "taal": "Engels",
+      "beschrijving": "Een geheim agent verliest zijn geheugen nadat hij uit een neerstortende helikopter is gevallen. Hij wordt vervolgens achtervolgd door verschillende andere agenten, maar hij heeft geen idee waarom."
+    },
+    {
+      "movieid": 18,
+      "name": "Henkinator",
+      "releasedate": "11/01/1985",
+      "genres": [ "Actie", "Sci-Fi" ],
+      "leeftijd": 12,
+      "beoordeling": 8,
+      "acteurs": [ "Arnold Henkenegger", "Henka Hamilton", "Henkael Biehn" ],
+      "taal": "Engels",
+      "beschrijving": "Een menselijke soldaat wordt van 2029 tot 1984 gestuurd om 1 bijna onverwoestbare cyborg-moordmachine te stoppen, die uit hetzelfde jaar is gestuurd en die is geprogrammeerd om een jonge vrouw te executeren wiens ongeboren zoon de sleutel is tot de toekomstige redding van de mensheid."
+    },
+    {
+      "movieid": 19,
+      "name": "The Henktrix",
+      "releasedate": "11/07/1999",
+      "genres": [ "Actie", "Sci-Fi" ],
+      "leeftijd": 12,
+      "beoordeling": 9,
+      "acteurs": [ "Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss" ],
+      "taal": "Engels",
+      "beschrijving": "Wanneer een mooie vreemdeling computerhacker Heo naar een onheilspellende onderwereld leidt, ontdekt hij de schokkende waarheid - het leven waarvan hij weet dat het de uitgebreide misleiding is van een kwaadaardige cyberintelligentie."
+    },
+    {
+      "movieid": 20,
+      "name": "Henk Wick",
+      "releasedate": "10/04/2014",
+      "genres": [ "Actie", "Misdaad", "Thriller" ],
+      "leeftijd": 12,
+      "beoordeling": 7,
+      "acteurs": [ "Keanu Reeves", "Michael Nyqvist", "Alfie Allen" ],
+      "taal": "Engels",
+      "beschrijving": "Een ex-huurmoordenaar komt uit zijn pensioen om de gangsters op te sporen die zijn hond hebben gedood en alles van hem hebben afgenomen."
+    },
+    {
+      "movieid": 21,
+      "name": "Bad Henks",
+      "releasedate": "16/06/1995",
+      "genres": [ "Actie", "Misdaad", "Komedie" ],
+      "leeftijd": 12,
+      "beoordeling": 7,
+      "acteurs": [ "Will Smith", "Martin Lawrence", "Lisa Boyle" ],
+      "taal": "Engels",
+      "beschrijving": "Twee heupdetectives beschermen een getuige van een moord terwijl ze een geval van gestolen heroïne onderzoeken uit de opslagruimte voor bewijsmateriaal van hun politiebureau."
+    }
+  ]
+}
