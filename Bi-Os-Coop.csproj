@@ -75,22 +75,22 @@
     <Reference Include="mscorlib" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="adminMenu.cs" />
-    <Compile Include="CPeople.cs" />
-    <Compile Include="Json.cs" />
-    <Compile Include="loginscherm.cs" />
-    <Compile Include="MainMenu.cs" />
-    <Compile Include="MainMenuThings.cs" />
-    <Compile Include="MovieInterpreter.cs" />
-    <Compile Include="MovieMenu.cs" />
+    <Compile Include="Class\adminMenu.cs" />
+    <Compile Include="Class\CPeople.cs" />
+    <Compile Include="Class\Json.cs" />
+    <Compile Include="Class\loginscherm.cs" />
+    <Compile Include="Class\MainMenu.cs" />
+    <Compile Include="Class\MainMenuThings.cs" />
+    <Compile Include="Class\MovieInterpreter.cs" />
+    <Compile Include="Class\MovieMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Registerscreen.cs" />
-    <Compile Include="Zalen.cs" />
-    <Compile Include="PasswordMethods.cs" />
-    <Compile Include="MovieMethods.cs" />
-    <Compile Include="DeleteMovieMethod.cs" />
-    <Compile Include="DeleteAccountMethod.cs" />
+    <Compile Include="Class\Registerscreen.cs" />
+    <Compile Include="Class\Zalen.cs" />
+    <Compile Include="Class\PasswordMethods.cs" />
+    <Compile Include="Class\MovieMethods.cs" />
+    <Compile Include="Class\DeleteMovieMethod.cs" />
+    <Compile Include="Class\DeleteAccountMethod.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
