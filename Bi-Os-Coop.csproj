@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\adminMenu.cs" />
+    <Compile Include="Class\AdminMethods.cs" />
     <Compile Include="Class\CPeople.cs" />
     <Compile Include="Class\Json.cs" />
     <Compile Include="Class\loginscherm.cs" />

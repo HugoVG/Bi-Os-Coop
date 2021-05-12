@@ -12,20 +12,11 @@ namespace Bi_Os_Coop
         public static void AM()
         {
             CPeople.Admin admin = new CPeople.Admin();
-            CPeople.Person adminAccount = new CPeople.Person();
-            adminAccount.setPerson(3, "admin", "admin123@gmail.com", "admin123", "42", "0681234567");
-            //string path = "../../Json/admin.json";
-            //string tekstUitJson = System.IO.File.ReadAllText(path);
-            //admin objectTest = new admin();
-            //objectTest = JsonSerializer.Deserialize<admin>(tekstUitJson);
-
-            //JsonSerializerOptions options = new JsonSerializerOptions() { WriteIndented = true };
-            //tekstUitJson = JsonSerializer.Serialize(objectTest, options);
-            //System.IO.File.WriteAllText(path, tekstUitJson);
+            adminMethods adminMethod = new adminMethods();
 
             //while loop die hoofdPagina loopt tot je "0" in tikt
             bool inDitMenu = true;
-            bool isCoronaFilter = coronaCheck();
+            bool isCoronaFilter = adminMethod.coronaCheck();
             Console.WriteLine(isCoronaFilter);
             while (inDitMenu)
             {
@@ -37,57 +28,69 @@ namespace Bi_Os_Coop
                 else if (keuze == ConsoleKey.D1)
                 {
                     inDitMenu = false;
+                    Console.Clear();
+                    MainMenu.Logo();
+                    MainMenu.MainMenuShow();
                 }
                 else if (keuze == ConsoleKey.D2)
                 {
-                    inDitMenu = false;
                     Console.Clear();
                     admin.AddMovies();
                 }
 
                 else if (keuze == ConsoleKey.D3)
                 {
-                    inDitMenu = false;
                     Console.Clear();
                     admin.UpdateMovies();
                 }
                 else if (keuze == ConsoleKey.D4)
                 {
-                    inDitMenu = false;
                     Console.Clear();
-                    // koppelen met boeken; if (!geboekt) > delete movie
+                    // koppelen met boeken; if (!geboekt) > delete movie 
                     admin.DeleteMovies();
                 }
-                else if (keuze == ConsoleKey.D5)
-                {
-                    inDitMenu = false;
-                    Console.Clear();
-                    admin.AddCinemaHall();
-                }
+                //else if (keuze == ConsoleKey.D5)
+                //{
+                //    Console.Clear();
+                //    admin.AddCinemaHall();
+                //}
                 //else if (keuze == ConsoleKey.D6)
                 //{
+                //    Console.Clear();
                 //    admin.DeleteCinemaHall();
                 //}
                 //else if (keuze == ConsoleKey.D7)
                 //{
-                //    AddAdmin();
+                //    Console.Clear();
+                //    adminMethod.AddAdmin();
                 //}
-                else if (keuze == ConsoleKey.D8)
-                {
-                    inDitMenu = false;
-                    Console.Clear();
-                    CoronaFilter(isCoronaFilter);
-                }
+                //else if (keuze == ConsoleKey.D8)
+                //{
+                //    Console.Clear();
+                //    adminMethod.CoronaFilter(isCoronaFilter);
+                //}
+                //else if (keuze == ConsoleKey.D9)
+                //{
+                //    inDitMenu = false;
+                //    Console.WriteLine("U bent nu uitgelogd en gaat naar het main menu.");
+                //    Console.Clear();
+                //    MainMenu.MainMenuShow(null, "name", false, "None", "Nederlands");
+                //}
                 else
                 {
                     Console.Clear();
-                    hoofdPagina();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Probeer het opnieuw.");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    adminMenu.AM();
                 }
             }
         }
 
         public static ConsoleKey hoofdPagina()
         {
+            adminMethods adminMethod = new adminMethods();
+            //Tuple<int, bool[]> zalenInfo = adminMethod.CountCinemaHalls();
             Console.Clear();
             MainMenu.Logo();
             Console.WriteLine("Admin Menu\n");
@@ -96,127 +99,17 @@ namespace Bi_Os_Coop
             Console.WriteLine("2) Film toevoegen");
             Console.WriteLine("3) Film aanpassen");
             Console.WriteLine("4) Film verwijderen");
-            Console.WriteLine("5) Zaal toevoegen");
+            //if (zalenInfo.Item1 == 1) { Console.WriteLine($"5) Zaal toevoegen \t Er is {zalenInfo.Item1} zaal"); }
+            //else if (zalenInfo.Item1 > 1) { Console.WriteLine($"5) Zaal toevoegen \t Er zijn {zalenInfo.Item1} zalen"); }
+            //else { Console.WriteLine($"5) Zaal toevoegen \t Er zijn geen zalen"); }
             //Console.WriteLine("6) Zaal verwijderen");
             //Console.WriteLine("7) Admin Toevoegen");
-            Console.WriteLine($"8) Corona filter toepassen \t {coronaCheck()}");
+            //Console.WriteLine($"8) Corona filter toepassen \t {adminMethod.coronaCheck()}");
+            //Console.WriteLine("9) Uitloggen");
             Console.WriteLine("Of type '0' om te stoppen");
-            Console.Write("\nKies een pagina: ");
+            Console.Write("\nMaak een keuze: ");
             ConsoleKey keuze = Console.ReadKey(true).Key;
             return keuze;
-        }
-        public static bool coronaCheck()
-        {
-            Zalen zalen = new Zalen();
-            string jsonZalen = Json.ReadJson("Zalen");
-            zalen = zalen.FromJson(jsonZalen);
-            foreach (Zaal zaal in zalen.zalenList)
-            {
-                List<Stoel> stoel = zaal.stoelen;
-                foreach (Stoel stoel2 in stoel)
-                {
-                    if (stoel2.isOccupied == true && stoel2.Price == 0 && stoel2.isOccupiedBy == 0)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        public static void CoronaFilter(bool isCoronaFilter)
-        {
-            Zalen zalen = new Zalen();
-            string jsonZalen = Json.ReadJson("Zalen");
-            zalen = zalen.FromJson(jsonZalen);
-            if (!isCoronaFilter)
-            {
-                foreach (Zaal zaal in zalen.zalenList)
-                {
-                    int count = 0;
-                    List<Stoel> stoel = zaal.stoelen;
-                    foreach (Stoel stoel2 in stoel)
-                    {
-                        if (stoel2.isOccupied == true)
-                        {
-                            count += 1;
-                        }
-                    }
-                    Tuple<bool, int, Stoel.price, int>[] occupiedStoelen = new Tuple<bool, int, Stoel.price, int>[count];
-                    int tempIndex = 0;
-                    foreach (Stoel stoel2 in stoel)
-                    {
-                        if (stoel2.isOccupied == true && tempIndex < count)
-                        {
-                            occupiedStoelen[tempIndex++] = Tuple.Create(stoel2.isOccupied, stoel2.isOccupiedBy, stoel2.Price, stoel.FindIndex(a => a == stoel2));
-                        }
-                    }
-#warning "ik heb dit aangepast want de chairwidt is niet meer nodig"
-                    zaal.setZaal(zaal.date, zaal.time, 100, zaal.film);
-                    for (int j = 0, i = 0; j < 100; j++)
-                    {
-                        if (j % 3 == 0)
-                        {
-                            zaal.stoelen[j].isOccupied = false;
-                            zaal.stoelen[j].isOccupiedBy = 1;
-                            zaal.stoelen[j].Price = Stoel.price.LOW;
-                        }
-                        else
-                        {
-                            zaal.stoelen[j].isOccupied = true;
-                            zaal.stoelen[j].isOccupiedBy = 0;
-                            zaal.stoelen[j].Price = 0;
-                        }
-                        int index = zaal.stoelen.FindIndex(st => st == zaal.stoelen[j]);
-                        if (i < occupiedStoelen.Length && occupiedStoelen[i].Item4 == index)
-                        {
-                            zaal.stoelen[j].isOccupied = occupiedStoelen[i].Item1;
-                            zaal.stoelen[j].isOccupiedBy = occupiedStoelen[i].Item2;
-                            zaal.stoelen[j].Price = occupiedStoelen[i].Item3;
-                            i++;
-                        }
-                    }
-                    Json.WriteJson("Zalen", zalen.ToJson());
-                }
-            }
-            else
-            {
-                foreach (Zaal zaal in zalen.zalenList)
-                {
-                    int count = 0;
-                    List<Stoel> stoel = zaal.stoelen;
-                    foreach (Stoel stoel2 in stoel)
-                    {
-                        if (stoel2.isOccupied == true && stoel2.Price != 0)
-                        {
-                            count += 1;
-                        }
-                    }
-                    Tuple<bool, int, Stoel.price, int>[] occupiedStoelen = new Tuple<bool, int, Stoel.price, int>[count];
-                    int tempIndex = 0;
-                    foreach (Stoel stoel2 in stoel)
-                    {
-                        if (stoel2.isOccupied == true && stoel2.Price != 0 && tempIndex < count)
-                        {
-                            occupiedStoelen[tempIndex++] = Tuple.Create(stoel2.isOccupied, stoel2.isOccupiedBy, stoel2.Price, stoel.FindIndex(a => a == stoel2));
-                        }
-                    }
-#warning "ik heb dit aangepast want de chairwidt is niet meer nodig"
-                    zaal.setZaal(zaal.date, zaal.time, 100, zaal.film);
-                    for (int j = 0, i = 0; j < 100; j++)
-                    {
-                        int index = zaal.stoelen.FindIndex(st => st == zaal.stoelen[j]);
-                        if (i < occupiedStoelen.Length && occupiedStoelen[i].Item4 == index)
-                        {
-                            zaal.stoelen[j].isOccupied = occupiedStoelen[i].Item1;
-                            zaal.stoelen[j].isOccupiedBy = occupiedStoelen[i].Item2;
-                            zaal.stoelen[j].Price = occupiedStoelen[i].Item3;
-                            i++;
-                        }
-                    }
-                    Json.WriteJson("Zalen", zalen.ToJson());
-                }
-            }
         }
     }
 }
