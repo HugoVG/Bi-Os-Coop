@@ -16,18 +16,18 @@ namespace Bi_Os_Coop
             string json = Json.ReadJson("Films");
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
             int highestpage;
-            if ((jsonFilms.movieList.Count() - 1) % 10 > 0)
+            if ((jsonFilms.movieList.Count()) % 10 > 0)
             {
-                highestpage = (jsonFilms.movieList.Count() - 1) / 10 + 1;
+                highestpage = (jsonFilms.movieList.Count() / 10) + 1;
             }
             else
             {
-                highestpage = (jsonFilms.movieList.Count() - 1) / 10;
+                highestpage = (jsonFilms.movieList.Count() / 10);
             }
             Console.Clear();
             MainMenu.Logo();
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Film Menu\n");
+            Console.WriteLine("Film Menu");
             MainMenuThings mainmenuthings = MainMenu.jsonfileloader();
             MainMenu.sorttext(mainmenuthings.sort, mainmenuthings.reverse);
             Console.WriteLine("Type S om een film te zoeken");
