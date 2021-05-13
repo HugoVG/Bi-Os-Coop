@@ -97,19 +97,27 @@ namespace Bi_Os_Coop
                     Console.WriteLine("Vul uw huidige wachtwoord in:");
                     SecureString pass = loginscherm.maskInputString();
                     string currentPassword = new System.Net.NetworkCredential(string.Empty, pass).Password;
-
-                    // checks if email and password are in the peopleList
-                    if (PasswordMethods.MailWachtwoordCheck(currentEmail, currentPassword)) // both are correct
+                    if (currentPassword != "1go2to3main4menu5")
                     {
-                        DeleteAccountMethod.DeleteAccount(ingelogdepersoon);
+                        // checks if email and password are in the peopleList
+                        if (PasswordMethods.MailWachtwoordCheck(currentEmail, currentPassword)) // both are correct
+                        {
+                            DeleteAccountMethod.DeleteAccount(ingelogdepersoon);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Wachtwoord of email onjuist. Probeer het later nog eens.");
+                            System.Threading.Thread.Sleep(2000);
+                            Console.Clear();
+                            MainMenu.MainMenuShow();
+                        }
                     }
                     else
                     {
-                        Console.WriteLine("Wachtwoord of email onjuist. Probeer het later nog eens.");
-                        System.Threading.Thread.Sleep(2000);
                         Console.Clear();
                         MainMenu.MainMenuShow();
                     }
+                    
                 }
                 else if (Console.ReadKey(true).Key == ConsoleKey.N)
                 {
