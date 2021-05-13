@@ -14,15 +14,21 @@ namespace Bi_Os_Coop
             string json = Json.ReadJson("Accounts");
             CPeople.People jsonPeople = new CPeople.People();
             jsonPeople = jsonPeople.FromJson(json);
+            Console.WriteLine("Terug naar hoofdmenu (Esc)");
 
             string naam = validCheck("voor- en achternaam", lengthCheck);
+            if (naam == "1go2to3main4menu5") { return false; }
             string birthdate = validCheck("geboortedatum (dd/mm/jjjj)", dateCheck);
+            if (birthdate == "1go2to3main4menu5") { return false; }
             if (AgeVerify(birthdate, 14)) {
 
                 int id = createID();
                 string email = validCheck("e-mailadres", emailCheck);
+                if (email == "1go2to3main4menu5") { return false; }
                 string phoneNumber = validCheck("mobiele telefoonnummer", phoneCheck);
+                if (phoneNumber == "1go2to3main4menu5") { return false; }
                 string password = validCheck("wachtwoord", lengthCheck);
+                if (password == "1go2to3main4menu5") { return false; }
 
                 CPeople.Person customer = new CPeople.Person();
                 customer.setPerson(id, naam, email.ToLower(), password, birthdate, phoneNumber);
@@ -75,7 +81,11 @@ namespace Bi_Os_Coop
             while (!valid)
             {
                 Console.WriteLine($"\nTyp hier uw {print}:");
-                input = Console.ReadLine();
+                input = loginscherm.newwayoftyping();
+                if (input == "1go2to3main4menu5")
+                {
+                    return "1go2to3main4menu5";
+                }
                 if (function(input))
                     valid = true;
             }

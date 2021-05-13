@@ -29,7 +29,6 @@ namespace Bi_Os_Coop
                 {
                     inDitMenu = false;
                     Console.Clear();
-                    MainMenu.Logo();
                     MainMenu.MainMenuShow();
                 }
                 else if (keuze == ConsoleKey.D2)
