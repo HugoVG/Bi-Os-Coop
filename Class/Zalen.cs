@@ -9,40 +9,79 @@ namespace Bi_Os_Coop
     {
         public void Test()
         {
-            Zalen testzaal = new Zalen();
-            Zaal tijdelijkeZaal = new Zaal();
-            //tijdelijkeZaal.setZaal(10, "30-01-2021", "13:00", 100);
-            tijdelijkeZaal.showStool();
+            DateTime today = new DateTime(2021, 6, 15);
+            Console.WriteLine(today.ToString());
+            string todaystring = $"0{today.Day}/0{today.Month}/{today.Year}";
+            Console.WriteLine(todaystring);
+            //Zalen testzaal = new Zalen();
+            //Zaal tijdelijkeZaal = new Zaal();
+            ////tijdelijkeZaal.setZaal(10, "30-01-2021", "13:00", 100);
+            //tijdelijkeZaal.showStool();
             CPeople.Person Henk = new CPeople.Person();
             Henk.setPerson(69, "Henk", "Henkerino@HahaHenk.com", "0nlyWams", "30-01-2021", "06111111");
-            //tijdelijkeZaal.Reser(-5, Henk);
-            Console.ReadKey();
-            testzaal.AddZaal(tijdelijkeZaal);
-            testzaal.writeZalen();
-            string json = testzaal.ToJson();
-            Json.WriteJson("Zalen", json);
-            Console.ReadKey();
+            ////tijdelijkeZaal.Reser(-5, Henk);
+            //Console.ReadKey();
+            //testzaal.AddZaal(tijdelijkeZaal);
+            //testzaal.writeZalen();
+            //string json = testzaal.ToJson();
+            //Json.WriteJson("Zalen", json);
+            //Console.ReadKey();
             Zalen testzaal2 = new Zalen();
             string json2 = Json.ReadJson("Zalen");
             testzaal2 = testzaal2.FromJson(json2);
             //int[] gfdjhfskd = new int[] { 31, 32, 33, 34 };
-            int gfdjhfskd = 30;
-            testzaal2.Reserveseats(gfdjhfskd, Henk, "30-01-2021", "13:00");
-            foreach (Zaal zaal in testzaal2.zalenList)
-            {
-                zaal.showStool();
-            }
-            Console.ReadKey();
-            json2 = testzaal2.ToJson();
-            Json.WriteJson("Zalen", json2);
-            testzaal2 = testzaal2.FromJson(json2);
-            foreach (Zaal zaal in testzaal2.zalenList)
-            {
-                zaal.showStool();
-            }
+            //int gfdjhfskd = 30;
+            //testzaal2.Reserveseats(gfdjhfskd, Henk, "30-01-2021", "13:00");
+            testzaal2.writeZalen();
+            string henk = Console.ReadLine();
+            //foreach (Zaal zaal in testzaal2.zalenList)
+            //{
+            //    zaal.showStool();
+            //    Console.ReadKey();
+            //}
+
+            Tuple<bool, List<Zaal>> temp = testzaal2.selectZalen(henk);
+            ZalenExtender.writeZalen(temp.Item2.OrderBy(movie => movie.date).OrderBy(movie => movie.time).ToList());
+            //json2 = testzaal2.ToJson();
+            //Json.WriteJson("Zalen", json2);
+            //testzaal2 = testzaal2.FromJson(json2);
+            //foreach (Zaal zaal in testzaal2.zalenList)
+            //{
+            //    zaal.showStool();
+            //}
         }
     }
-
+    internal static class ZalenExtender
+    {
+        public static void writeZalen(List<Zaal> selected)
+        {
+            //List<Zaal> showingzaal = this.zalenList;
+            int counter = 1;
+            foreach (Zaal zaal in selected)
+            {
+                Console.Write($"\nSelecter:{counter} \t");
+                Console.Write($"\ndate:{zaal.date} \t");
+                Console.Write($"time:{zaal.time} \t");
+                Console.Write($"movie:{zaal.film.name} \t");
+                Console.Write($"release Date:{zaal.film.releasedate} \t");
+                Console.Write($"Score:{zaal.film.beoordeling} ");
+                counter++;
+            }
+        }
+        public static Zaal menu(List<Zaal> selected)
+        {
+            writeZalen(selected);
+            Console.WriteLine("Choose timeframe you want to order a seat in");
+            string temp  = Console.ReadLine();
+            try
+            {
+                int index = Convert.ToInt32(temp) - 1;
+                Zaal choosenone = selected.ElementAt(index);
+                return choosenone;
+            }
+            catch (Exception) { Console.WriteLine("Invalid Number"); return null; }
+        }
+    }
     internal class Zalen
     {
         public List<Zaal> zalenList { get; set; }
@@ -66,7 +105,21 @@ namespace Bi_Os_Coop
             {
                 Console.Write($"\ndate:{zaal.date} \t");
                 Console.Write($"time:{zaal.time} \t");
-                Console.Write($"movie:{zaal.film.name} \n");
+                Console.Write($"movie:{zaal.film.name} \t");
+                Console.Write($"release Date:{zaal.film.releasedate} \t");
+                Console.Write($"Score:{zaal.film.beoordeling} ");
+            }
+        }
+        public void writeZalen(List<Zaal> selected)
+        {
+            //List<Zaal> showingzaal = this.zalenList;
+            foreach (Zaal zaal in selected)
+            {
+                Console.Write($"\ndate:{zaal.date} \t");
+                Console.Write($"time:{zaal.time} \t");
+                Console.Write($"movie:{zaal.film.name} \t");
+                Console.Write($"release Date:{zaal.film.releasedate} \t");
+                Console.Write($"Score:{zaal.film.beoordeling} ");
             }
         }
 
@@ -94,6 +147,24 @@ namespace Bi_Os_Coop
             indexs[0] = index;
             gekozenzaal.occupyStool(indexs, orderer);
         }
+        /// <summary>
+        /// returned de zalen waar de film draai met x naam
+        /// </summary>
+        /// <param name="naam"></param>
+        /// <returns></returns>
+        public Tuple<bool, List<Zaal>> selectZalen(string naam)
+        {
+            IEnumerable<Zaal> selectedzalen = zalenList.Where(movie => movie.film.name.ToLower() == naam.ToLower() && DateTime.Parse(movie.date) >= DateTime.Now); //fixt ook de out dated films
+            if (selectedzalen.Count() != 0)
+                return Tuple.Create(true, selectedzalen.ToList());
+            else
+            {
+                Console.WriteLine($"Couldn't find any movie with name {naam}");
+                return Tuple.Create(false, selectedzalen.ToList());
+            }
+
+        }
+
     }
 
     internal class Zaal
@@ -163,6 +234,19 @@ namespace Bi_Os_Coop
             //showStool();
         }
 
+        public void writeZalen(List<Zaal> selected)
+        {
+            //List<Zaal> showingzaal = this.zalenList;
+            foreach (Zaal zaal in selected)
+            {
+                Console.Write($"\ndate:{zaal.date} \t");
+                Console.Write($"time:{zaal.time} \t");
+                Console.Write($"movie:{zaal.film.name} \t");
+                Console.Write($"release Date:{zaal.film.releasedate} \t");
+                Console.Write($"Score:{zaal.film.beoordeling} ");
+            }
+        }
+
         public void applyzaal()
         {
         }
@@ -213,12 +297,17 @@ namespace Bi_Os_Coop
             Console.Clear();
             int counter = 0;
             Console.ForegroundColor = ConsoleColor.White;
+            int stoelenPerRij;
+            if (this.stoelen.Count == 630) { stoelenPerRij = 30; }
+            else if (this.stoelen.Count == 342){ stoelenPerRij = 18; }
+            else if (this.stoelen.Count == 168) { stoelenPerRij = 12; }
+            else { throw new IdiotException(); }
             foreach (Stoel stoel in this.stoelen)
             {
-                if (counter % stoelWidth == 0)
+                if (counter % stoelenPerRij == 0)
                 {
                     if (counter < 10) { }
-                    else { Console.WriteLine("\n"); }
+                    else { Console.WriteLine(""); }
                 }
 
                 if (stoelen.ElementAt(counter).isOccupied)
@@ -281,10 +370,9 @@ namespace Bi_Os_Coop
             if (prijs == price.NONE)
             {
                 this.isOccupied = true;
-            }
-            else
-            {
                 this.isOccupiedBy = 1;
+                this.Price = prijs;
+                return;
             }
             this.isOccupied = false;
             this.Price = prijs;

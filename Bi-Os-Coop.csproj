@@ -96,6 +96,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Json\Accounts.json" />
+    <None Include="Json\MainMenu.json" />
     <None Include="Json\Zalen.json" />
     <None Include="packages.config" />
     <None Include="Json\Films.json" />
