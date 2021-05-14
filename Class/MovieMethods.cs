@@ -9,10 +9,11 @@ namespace Bi_Os_Coop
     {
         public static void UpdateMovieMenu(string json, Films jsonFilms, MovieInterpreter tempMovie)
         {
-            Console.Clear();
             bool done = false;
             while (done == false)
             {
+                Console.Clear();
+                Console.WriteLine($"Gekozen Film: {tempMovie.name}\n");
                 Console.WriteLine("======FILM AANPASSEN MENU======");
                 Console.WriteLine("1. Naam aanpassen");
                 Console.WriteLine("2. Releasedatum aanpassen");
@@ -42,7 +43,8 @@ namespace Bi_Os_Coop
                         UpdateActors(json, jsonFilms, tempMovie);
                         break;
                     case ConsoleKey.D5:
-                        UpdateMinimumAge(json, jsonFilms, tempMovie);
+                        Tuple<string, Films, MovieInterpreter> e = UpdateMinimumAge(json, jsonFilms, tempMovie);
+                        if (e.Item1 == "fail") { while (e.Item1 == "fail") { e = UpdateMinimumAge(json, jsonFilms, tempMovie); } }
                         break;
                     case ConsoleKey.D6:
                         UpdateReviewScore(json, jsonFilms, tempMovie);
@@ -58,11 +60,12 @@ namespace Bi_Os_Coop
                         admin.UpdateMovies();
                         break;
                     case ConsoleKey.D0:
-                        adminMenu.hoofdPagina();
+                        done = true;
                         break;
                     default:
-                        Console.WriteLine("Kies voor optie 1-8 of verlaat het menu.");
+                        Console.WriteLine("Kies voor optie 1-9 of verlaat het menu.");
                         UpdateMovieMenu(json, jsonFilms, tempMovie);
+                        done = true;
                         break;
                 }
             }
@@ -97,11 +100,13 @@ namespace Bi_Os_Coop
             }
         }
 
-        public static void UpdateNameMovie(string json, Films jsonFilms, MovieInterpreter tempMovie)
+        public static Tuple<string,Films,MovieInterpreter> UpdateNameMovie(string json, Films jsonFilms, MovieInterpreter tempMovie)
         {
             Console.Clear();
+            Console.Write("Terug naar het Update Menu (Esc)\n\n");
             Console.WriteLine($"Wat is de nieuwe naam van de film {tempMovie.name}?");
-            string newName = Console.ReadLine();
+            string newName = loginscherm.newwayoftyping();
+            if (newName == "1go2to3main4menu5") { goto exit; }
             tempMovie.name = newName;
 
             json = JsonSerializer.Serialize(jsonFilms);
@@ -112,14 +117,18 @@ namespace Bi_Os_Coop
             System.Threading.Thread.Sleep(1000);
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.Clear();
-            UpdateMovieMenu(json, jsonFilms, tempMovie);
+            return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
+        exit:
+            return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
         }
 
-        public static void UpdateReleaseDate(string json, Films jsonFilms, MovieInterpreter tempMovie)
+        public static Tuple<string, Films, MovieInterpreter> UpdateReleaseDate(string json, Films jsonFilms, MovieInterpreter tempMovie)
         {
             Console.Clear();
+            Console.Write("Terug naar het Update Menu (Esc)\n\n");
             Console.WriteLine($"Wat is de nieuwe releasedatum van de film {tempMovie.name}?");
-            string newReleaseDate = Console.ReadLine();
+            string newReleaseDate = loginscherm.getdate();
+            if (newReleaseDate == "1go2to3main4menu5") { goto exit; }
             tempMovie.releasedate = newReleaseDate;
 
             json = JsonSerializer.Serialize(jsonFilms);
@@ -130,16 +139,20 @@ namespace Bi_Os_Coop
             System.Threading.Thread.Sleep(1000);
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.Clear();
-            UpdateMovieMenu(json, jsonFilms, tempMovie);
+            return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
+        exit:
+            return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
         }
 
-        public static void UpdateGenres(string json, Films jsonFilms, MovieInterpreter tempMovie)
+        public static Tuple<string, Films, MovieInterpreter> UpdateGenres(string json, Films jsonFilms, MovieInterpreter tempMovie)
         {
             Console.Clear();
+            Console.Write("Terug naar het Update Menu (Esc)\n\n");
             Console.WriteLine($"Wat is/zijn de nieuwe genre(s) van de film {tempMovie.name}?");
             Console.WriteLine("Voeg tussen elke genre een komma toe, bijv: Komedie, Actie, Thriller");
             Console.WriteLine("Genres film:");
-            string genres = Console.ReadLine();
+            string genres = loginscherm.newwayoftyping();
+            if (genres == "1go2to3main4menu5") { goto exit; }
             List<string> newGenres = genres.Split(',').ToList();
             List<string> newGenres2 = new List<string>();
             foreach (string genre in newGenres)
@@ -157,16 +170,20 @@ namespace Bi_Os_Coop
             System.Threading.Thread.Sleep(1000);
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.Clear();
-            UpdateMovieMenu(json, jsonFilms, tempMovie);
+            return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
+        exit:
+            return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
         }
 
-        public static void UpdateActors(string json, Films jsonFilms, MovieInterpreter tempMovie)
+        public static Tuple<string, Films, MovieInterpreter> UpdateActors(string json, Films jsonFilms, MovieInterpreter tempMovie)
         {
             Console.Clear();
+            Console.Write("Terug naar het Update Menu (Esc)\n\n");
             Console.WriteLine($"Wie is/zijn de nieuwe acteurs van de film {tempMovie.name}?");
             Console.WriteLine("Voeg tussen elke acteur een komma toe, bijv: Sean Connery, Ryan Gosling, Ryan Reynolds");
             Console.WriteLine("Acteurs film:");
-            string actors = Console.ReadLine();
+            string actors = loginscherm.newwayoftyping();
+            if (actors == "1go2to3main4menu5") { goto exit; }
             List<string> newActors = actors.Split(',').ToList();
             tempMovie.genres = newActors;
 
@@ -178,14 +195,18 @@ namespace Bi_Os_Coop
             System.Threading.Thread.Sleep(1000);
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.Clear();
-            UpdateMovieMenu(json, jsonFilms, tempMovie);
+            return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
+        exit:
+            return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
         }
 
-        public static void UpdateMinimumAge(string json, Films jsonFilms, MovieInterpreter tempMovie)
+        public static Tuple<string, Films, MovieInterpreter> UpdateMinimumAge(string json, Films jsonFilms, MovieInterpreter tempMovie)
         {
             Console.Clear();
+            Console.Write("Terug naar het Update Menu (Esc)\n\n");
             Console.WriteLine($"Wat is de nieuwe minimum leeftijd van de film {tempMovie.name}? (0-18)");
-            string newMinimumAge = Console.ReadLine();
+            string newMinimumAge = loginscherm.newwayoftyping();
+            if (newMinimumAge == "1go2to3main4menu5") { return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie); }
             try
             {
                 tempMovie.leeftijd = Convert.ToInt32(newMinimumAge);
@@ -196,7 +217,7 @@ namespace Bi_Os_Coop
                 Console.WriteLine("Voer een getal tussen de 0 en 18 in.");
                 System.Threading.Thread.Sleep(1000);
                 Console.ForegroundColor = ConsoleColor.Gray;
-                UpdateMinimumAge(json, jsonFilms, tempMovie);
+                return new Tuple<string, Films, MovieInterpreter>("fail", jsonFilms, tempMovie);
             }
 
             json = JsonSerializer.Serialize(jsonFilms);
@@ -207,7 +228,7 @@ namespace Bi_Os_Coop
             System.Threading.Thread.Sleep(1000);
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.Clear();
-            UpdateMovieMenu(json, jsonFilms, tempMovie);
+            return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
         }
 
         public static void UpdateReviewScore(string json, Films jsonFilms, MovieInterpreter tempMovie)

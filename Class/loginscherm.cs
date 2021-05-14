@@ -44,6 +44,45 @@ namespace Bi_Os_Coop
                 }
             }
         }
+        public static string getdate()
+        {
+            string newstring = "";
+            ConsoleKeyInfo keyInfo;
+            bool unlocked = false;
+            do
+            {
+                keyInfo = Console.ReadKey(true);
+                if (keyInfo.Key == ConsoleKey.Enter && newstring.Length > 6) { unlocked = true; }
+                else if (keyInfo.Key == ConsoleKey.Escape) { unlocked = true; }
+                if ((newstring.Length == 2 || newstring.Length == 5) && keyInfo.Key != ConsoleKey.Backspace)
+                {
+                    newstring += "/";
+                    Console.Write('/');
+                }
+                if (Char.IsNumber(keyInfo.KeyChar))
+                {
+                    newstring += keyInfo.KeyChar;
+                    Console.Write(keyInfo.KeyChar);
+                }
+                if (keyInfo.Key == ConsoleKey.Backspace && newstring.Length > 0)
+                {
+                    newstring = newstring.Substring(0, newstring.Length - 1);
+                    Console.Write("\b \b");
+                }
+            }
+            while (!unlocked);
+            {
+                Console.WriteLine();
+                if (keyInfo.Key == ConsoleKey.Enter)
+                {
+                    return newstring;
+                }
+                else
+                {
+                    return "1go2to3main4menu5";
+                }
+            }
+        }
         public static string newwayoftyping()
         {
             string newstring = "";

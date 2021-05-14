@@ -213,37 +213,79 @@ namespace Bi_Os_Coop
 
             }
         }
+        public static dynamic converttoint(string input)
+        {
+            try
+            {
+                return Convert.ToInt32(input);
+            }
+            catch
+            {
+                return "1go2to3main4menu5";
+            }
+        }
+        public static dynamic converttodouble(string input)
+        {
+            try
+            {
+                return Convert.ToDouble(input);
+            }
+            catch
+            {
+                return "1go2to3main4menu5";
+            }
+        }
 
         public class Admin : Person
         {
             public MovieInterpreter AddMovies()
             {
                 Console.Clear();
-
+                Console.Write("Terug naar Admin Menu (Esc)\n\n");
                 string json = Json.ReadJson("Films");
                 Films MovieLibrary = JsonSerializer.Deserialize<Films>(json);
 
                 Console.WriteLine("Voeg hier een nieuwe film toe.");
                 Console.WriteLine("Naam film:");
-                string naamFilm = Console.ReadLine();
+                string naamFilm = loginscherm.newwayoftyping();
+                if (naamFilm == "1go2to3main4menu5") { goto exit; }
+
                 Console.WriteLine("Releasedatum film:");
-                string releasedatumFilm = Console.ReadLine();
+                string releasedatumFilm = loginscherm.newwayoftyping();
+                if (releasedatumFilm == "1go2to3main4menu5") { goto exit; }
+
                 Console.WriteLine("Voeg tussen elke genre een komma toe, bijv: Komedie, Actie, Thriller");
                 Console.WriteLine("Genres film:");
-                string genres = Console.ReadLine();
+                string genres = loginscherm.newwayoftyping();
+                if (genres == "1go2to3main4menu5") { goto exit; }
                 List<string> genresFilm = genres.Split(',').ToList();
+
                 Console.WriteLine("Voeg tussen elke acteur een komma toe, bijv: Sean Connery, Ryan Gosling, Ryan Reynolds");
                 Console.WriteLine("Acteurs film:");
-                string acteurs = Console.ReadLine();
+                string acteurs = loginscherm.newwayoftyping();
+                if (acteurs == "1go2to3main4menu5") { goto exit; }
                 List<string> acteursFilm = acteurs.Split(',').ToList();
+
                 Console.WriteLine("Minimumleeftijd film:");
-                int minimumLeeftijd = Convert.ToInt32(Console.ReadLine());
+                var minimumleeftijd = converttoint(loginscherm.newwayoftyping());
+                int minimumLeeftijd;
+                if (minimumleeftijd is string) { goto exit; }
+                else { minimumLeeftijd = minimumleeftijd; }
+
                 Console.WriteLine("Beoordeling film:");
-                double beoordelingFilm = Convert.ToDouble(Console.ReadLine());
+                var beoordelingFilm2 = converttodouble(loginscherm.newwayoftyping());
+                double beoordelingFilm;
+                if (beoordelingFilm2 is string) { goto exit; }
+                else { beoordelingFilm = beoordelingFilm2; }
+
                 Console.WriteLine("Taal film:");
-                string taalfilm = Console.ReadLine();
+                string taalfilm = loginscherm.newwayoftyping();
+                if (taalfilm == "1go2to3main4menu5") { goto exit; }
+
                 Console.WriteLine("Beschrijving film:");
-                string beschrijvingfilm = Console.ReadLine();
+                string beschrijvingfilm = loginscherm.newwayoftyping();
+                if (beschrijvingfilm == "1go2to3main4menu5") { goto exit; }
+
                 MovieInterpreter Movie = new MovieInterpreter();
                 Movie.setFilm(MovieLibrary.movieList.Count + 1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm, taalfilm, beschrijvingfilm);
 
@@ -256,20 +298,26 @@ namespace Bi_Os_Coop
                 //json = JsonSerializer.Serialize(jsonFilms);
                 Json.WriteJson("Films", json);
                 return Movie;
+            exit:
+                MovieInterpreter Movie2 = new MovieInterpreter();
+                Movie2.setFilm(234733, "1go2to3main4menu5", "", new List<string>(), 999, 888, new List<string>(), "", "");
+                return Movie2;
             }
 
             public void UpdateMovies()
             {
                 Console.Clear();
+                Console.Write("Terug naar Admin Menu (Esc)\n\n");
                 Console.WriteLine("Welke film wilt u updaten?");
-                string naamFilm = Console.ReadLine();
-
+                string naamFilm = loginscherm.newwayoftyping();
+                if (naamFilm == "1go2to3main4menu5") { goto exit; }
                 try
                 {
                     string json = Json.ReadJson("Films");
                     Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
                     MovieInterpreter tempMovie = jsonFilms.movieList.Single(movie => movie.name == naamFilm);
                     MovieMethods.UpdateMovieMenu(json, jsonFilms, tempMovie);
+                    goto exit;
                 }
                 catch (InvalidOperationException)
                 {
@@ -292,7 +340,9 @@ namespace Bi_Os_Coop
                         System.Threading.Thread.Sleep(2000);
                         adminMenu.hoofdPagina();
                     }
-                }
+                }   
+            exit:
+                return;
             }
 
             public void DeleteMovies()
@@ -385,6 +435,7 @@ namespace Bi_Os_Coop
                         else if (k == ConsoleKey.Q) { goto exit; } // EXIT uit de Addmovies
                     }
                 }
+                if (film.name == "1go2to3main4menu5") { goto exit; }
 
                 Console.WriteLine("Op welke datum wilt u dat deze film draait? (dd/mm/yyyy)");
                 string date = Console.ReadLine();
