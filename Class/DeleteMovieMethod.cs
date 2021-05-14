@@ -48,14 +48,12 @@ namespace Bi_Os_Coop
                         Console.WriteLine("U wordt nu teruggestuurd naar het admin menu.");
                         System.Threading.Thread.Sleep(1000);
                         Console.ForegroundColor = ConsoleColor.Gray;
-                        adminMenu.hoofdPagina();
                     }
                     else
                     {
                         Console.WriteLine("Antwoord niet begrepen. U keert automatisch terug naar het admin menu.");
                         System.Threading.Thread.Sleep(1000);
                         Console.ForegroundColor = ConsoleColor.Gray;
-                        adminMenu.hoofdPagina();
                     }
                 }
                 else
