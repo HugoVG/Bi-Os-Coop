@@ -251,7 +251,7 @@ namespace Bi_Os_Coop
                 if (naamFilm == "1go2to3main4menu5") { goto exit; }
 
                 Console.WriteLine("Releasedatum film:");
-                string releasedatumFilm = loginscherm.newwayoftyping();
+                string releasedatumFilm = loginscherm.getdate();
                 if (releasedatumFilm == "1go2to3main4menu5") { goto exit; }
 
                 Console.WriteLine("Voeg tussen elke genre een komma toe, bijv: Komedie, Actie, Thriller");
@@ -348,9 +348,10 @@ namespace Bi_Os_Coop
             public void DeleteMovies()
             {
                 Console.Clear();
+                Console.Write("Terug naar Admin Menu (Esc)\n\n");
                 Console.WriteLine("Welke film wilt u verwijderen?");
-                string movieToRemove = Console.ReadLine();
-
+                string movieToRemove = loginscherm.newwayoftyping();
+                if (movieToRemove == "1go2to3main4menu5") { goto exit; }
                 try
                 {
                     string json = Json.ReadJson("Films");
@@ -366,7 +367,6 @@ namespace Bi_Os_Coop
                         Console.WriteLine("U wordt nu teruggestuurd naar het admin menu.");
                         System.Threading.Thread.Sleep(1000);
                         Console.ForegroundColor = ConsoleColor.Gray;
-                        adminMenu.hoofdPagina();
                     }
                 }
                 catch (InvalidOperationException)
@@ -377,6 +377,8 @@ namespace Bi_Os_Coop
                     Console.ForegroundColor = ConsoleColor.Gray;
                     DeleteMovies();
                 }
+            exit:
+                return;
             }
 
             public void AddCinemaHall()
