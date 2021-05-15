@@ -49,10 +49,24 @@ namespace Bi_Os_Coop
             string newstring = "";
             ConsoleKeyInfo keyInfo;
             bool unlocked = false;
+
             do
             {
                 keyInfo = Console.ReadKey(true);
-                if (keyInfo.Key == ConsoleKey.Enter && newstring.Length > 6) { unlocked = true; }
+                if (keyInfo.Key == ConsoleKey.Enter && newstring.Length == 10)
+                {
+                    if (newstring.Substring(0, 5) == "29/02")
+                    {
+                        if (isleapyear(Convert.ToInt32(newstring.Substring(6)))) { unlocked = true; }
+                        else
+                        {
+                            Program.newEntry("\nNot a leap year\n", ConsoleColor.Red);
+                            newstring = "";
+                            Console.Write(newstring);
+                        }
+                    }
+                    else { unlocked = true; }
+                }
                 else if (keyInfo.Key == ConsoleKey.Escape) { unlocked = true; }
                 if ((newstring.Length == 2 || newstring.Length == 5) && keyInfo.Key != ConsoleKey.Backspace)
                 {
@@ -60,6 +74,135 @@ namespace Bi_Os_Coop
                     Console.Write('/');
                 }
                 if (Char.IsNumber(keyInfo.KeyChar))
+                {
+                    if (newstring.Length == 0 && (keyInfo.Key == ConsoleKey.D0 || keyInfo.Key == ConsoleKey.D1 || keyInfo.Key == ConsoleKey.D2 || keyInfo.Key == ConsoleKey.D3))
+                    {
+                        newstring += keyInfo.KeyChar;
+                        Console.Write(keyInfo.KeyChar);
+                    }
+                    else if (newstring.Length == 1)
+                    {
+                        if (newstring[0] == '3' && (keyInfo.Key == ConsoleKey.D0 || keyInfo.Key == ConsoleKey.D1))
+                        {
+                            newstring += keyInfo.KeyChar;
+                            Console.Write(keyInfo.KeyChar);
+                        }
+                        else if (newstring[0] == '0' || newstring[0] == '1' || newstring[0] == '2')
+                        {
+                            newstring += keyInfo.KeyChar;
+                            Console.Write(keyInfo.KeyChar);
+                        }
+                    }
+                    else if (newstring.Length == 3 && (keyInfo.Key == ConsoleKey.D0 || keyInfo.Key == ConsoleKey.D1))
+                    {
+                        newstring += keyInfo.KeyChar;
+                        Console.Write(keyInfo.KeyChar);
+                    }
+
+                    else if (newstring.Length == 4)
+                    {
+                        if (newstring[0] == '3' && newstring[1] == '0')
+                        {
+                            if (newstring[3] == '0' && (keyInfo.Key != ConsoleKey.D2 && keyInfo.Key != ConsoleKey.D0))
+                            {
+                                newstring += keyInfo.KeyChar;
+                                Console.Write(keyInfo.KeyChar);
+                            }
+                            else if (newstring[3] == '1' && (keyInfo.Key == ConsoleKey.D0 || keyInfo.Key == ConsoleKey.D1 || keyInfo.Key == ConsoleKey.D2))
+                            {
+                                newstring += keyInfo.KeyChar;
+                                Console.Write(keyInfo.KeyChar);
+                            }
+
+                        }
+                        if (newstring[0] == '3' && newstring[1] == '1')
+                        {
+                            if (newstring[3] == '0' &&
+                                (keyInfo.Key == ConsoleKey.D1 || keyInfo.Key == ConsoleKey.D3 || keyInfo.Key == ConsoleKey.D5 || keyInfo.Key == ConsoleKey.D7 || keyInfo.Key == ConsoleKey.D8))
+                            {
+                                newstring += keyInfo.KeyChar;
+                                Console.Write(keyInfo.KeyChar);
+                            }
+                            else if (newstring[3] == '1' && (keyInfo.Key == ConsoleKey.D0 || keyInfo.Key == ConsoleKey.D2))
+                            {
+                                newstring += keyInfo.KeyChar;
+                                Console.Write(keyInfo.KeyChar);
+                            }
+                        }
+                        else if ((newstring[0] == '0' || newstring[0] == '1') && newstring[3] == '0' && (keyInfo.Key != ConsoleKey.D0))
+                        {
+                            newstring += keyInfo.KeyChar;
+                            Console.Write(keyInfo.KeyChar);
+                        }
+                        else if ((newstring[0] == '0' || newstring[0] == '1') && newstring[3] == '1' && (keyInfo.Key == ConsoleKey.D0 || keyInfo.Key == ConsoleKey.D1 || keyInfo.Key == ConsoleKey.D2))
+                        {
+                            newstring += keyInfo.KeyChar;
+                            Console.Write(keyInfo.KeyChar);
+                        }
+                        else if (newstring[0] == '2' && newstring[3] == '0' && (keyInfo.Key != ConsoleKey.D0))
+                        {
+                            newstring += keyInfo.KeyChar;
+                            Console.Write(keyInfo.KeyChar);
+                        }
+                        else if (newstring[0] == '2' && newstring[3] == '1' && (keyInfo.Key == ConsoleKey.D0 || keyInfo.Key == ConsoleKey.D1 || keyInfo.Key == ConsoleKey.D2))
+                        {
+                            newstring += keyInfo.KeyChar;
+                            Console.Write(keyInfo.KeyChar);
+                        }
+                    }
+
+                    else if (newstring.Length == 6 && (keyInfo.Key == ConsoleKey.D0 || keyInfo.Key == ConsoleKey.D1 || keyInfo.Key == ConsoleKey.D2))
+                    {
+                        newstring += keyInfo.KeyChar;
+                        Console.Write(keyInfo.KeyChar);
+                    }
+                    else if (newstring.Length == 7 || newstring.Length == 8 || newstring.Length == 9)
+                    {
+                        newstring += keyInfo.KeyChar;
+                        Console.Write(keyInfo.KeyChar);
+                    }
+                }
+                if (keyInfo.Key == ConsoleKey.Backspace && newstring.Length > 0)
+                {
+                    newstring = newstring.Substring(0, newstring.Length - 1);
+                    Console.Write("\b \b");
+                }
+            }
+            while (!unlocked);
+            {
+                Console.WriteLine();
+                if (keyInfo.Key == ConsoleKey.Enter)
+                { 
+                    return newstring;
+                }
+                else
+                {
+                    return "1go2to3main4menu5";
+                }
+            }
+        }
+
+        public static bool isleapyear(int year)
+        {
+            if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) { return true; }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static string newwayoftyping()
+        {
+            string newstring = "";
+            ConsoleKeyInfo keyInfo;
+            bool unlocked = false;
+
+            do
+            {
+                keyInfo = Console.ReadKey(true);
+                if ((keyInfo.Key == ConsoleKey.Enter && newstring.Length > 1) || keyInfo.Key == ConsoleKey.Escape) { unlocked = true; }
+
+                if (!char.IsControl(keyInfo.KeyChar))
                 {
                     newstring += keyInfo.KeyChar;
                     Console.Write(keyInfo.KeyChar);
@@ -83,37 +226,6 @@ namespace Bi_Os_Coop
                 }
             }
         }
-        public static string newwayoftyping()
-        {
-            string newstring = "";
-            ConsoleKeyInfo keyInfo;
-            do
-            {
-                keyInfo = Console.ReadKey(true);
-                if (!char.IsControl(keyInfo.KeyChar))
-                {
-                    newstring += keyInfo.KeyChar;
-                    Console.Write(keyInfo.KeyChar);
-                }
-                if (keyInfo.Key == ConsoleKey.Backspace && newstring.Length > 0)
-                {
-                    newstring = newstring.Substring(0, newstring.Length - 1);
-                    Console.Write("\b \b");
-                }
-            }
-            while (keyInfo.Key != ConsoleKey.Enter && keyInfo.Key != ConsoleKey.Escape);
-            {
-                Console.WriteLine();
-                if (keyInfo.Key == ConsoleKey.Enter)
-                {
-                    return newstring;
-                }
-                else
-                {
-                    return "1go2to3main4menu5";
-                }
-            }
-        }
         public static dynamic login()
         {
             Console.ForegroundColor = ConsoleColor.Gray;
@@ -121,16 +233,26 @@ namespace Bi_Os_Coop
             string username = newwayoftyping();
             if (username != "1go2to3main4menu5")
             {
-                Console.WriteLine("\nWachtwoord:");
-                SecureString pass = maskInputString();
-                string password = new System.Net.NetworkCredential(string.Empty, pass).Password;
-                if (password != "1go2to3main4menu5")
+                if (Registerscreen.emailCheck(username) == true)
                 {
-                    var inlog = loginscherm.mailwachtvragen(username.ToLower(), password);
-                    try { if (inlog == false) { inlog = login(); } }
-                    catch { }
-                    return inlog;
+                    Console.WriteLine("\nWachtwoord:");
+                    SecureString pass = maskInputString();
+                    string password = new System.Net.NetworkCredential(string.Empty, pass).Password;
+                    if (password != "1go2to3main4menu5")
+                    {
+                        var inlog = loginscherm.mailwachtvragen(username.ToLower(), password);
+                        try { if (inlog == false) { inlog = login(); } }
+                        catch { }
+                        return inlog;
+                    }
                 }
+                else
+                {
+                    System.Threading.Thread.Sleep(1500);
+                    Console.Clear();
+                    login();
+                }
+                
             }
             return "1go2to3main4menu5";
         }
@@ -138,9 +260,13 @@ namespace Bi_Os_Coop
         {
             SecureString pass = new SecureString();
             ConsoleKeyInfo keyInfo;
+            bool unlocked = false;
+
             do
             {
                 keyInfo = Console.ReadKey(true);
+                if ((keyInfo.Key == ConsoleKey.Enter && pass.Length > 1) || keyInfo.Key == ConsoleKey.Escape) { unlocked = true; }
+
                 if (!char.IsControl(keyInfo.KeyChar))
                 {
                     pass.AppendChar(keyInfo.KeyChar);
@@ -152,7 +278,7 @@ namespace Bi_Os_Coop
                     Console.Write("\b \b");
                 }
             }
-            while (keyInfo.Key != ConsoleKey.Enter && keyInfo.Key != ConsoleKey.Escape);
+            while (!unlocked);
             {
                 if (keyInfo.Key == ConsoleKey.Enter)
                 {

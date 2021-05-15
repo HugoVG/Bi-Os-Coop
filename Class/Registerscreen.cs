@@ -80,14 +80,28 @@ namespace Bi_Os_Coop
 
             while (!valid)
             {
-                Console.WriteLine($"\nTyp hier uw {print}:");
-                input = loginscherm.newwayoftyping();
-                if (input == "1go2to3main4menu5")
+                if (print == "geboortedatum (dd/mm/jjjj)")
                 {
-                    return "1go2to3main4menu5";
+                    Console.WriteLine($"\nTyp hier uw {print}:");
+                    input = loginscherm.getdate();
+                    if (input == "1go2to3main4menu5")
+                    {
+                        return "1go2to3main4menu5";
+                    }
+                    if (function(input))
+                        valid = true;
                 }
-                if (function(input))
-                    valid = true;
+                else
+                {
+                    Console.WriteLine($"\nTyp hier uw {print}:");
+                    input = loginscherm.newwayoftyping();
+                    if (input == "1go2to3main4menu5")
+                    {
+                        return "1go2to3main4menu5";
+                    }
+                    if (function(input))
+                        valid = true;
+                }               
             }
 
 

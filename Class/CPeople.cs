@@ -250,7 +250,7 @@ namespace Bi_Os_Coop
                 string naamFilm = loginscherm.newwayoftyping();
                 if (naamFilm == "1go2to3main4menu5") { goto exit; }
 
-                Console.WriteLine("Releasedatum film:");
+                Console.WriteLine("Releasedatum film: (dd/mm/yyyy)");
                 string releasedatumFilm = loginscherm.getdate();
                 if (releasedatumFilm == "1go2to3main4menu5") { goto exit; }
 
@@ -289,13 +289,10 @@ namespace Bi_Os_Coop
                 MovieInterpreter Movie = new MovieInterpreter();
                 Movie.setFilm(MovieLibrary.movieList.Count + 1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm, taalfilm, beschrijvingfilm);
 
-                //MovieLibrary = new Films();
                 MovieLibrary.addFilm(Movie);
                 JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
                 json = JsonSerializer.Serialize(MovieLibrary, opt);
 
-                //jsonFilms.addMovieByFunction(1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm);
-                //json = JsonSerializer.Serialize(jsonFilms);
                 Json.WriteJson("Films", json);
                 return Movie;
             exit:
