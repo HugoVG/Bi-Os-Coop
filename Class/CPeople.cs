@@ -87,10 +87,17 @@ namespace Bi_Os_Coop
             public void DeleteAccount(Person ingelogdepersoon)
             {
                 Console.Clear();
+                Console.Write("Terug naar Admin Menu (Esc)\n\n");
                 Console.WriteLine("Wilt u uw account verwijderen? (j/n)");
-                //string answer = Console.ReadLine();
-                if (Console.ReadKey(true).Key == ConsoleKey.J)
+
+                ConsoleKey keypressed = Console.ReadKey(true).Key;
+                while (keypressed != ConsoleKey.J && keypressed != ConsoleKey.N && keypressed != ConsoleKey.Escape)
                 {
+                    keypressed = Console.ReadKey(true).Key;
+                }
+                if (keypressed == ConsoleKey.Escape) { goto exit; }
+                if (keypressed == ConsoleKey.J)
+                    {
                     // asks for email and password of the person
                     Console.WriteLine("Vul uw emailadres in:");
                     string currentEmail = Console.ReadLine();
@@ -118,9 +125,8 @@ namespace Bi_Os_Coop
                         Console.Clear();
                         MainMenu.MainMenuShow();
                     }
-
                 }
-                else if (Console.ReadKey(true).Key == ConsoleKey.N)
+                else if (keypressed == ConsoleKey.N)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Bedankt voor het blijven!");
@@ -133,10 +139,15 @@ namespace Bi_Os_Coop
                 {
                     DeleteAccount(ingelogdepersoon);
                 }
+            exit:
+                return;
             }
 
             public void ChangePassword(Person ingelogdepersoon)
             {
+                Console.Clear();
+                Console.Write("Terug naar Admin Menu (Esc)\n\n");
+
                 // Checks if the person is logged in by checking if it has an ID
                 if (ingelogdepersoon.id != 0) // person is logged in
                 {
@@ -178,17 +189,25 @@ namespace Bi_Os_Coop
                         Console.WriteLine("Sorry, dit account bestaat niet.");
                         Console.WriteLine("Wilt u een nieuw account aanmaken? (j/n)");
 
-                        if (Console.ReadKey(true).Key == ConsoleKey.J) // person wants to create a new account
+                        ConsoleKey keypressed = Console.ReadKey(true).Key;
+                        while (keypressed != ConsoleKey.J && keypressed != ConsoleKey.N && keypressed != ConsoleKey.Escape)
+                        {
+                            keypressed = Console.ReadKey(true).Key;
+                        }
+                        if (keypressed == ConsoleKey.Escape) { goto exit; }
+                        if (keypressed == ConsoleKey.J) // person wants to create a new account
                         {
                             Console.Clear();
                             Registerscreen.CreateAccount();
                         }
-                        else if (Console.ReadKey(true).Key == ConsoleKey.N) // person is send to main menu
+                        else if (keypressed == ConsoleKey.N) // person is send to main menu
                         {
                             Console.Clear();
                             MainMenu.MainMenuShow();
                         }
                     }
+                exit:
+                    return;
                 }
 
                 // in case the person has an ID other than 0 or not 0
@@ -248,8 +267,9 @@ namespace Bi_Os_Coop
 
                 Console.WriteLine("Voeg hier een nieuwe film toe.");
                 Console.WriteLine("Naam film:");
-                string naamFilm = loginscherm.newwayoftyping();
+                string naamFilm = loginscherm.FirstCharToUpper(loginscherm.newwayoftyping());
                 if (naamFilm == "1go2to3main4menu5") { goto exit; }
+                Console.WriteLine(naamFilm);
 
                 Console.WriteLine("Releasedatum film: (dd/mm/yyyy)");
                 string releasedatumFilm = loginscherm.getdate();
@@ -261,11 +281,27 @@ namespace Bi_Os_Coop
                 if (genres == "1go2to3main4menu5") { goto exit; }
                 List<string> genresFilm = genres.Split(',').Select(p => p.Trim()).ToList();
 
+                for (int i = 0; i < genresFilm.Count; i++)
+                {
+                    genresFilm[i] = loginscherm.FirstCharToUpper(genresFilm[i]);
+                }
+
                 Console.WriteLine("Voeg tussen elke acteur een komma toe, bijv: Sean Connery, Ryan Gosling, Ryan Reynolds");
                 Console.WriteLine("Acteurs film:");
                 string acteurs = loginscherm.newwayoftyping();
+
                 if (acteurs == "1go2to3main4menu5") { goto exit; }
                 List<string> acteursFilm = acteurs.Split(',').Select(p => p.Trim()).ToList();
+
+                for (int i = 0; i < acteursFilm.Count; i++)
+                {
+                    List<string> tempActeur = acteursFilm[i].Split(' ').ToList();
+                    for (int j = 0; j < tempActeur.Count; j++)
+                    {
+                        tempActeur[j] = loginscherm.FirstCharToUpper(tempActeur[j]);
+                    }
+                    acteursFilm[i] = string.Join(" ", tempActeur);
+                }
 
                 Console.WriteLine("Minimumleeftijd film:");
                 var minimumleeftijd = converttoint(loginscherm.newwayoftyping());
@@ -280,11 +316,11 @@ namespace Bi_Os_Coop
                 else { beoordelingFilm = beoordelingFilm2; }
 
                 Console.WriteLine("Taal film:");
-                string taalfilm = loginscherm.newwayoftyping();
+                string taalfilm = loginscherm.FirstCharToUpper(loginscherm.newwayoftyping());
                 if (taalfilm == "1go2to3main4menu5") { goto exit; }
 
                 Console.WriteLine("Beschrijving film:");
-                string beschrijvingfilm = loginscherm.newwayoftyping();
+                string beschrijvingfilm = loginscherm.FirstCharToUpper(loginscherm.newwayoftyping());
                 if (beschrijvingfilm == "1go2to3main4menu5") { goto exit; }
 
                 if (MovieLibrary.movieList.Count > 0)
@@ -336,13 +372,14 @@ namespace Bi_Os_Coop
                 Console.Clear();
                 Console.Write("Terug naar Admin Menu (Esc)\n\n");
                 Console.WriteLine("Welke film wilt u updaten?");
-                string naamFilm = loginscherm.newwayoftyping();
+                string naamFilm = loginscherm.RemoveSpecialCharacters(loginscherm.newwayoftyping());
+
                 if (naamFilm == "1go2to3main4menu5") { goto exit; }
                 try
                 {
                     string json = Json.ReadJson("Films");
                     Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
-                    MovieInterpreter tempMovie = jsonFilms.movieList.Single(movie => movie.name.ToLower().Replace(" ", "") == naamFilm.ToLower().Replace(" ", ""));
+                    MovieInterpreter tempMovie = jsonFilms.movieList.Single(movie => loginscherm.RemoveSpecialCharacters(movie.name) == naamFilm);
                     MovieMethods.UpdateMovieMenu(json, jsonFilms, tempMovie);
                     goto exit;
                 }
@@ -376,7 +413,8 @@ namespace Bi_Os_Coop
                 Console.Clear();
                 Console.Write("Terug naar Admin Menu (Esc)\n\n");
                 Console.WriteLine("Welke film wilt u verwijderen?");
-                string movieToRemove = loginscherm.newwayoftyping();
+                string movieToRemove = loginscherm.RemoveSpecialCharacters(loginscherm.newwayoftyping());
+
                 if (movieToRemove == "1go2to3main4menu5") { goto exit; }
                 try
                 {

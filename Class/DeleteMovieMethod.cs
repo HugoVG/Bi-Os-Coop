@@ -9,7 +9,7 @@ namespace Bi_Os_Coop
         {
             CPeople.Admin admin = new CPeople.Admin();
 
-            int index = jsonFilms.movieList.FindIndex(movie => movie.name.ToLower().Replace(" ", "") == movieToRemove.ToLower().Replace(" ", ""));
+            int index = jsonFilms.movieList.FindIndex(movie => loginscherm.RemoveSpecialCharacters(movie.name) == movieToRemove);
             if (index == -1)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
