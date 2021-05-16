@@ -9,10 +9,10 @@ namespace Bi_Os_Coop
         {
             CPeople.Admin admin = new CPeople.Admin();
 
-            int index = jsonFilms.movieList.FindIndex(movie => movie.name == movieToRemove);
+            int index = jsonFilms.movieList.FindIndex(movie => movie.name.ToLower().Replace(" ", "") == movieToRemove.ToLower().Replace(" ", ""));
             if (index == -1)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Film niet gevonden. Probeer het nog een keer.");
                 System.Threading.Thread.Sleep(1000);
                 Console.ForegroundColor = ConsoleColor.Gray;
@@ -20,10 +20,18 @@ namespace Bi_Os_Coop
             }
             else
             {
-                Console.WriteLine("Film gevonden. Weet u zeker dat u hem wilt verwijderen? (ja/nee)");
-                string answer = Console.ReadLine().ToLower();
-
-                if (answer == "ja")
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\nFilm gevonden.");
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.WriteLine("Weet u zeker dat u hem wilt verwijderen? (j/n)"); 
+                
+                ConsoleKey keypressed = Console.ReadKey(true).Key;
+                while (keypressed != ConsoleKey.J && keypressed != ConsoleKey.N && keypressed != ConsoleKey.Escape)
+                {
+                    keypressed = Console.ReadKey(true).Key;
+                }
+                if (keypressed == ConsoleKey.Escape) { goto exit; }
+                if (keypressed == ConsoleKey.J)
                 {
                     jsonFilms.movieList.RemoveAt(index);
                     json = JsonSerializer.Serialize(jsonFilms);
@@ -35,34 +43,28 @@ namespace Bi_Os_Coop
                     Console.ForegroundColor = ConsoleColor.Gray;
                     Console.Clear();
                 }
-                else if (answer == "nee")
+                else if (keypressed == ConsoleKey.N)
                 {
-                    Console.WriteLine("Wilt u een andere film verwijderen? (ja/nee)");
-                    answer = Console.ReadLine().ToLower();
-                    if (answer == "ja")
+                    Console.WriteLine("Wilt u een andere film verwijderen? (j/n)");
+                    keypressed = Console.ReadKey(true).Key;
+                    while (keypressed != ConsoleKey.J && keypressed != ConsoleKey.N && keypressed != ConsoleKey.Escape)
+                    {
+                        keypressed = Console.ReadKey(true).Key;
+                    }
+                    if (keypressed == ConsoleKey.Escape) { goto exit; }
+                    if (keypressed == ConsoleKey.J)
                     {
                         admin.DeleteMovies();
                     }
-                    else if (answer == "nee")
+                    else if (keypressed == ConsoleKey.N)
                     {
                         Console.WriteLine("U wordt nu teruggestuurd naar het admin menu.");
                         System.Threading.Thread.Sleep(1000);
                         Console.ForegroundColor = ConsoleColor.Gray;
                     }
-                    else
-                    {
-                        Console.WriteLine("Antwoord niet begrepen. U keert automatisch terug naar het admin menu.");
-                        System.Threading.Thread.Sleep(1000);
-                        Console.ForegroundColor = ConsoleColor.Gray;
-                    }
                 }
-                else
-                {
-                    Console.WriteLine("Antwoord niet begrepen. Probeer het nog een keer.");
-                    System.Threading.Thread.Sleep(1000);
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                    admin.DeleteMovies();
-                }
+            exit:
+                return;
             }
         }
     }

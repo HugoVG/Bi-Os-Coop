@@ -118,7 +118,7 @@ namespace Bi_Os_Coop
                         Console.Clear();
                         MainMenu.MainMenuShow();
                     }
-                    
+
                 }
                 else if (Console.ReadKey(true).Key == ConsoleKey.N)
                 {
@@ -342,13 +342,15 @@ namespace Bi_Os_Coop
                 {
                     string json = Json.ReadJson("Films");
                     Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
-                    MovieInterpreter tempMovie = jsonFilms.movieList.Single(movie => movie.name.ToLower() == naamFilm.ToLower());
+                    MovieInterpreter tempMovie = jsonFilms.movieList.Single(movie => movie.name.ToLower().Replace(" ", "") == naamFilm.ToLower().Replace(" ", ""));
                     MovieMethods.UpdateMovieMenu(json, jsonFilms, tempMovie);
                     goto exit;
                 }
                 catch (InvalidOperationException)
                 {
-                    Console.WriteLine("Film niet gevonden.");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("\nFilm niet gevonden.");
+                    Console.ForegroundColor = ConsoleColor.Gray;
                     Console.WriteLine("Wilt u een andere film aanpassen? (j/n)");
 
                     ConsoleKeyInfo keyReaded = Console.ReadKey();
@@ -364,7 +366,7 @@ namespace Bi_Os_Coop
                             adminMenu.hoofdPagina();
                             break;
                     }
-                }   
+                }
             exit:
                 return;
             }
@@ -395,7 +397,7 @@ namespace Bi_Os_Coop
                 }
                 catch (InvalidOperationException)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("Film niet gevonden. Probeer het nog een keer.");
                     System.Threading.Thread.Sleep(1000);
                     Console.ForegroundColor = ConsoleColor.Gray;
@@ -425,7 +427,7 @@ namespace Bi_Os_Coop
                         totalChairs = (int)Zaal.Size.heftyChonk;
                         break;
                     }
-                    else if( chonkChart == ConsoleKey.C)
+                    else if (chonkChart == ConsoleKey.C)
                     {
                         totalChairs = (int)Zaal.Size.chonk;
                         break;
@@ -473,7 +475,7 @@ namespace Bi_Os_Coop
                 zalen = zalen.FromJson(Json.ReadJson("Zalen"));
                 zalen.AddZaal(zaal);
 
-                Json.WriteJson("Zalen",zalen.ToJson());
+                Json.WriteJson("Zalen", zalen.ToJson());
             exit:
                 return;
             }

@@ -87,7 +87,12 @@ namespace Bi_Os_Coop
                             newstring += keyInfo.KeyChar;
                             Console.Write(keyInfo.KeyChar);
                         }
-                        else if (newstring[0] == '0' || newstring[0] == '1' || newstring[0] == '2')
+                        else if (newstring[0] == '0' && keyInfo.Key != ConsoleKey.D0)
+                        {
+                            newstring += keyInfo.KeyChar;
+                            Console.Write(keyInfo.KeyChar);
+                        }
+                        else if (newstring[0] == '1' || newstring[0] == '2')
                         {
                             newstring += keyInfo.KeyChar;
                             Console.Write(keyInfo.KeyChar);
