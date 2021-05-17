@@ -106,11 +106,12 @@ namespace Bi_Os_Coop
             Console.Clear();
             Console.Write("Terug naar het Update Menu (Esc)\n\n");
             Console.WriteLine($"Wat is de nieuwe naam van de film {tempMovie.name}?");
-            string newName = loginscherm.newwayoftyping();
+            string newName = loginscherm.FirstCharToUpper(loginscherm.newwayoftyping());
             if (newName == "1go2to3main4menu5") { goto exit; }
             tempMovie.name = newName;
 
-            json = JsonSerializer.Serialize(jsonFilms);
+            JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+            json = JsonSerializer.Serialize(jsonFilms, opt);
             Json.WriteJson("Films", json);
 
             Console.ForegroundColor = ConsoleColor.Green;
@@ -132,7 +133,8 @@ namespace Bi_Os_Coop
             if (newReleaseDate == "1go2to3main4menu5") { goto exit; }
             tempMovie.releasedate = newReleaseDate;
 
-            json = JsonSerializer.Serialize(jsonFilms);
+            JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+            json = JsonSerializer.Serialize(jsonFilms, opt);
             Json.WriteJson("Films", json);
 
             Console.ForegroundColor = ConsoleColor.Green;
@@ -153,17 +155,19 @@ namespace Bi_Os_Coop
             Console.WriteLine("Voeg tussen elke genre een komma toe, bijv: Komedie, Actie, Thriller");
             Console.WriteLine("Genres film:");
             string genres = loginscherm.newwayoftyping();
-            if (genres == "1go2to3main4menu5") { goto exit; }
-            List<string> newGenres = genres.Split(',').ToList();
-            List<string> newGenres2 = new List<string>();
-            foreach (string genre in newGenres)
-            {
-                string genre2 = genre.Trim();
-                newGenres2.Add(genre2);
-            }
-            tempMovie.genres = newGenres2;
 
-            json = JsonSerializer.Serialize(jsonFilms);
+            if (genres == "1go2to3main4menu5") { goto exit; }
+
+            List<string> newGenres = genres.Split(',').Select(p => p.Trim()).ToList();
+            for (int i = 0; i < newGenres.Count; i++)
+            {
+                newGenres[i] = loginscherm.FirstCharToUpper(newGenres[i]);
+            }
+
+            tempMovie.genres = newGenres;
+
+            JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+            json = JsonSerializer.Serialize(jsonFilms, opt);
             Json.WriteJson("Films", json);
 
             Console.ForegroundColor = ConsoleColor.Green;
@@ -180,15 +184,28 @@ namespace Bi_Os_Coop
         {
             Console.Clear();
             Console.Write("Terug naar het Update Menu (Esc)\n\n");
-            Console.WriteLine($"Wie is/zijn de nieuwe acteurs van de film {tempMovie.name}?");
+            Console.WriteLine($"Wie zijn de nieuwe acteurs van de film {tempMovie.name}?");
             Console.WriteLine("Voeg tussen elke acteur een komma toe, bijv: Sean Connery, Ryan Gosling, Ryan Reynolds");
             Console.WriteLine("Acteurs film:");
             string actors = loginscherm.newwayoftyping();
-            if (actors == "1go2to3main4menu5") { goto exit; }
-            List<string> newActors = actors.Split(',').ToList();
-            tempMovie.genres = newActors;
 
-            json = JsonSerializer.Serialize(jsonFilms);
+            if (actors == "1go2to3main4menu5") { goto exit; }
+
+            List<string> newActors = actors.Split(',').Select(p => p.Trim()).ToList();
+            for (int i = 0; i < newActors.Count; i++)
+            {
+                List<string> tempActeur = newActors[i].Split(' ').ToList();
+                for (int j = 0; j < tempActeur.Count; j++)
+                {
+                    tempActeur[j] = loginscherm.FirstCharToUpper(tempActeur[j]);
+                }
+                newActors[i] = string.Join(" ", tempActeur);
+            }
+
+            tempMovie.acteurs = newActors;
+
+            JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+            json = JsonSerializer.Serialize(jsonFilms, opt);
             Json.WriteJson("Films", json);
 
             Console.ForegroundColor = ConsoleColor.Green;
@@ -200,6 +217,7 @@ namespace Bi_Os_Coop
         exit:
             return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
         }
+
         public static dynamic errormaker()
         {
             return "2a";
@@ -227,7 +245,8 @@ namespace Bi_Os_Coop
                 return new Tuple<string, Films, MovieInterpreter>("fail", jsonFilms, tempMovie);
             }
 
-            json = JsonSerializer.Serialize(jsonFilms);
+            JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+            json = JsonSerializer.Serialize(jsonFilms, opt);
             Json.WriteJson("Films", json);
 
             Console.ForegroundColor = ConsoleColor.Green;
@@ -260,7 +279,8 @@ namespace Bi_Os_Coop
                 return new Tuple<string, Films, MovieInterpreter>("fail", jsonFilms, tempMovie);
             }
 
-            json = JsonSerializer.Serialize(jsonFilms);
+            JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+            json = JsonSerializer.Serialize(jsonFilms, opt);
             Json.WriteJson("Films", json);
 
             Console.ForegroundColor = ConsoleColor.Green;
@@ -277,11 +297,12 @@ namespace Bi_Os_Coop
             Console.Clear();
             Console.Write("Terug naar het Update Menu (Esc)\n\n");
             Console.WriteLine($"Wat is de nieuwe beschrijving van de film {tempMovie.name}?");
-            string newName = loginscherm.newwayoftyping();
+            string newName = loginscherm.FirstCharToUpper(loginscherm.newwayoftyping());
             if (newName == "1go2to3main4menu5") { goto exit; }
             tempMovie.beschrijving = newName;
 
-            json = JsonSerializer.Serialize(jsonFilms);
+            JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+            json = JsonSerializer.Serialize(jsonFilms, opt);
             Json.WriteJson("Films", json);
 
             Console.ForegroundColor = ConsoleColor.Green;
@@ -298,11 +319,12 @@ namespace Bi_Os_Coop
             Console.Clear();
             Console.Write("Terug naar het Update Menu (Esc)\n\n");
             Console.WriteLine($"Wat is de nieuwe taal van de film {tempMovie.name}?");
-            string newName = loginscherm.newwayoftyping();
+            string newName = loginscherm.FirstCharToUpper(loginscherm.newwayoftyping());
             if (newName == "1go2to3main4menu5") { goto exit; }
             tempMovie.taal = newName;
 
-            json = JsonSerializer.Serialize(jsonFilms);
+            JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+            json = JsonSerializer.Serialize(jsonFilms, opt);
             Json.WriteJson("Films", json);
 
             Console.ForegroundColor = ConsoleColor.Green;

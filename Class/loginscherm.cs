@@ -87,7 +87,12 @@ namespace Bi_Os_Coop
                             newstring += keyInfo.KeyChar;
                             Console.Write(keyInfo.KeyChar);
                         }
-                        else if (newstring[0] == '0' || newstring[0] == '1' || newstring[0] == '2')
+                        else if (newstring[0] == '0' && keyInfo.Key != ConsoleKey.D0)
+                        {
+                            newstring += keyInfo.KeyChar;
+                            Console.Write(keyInfo.KeyChar);
+                        }
+                        else if (newstring[0] == '1' || newstring[0] == '2')
                         {
                             newstring += keyInfo.KeyChar;
                             Console.Write(keyInfo.KeyChar);
@@ -226,6 +231,30 @@ namespace Bi_Os_Coop
                 }
             }
         }
+
+        public static string RemoveSpecialCharacters(string str)
+        {
+            StringBuilder newString = new StringBuilder();
+            foreach (char c in str)
+            {
+                if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
+                {
+                    newString.Append(Char.ToLower(c));
+                }
+            }
+            return newString.ToString();
+        }
+
+        public static string FirstCharToUpper(string input)
+        {
+            switch (input)
+            {
+                case null: throw new ArgumentNullException(nameof(input));
+                case "": throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input));
+                default: return input.First().ToString().ToUpper() + input.Substring(1);
+            }
+        }
+
         public static dynamic login()
         {
             Console.ForegroundColor = ConsoleColor.Gray;
