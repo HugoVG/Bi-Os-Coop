@@ -83,6 +83,14 @@ namespace Bi_Os_Coop
                         Thread.Sleep(1500);
                         index = highestpage;
                     }
+                    else if(index < 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Deze bladzijde bestaat niet!");
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        Thread.Sleep(1500);
+                        index = 1;
+                    }
                 }
                 catch (Exception)
                 {
