@@ -57,7 +57,7 @@ namespace Bi_Os_Coop
                 MainMenu.jsonmainmenu(mainmenuthings.user, mainmenuthings.sort, !mainmenuthings.reverse, mainmenuthings.login, mainmenuthings.language);
                 Console.Clear();
             }
-            else if (indexstring.ToLower() == "s")
+            else if (indexstring.ToLower() == "s" || indexstring.ToLower() == "search")
             {
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.Write("Type hier de film die u wilt zoeken: ");
@@ -118,13 +118,15 @@ namespace Bi_Os_Coop
 
             }
             searchmov = searchmov.ToLower().Replace(" ", "");
-            for(int i = 1; i < jsonFilms.movieList.Count(); i++)
+            for(int i = 0; i < jsonFilms.movieList.Count(); i++)
             {
                     moviesearchlist.Add(jsonFilms.movieList[i].name.ToLower().Replace(" ", ""));
             }
             int lowest = LevenshteinDistance.Compute(searchmov, moviesearchlist[0]);
             int lowestindex = 0;
-            for (int i = 1; i < moviesearchlist.Count(); i++)
+            bool contains = false;
+            int containindex = 0;
+            for (int i = 0; i < moviesearchlist.Count(); i++)
             {
                 int temp = LevenshteinDistance.Compute(searchmov, moviesearchlist[i]);
                 if (temp < lowest)
@@ -132,12 +134,22 @@ namespace Bi_Os_Coop
                     lowest = temp;
                     lowestindex = i;
                 }
+                if (moviesearchlist[i].Contains(searchmov))
+                {
+                    contains = true;
+                    containindex = i;
+                }
             }
             //hoeveel typefouten er mogen gemaakt worden (momenteel 3) als het hoger wordt pakt hij altijd film loro omdat die 4 letters lang is!
-            if (lowest < 4)
+            if (contains && searchmov.Count() >= 3 && lowest != 0)
             {
                 Console.Clear();
-                MovieMenu.showmov(lowestindex + 1);
+                MovieMenu.showmov(containindex);
+            }
+            else if (lowest < 4)
+            {
+                Console.Clear();
+                MovieMenu.showmov(lowestindex);
             }
             else
             {
