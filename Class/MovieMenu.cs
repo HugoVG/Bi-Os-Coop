@@ -125,6 +125,7 @@ namespace Bi_Os_Coop
                     lowestindex = i;
                 }
             }
+            //hoeveel typefouten er mogen gemaakt worden (momenteel 3) als het hoger wordt pakt hij altijd film loro omdat die 4 letters lang is!
             if (lowest < 4)
             {
                 Console.Clear();
