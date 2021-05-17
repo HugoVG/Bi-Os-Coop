@@ -109,16 +109,26 @@ namespace Bi_Os_Coop
             {
 
             }
-            searchmov = searchmov.Replace(" ", "");
+            searchmov = searchmov.ToLower().Replace(" ", "");
             for(int i = 1; i < jsonFilms.movieList.Count(); i++)
             {
                     moviesearchlist.Add(jsonFilms.movieList[i].name.ToLower().Replace(" ", ""));
             }
-            if (moviesearchlist.Contains(searchmov.ToLower()))
+            int lowest = LevenshteinDistance.Compute(searchmov, moviesearchlist[0]);
+            int lowestindex = 0;
+            for (int i = 1; i < moviesearchlist.Count(); i++)
             {
-                int tempMovie = moviesearchlist.IndexOf(searchmov.ToLower()) + 1;
+                int temp = LevenshteinDistance.Compute(searchmov, moviesearchlist[i]);
+                if (temp < lowest)
+                {
+                    lowest = temp;
+                    lowestindex = i;
+                }
+            }
+            if (lowest < 4)
+            {
                 Console.Clear();
-                MovieMenu.showmov(tempMovie);
+                MovieMenu.showmov(lowestindex + 1);
             }
             else
             {
