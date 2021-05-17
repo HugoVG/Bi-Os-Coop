@@ -94,6 +94,7 @@ namespace Bi_Os_Coop
             }
             MovieMenu.mainPagina(index);
         }
+        //functie die de ingetypte film zoekt in de JSON met alle films
         public static void search(string searchmov, List<string> mainmenulist)
         {
             string json = Json.ReadJson("Films");
@@ -108,9 +109,10 @@ namespace Bi_Os_Coop
             {
 
             }
+            searchmov = searchmov.Replace(" ", "");
             for(int i = 1; i < jsonFilms.movieList.Count(); i++)
             {
-                    moviesearchlist.Add(jsonFilms.movieList[i].name.ToLower()); 
+                    moviesearchlist.Add(jsonFilms.movieList[i].name.ToLower().Replace(" ", ""));
             }
             if (moviesearchlist.Contains(searchmov.ToLower()))
             {
@@ -126,6 +128,7 @@ namespace Bi_Os_Coop
                 Thread.Sleep(1000);
             }
         }
+        //functie om alle kenmerken van een film te laten zien
         public static void showmov(int tempMovie)
         {
             string json = Json.ReadJson("Films");
@@ -182,6 +185,7 @@ namespace Bi_Os_Coop
                 for (int i = 0; i < jsonFilms.movieList[tempMovie].beschrijving.Length; i++)
                 {
                     char c = jsonFilms.movieList[tempMovie].beschrijving[i];
+                    //zorgt ervoor dat na 90 characters er bij de eerstvolgende spatie een nieuwe regel wordt gestart.
                     if ((i % 90 == 0 && i != 0) || newline == true)
                     {
                         if (c == ' ')
@@ -203,6 +207,7 @@ namespace Bi_Os_Coop
                 }
                 Console.Write("\n");
             }
+            //hierna moet als er ja geselecteerd is het resrvatie scherm komen!
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("\nWilt u deze film reserveren? (J/N)");
             Console.ReadLine();
