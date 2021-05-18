@@ -9,7 +9,7 @@ namespace Bi_Os_Coop
 {
     class Registerscreen
     {   
-        public static bool CreateAccount()
+        public static void CreateAccount()
         {
             string json = Json.ReadJson("Accounts");
             CPeople.People jsonPeople = new CPeople.People();
@@ -17,18 +17,18 @@ namespace Bi_Os_Coop
             Console.WriteLine("Terug naar hoofdmenu (Esc)");
 
             string naam = validCheck("voor- en achternaam", lengthCheck);
-            if (naam == "1go2to3main4menu5") { return false; }
+            if (naam == "1go2to3main4menu5") { return; }
             string birthdate = validCheck("geboortedatum (dd/mm/jjjj)", dateCheck);
-            if (birthdate == "1go2to3main4menu5") { return false; }
+            if (birthdate == "1go2to3main4menu5") { return; }
             if (AgeVerify(birthdate, 14)) {
 
                 int id = createID();
                 string email = validCheck("e-mailadres", emailCheck);
-                if (email == "1go2to3main4menu5") { return false; }
+                if (email == "1go2to3main4menu5") { return; }
                 string phoneNumber = validCheck("mobiele telefoonnummer", phoneCheck);
-                if (phoneNumber == "1go2to3main4menu5") { return false; }
+                if (phoneNumber == "1go2to3main4menu5") { return; }
                 string password = validCheck("wachtwoord", lengthCheck);
-                if (password == "1go2to3main4menu5") { return false; }
+                if (password == "1go2to3main4menu5") { return; }
 
                 CPeople.Person customer = new CPeople.Person();
                 customer.setPerson(id, naam, email.ToLower(), password, birthdate, phoneNumber);
@@ -38,14 +38,15 @@ namespace Bi_Os_Coop
                 Program.newEntry("\nUw account is gemaakt.\nDruk op ENTER om verder te gaan.");
                 Console.ReadLine();
                 Console.Clear();
-                return true;
+                MainMenuThings things = MainMenu.jsonfileloader();
+                dynamic user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
+                MainMenu.jsonmainmenu(loginscherm.mailwachtvragen(email, password), sort, reverse, "Person", language);
             }
             else{
                 Program.newEntry("\nSorry, je kunt pas een account aanmaken als je 14 jaar of ouder bent.", ConsoleColor.Red);
                 Program.newEntry("\nDruk op enter om terug te gaan.");
                 Console.ReadLine();
                 Console.Clear();
-                return false;
             }
         }
 

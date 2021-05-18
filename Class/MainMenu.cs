@@ -294,13 +294,13 @@ namespace Bi_Os_Coop
                 else if (keypressed == ConsoleKey.O && login == "None")
                 {
                     Console.Clear();
-                    bool createduser = Registerscreen.CreateAccount();
-                    if (createduser)
-                    {
-                        Tuple<string, dynamic> login2 = loginscreenthing(login);
-                        login = login2.Item1;
-                        if (login != "None") { user = login2.Item2; }
-                    }
+                    Registerscreen.CreateAccount();
+                    //if (createduser)
+                    //{
+                    //    Tuple<string, dynamic> login2 = loginscreenthing(login);
+                    //    login = login2.Item1;
+                    //    if (login != "None") { user = login2.Item2; }
+                    //}
                 }
                 else if (keypressed == ConsoleKey.W) { if (login == "Admin") { adminMenu.AM(); } }
                 else if (keypressed == ConsoleKey.R && sort != "name") { sort = "name"; }
@@ -310,6 +310,7 @@ namespace Bi_Os_Coop
                 else if (keypressed == ConsoleKey.P) { reverse = !reverse; }
                 else if (keypressed == ConsoleKey.Escape) { Environment.Exit(0); }
             }
+            if (keypressed !=)
             jsonmainmenu(user, sort, reverse, login, language);
             Console.Clear();
             MainMenuShow();
