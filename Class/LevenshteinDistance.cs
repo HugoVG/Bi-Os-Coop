@@ -27,16 +27,16 @@ namespace Bi_Os_Coop
                 return movielistitem.Length;
             }
 
-            int n = searchmov.Length;
-            int m = movielistitem.Length;
-            int[,] d = new int[n + 1, m + 1];
+            int searchmovlength = searchmov.Length;
+            int movielistitemlength = movielistitem.Length;
+            int[,] d = new int[searchmovlength + 1, movielistitemlength + 1];
 
-            for (int i = 0; i <= n; d[i, 0] = i++) ;
-            for (int j = 1; j <= m; d[0, j] = j++) ;
+            for (int i = 0; i <= searchmovlength; d[i, 0] = i++) ;
+            for (int j = 1; j <= movielistitemlength; d[0, j] = j++) ;
 
-            for (int i = 1; i <= n; i++)
+            for (int i = 1; i <= searchmovlength; i++)
             {
-                for (int j = 1; j <= m; j++)
+                for (int j = 1; j <= movielistitemlength; j++)
                 {
                     int cost = (movielistitem[j - 1] == searchmov[i - 1]) ? 0 : 1;
                     int min1 = d[i - 1, j] + 1;
@@ -45,7 +45,7 @@ namespace Bi_Os_Coop
                     d[i, j] = Math.Min(Math.Min(min1, min2), min3);
                 }
             }
-            return d[n, m];
+            return d[searchmovlength, movielistitemlength];
         }
     }
 }
