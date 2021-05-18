@@ -260,10 +260,11 @@ namespace Bi_Os_Coop
             Logo();
             MainMenuThings things = jsonfileloader();
             dynamic user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
+            bool sav = false;
             if (language == "Nederlands")
             {
                 Console.Write("Afsluiten (Esc)");
-                if (login  == "None") { logintext(); }
+                if (login == "None") { logintext(); }
                 else { logouttext(); }
                 string goAM = "Admin Menu (W)";
                 if (login == "Admin") { Console.WriteLine(lengthmakerthing(Console.WindowWidth - goAM.Length, ' ') + goAM); }
@@ -283,35 +284,24 @@ namespace Bi_Os_Coop
                 else if (keypressed == ConsoleKey.I && login == "None")
                 {
                     Tuple<string, dynamic> login2 = loginscreenthing(login);
-                    if (login2.Item1 != "1go2to3main4menu5")
-                    {
-                        login = login2.Item1;
-                        if (login2.Item1 != "None") { user = login2.Item2; }
-                        jsonmainmenu(user, sort, reverse, login, language);
-                        if (login == "Admin") { adminMenu.AM(); }
-                    }
+                    login = login2.Item1;
+                    if (login2.Item1 != "None") { user = login2.Item2; }
+                    if (login == "Admin") { adminMenu.AM(); }
                 }
                 else if (keypressed == ConsoleKey.O && login == "None")
                 {
                     Console.Clear();
                     Registerscreen.CreateAccount();
-                    //if (createduser)
-                    //{
-                    //    Tuple<string, dynamic> login2 = loginscreenthing(login);
-                    //    login = login2.Item1;
-                    //    if (login != "None") { user = login2.Item2; }
-                    //}
                 }
                 else if (keypressed == ConsoleKey.W) { if (login == "Admin") { adminMenu.AM(); } }
-                else if (keypressed == ConsoleKey.R && sort != "name") { sort = "name"; }
-                else if (keypressed == ConsoleKey.T && sort != "rating") { sort = "rating"; }
-                else if (keypressed == ConsoleKey.Y && sort != "release") { sort = "release"; }
-                else if (keypressed == ConsoleKey.U && login != "None") { login = "None"; user = null; }
-                else if (keypressed == ConsoleKey.P) { reverse = !reverse; }
+                else if (keypressed == ConsoleKey.R && sort != "name") { sort = "name"; sav = true; }
+                else if (keypressed == ConsoleKey.T && sort != "rating") { sort = "rating"; sav = true; }
+                else if (keypressed == ConsoleKey.Y && sort != "release") { sort = "release"; sav = true; }
+                else if (keypressed == ConsoleKey.U && login != "None") { login = "None"; user = null; sav = true; }
+                else if (keypressed == ConsoleKey.P) { reverse = !reverse; sav = true; }
                 else if (keypressed == ConsoleKey.Escape) { Environment.Exit(0); }
             }
-            if (keypressed !=)
-            jsonmainmenu(user, sort, reverse, login, language);
+            if (sav) { jsonmainmenu(user, sort, reverse, login, language); }
             Console.Clear();
             MainMenuShow();
         }
