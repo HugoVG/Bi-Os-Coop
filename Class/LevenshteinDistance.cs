@@ -31,8 +31,8 @@ namespace Bi_Os_Coop
             int movielistitemlength = movielistitem.Length;
             int[,] distance = new int[searchmovlength + 1, movielistitemlength + 1];
 
-            for (int i = 0; i <= searchmovlength; d[i, 0] = i++) ;
-            for (int j = 1; j <= movielistitemlength; d[0, j] = j++) ;
+            for (int i = 0; i <= searchmovlength; distance[i, 0] = i++) ;
+            for (int j = 1; j <= movielistitemlength; distance[0, j] = j++) ;
 
             for (int i = 1; i <= searchmovlength; i++)
             {
