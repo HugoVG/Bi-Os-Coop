@@ -56,7 +56,7 @@ namespace Bi_Os_Coop
     [Serializable]
     public class IdiotException : Exception
     {
-        public IdiotException() { Console.WriteLine("some idiot fucked up"); }
+        public IdiotException() { Console.WriteLine("get Nae Naed"); }
         public IdiotException(string message) : base(message) { }
         public IdiotException(string message, Exception inner) : base(message, inner) { }
         protected IdiotException(

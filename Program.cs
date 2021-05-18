@@ -1,5 +1,5 @@
 #define DEBUG
-#undef DEBUG
+//#undef DEBUG
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +14,18 @@ namespace Bi_Os_Coop
         static void Main(string[] args)
         {
 #if (DEBUG)
+            //#error Hold there Criminal scum
             CPeople.Admin tempadm = new CPeople.Admin();
-            tempadm.AddCinemaHall();
+            //Console.WriteLine(tempadm.isAdmin());
+            //Console.WriteLine(tempadm.isPerson());
+
+            CPeople.Person tempperson = new CPeople.Person();
+            //Console.WriteLine(tempperson.isAdmin());
+            //Console.WriteLine(tempperson.isPerson());
+            //tempadm.AddCinemaHall();
             //Hier in de testen
-            //ZAALTESTERNIETGEBRUIKEN test = new ZAALTESTERNIETGEBRUIKEN();
-            //test.Test();
+            ZAALTESTERNIETGEBRUIKEN test = new ZAALTESTERNIETGEBRUIKEN();
+            test.Test();
             //Test Gelukt
             //PeopleTest.newADMIN();
             //MainMenu.MainMenuShow();

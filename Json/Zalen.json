@@ -1,7 +1,7 @@
 {
   "zalenList": [
     {
-      "date": "02/06/2021",
+      "date": "01/06/2021",
       "time": "05:02",
       "film": {
         "movieid": 1,
@@ -3208,18 +3208,18 @@
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 10
         },
         {
@@ -3303,23 +3303,23 @@
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 15
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 15
         },
         {

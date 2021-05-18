@@ -9,40 +9,105 @@ namespace Bi_Os_Coop
     {
         public void Test()
         {
-            Zalen testzaal = new Zalen();
-            Zaal tijdelijkeZaal = new Zaal();
-            //tijdelijkeZaal.setZaal(10, "30-01-2021", "13:00", 100);
-            tijdelijkeZaal.showStool();
+            DateTime today = new DateTime(2021, 6, 15);
+            Console.WriteLine(today.ToString());
+            string todaystring = $"0{today.Day}/0{today.Month}/{today.Year}";
+            Console.WriteLine(todaystring);
+            //Zalen testzaal = new Zalen();
+            //Zaal tijdelijkeZaal = new Zaal();
+            ////tijdelijkeZaal.setZaal(10, "30-01-2021", "13:00", 100);
+            //tijdelijkeZaal.showStool();
             CPeople.Person Henk = new CPeople.Person();
             Henk.setPerson(69, "Henk", "Henkerino@HahaHenk.com", "0nlyWams", "30-01-2021", "06111111");
-            //tijdelijkeZaal.Reser(-5, Henk);
-            Console.ReadKey();
-            testzaal.AddZaal(tijdelijkeZaal);
-            testzaal.writeZalen();
-            string json = testzaal.ToJson();
-            Json.WriteJson("Zalen", json);
-            Console.ReadKey();
+            ////tijdelijkeZaal.Reser(-5, Henk);
+            //Console.ReadKey();
+            //testzaal.AddZaal(tijdelijkeZaal);
+            //testzaal.writeZalen();
+            //string json = testzaal.ToJson();
+            //Json.WriteJson("Zalen", json);
+            //Console.ReadKey();
             Zalen testzaal2 = new Zalen();
             string json2 = Json.ReadJson("Zalen");
             testzaal2 = testzaal2.FromJson(json2);
             //int[] gfdjhfskd = new int[] { 31, 32, 33, 34 };
-            int gfdjhfskd = 30;
-            testzaal2.Reserveseats(gfdjhfskd, Henk, "30-01-2021", "13:00");
-            foreach (Zaal zaal in testzaal2.zalenList)
-            {
-                zaal.showStool();
-            }
-            Console.ReadKey();
+            //int gfdjhfskd = 30;
+            //testzaal2.Reserveseats(gfdjhfskd, Henk, "30-01-2021", "13:00");
+            //testzaal2.writeZalen();
+            Console.WriteLine("Name a film you want to search");
+            string henk = Console.ReadLine();
+            //foreach (Zaal zaal in testzaal2.zalenList)
+            //{
+            //    zaal.showStool();
+            //    Console.ReadKey();
+            //}
+
+            Tuple<bool, List<Zaal>> temp = testzaal2.selectZalen(henk);
+            ZalenExtender.menu(temp.Item2);
             json2 = testzaal2.ToJson();
             Json.WriteJson("Zalen", json2);
             testzaal2 = testzaal2.FromJson(json2);
             foreach (Zaal zaal in testzaal2.zalenList)
             {
                 zaal.showStool();
+                Console.ReadKey(true);
             }
+            Console.WriteLine("");
         }
     }
+    internal static class ZalenExtender
+    {
+        public static void writeZalen(List<Zaal> selected)
+        {
+            //List<Zaal> showingzaal = this.zalenList;
+            int counter = 1;
+            foreach (Zaal zaal in selected)
+            {
+                Console.Write($"\n{counter} \t");
+                Console.Write($"date:{zaal.date} \t");
+                Console.Write($"time:{zaal.time} \t");
+                Console.Write($"movie:{zaal.film.name} \t");
+                Console.Write($"release Date:{zaal.film.releasedate} \t");
+                Console.Write($"Score:{zaal.film.beoordeling} ");
+                counter++;
+            }
+        }
+        public static Zaal menu(List<Zaal> selected)
+        {
+            writeZalen(selected);
+            Console.WriteLine("select the number of the timeframe and date you want to order");
+            string temp  = Console.ReadLine();
+            try
+            {
+                int index = Convert.ToInt32(temp) - 1;
+                Zaal choosenone = selected.ElementAt(index);
+                choosenone.showStool();
+                Console.WriteLine("Select the seats you want to reserve add an ',' between the stools ");
+                string henk = Console.ReadLine();
+                henk = henk.Trim();
+                string[] henkerino = henk.Split(',');
+                List<int> allIndexes = new List<int>();
+                foreach (string i in henkerino)
+                {
+                    if (Convert.ToInt32(i) == 0)
+                    {
+                        Console.WriteLine("input was not a number");
+                    }
+                    allIndexes.Add(Convert.ToInt32(i));
+                }
+                
+                MainMenuThings mmt = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
+                //CPeople.Person person = new CPeople.Person {id= mmt.user.id};
 
+                int[] indexes = allIndexes.ToArray();
+                choosenone.occupyStool(indexes, mmt.user);
+                //choosenone.occupyStool();
+                //choosenone.showStool();
+
+                return choosenone;
+            }
+            catch (FormatException) { Console.WriteLine("Invalid Number"); return null; }
+        }
+    }
     internal class Zalen
     {
         public List<Zaal> zalenList { get; set; }
@@ -66,7 +131,21 @@ namespace Bi_Os_Coop
             {
                 Console.Write($"\ndate:{zaal.date} \t");
                 Console.Write($"time:{zaal.time} \t");
-                Console.Write($"movie:{zaal.film.name} \n");
+                Console.Write($"movie:{zaal.film.name} \t");
+                Console.Write($"release Date:{zaal.film.releasedate} \t");
+                Console.Write($"Score:{zaal.film.beoordeling} ");
+            }
+        }
+        public void writeZalen(List<Zaal> selected)
+        {
+            //List<Zaal> showingzaal = this.zalenList;
+            foreach (Zaal zaal in selected)
+            {
+                Console.Write($"\ndate:{zaal.date} \t");
+                Console.Write($"time:{zaal.time} \t");
+                Console.Write($"movie:{zaal.film.name} \t");
+                Console.Write($"release Date:{zaal.film.releasedate} \t");
+                Console.Write($"Score:{zaal.film.beoordeling} ");
             }
         }
 
@@ -94,6 +173,34 @@ namespace Bi_Os_Coop
             indexs[0] = index;
             gekozenzaal.occupyStool(indexs, orderer);
         }
+        public void Reserveseats(int index, CPeople.Person orderer, Zaal zaal)
+        {
+            int[] indexs = new int[1];
+            indexs[0] = index;
+            zaal.occupyStool(indexs, orderer);
+        }
+        public void Reserveseats(int[] index, CPeople.Person orderer, Zaal zaal)
+        {
+            zaal.occupyStool(index, orderer);
+        }
+        /// <summary>
+        /// returned de zalen waar de film draai met x naam
+        /// </summary>
+        /// <param name="naam"></param>
+        /// <returns></returns>
+        public Tuple<bool, List<Zaal>> selectZalen(string naam)
+        {
+            IEnumerable<Zaal> selectedzalen = zalenList.Where(movie => movie.film.name.ToLower() == naam.ToLower() && DateTime.Parse(movie.date) >= DateTime.Now); //fixt ook de out dated films
+            if (selectedzalen.Count() != 0)
+                return Tuple.Create(true, selectedzalen.ToList());
+            else
+            {
+                Console.WriteLine($"Couldn't find any movie with name {naam}");
+                return Tuple.Create(false, selectedzalen.ToList());
+            }
+
+        }
+
     }
 
     internal class Zaal
@@ -124,6 +231,8 @@ namespace Bi_Os_Coop
                 nstoelen.Add(stoel);
                 stoelen = nstoelen;
             }*/
+            /// De +130 // +42 // +18 is voor 
+            /// de lege stoelen in de excel sheet
             if (totalStools == (int)Size.MegaChonker)
             {
                 totalStools = totalStools +130;
@@ -163,6 +272,19 @@ namespace Bi_Os_Coop
             //showStool();
         }
 
+        public void writeZalen(List<Zaal> selected)
+        {
+            //List<Zaal> showingzaal = this.zalenList;
+            foreach (Zaal zaal in selected)
+            {
+                Console.Write($"\ndate:{zaal.date} \t");
+                Console.Write($"time:{zaal.time} \t");
+                Console.Write($"movie:{zaal.film.name} \t");
+                Console.Write($"release Date:{zaal.film.releasedate} \t");
+                Console.Write($"Score:{zaal.film.beoordeling} ");
+            }
+        }
+
         public void applyzaal()
         {
         }
@@ -190,11 +312,12 @@ namespace Bi_Os_Coop
                 {
                     if (stoelen.ElementAt(index).isOccupied)
                     {
-                        Console.WriteLine($"{index - 1} stool is already ");
+                        Console.WriteLine($"{index} stool is already ");
                         return -1;
                     }
-                    stoelen.ElementAt(index - 1).isOccupied = true;
-                    stoelen.ElementAt(index - 1).isOccupiedBy = orderer.id;
+                    stoelen.ElementAt(index).isOccupied = true;
+                    Console.WriteLine($"{index} is now occupied by {orderer.id}");
+                    stoelen.ElementAt(index).isOccupiedBy = orderer.id;
                 }
                 return 1;
             }
@@ -213,12 +336,17 @@ namespace Bi_Os_Coop
             Console.Clear();
             int counter = 0;
             Console.ForegroundColor = ConsoleColor.White;
+            int stoelenPerRij;
+            if (this.stoelen.Count == 630) { stoelenPerRij = 30; }
+            else if (this.stoelen.Count == 342){ stoelenPerRij = 18; }
+            else if (this.stoelen.Count == 168) { stoelenPerRij = 12; }
+            else { throw new IdiotException(); }
             foreach (Stoel stoel in this.stoelen)
             {
-                if (counter % stoelWidth == 0)
+                if (counter % stoelenPerRij == 0)
                 {
                     if (counter < 10) { }
-                    else { Console.WriteLine("\n"); }
+                    else { Console.WriteLine(""); }
                 }
 
                 if (stoelen.ElementAt(counter).isOccupied)
@@ -281,10 +409,9 @@ namespace Bi_Os_Coop
             if (prijs == price.NONE)
             {
                 this.isOccupied = true;
-            }
-            else
-            {
                 this.isOccupiedBy = 1;
+                this.Price = prijs;
+                return;
             }
             this.isOccupied = false;
             this.Price = prijs;

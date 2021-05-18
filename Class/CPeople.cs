@@ -70,7 +70,21 @@ namespace Bi_Os_Coop
                 this.age = age;
                 this.phonenumber = phonenumber;
             }
-
+            public bool isPerson()
+            {
+                if (this.GetType().Equals(typeof(Person))) {
+                    return true;
+                }
+                else {return false; }
+            }
+            public bool isAdmin()
+            {
+                if (this.GetType().Equals(typeof(Admin)))
+                {
+                    return true;
+                }
+                else { return false; }
+            }
             // general methods
             public Person Login()
             {
