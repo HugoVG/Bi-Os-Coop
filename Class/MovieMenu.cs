@@ -146,7 +146,7 @@ namespace Bi_Os_Coop
                 Console.Clear();
                 MovieMenu.showmov(containindex);
             }
-            else if (lowest < 4)
+            else if (lowest < (searchmov.Count() / 3) + 1  )
             {
                 Console.Clear();
                 MovieMenu.showmov(lowestindex);
