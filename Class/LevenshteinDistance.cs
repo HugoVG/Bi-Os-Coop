@@ -39,11 +39,11 @@ namespace Bi_Os_Coop
             {
                 for (int j = 1; j <= movielistitemlength; j++)
                 {
-                    int cost = (movielistitem[j - 1] == searchmov[i - 1]) ? 0 : 1;
-                    int min1 = distance[i - 1, j] + 1;
-                    int min2 = distance[i, j - 1] + 1;
-                    int min3 = distance[i - 1, j - 1] + cost;
-                    distance[i, j] = Math.Min(Math.Min(min1, min2), min3);
+                    int substitutioncost = (movielistitem[j - 1] == searchmov[i - 1]) ? 0 : 1;
+                    int delete = distance[i - 1, j] + 1;
+                    int insert = distance[i, j - 1] + 1;
+                    int substitution = distance[i - 1, j - 1] + substitutioncost;
+                    distance[i, j] = Math.Min(Math.Min(delete, insert), substitution);
                 }
             }
             return distance[searchmovlength, movielistitemlength];
