@@ -254,12 +254,11 @@ namespace Bi_Os_Coop
             string json = Json.ReadJson("MainMenu");
             return JsonSerializer.Deserialize<MainMenuThings>(json);
         }
-
         public static void MainMenuShow()
         {
             Logo();
             MainMenuThings things = jsonfileloader();
-            dynamic user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
+            CPeople.Person user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
             bool sav = false;
             if (language == "Nederlands")
             {
