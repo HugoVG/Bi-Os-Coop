@@ -136,8 +136,26 @@ namespace Bi_Os_Coop
                     }
                     catch (InvalidOperationException)
                     {
-                        CPeople.Person persoon = new CPeople.Person();
-                        return true;
+                        try
+                        {
+                            CPeople.Admin admin = jsonPeople.adminList.Single(x => x.email == input);
+                            Program.newEntry("Dit e-mailadres is al gekoppeld aan een account.\n", ConsoleColor.Red);
+                            return false;
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            try
+                            {
+                                CPeople.Employee employee = jsonPeople.employeeList.Single(x => x.email == input);
+                                Program.newEntry("Dit e-mailadres is al gekoppeld aan een account.\n", ConsoleColor.Red);
+                                return false;
+                            }
+                            catch
+                            {
+                                CPeople.Person persoon = new CPeople.Person();
+                                return true;
+                            }
+                        }
                     }
                 }
             }
@@ -162,8 +180,26 @@ namespace Bi_Os_Coop
                         }
                         catch (InvalidOperationException)
                         {
-                            CPeople.Person persoon = new CPeople.Person();
-                            return true;
+                            try
+                            {
+                                CPeople.Admin admin = jsonPeople.adminList.Single(x => x.phonenumber == input);
+                                Program.newEntry("Dit telefoonnummer is al gekoppeld aan een account.\n", ConsoleColor.Red);
+                                return false;
+                            }
+                            catch (InvalidOperationException)
+                            {
+                                try
+                                {
+                                    CPeople.Employee employee = jsonPeople.employeeList.Single(x => x.phonenumber == input);
+                                    Program.newEntry("Dit telefoonnummer is al gekoppeld aan een account.\n", ConsoleColor.Red);
+                                    return false;
+                                }
+                                catch (InvalidOperationException)
+                                {
+                                    CPeople.Person persoon = new CPeople.Person();
+                                    return true;
+                                }
+                            }
                         }
                     }
                 }
