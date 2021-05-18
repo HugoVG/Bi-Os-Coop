@@ -284,9 +284,12 @@ namespace Bi_Os_Coop
                 else if (keypressed == ConsoleKey.I && login == "None")
                 {
                     Tuple<string, dynamic> login2 = loginscreenthing(login);
-                    login = login2.Item1;
-                    if (login2.Item1 != "None") { user = login2.Item2; }
-                    if (login == "Admin") { adminMenu.AM(); }
+                    if (login2.Item1 != "1go2to3main4menu5")
+                    {
+                        login = login2.Item1;
+                        if (login2.Item1 != "None") { user = login2.Item2; }
+                        if (login == "Admin") { adminMenu.AM(); }
+                    }
                 }
                 else if (keypressed == ConsoleKey.O && login == "None")
                 {
