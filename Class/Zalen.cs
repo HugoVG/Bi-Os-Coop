@@ -74,14 +74,14 @@ namespace Bi_Os_Coop
         public static Zaal menu(List<Zaal> selected)
         {
             writeZalen(selected);
-            Console.WriteLine("select the number of the timeframe and date you want to order");
+            Console.WriteLine("\nselect the number of the timeframe and date you want to order");
             string temp  = Console.ReadLine();
             try
             {
                 int index = Convert.ToInt32(temp) - 1;
                 Zaal choosenone = selected.ElementAt(index);
                 choosenone.showStool();
-                Console.WriteLine("Select the seats you want to reserve add an ',' between the stools ");
+                Console.WriteLine("\nSelect the seats you want to reserve add an ',' between the stools ");
                 string henk = Console.ReadLine();
                 henk = henk.Trim();
                 string[] henkerino = henk.Split(',');
