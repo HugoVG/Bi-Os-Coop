@@ -13,22 +13,22 @@ namespace Bi_Os_Coop
     class LevenshteinDistance
     {
         //call de functie compute voor het berekenen.
-        public static int Compute(string s, string t)
+        public static int Compute(string searchmov, string movielistitem)
         {
-            if (string.IsNullOrEmpty(s))
+            if (string.IsNullOrEmpty(searchmov))
             {
-                if (string.IsNullOrEmpty(t))
+                if (string.IsNullOrEmpty(movielistitem))
                     return 0;
-                return t.Length;
+                return movielistitem.Length;
             }
 
-            if (string.IsNullOrEmpty(t))
+            if (string.IsNullOrEmpty(movielistitem))
             {
-                return s.Length;
+                return movielistitem.Length;
             }
 
-            int n = s.Length;
-            int m = t.Length;
+            int n = searchmov.Length;
+            int m = movielistitem.Length;
             int[,] d = new int[n + 1, m + 1];
 
             for (int i = 0; i <= n; d[i, 0] = i++) ;
@@ -38,7 +38,7 @@ namespace Bi_Os_Coop
             {
                 for (int j = 1; j <= m; j++)
                 {
-                    int cost = (t[j - 1] == s[i - 1]) ? 0 : 1;
+                    int cost = (movielistitem[j - 1] == searchmov[i - 1]) ? 0 : 1;
                     int min1 = d[i - 1, j] + 1;
                     int min2 = d[i, j - 1] + 1;
                     int min3 = d[i - 1, j - 1] + cost;
