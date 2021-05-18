@@ -289,6 +289,7 @@ namespace Bi_Os_Coop
                         login = login2.Item1;
                         if (login2.Item1 != "None") { user = login2.Item2; }
                         if (login == "Admin") { adminMenu.AM(); }
+                        sav = true;
                     }
                 }
                 else if (keypressed == ConsoleKey.O && login == "None")
