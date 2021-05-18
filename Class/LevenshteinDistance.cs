@@ -9,6 +9,7 @@ namespace Bi_Os_Coop
     /// <summary>
     /// Deze class berekent hoeveel veranderingen er nodig zijn om een string gelijk te stellen aan een andere, des te lager de uitkomst des te meer het op de andere string lijkt.
     /// Wat er gereturned wordt is het aantal benodigde veranderingen, zet in je eigen code wat je wilt dat het maximale aantal verandereingen is.
+    /// als je het algoritm wilt begrijpen: https://www.youtube.com/watch?v=Xxx0b7djCrs
     /// </summary>
     class LevenshteinDistance
     {
