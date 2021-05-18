@@ -1,14 +1,14 @@
 {
   "user": {
-    "id": 1,
-    "name": "Hugo",
-    "email": "coolste@min.com",
-    "password": "nietzoveilig",
-    "age": "30",
-    "phonenumber": "06123456789"
+    "id": 2,
+    "name": "Lilo",
+    "email": "lilo@stitch.com",
+    "password": "m@tress",
+    "age": "16/05/2000",
+    "phonenumber": null
   },
   "sort": "name",
   "reverse": false,
-  "login": "Admin",
+  "login": "Person",
   "language": "Nederlands"
 }

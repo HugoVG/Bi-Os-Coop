@@ -32,7 +32,8 @@ namespace Bi_Os_Coop
             //int[] gfdjhfskd = new int[] { 31, 32, 33, 34 };
             //int gfdjhfskd = 30;
             //testzaal2.Reserveseats(gfdjhfskd, Henk, "30-01-2021", "13:00");
-            testzaal2.writeZalen();
+            //testzaal2.writeZalen();
+            Console.WriteLine("Name a film you want to search");
             string henk = Console.ReadLine();
             //foreach (Zaal zaal in testzaal2.zalenList)
             //{
@@ -41,14 +42,16 @@ namespace Bi_Os_Coop
             //}
 
             Tuple<bool, List<Zaal>> temp = testzaal2.selectZalen(henk);
-            ZalenExtender.writeZalen(temp.Item2.OrderBy(movie => movie.date).OrderBy(movie => movie.time).ToList());
-            //json2 = testzaal2.ToJson();
-            //Json.WriteJson("Zalen", json2);
-            //testzaal2 = testzaal2.FromJson(json2);
-            //foreach (Zaal zaal in testzaal2.zalenList)
-            //{
-            //    zaal.showStool();
-            //}
+            ZalenExtender.menu(temp.Item2);
+            json2 = testzaal2.ToJson();
+            Json.WriteJson("Zalen", json2);
+            testzaal2 = testzaal2.FromJson(json2);
+            foreach (Zaal zaal in testzaal2.zalenList)
+            {
+                zaal.showStool();
+                Console.ReadKey(true);
+            }
+            Console.WriteLine("");
         }
     }
     internal static class ZalenExtender
@@ -59,8 +62,8 @@ namespace Bi_Os_Coop
             int counter = 1;
             foreach (Zaal zaal in selected)
             {
-                Console.Write($"\nSelecter:{counter} \t");
-                Console.Write($"\ndate:{zaal.date} \t");
+                Console.Write($"\n{counter} \t");
+                Console.Write($"date:{zaal.date} \t");
                 Console.Write($"time:{zaal.time} \t");
                 Console.Write($"movie:{zaal.film.name} \t");
                 Console.Write($"release Date:{zaal.film.releasedate} \t");
@@ -71,15 +74,38 @@ namespace Bi_Os_Coop
         public static Zaal menu(List<Zaal> selected)
         {
             writeZalen(selected);
-            Console.WriteLine("Choose timeframe you want to order a seat in");
+            Console.WriteLine("select the number of the timeframe and date you want to order");
             string temp  = Console.ReadLine();
             try
             {
                 int index = Convert.ToInt32(temp) - 1;
                 Zaal choosenone = selected.ElementAt(index);
+                choosenone.showStool();
+                Console.WriteLine("Select the seats you want to reserve add an ',' between the stools ");
+                string henk = Console.ReadLine();
+                henk = henk.Trim();
+                string[] henkerino = henk.Split(',');
+                List<int> allIndexes = new List<int>();
+                foreach (string i in henkerino)
+                {
+                    if (Convert.ToInt32(i) == 0)
+                    {
+                        Console.WriteLine("input was not a number");
+                    }
+                    allIndexes.Add(Convert.ToInt32(i));
+                }
+                
+                MainMenuThings mmt = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
+                //CPeople.Person person = new CPeople.Person {id= mmt.user.id};
+
+                int[] indexes = allIndexes.ToArray();
+                choosenone.occupyStool(indexes, mmt.user);
+                //choosenone.occupyStool();
+                //choosenone.showStool();
+
                 return choosenone;
             }
-            catch (Exception) { Console.WriteLine("Invalid Number"); return null; }
+            catch (FormatException) { Console.WriteLine("Invalid Number"); return null; }
         }
     }
     internal class Zalen
@@ -147,6 +173,16 @@ namespace Bi_Os_Coop
             indexs[0] = index;
             gekozenzaal.occupyStool(indexs, orderer);
         }
+        public void Reserveseats(int index, CPeople.Person orderer, Zaal zaal)
+        {
+            int[] indexs = new int[1];
+            indexs[0] = index;
+            zaal.occupyStool(indexs, orderer);
+        }
+        public void Reserveseats(int[] index, CPeople.Person orderer, Zaal zaal)
+        {
+            zaal.occupyStool(index, orderer);
+        }
         /// <summary>
         /// returned de zalen waar de film draai met x naam
         /// </summary>
@@ -195,6 +231,8 @@ namespace Bi_Os_Coop
                 nstoelen.Add(stoel);
                 stoelen = nstoelen;
             }*/
+            /// De +130 // +42 // +18 is voor 
+            /// de lege stoelen in de excel sheet
             if (totalStools == (int)Size.MegaChonker)
             {
                 totalStools = totalStools +130;
@@ -274,11 +312,12 @@ namespace Bi_Os_Coop
                 {
                     if (stoelen.ElementAt(index).isOccupied)
                     {
-                        Console.WriteLine($"{index - 1} stool is already ");
+                        Console.WriteLine($"{index} stool is already ");
                         return -1;
                     }
-                    stoelen.ElementAt(index - 1).isOccupied = true;
-                    stoelen.ElementAt(index - 1).isOccupiedBy = orderer.id;
+                    stoelen.ElementAt(index).isOccupied = true;
+                    Console.WriteLine($"{index} is now occupied by {orderer.id}");
+                    stoelen.ElementAt(index).isOccupiedBy = orderer.id;
                 }
                 return 1;
             }
