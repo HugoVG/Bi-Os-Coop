@@ -84,6 +84,7 @@
     <Compile Include="Class\MainMenuThings.cs" />
     <Compile Include="Class\MovieInterpreter.cs" />
     <Compile Include="Class\MovieMenu.cs" />
+    <Compile Include="LevenshteinDistance.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Class\Registerscreen.cs" />

@@ -7,7 +7,7 @@
     "age": "30",
     "phonenumber": "06123456789"
   },
-  "sort": "name",
+  "sort": "rating",
   "reverse": false,
   "login": "Admin",
   "language": "Nederlands"

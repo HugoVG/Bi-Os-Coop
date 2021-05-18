@@ -57,7 +57,7 @@ namespace Bi_Os_Coop
                 MainMenu.jsonmainmenu(mainmenuthings.user, mainmenuthings.sort, !mainmenuthings.reverse, mainmenuthings.login, mainmenuthings.language);
                 Console.Clear();
             }
-            else if (indexstring.ToLower() == "s")
+            else if (indexstring.ToLower() == "s" || indexstring.ToLower() == "search")
             {
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.Write("Type hier de film die u wilt zoeken: ");
@@ -83,6 +83,14 @@ namespace Bi_Os_Coop
                         Thread.Sleep(1500);
                         index = highestpage;
                     }
+                    else if(index < 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Deze bladzijde bestaat niet!");
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        Thread.Sleep(1500);
+                        index = 1;
+                    }
                 }
                 catch (Exception)
                 {
@@ -94,6 +102,7 @@ namespace Bi_Os_Coop
             }
             MovieMenu.mainPagina(index);
         }
+        //functie die de ingetypte film zoekt in de JSON met alle films
         public static void search(string searchmov, List<string> mainmenulist)
         {
             string json = Json.ReadJson("Films");
@@ -108,15 +117,39 @@ namespace Bi_Os_Coop
             {
 
             }
-            for(int i = 1; i < jsonFilms.movieList.Count(); i++)
+            searchmov = searchmov.ToLower().Replace(" ", "");
+            for(int i = 0; i < jsonFilms.movieList.Count(); i++)
             {
-                    moviesearchlist.Add(jsonFilms.movieList[i].name.ToLower()); 
+                    moviesearchlist.Add(jsonFilms.movieList[i].name.ToLower().Replace(" ", ""));
             }
-            if (moviesearchlist.Contains(searchmov.ToLower()))
+            int lowest = LevenshteinDistance.Compute(searchmov, moviesearchlist[0]);
+            int lowestindex = 0;
+            bool contains = false;
+            int containindex = 0;
+            for (int i = 0; i < moviesearchlist.Count(); i++)
             {
-                int tempMovie = moviesearchlist.IndexOf(searchmov.ToLower()) + 1;
+                int temp = LevenshteinDistance.Compute(searchmov, moviesearchlist[i]);
+                if (temp < lowest)
+                {
+                    lowest = temp;
+                    lowestindex = i;
+                }
+                if (moviesearchlist[i].Contains(searchmov))
+                {
+                    contains = true;
+                    containindex = i;
+                }
+            }
+            //hoeveel typefouten er mogen gemaakt worden (momenteel 3) als het hoger wordt pakt hij altijd film loro omdat die 4 letters lang is!
+            if (contains && searchmov.Count() >= 3 && lowest != 0)
+            {
                 Console.Clear();
-                MovieMenu.showmov(tempMovie);
+                MovieMenu.showmov(containindex);
+            }
+            else if (lowest < 4)
+            {
+                Console.Clear();
+                MovieMenu.showmov(lowestindex);
             }
             else
             {
@@ -126,6 +159,7 @@ namespace Bi_Os_Coop
                 Thread.Sleep(1000);
             }
         }
+        //functie om alle kenmerken van een film te laten zien
         public static void showmov(int tempMovie)
         {
             string json = Json.ReadJson("Films");
@@ -182,6 +216,7 @@ namespace Bi_Os_Coop
                 for (int i = 0; i < jsonFilms.movieList[tempMovie].beschrijving.Length; i++)
                 {
                     char c = jsonFilms.movieList[tempMovie].beschrijving[i];
+                    //zorgt ervoor dat na 90 characters er bij de eerstvolgende spatie een nieuwe regel wordt gestart.
                     if ((i % 90 == 0 && i != 0) || newline == true)
                     {
                         if (c == ' ')
@@ -203,6 +238,7 @@ namespace Bi_Os_Coop
                 }
                 Console.Write("\n");
             }
+            //hierna moet als er ja geselecteerd is het resrvatie scherm komen!
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("\nWilt u deze film reserveren? (J/N)");
             Console.ReadLine();
