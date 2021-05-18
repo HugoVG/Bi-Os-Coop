@@ -262,18 +262,15 @@ namespace Bi_Os_Coop
             string username = newwayoftyping();
             if (username != "1go2to3main4menu5")
             {
-                if (Registerscreen.emailCheck(username) == true)
+                Console.WriteLine("\nWachtwoord:");
+                SecureString pass = maskInputString();
+                string password = new System.Net.NetworkCredential(string.Empty, pass).Password;
+                if (password != "1go2to3main4menu5")
                 {
-                    Console.WriteLine("\nWachtwoord:");
-                    SecureString pass = maskInputString();
-                    string password = new System.Net.NetworkCredential(string.Empty, pass).Password;
-                    if (password != "1go2to3main4menu5")
-                    {
-                        var inlog = loginscherm.mailwachtvragen(username.ToLower(), password);
-                        try { if (inlog == false) { inlog = login(); } }
-                        catch { }
-                        return inlog;
-                    }
+                    var inlog = loginscherm.mailwachtvragen(username.ToLower(), password);
+                    try { if (inlog == false) { inlog = login(); } }
+                    catch { }
+                    return inlog;
                 }
                 else
                 {
