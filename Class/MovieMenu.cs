@@ -129,10 +129,20 @@ namespace Bi_Os_Coop
             for (int i = 0; i < moviesearchlist.Count(); i++)
             {
                 int temp = LevenshteinDistance.Compute(searchmov, moviesearchlist[i]);
+                if(searchmov.Count() < moviesearchlist[i].Count() - 6 && searchmov.Count() >= 4)
+                {
+                    temp = LevenshteinDistance.Compute(searchmov, moviesearchlist[i]) - (moviesearchlist[i].Count() - searchmov.Count());
+                }
                 if (temp < lowest)
                 {
                     lowest = temp;
                     lowestindex = i;
+                }
+                if (searchmov == moviesearchlist[i])
+                {
+                    lowest = temp;
+                    lowestindex = i;
+                    break;
                 }
                 if (moviesearchlist[i].Contains(searchmov))
                 {
@@ -146,9 +156,10 @@ namespace Bi_Os_Coop
                 Console.Clear();
                 MovieMenu.showmov(containindex);
             }
-            else if (lowest < (searchmov.Count() / 3) + 1  )
+            else if (lowest < (searchmov.Count() / 4) + 1  )
             {
                 Console.Clear();
+                Console.WriteLine(lowest);
                 MovieMenu.showmov(lowestindex);
             }
             else
