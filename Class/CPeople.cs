@@ -239,7 +239,10 @@ namespace Bi_Os_Coop
 
             public void BookTicket()
             {
-
+                Zalen zalen = new Zalen();
+                zalen = zalen.FromJson(Json.ReadJson("Zalen"));
+                var a = zalen.selectZalen("JsonBjorn");
+                zalen.menu(a.Item2);
             }
 
             public void CancelTicket()

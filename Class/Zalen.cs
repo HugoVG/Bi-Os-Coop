@@ -9,16 +9,21 @@ namespace Bi_Os_Coop
     {
         public void Test()
         {
-            DateTime today = new DateTime(2021, 6, 15);
-            Console.WriteLine(today.ToString());
-            string todaystring = $"0{today.Day}/0{today.Month}/{today.Year}";
-            Console.WriteLine(todaystring);
+            Zalen zalen = new Zalen();
+            zalen = zalen.FromJson(Json.ReadJson("Zalen"));
+            var a = zalen.selectZalen("JsonBjorn");
+            //ZalenExtender.reserveren(a.Item2);
+
+            //DateTime today = new DateTime(2021, 6, 15);
+            ///Console.WriteLine(today.ToString());
+            //string todaystring = $"0{today.Day}/0{today.Month}/{today.Year}";
+            //Console.WriteLine(todaystring);
             //Zalen testzaal = new Zalen();
             //Zaal tijdelijkeZaal = new Zaal();
             ////tijdelijkeZaal.setZaal(10, "30-01-2021", "13:00", 100);
             //tijdelijkeZaal.showStool();
-            CPeople.Person Henk = new CPeople.Person();
-            Henk.setPerson(69, "Henk", "Henkerino@HahaHenk.com", "0nlyWams", "30-01-2021", "06111111");
+            //CPeople.Person Henk = new CPeople.Person();
+            //Henk.setPerson(69, "Henk", "Henkerino@HahaHenk.com", "0nlyWams", "30-01-2021", "06111111");
             ////tijdelijkeZaal.Reser(-5, Henk);
             //Console.ReadKey();
             //testzaal.AddZaal(tijdelijkeZaal);
@@ -42,7 +47,7 @@ namespace Bi_Os_Coop
             //}
 
             Tuple<bool, List<Zaal>> temp = testzaal2.selectZalen(henk);
-            ZalenExtender.menu(temp.Item2);
+            //ZalenExtender.menu(temp.Item2);
             json2 = testzaal2.ToJson();
             Json.WriteJson("Zalen", json2);
             testzaal2 = testzaal2.FromJson(json2);
@@ -51,7 +56,7 @@ namespace Bi_Os_Coop
                 zaal.showStool();
                 Console.ReadKey(true);
             }
-            Console.WriteLine("");
+            //Console.WriteLine("");
         }
     }
     internal static class ZalenExtender
@@ -71,15 +76,25 @@ namespace Bi_Os_Coop
                 counter++;
             }
         }
-        public static Zaal menu(List<Zaal> selected)
+        /// <summary>
+        /// Put in a list of 'Zalen' in which it will choose from -> use this as a list of zalen wwitht the same movie
+        /// </summary>
+        /// <param name="selected"></param>
+        /// <returns></returns>
+    }
+    internal class Zalen
+    {
+        public List<Zaal> zalenList { get; set; }
+
+        public void menu(List<Zaal> selected)
         {
             writeZalen(selected);
             Console.WriteLine("\nselect the number of the timeframe and date you want to order");
-            string temp  = Console.ReadLine();
+            string temp = Console.ReadLine();
             try
             {
-                int index = Convert.ToInt32(temp) - 1;
-                Zaal choosenone = selected.ElementAt(index);
+                int index = Convert.ToInt32(temp);
+                Zaal choosenone = selected.ElementAt(index-1);
                 choosenone.showStool();
                 Console.WriteLine("\nSelect the seats you want to reserve add an ',' between the stools ");
                 string henk = Console.ReadLine();
@@ -92,25 +107,19 @@ namespace Bi_Os_Coop
                     {
                         Console.WriteLine("input was not a number");
                     }
-                    allIndexes.Add(Convert.ToInt32(i));
+                    allIndexes.Add(Convert.ToInt32(i) -1 );
                 }
-                
                 MainMenuThings mmt = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
-                //CPeople.Person person = new CPeople.Person {id= mmt.user.id};
-
                 int[] indexes = allIndexes.ToArray();
                 choosenone.occupyStool(indexes, mmt.user);
-                //choosenone.occupyStool();
-                //choosenone.showStool();
-
-                return choosenone;
+                string json1 = this.ToJson();
+                Json.WriteJson("Zalen", json1);
             }
-            catch (FormatException) { Console.WriteLine("Invalid Number"); return null; }
+            catch (FormatException) { Console.WriteLine("Invalid Number"); menu(selected); }
+
+
         }
-    }
-    internal class Zalen
-    {
-        public List<Zaal> zalenList { get; set; }
+
 
         public void AddZaal(Zaal zaal)
         {
@@ -127,25 +136,31 @@ namespace Bi_Os_Coop
 
         public void writeZalen()
         {
+            int counter = 1;
             foreach (Zaal zaal in this.zalenList)
             {
-                Console.Write($"\ndate:{zaal.date} \t");
+                Console.Write($"\n{counter} \t");
+                Console.Write($"date:{zaal.date} \t");
                 Console.Write($"time:{zaal.time} \t");
                 Console.Write($"movie:{zaal.film.name} \t");
                 Console.Write($"release Date:{zaal.film.releasedate} \t");
                 Console.Write($"Score:{zaal.film.beoordeling} ");
+                counter++;
             }
         }
         public void writeZalen(List<Zaal> selected)
         {
+            int counter = 1;
             //List<Zaal> showingzaal = this.zalenList;
             foreach (Zaal zaal in selected)
             {
-                Console.Write($"\ndate:{zaal.date} \t");
+                Console.Write($"\n{counter} \t");
+                Console.Write($"date:{zaal.date} \t");
                 Console.Write($"time:{zaal.time} \t");
                 Console.Write($"movie:{zaal.film.name} \t");
                 Console.Write($"release Date:{zaal.film.releasedate} \t");
                 Console.Write($"Score:{zaal.film.beoordeling} ");
+                counter++;
             }
         }
 
@@ -231,7 +246,7 @@ namespace Bi_Os_Coop
                 nstoelen.Add(stoel);
                 stoelen = nstoelen;
             }*/
-            /// De +130 // +42 // +18 is voor 
+            /// De +130 // +42 // +18 is voor
             /// de lege stoelen in de excel sheet
             if (totalStools == (int)Size.MegaChonker)
             {
@@ -316,7 +331,7 @@ namespace Bi_Os_Coop
                         return -1;
                     }
                     stoelen.ElementAt(index).isOccupied = true;
-                    Console.WriteLine($"{index} is now occupied by {orderer.id}");
+                    //Console.WriteLine($"{index} is now occupied by {orderer.id}");
                     stoelen.ElementAt(index).isOccupiedBy = orderer.id;
                 }
                 return 1;

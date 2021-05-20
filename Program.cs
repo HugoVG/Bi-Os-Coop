@@ -20,12 +20,13 @@ namespace Bi_Os_Coop
             //Console.WriteLine(tempadm.isPerson());
 
             CPeople.Person tempperson = new CPeople.Person();
+            tempperson.BookTicket();
             //Console.WriteLine(tempperson.isAdmin());
             //Console.WriteLine(tempperson.isPerson());
             //tempadm.AddCinemaHall();
             //Hier in de testen
-            ZAALTESTERNIETGEBRUIKEN test = new ZAALTESTERNIETGEBRUIKEN();
-            test.Test();
+            //ZAALTESTERNIETGEBRUIKEN test = new ZAALTESTERNIETGEBRUIKEN();
+            //test.Test();
             //Test Gelukt
             //PeopleTest.newADMIN();
             //MainMenu.MainMenuShow();
