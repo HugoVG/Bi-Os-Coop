@@ -253,6 +253,7 @@ namespace Bi_Os_Coop
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("\nWilt u deze film reserveren? (J/N)");
             ConsoleKey keypressed = Console.ReadKey(true).Key;
+            //verander Console.WriteLine("succes"); naar het reserveer menu van hogo
             if (keypressed == ConsoleKey.J) { Console.WriteLine("succes"); }
 
         }
