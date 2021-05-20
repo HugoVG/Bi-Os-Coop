@@ -252,7 +252,9 @@ namespace Bi_Os_Coop
             //hierna moet als er ja geselecteerd is het resrvatie scherm komen!
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("\nWilt u deze film reserveren? (J/N)");
-            Console.ReadLine();
+            ConsoleKey keypressed = Console.ReadKey(true).Key;
+            if (keypressed == ConsoleKey.J) { Console.WriteLine("succes"); }
+
         }
     }
 }
