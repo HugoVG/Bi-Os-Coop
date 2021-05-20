@@ -46,8 +46,38 @@
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
+          "Price": 10
+        },
+        {
+          "isOccupied": true,
+          "isOccupiedBy": 2,
+          "Price": 10
+        },
+        {
+          "isOccupied": true,
+          "isOccupiedBy": 2,
+          "Price": 10
+        },
+        {
+          "isOccupied": true,
+          "isOccupiedBy": 2,
+          "Price": 10
+        },
+        {
+          "isOccupied": true,
+          "isOccupiedBy": 2,
+          "Price": 10
+        },
+        {
+          "isOccupied": true,
+          "isOccupiedBy": 2,
+          "Price": 10
+        },
+        {
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 10
         },
         {
@@ -56,68 +86,38 @@
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
-          "Price": 10
-        },
-        {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
-          "Price": 10
-        },
-        {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
-          "Price": 10
-        },
-        {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
-          "Price": 10
-        },
-        {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
-          "Price": 10
-        },
-        {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
-          "Price": 10
-        },
-        {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 10
         },
         {
@@ -201,18 +201,18 @@
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 10
         },
         {
@@ -351,18 +351,18 @@
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 15
         },
         {
@@ -3393,18 +3393,18 @@
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 10
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 15
         },
         {
-          "isOccupied": false,
-          "isOccupiedBy": 1,
+          "isOccupied": true,
+          "isOccupiedBy": 2,
           "Price": 15
         },
         {
