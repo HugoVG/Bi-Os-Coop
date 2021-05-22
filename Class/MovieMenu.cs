@@ -103,7 +103,7 @@ namespace Bi_Os_Coop
             MovieMenu.mainPagina(index);
         }
         //functie die de ingetypte film zoekt in de JSON met alle films
-        public static void search(string searchmov, List<string> mainmenulist)
+        public static void search(string searchmov, List<string> mainmenulist = null)
         {
             string json = Json.ReadJson("Films");
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
@@ -276,7 +276,7 @@ namespace Bi_Os_Coop
             ConsoleKey keypressed = Console.ReadKey(true).Key;
             if (hastrailer == true)
             {
-                if (keypressed == ConsoleKey.T) { System.Diagnostics.Process.Start(trailer); Console.Clear(); showmov(tempMovie); ; }
+                if (keypressed == ConsoleKey.T) { System.Diagnostics.Process.Start(trailer); Console.Clear(); showmov(tempMovie); }
             }
             //verander Console.WriteLine("succes"); naar het reserveer scherm van hogo
             if (keypressed == ConsoleKey.J) { Console.WriteLine("succes"); }

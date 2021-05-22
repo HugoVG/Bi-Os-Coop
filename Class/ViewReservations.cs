@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Bi_Os_Coop
@@ -29,7 +30,7 @@ namespace Bi_Os_Coop
                 seatlist.Add(movieindex);
                 for (int j = 0; j < jsonZalen.zalenList[i].stoelen.Count(); j++)
                 {
-                    if(jsonZalen.zalenList[i].stoelen[j].isOccupiedBy == id)
+                    if(jsonZalen.zalenList[i].stoelen[j].isOccupiedBy == id && jsonZalen.zalenList[i].stoelen[j].isOccupied)
                     {
                         seatindex = j + 1;
                         seatlist.Add(seatindex);
@@ -53,7 +54,7 @@ namespace Bi_Os_Coop
         /// voer voor users bij id automatisch hun eigen id in vanuit de mainmenulist.
         /// </summary>
         /// <param name="id"></param>
-        public static void showres(int id)
+        public static void showres(int id, int index = 0)
         {
             string json = Json.ReadJson("Zalen");
             Zalen jsonZalen = System.Text.Json.JsonSerializer.Deserialize<Zalen>(json);
@@ -61,48 +62,231 @@ namespace Bi_Os_Coop
             List<List<int>> reservationlist = viewres(id);
             MainMenu.Logo();
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Uw reserveringen: \n");
-            Console.ForegroundColor = ConsoleColor.Gray;
-            for (int i = 0; i < reservationlist.Count(); i++)
+            //wijzig dit later naar het profiel menu van Bjorn
+            Console.WriteLine("Main menu (Esc)");
+            if (reservationlist.Count() < 1)
             {
-                //prints all the movie information
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.Write("Titel: ");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("U heeft nog geen reserveringen!");
                 Console.ForegroundColor = ConsoleColor.Gray;
-                Console.WriteLine(jsonZalen.zalenList[reservationlist[i][0]].film.name);
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.Write("Datum: ");
-                Console.ForegroundColor = ConsoleColor.Gray;
-                Console.WriteLine(jsonZalen.zalenList[reservationlist[i][0]].date);
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.Write("Tijd: ");
-                Console.ForegroundColor = ConsoleColor.Gray;
-                Console.WriteLine(jsonZalen.zalenList[reservationlist[i][0]].time);
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.Write("Leeftijd: ");
-                Console.ForegroundColor = ConsoleColor.Gray;
-                Console.WriteLine(jsonZalen.zalenList[reservationlist[i][0]].film.leeftijd);
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("Stoelen: ");
-                Console.ForegroundColor = ConsoleColor.Gray;
-
-                //prints all the chairs
-                for (int j = 1; j < reservationlist[i].Count(); j++)
-                {
-                    if (j != 1)
-                    {
-                        Console.Write($", ");
-                    }
-                    if (j % 20 == 0)
-                    {
-                        Console.Write("\n");
-                    }
-                    Console.Write($"{reservationlist[i][j]}");
-                }
-                Console.Write("\n\n");
+                ConsoleKey keypressed = Console.ReadKey(true).Key;
+                while (keypressed != ConsoleKey.Escape) { keypressed = Console.ReadKey(true).Key; }
+                    //verander esc later naar Bjorn's menu
+                if (keypressed == ConsoleKey.Escape) { Console.Clear(); MainMenu.MainMenuShow(); }
             }
-            //temp, make esc later to go back to main menu.
-            Console.ReadKey();
+            else
+            {
+                Console.WriteLine("Uw reserveringen: \n");
+                Console.ForegroundColor = ConsoleColor.Gray;
+                for (int i = 0; i < reservationlist.Count(); i++)
+                {
+                    //prints all the movie information
+                    if (index == i)
+                    {
+                        Console.BackgroundColor = ConsoleColor.White;
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.Write("Titel: ");
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine($"{jsonZalen.zalenList[reservationlist[i][0]].film.name}".PadRight(Console.WindowWidth - 10));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.Write("Datum: ");
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine($"{jsonZalen.zalenList[reservationlist[i][0]].date}".PadRight(Console.WindowWidth - 10));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.Write("Tijd: ");
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine($"{jsonZalen.zalenList[reservationlist[i][0]].time}".PadRight(Console.WindowWidth - 9));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.Write("Leeftijd: ");
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine($"{jsonZalen.zalenList[reservationlist[i][0]].film.leeftijd}".PadRight(Console.WindowWidth - 13));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.WriteLine("Stoelen: ".PadRight(Console.WindowWidth - 3));
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write("Titel: ");
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        Console.WriteLine(jsonZalen.zalenList[reservationlist[i][0]].film.name);
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write("Datum: ");
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        Console.WriteLine(jsonZalen.zalenList[reservationlist[i][0]].date);
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write("Tijd: ");
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        Console.WriteLine(jsonZalen.zalenList[reservationlist[i][0]].time);
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write("Leeftijd: ");
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        Console.WriteLine(jsonZalen.zalenList[reservationlist[i][0]].film.leeftijd);
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine("Stoelen: ");
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                    }
+                    //prints all the chairs
+                    int count = 0;
+                    for (int j = 1; j < reservationlist[i].Count(); j++)
+                    {
+                        if (j != 1)
+                        {
+                            Console.Write($", ");
+                        }
+                        if (j % 20 == 0 && reservationlist[i].Count() > 20)
+                        {
+                            Console.Write("".PadRight(Console.WindowWidth - count - 3));
+                            Console.Write("\n");
+                            count = 0;
+                        }
+                        Console.Write($"{reservationlist[i][j]}");
+                        count += reservationlist[i][j].ToString().Count() + 2;
+                    }
+                    Console.Write("".PadRight(Console.WindowWidth - count - 1));
+                    Console.Write("\n\n");
+                    Console.BackgroundColor = ConsoleColor.Black;
+                }
+                ConsoleKey keypressed = Console.ReadKey(true).Key;
+                //verander esc later naar Bjorn's menu
+                if (keypressed == ConsoleKey.Escape) { Console.Clear(); MainMenu.MainMenuShow(); }
+                else if (keypressed == ConsoleKey.DownArrow && index != reservationlist.Count() - 1) { Console.Clear(); showres(id, index + 1); }
+                else if (keypressed == ConsoleKey.UpArrow && index != 0) { Console.Clear(); showres(id, index - 1); }
+                else if (keypressed == ConsoleKey.Enter) { Console.Clear(); selectedmoviemenu(id, jsonZalen.zalenList[reservationlist[index][0]].film.name, jsonZalen.zalenList[reservationlist[index][0]].film.movieid, jsonZalen.zalenList[reservationlist[index][0]].date, jsonZalen.zalenList[reservationlist[index][0]].time); }
+                else
+                {
+                    Console.Clear();
+                    showres(id, index);
+                }
+            }
+        }
+        public static void selectedmoviemenu(int id, string moviename, int movieid, string datum, string tijd)
+        {
+            Console.Clear();
+            MainMenu.Logo();
+            Console.WriteLine("Uw reserveringen (Esc)");
+            Console.WriteLine($"Titel: {moviename}\nDatum: {datum}\nTijd: {tijd}");
+            Console.WriteLine($"\nKies hier wat u met de film {moviename} wilt doen:");
+            Console.WriteLine($"1) Film details bekijken");
+            Console.WriteLine($"2) Reservering wijzigen");
+            Console.WriteLine($"3) Reservering anuleren");
+
+            ConsoleKey keypressed = Console.ReadKey(true).Key;
+            while (keypressed != ConsoleKey.Escape && keypressed != ConsoleKey.D1 && keypressed != ConsoleKey.D2 && keypressed != ConsoleKey.D3) { keypressed = Console.ReadKey(true).Key; }
+            if (keypressed == ConsoleKey.Escape) { Console.Clear(); showres(id); }
+            else if (keypressed == ConsoleKey.D1) { Console.Clear(); showmoviedetails(id, moviename, movieid, datum, tijd); }
+            //vragen aan hugo of dit ingebouwd zit, zo ja, link het dan aan d2
+            else if (keypressed == ConsoleKey.D2) { Console.Clear(); showres(id); }
+            //vragen of hugo hier iets voor heeft, anders zelf maken
+            else if (keypressed == ConsoleKey.D3) { Console.Clear(); showres(id); }
+        }
+
+        public static void showmoviedetails(int id, string moviename = null, int movieid = 0, string datum = null, string tijd = null)
+        {
+            string json = Json.ReadJson("Films");
+            Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
+            int tempMovie = 0;
+        
+            for (int i = 0; i < jsonFilms.movieList.Count(); i++)
+            {
+                if (jsonFilms.movieList[i].movieid == movieid)
+                {
+                    tempMovie = i;
+                }
+            }
+
+            string gen = null;
+            string act = null;
+            bool newline = false;
+            bool hastrailer = false;
+            string trailer = null;
+            if (jsonFilms.movieList[tempMovie].genres != null)
+            {
+                if (jsonFilms.movieList[tempMovie].genres.Count() <= 1)
+                {
+                    gen = "Genre";
+                }
+                else
+                {
+                    gen = "Genres";
+                }
+            }
+            if (jsonFilms.movieList[tempMovie].acteurs != null)
+            {
+                if (jsonFilms.movieList[tempMovie].acteurs.Count() <= 1)
+                {
+                    act = "Acteur";
+                }
+                else
+                {
+                    act = "Acteurs";
+                }
+            }
+            if (jsonFilms.movieList[tempMovie].trailer != null)
+            {
+                trailer = jsonFilms.movieList[tempMovie].trailer;
+                hastrailer = true;
+            }
+            MainMenu.Logo();
+            Console.WriteLine("Film reservering menu (Esc)\n");
+            Console.WriteLine($"{jsonFilms.movieList[tempMovie].name}");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine($"{(hastrailer ? "Trailer(T)\n" : "")}");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            if (jsonFilms.movieList[tempMovie].releasedate != null)
+            {
+                Console.WriteLine($"Publicatiedatum: {jsonFilms.movieList[tempMovie].releasedate}");
+            }
+            if (jsonFilms.movieList[tempMovie].taal != null)
+            {
+                Console.WriteLine($"Taal: {jsonFilms.movieList[tempMovie].taal}");
+            }
+            Console.WriteLine($"Minimumleeftijd: {jsonFilms.movieList[tempMovie].leeftijd}");
+            if (jsonFilms.movieList[tempMovie].genres != null)
+            {
+                Console.WriteLine($"{gen}: {String.Join(", ", jsonFilms.movieList[tempMovie].genres)}");
+            }
+            if (jsonFilms.movieList[tempMovie].acteurs != null)
+            {
+                Console.WriteLine($"{act}: {String.Join(", ", jsonFilms.movieList[tempMovie].acteurs)}");
+            }
+            Console.WriteLine($"Beoordeling: {jsonFilms.movieList[tempMovie].beoordeling}");
+            if (jsonFilms.movieList[tempMovie].beschrijving != null)
+            {
+                Console.WriteLine("\nBeschrijving: ");
+                for (int i = 0; i < jsonFilms.movieList[tempMovie].beschrijving.Length; i++)
+                {
+                    char c = jsonFilms.movieList[tempMovie].beschrijving[i];
+                    //zorgt ervoor dat na 90 characters er bij de eerstvolgende spatie een nieuwe regel wordt gestart.
+                    if ((i % 90 == 0 && i != 0) || newline == true)
+                    {
+                        if (c == ' ')
+                        {
+                            Console.Write("\n");
+                            newline = false;
+                        }
+                        else
+                        {
+                            Console.Write(c);
+                            newline = true;
+                        }
+                    }
+                    else
+                    {
+                        Console.Write(c);
+                        newline = false;
+                    }
+                }
+                Console.Write("\n");
+            }
+
+            ConsoleKey keypressed = Console.ReadKey(true).Key;
+            if (hastrailer == true)
+            {
+                if (keypressed == ConsoleKey.T) { System.Diagnostics.Process.Start(trailer); Console.Clear(); showmoviedetails(id, moviename, movieid, datum, tijd); }
+            }
+            while (keypressed != ConsoleKey.Escape) { keypressed = Console.ReadKey(true).Key; }
+            if (keypressed == ConsoleKey.Escape) { selectedmoviemenu(id, moviename, movieid, datum, tijd); }
         }
     }
 }
