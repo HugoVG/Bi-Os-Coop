@@ -103,7 +103,7 @@ namespace Bi_Os_Coop
             MovieMenu.mainPagina(index);
         }
         //functie die de ingetypte film zoekt in de JSON met alle films
-        public static void search(string searchmov, List<string> mainmenulist)
+        public static void search(string searchmov, List<string> mainmenulist = null)
         {
             string json = Json.ReadJson("Films");
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
@@ -159,7 +159,6 @@ namespace Bi_Os_Coop
             else if (lowest < (searchmov.Count() / 4) + 1  )
             {
                 Console.Clear();
-                Console.WriteLine(lowest);
                 MovieMenu.showmov(lowestindex);
             }
             else
@@ -178,6 +177,8 @@ namespace Bi_Os_Coop
             string gen = null;
             string act = null;
             bool newline = false;
+            bool hastrailer = false;
+            string trailer = null;
             if (jsonFilms.movieList[tempMovie].genres != null)
             {
                 if (jsonFilms.movieList[tempMovie].genres.Count() <= 1)
@@ -200,8 +201,15 @@ namespace Bi_Os_Coop
                     act = "Acteurs";
                 }
             }
+            if (jsonFilms.movieList[tempMovie].trailer != null)
+            {
+                trailer = jsonFilms.movieList[tempMovie].trailer;
+                hastrailer = true;
+            }
             MainMenu.Logo();
-            Console.WriteLine($"{jsonFilms.movieList[tempMovie].name}\n");
+            Console.WriteLine($"{jsonFilms.movieList[tempMovie].name}");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine($"{(hastrailer ? "Trailer(T)\n" : "")}");
             Console.ForegroundColor = ConsoleColor.Gray;
             if (jsonFilms.movieList[tempMovie].releasedate != null)
             {
@@ -251,11 +259,27 @@ namespace Bi_Os_Coop
             }
             //hierna moet als er ja geselecteerd is het resrvatie scherm komen!
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("\nWilt u deze film reserveren? (J/N)");
-            ConsoleKey keypressed = Console.ReadKey(true).Key;
-            //verander Console.WriteLine("succes"); naar het reserveer menu van hogo
-            if (keypressed == ConsoleKey.J) { Console.WriteLine("succes"); }
+            Console.Write("\nWilt u deze film reserveren? (");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("J");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("/");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("N");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(")\n");
 
+            inputcheck(tempMovie, trailer, hastrailer);
+        }
+        public static void inputcheck(int tempMovie, string trailer, bool hastrailer)
+        {
+            ConsoleKey keypressed = Console.ReadKey(true).Key;
+            if (hastrailer == true)
+            {
+                if (keypressed == ConsoleKey.T) { System.Diagnostics.Process.Start(trailer); Console.Clear(); showmov(tempMovie); }
+            }
+            //verander Console.WriteLine("succes"); naar het reserveer scherm van hogo
+            if (keypressed == ConsoleKey.J) { Console.WriteLine("succes"); }
         }
     }
 }
