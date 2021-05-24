@@ -7,48 +7,64 @@ namespace Bi_Os_Coop
 {
     public class PasswordMethods
     {
-        public static void SetNewPassword(string emailIngelogd, string passwordIngelogd)
+        public static dynamic SetNewPassword(string emailIngelogd, string passwordIngelogd)
         {
-            Console.Clear();
+            MainMenu.ClearAndShowLogoPlusEsc("Admin");
             Console.WriteLine("Vul nu uw nieuwe wachtwoord in:");
-            string newPassword = Console.ReadLine();
-            Console.WriteLine("Vul nogmaals uw nieuwe wachtwoord in:");
-            string tempNewPassword = Console.ReadLine();
-
-            if (tempNewPassword == newPassword)
+            string newPassword = loginscherm.newwayoftyping();
+            if (newPassword != "1go2to3main4menu5")
             {
-                string json = Json.ReadJson("Accounts");
-                CPeople.People jsonPeople = JsonSerializer.Deserialize<CPeople.People>(json);
-                try
+                if (newPassword != passwordIngelogd)
                 {
-                    CPeople.Person tempPerson = jsonPeople.peopleList.Single(person => person.email == emailIngelogd && person.password == passwordIngelogd);
-                    //passwordIngelogd = newPassword;
-                    tempPerson.password = newPassword;
+                    Console.WriteLine("Vul nogmaals uw nieuwe wachtwoord in:");
+                    string tempNewPassword = loginscherm.newwayoftyping();
+                    if (tempNewPassword != "1go2to3main4menu5")
+                    {
+                        if (tempNewPassword == newPassword)
+                        {
+                            string json = Json.ReadJson("Accounts");
+                            CPeople.People jsonPeople = JsonSerializer.Deserialize<CPeople.People>(json);
+                            try
+                            {
+                                CPeople.Person tempPerson = jsonPeople.peopleList.Single(person => person.email == emailIngelogd && person.password == passwordIngelogd);
+                                tempPerson.password = newPassword;
 
-                    json = JsonSerializer.Serialize(jsonPeople);
-                    Json.WriteJson("Accounts", json);
+                                json = JsonSerializer.Serialize(jsonPeople);
+                                Json.WriteJson("Accounts", json);
 
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("U heeft uw wachtwoord succesvol gewijzigd.");
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.WriteLine("U heeft uw wachtwoord succesvol gewijzigd.");
+                                System.Threading.Thread.Sleep(2000);
+                                Console.ForegroundColor = ConsoleColor.Gray;
+                                Console.Clear();
+                                MainMenu.MainMenuShow();
+                            }
+                            catch (InvalidOperationException)
+                            {
+                                Console.WriteLine("Dit account bestaat niet.");
+                                System.Threading.Thread.Sleep(2000);
+                                Console.Clear();
+                                MainMenu.MainMenuShow();
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Uw wachtwoord komt niet overeen.");
+                            System.Threading.Thread.Sleep(2000);
+                            SetNewPassword(emailIngelogd, passwordIngelogd);
+                        }
+                    }
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("\nUw wachtwoord is al eens gebruikt.");
                     System.Threading.Thread.Sleep(2000);
                     Console.ForegroundColor = ConsoleColor.Gray;
-                    Console.Clear();
-                    MainMenu.MainMenuShow();
-                }
-                catch (InvalidOperationException)
-                {
-                    Console.WriteLine("Dit account bestaat niet.");
-                    System.Threading.Thread.Sleep(2000);
-                    Console.Clear();
-                    MainMenu.MainMenuShow();
+                    SetNewPassword(emailIngelogd, passwordIngelogd);
                 }
             }
-            else
-            {
-                Console.WriteLine("Uw wachtwoord komt niet overeen.");
-                System.Threading.Thread.Sleep(2000);
-                SetNewPassword(emailIngelogd, passwordIngelogd);
-            }
+            return "1go2to3main4menu5";
         }
 
         public static void PasswordEntries()

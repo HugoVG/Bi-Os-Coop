@@ -33,8 +33,6 @@ namespace Bi_Os_Coop
             jsonPeople.addPersonByFunction(3, "Bjorn", "json@bjorn.com", "jsonBjorn", "30", "06123456789");
             json = JsonSerializer.Serialize(jsonPeople);
             Json.WriteJson("Accounts", json);
-            //Console.WriteLine(jsonPeople);
-            // mac doet weer eens raar test
             Console.WriteLine(jsonPeople);
         }
 
@@ -72,10 +70,11 @@ namespace Bi_Os_Coop
             }
             public bool isPerson()
             {
-                if (this.GetType().Equals(typeof(Person))) {
+                if (this.GetType().Equals(typeof(Person)))
+                {
                     return true;
                 }
-                else {return false; }
+                else { return false; }
             }
             public bool isAdmin()
             {
@@ -100,8 +99,7 @@ namespace Bi_Os_Coop
             }
             public void DeleteAccount(Person ingelogdepersoon)
             {
-                Console.Clear();
-                Console.Write("Terug naar Admin Menu (Esc)\n\n");
+                MainMenu.ClearAndShowLogoPlusEsc("Update");
                 Console.WriteLine("Wilt u uw account verwijderen? (j/n)");
 
                 ConsoleKey keypressed = Console.ReadKey(true).Key;
@@ -111,79 +109,78 @@ namespace Bi_Os_Coop
                 }
                 if (keypressed == ConsoleKey.Escape) { goto exit; }
                 if (keypressed == ConsoleKey.J)
-                    {
+                {
                     // asks for email and password of the person
+                    MainMenu.ClearAndShowLogoPlusEsc("Update");
                     Console.WriteLine("Vul uw emailadres in:");
-                    string currentEmail = Console.ReadLine();
-
-                    Console.WriteLine("Vul uw huidige wachtwoord in:");
-                    SecureString pass = loginscherm.maskInputString();
-                    string currentPassword = new System.Net.NetworkCredential(string.Empty, pass).Password;
-                    if (currentPassword != "1go2to3main4menu5")
+                    string email = loginscherm.newwayoftyping();
+                    if (email != "1go2to3main4menu5")
                     {
-                        // checks if email and password are in the peopleList
-                        if (PasswordMethods.MailWachtwoordCheck(currentEmail, currentPassword)) // both are correct
+                        Console.WriteLine("Vul uw huidige wachtwoord in:");
+                        SecureString pass = loginscherm.maskInputString();
+                        string password = new System.Net.NetworkCredential(string.Empty, pass).Password;
+                        if (password != "1go2to3main4menu5")
                         {
-                            DeleteAccountMethod.DeleteAccount(ingelogdepersoon);
+                            // checks if email and password are in the peopleList
+                            if (PasswordMethods.MailWachtwoordCheck(email, password)) // both are correct
+                            {
+                                UserProfile.DeleteAccount(ingelogdepersoon);
+                            }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.WriteLine("\n\nWachtwoord of email onjuist. Probeer het later nog eens.");
+                                System.Threading.Thread.Sleep(1500);
+                                Console.ForegroundColor = ConsoleColor.Gray;
+                                Console.Clear();
+                            }
                         }
                         else
                         {
-                            Console.WriteLine("Wachtwoord of email onjuist. Probeer het later nog eens.");
-                            System.Threading.Thread.Sleep(2000);
                             Console.Clear();
-                            MainMenu.MainMenuShow();
                         }
-                    }
-                    else
-                    {
-                        Console.Clear();
-                        MainMenu.MainMenuShow();
                     }
                 }
                 else if (keypressed == ConsoleKey.N)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Bedankt voor het blijven!");
-                    Console.WriteLine("U wordt nu teruggestuurd naar het hoofdmenu.");
-                    System.Threading.Thread.Sleep(2000);
+                    System.Threading.Thread.Sleep(1000);
                     Console.ForegroundColor = ConsoleColor.Gray;
-                    MainMenu.MainMenuShow();
-                }
-                else
-                {
-                    DeleteAccount(ingelogdepersoon);
                 }
             exit:
                 return;
             }
 
-            public void ChangePassword(Person ingelogdepersoon)
+            public dynamic ChangePassword()
             {
-                Console.Clear();
-                Console.Write("Terug naar Admin Menu (Esc)\n\n");
-
-                // Checks if the person is logged in by checking if it has an ID
-                if (ingelogdepersoon.id != 0) // person is logged in
+                // asks for email and password of the person
+                Console.WriteLine("Vul uw emailadres in:");
+                string email = loginscherm.newwayoftyping();
+                if (email != "1go2to3main4menu5")
                 {
-                    // asks for email and password of the person
-                    Console.WriteLine("Vul uw emailadres in:");
-                    string currentEmail = Console.ReadLine();
-
                     Console.WriteLine("Vul uw huidige wachtwoord in:");
-                    string currentPassword = Console.ReadLine();
-
-                    // checks if email and password are in the peopleList
-                    if (PasswordMethods.MailWachtwoordCheck(currentEmail, currentPassword)) // both are correct
+                    SecureString pass = loginscherm.maskInputString();
+                    string password = new System.Net.NetworkCredential(string.Empty, pass).Password;
+                    if (password != "1go2to3main4menu5")
                     {
-                        PasswordMethods.SetNewPassword(currentEmail, currentPassword);
-                    }
-                    else
-                    {
-                        PasswordMethods.PasswordEntries(); // if one of the two data is incorrect they get 3 entries
+                        // checks if email and password are in the peopleList
+                        if (PasswordMethods.MailWachtwoordCheck(email, password)) // both are correct
+                        {
+                            PasswordMethods.SetNewPassword(email, password);
+                        }
+                        else
+                        {
+                            PasswordMethods.PasswordEntries(); // if one of the two data is incorrect they get 3 entries
+                        }
                     }
                 }
+                return "1go2to3main4menu5";
+            }
 
-                else if (ingelogdepersoon.id == 0) // person is not logged in
+            public void ForgotPassword()
+            {
+                if (this.id == 0) // person is not logged in
                 {
                     // if the person is not logged in we ask for email and birthdate
                     Console.WriteLine("Vul uw emailadres in:");
@@ -220,15 +217,14 @@ namespace Bi_Os_Coop
                             MainMenu.MainMenuShow();
                         }
                     }
-                exit:
-                    return;
                 }
-
                 // in case the person has an ID other than 0 or not 0
                 else
                 {
                     throw new NotImplementedException();
                 }
+            exit:
+                return;
             }
 
 
@@ -239,10 +235,7 @@ namespace Bi_Os_Coop
 
             public void BookTicket()
             {
-                Zalen zalen = new Zalen();
-                zalen = zalen.FromJson(Json.ReadJson("Zalen"));
-                var a = zalen.selectZalen("JsonBjorn");
-                zalen.menu(a.Item2);
+
             }
 
             public void CancelTicket()
@@ -277,127 +270,13 @@ namespace Bi_Os_Coop
         {
             public MovieInterpreter AddMovies()
             {
-                Console.Clear();
-                Console.Write("Terug naar Admin Menu (Esc)\n\n");
-                string json = Json.ReadJson("Films");
-                Films MovieLibrary = JsonSerializer.Deserialize<Films>(json);
-
-                Console.WriteLine("Voeg hier een nieuwe film toe.");
-                Console.WriteLine("Naam film:");
-                string naamFilm = loginscherm.FirstCharToUpper(loginscherm.newwayoftyping());
-                if (naamFilm == "1go2to3main4menu5") { goto exit; }
-                Console.WriteLine(naamFilm);
-
-                Console.WriteLine("Releasedatum film: (dd/mm/yyyy)");
-                string releasedatumFilm = loginscherm.getdate();
-                if (releasedatumFilm == "1go2to3main4menu5") { goto exit; }
-
-                Console.WriteLine("Voeg tussen elke genre een komma toe, bijv: Komedie, Actie, Thriller");
-                Console.WriteLine("Genres film:");
-                string genres = loginscherm.newwayoftyping();
-                if (genres == "1go2to3main4menu5") { goto exit; }
-                List<string> genresFilm = genres.Split(',').Select(p => p.Trim()).ToList();
-
-                for (int i = 0; i < genresFilm.Count; i++)
-                {
-                    genresFilm[i] = loginscherm.FirstCharToUpper(genresFilm[i]);
-                }
-
-                Console.WriteLine("Voeg tussen elke acteur een komma toe, bijv: Sean Connery, Ryan Gosling, Ryan Reynolds");
-                Console.WriteLine("Acteurs film:");
-                string acteurs = loginscherm.newwayoftyping();
-
-                if (acteurs == "1go2to3main4menu5") { goto exit; }
-                List<string> acteursFilm = acteurs.Split(',').Select(p => p.Trim()).ToList();
-
-                for (int i = 0; i < acteursFilm.Count; i++)
-                {
-                    List<string> tempActeur = acteursFilm[i].Split(' ').ToList();
-                    for (int j = 0; j < tempActeur.Count; j++)
-                    {
-                        tempActeur[j] = loginscherm.FirstCharToUpper(tempActeur[j]);
-                    }
-                    acteursFilm[i] = string.Join(" ", tempActeur);
-                }
-
-                Console.WriteLine("Tijdsduur film in minuten:");
-                var movietime = converttoint(loginscherm.newwayoftyping());
-                int movieTime;
-                if (movietime is string) { goto exit; }
-                else { movieTime = movietime; }
-
-                Console.WriteLine("Minimumleeftijd film:");
-                var minimumleeftijd = converttoint(loginscherm.newwayoftyping());
-                int minimumLeeftijd;
-                if (minimumleeftijd is string) { goto exit; }
-                else { minimumLeeftijd = minimumleeftijd; }
-
-                Console.WriteLine("Beoordeling film: (bijv. 8.0)");
-                var beoordelingFilm2 = converttodouble(loginscherm.newwayoftyping());
-                double beoordelingFilm;
-                if (beoordelingFilm2 is string) { goto exit; }
-                else { beoordelingFilm = beoordelingFilm2; }
-
-                Console.WriteLine("Taal film:");
-                string taalfilm = loginscherm.FirstCharToUpper(loginscherm.newwayoftyping());
-                if (taalfilm == "1go2to3main4menu5") { goto exit; }
-
-                Console.WriteLine("Trailer film:");
-                string trailerfilm = loginscherm.newwayoftyping();
-                if (trailerfilm == "1go2to3main4menu5") { goto exit; }
-
-                Console.WriteLine("Beschrijving film:");
-                string beschrijvingfilm = loginscherm.FirstCharToUpper(loginscherm.newwayoftyping());
-                if (beschrijvingfilm == "1go2to3main4menu5") { goto exit; }
-
-                if (MovieLibrary.movieList.Count > 0)
-                {
-                    var lastMovieInList = MovieLibrary.movieList[MovieLibrary.movieList.Count - 1];
-                    MovieInterpreter Movie = new MovieInterpreter();
-                    Movie.setFilm(lastMovieInList.movieid + 1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm, movieTime, taalfilm, beschrijvingfilm, trailerfilm);
-
-                    MovieLibrary.addFilm(Movie);
-                    JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
-                    json = JsonSerializer.Serialize(MovieLibrary, opt);
-
-                    Json.WriteJson("Films", json);
-
-                    Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Film succesvol toegevoegd aan het aanbod.");
-                    System.Threading.Thread.Sleep(1500);
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                    return Movie;
-                }
-                else
-                {
-                    MovieInterpreter Movie = new MovieInterpreter();
-                    Movie.setFilm(1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm, movieTime, taalfilm, beschrijvingfilm);
-
-                    MovieLibrary.addFilm(Movie);
-                    JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
-                    json = JsonSerializer.Serialize(MovieLibrary, opt);
-
-                    Json.WriteJson("Films", json);
-
-                    Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Film succesvol toegevoegd aan het aanbod.");
-                    System.Threading.Thread.Sleep(1500);
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                    return Movie;
-                }
-
-            exit:
-                MovieInterpreter Movie2 = new MovieInterpreter();
-                Movie2.setFilm(234733, "1go2to3main4menu5", "", new List<string>(), 999, 888, new List<string>(), 0, "", "");
-                return Movie2;
+                MovieInterpreter Movie = new MovieInterpreter();
+                Movie = MovieMethods.AddMovie();
+                return Movie;
             }
 
             public void UpdateMovies()
             {
-                Console.Clear();
-                Console.Write("Terug naar Admin Menu (Esc)\n\n");
                 Console.WriteLine("Welke film wilt u updaten?");
                 string naamFilm = loginscherm.RemoveSpecialCharacters(loginscherm.newwayoftyping());
 
@@ -437,8 +316,6 @@ namespace Bi_Os_Coop
 
             public void DeleteMovies()
             {
-                Console.Clear();
-                Console.Write("Terug naar Admin Menu (Esc)\n\n");
                 Console.WriteLine("Welke film wilt u verwijderen?");
                 string movieToRemove = loginscherm.RemoveSpecialCharacters(loginscherm.newwayoftyping());
 
@@ -450,7 +327,7 @@ namespace Bi_Os_Coop
 
                     if (jsonFilms.movieList != null)
                     {
-                        DeleteMovieMethod.DeleteMovie(json, jsonFilms, movieToRemove);
+                        MovieMethods.DeleteMovie(json, jsonFilms, movieToRemove);
                     }
                     else
                     {

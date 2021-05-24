@@ -33,19 +33,19 @@ namespace Bi_Os_Coop
                 }
                 else if (keuze == ConsoleKey.D2)
                 {
-                    Console.Clear();
+                    MainMenu.ClearAndShowLogoPlusEsc("Admin");
                     admin.AddMovies();
                 }
 
                 else if (keuze == ConsoleKey.D3)
                 {
-                    Console.Clear();
+                    MainMenu.ClearAndShowLogoPlusEsc("Admin");
                     admin.UpdateMovies();
                 }
                 else if (keuze == ConsoleKey.D4)
                 {
-                    Console.Clear();
-                    // koppelen met boeken; if (!geboekt) > delete movie 
+                    // koppelen met boeken; if (!geboekt) > delete movie
+                    MainMenu.ClearAndShowLogoPlusEsc("Admin");
                     admin.DeleteMovies();
                 }
                 //else if (keuze == ConsoleKey.D5)

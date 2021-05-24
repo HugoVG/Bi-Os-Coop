@@ -92,8 +92,7 @@
     <Compile Include="Class\Zalen.cs" />
     <Compile Include="Class\PasswordMethods.cs" />
     <Compile Include="Class\MovieMethods.cs" />
-    <Compile Include="Class\DeleteMovieMethod.cs" />
-    <Compile Include="Class\DeleteAccountMethod.cs" />
+    <Compile Include="Class\UserProfile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

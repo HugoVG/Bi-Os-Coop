@@ -33,6 +33,14 @@ namespace Bi_Os_Coop
             Program.newEntry("            888oooo88    88ooo88     88ooo88   888ooo88\n                                                                                               o888\n", ConsoleColor.DarkBlue);
             Program.newEntry(dashes + "\n");
         }
+
+        public static void ClearAndShowLogoPlusEsc(string menu)
+        {
+            Console.Clear();
+            Logo();
+            Console.Write($"Terug naar het {menu} Menu (Esc)\n\n");
+        }
+
         public static List<int> sortbyname()
         {
             Films jsonFilms = getfilmlist();
@@ -265,8 +273,10 @@ namespace Bi_Os_Coop
                 Console.Write("Afsluiten (Esc)");
                 if (login == "None") { logintext(); }
                 else { logouttext(); }
-                string goAM = "Admin Menu (W)";
+                string goAM = "Admin Menu (A)";
                 if (login == "Admin") { Console.WriteLine(lengthmakerthing(Console.WindowWidth - goAM.Length, ' ') + goAM); }
+                string goUserProfile = "Profile (W)";
+                if (login == "Person") { Console.WriteLine(lengthmakerthing(Console.WindowWidth - goUserProfile.Length, ' ') + goUserProfile); }
                 sorttext(sort, reverse);
 
                 Console.WriteLine("ACTUELE FILMS:");
@@ -274,7 +284,7 @@ namespace Bi_Os_Coop
                 string moviemenugo = "Meer Films (E)";
                 Console.WriteLine(lengthmakerthing(Console.WindowWidth - moviemenugo.Length - 22, ' ') + moviemenugo);
                 ConsoleKey keypressed = Console.ReadKey(true).Key;
-                while (keypressed != ConsoleKey.E && keypressed != ConsoleKey.W && keypressed != ConsoleKey.Escape && keypressed != ConsoleKey.R && keypressed != ConsoleKey.T && keypressed != ConsoleKey.Y && keypressed != ConsoleKey.U && keypressed != ConsoleKey.I && keypressed != ConsoleKey.O && keypressed != ConsoleKey.P)
+                while (keypressed != ConsoleKey.E && keypressed != ConsoleKey.A && keypressed != ConsoleKey.W && keypressed != ConsoleKey.Escape && keypressed != ConsoleKey.R && keypressed != ConsoleKey.T && keypressed != ConsoleKey.Y && keypressed != ConsoleKey.U && keypressed != ConsoleKey.I && keypressed != ConsoleKey.O && keypressed != ConsoleKey.P)
                 {
                     keypressed = Console.ReadKey(true).Key;
                 }
@@ -296,7 +306,8 @@ namespace Bi_Os_Coop
                     Console.Clear();
                     Registerscreen.CreateAccount();
                 }
-                else if (keypressed == ConsoleKey.W) { if (login == "Admin") { adminMenu.AM(); } }
+                else if (keypressed == ConsoleKey.A) { if (login == "Admin") { adminMenu.AM(); } }
+                else if (keypressed == ConsoleKey.W) { if (login == "Person") { UserProfile.ProfileMenu(user); } }
                 else if (keypressed == ConsoleKey.R && sort != "name") { sort = "name"; sav = true; }
                 else if (keypressed == ConsoleKey.T && sort != "rating") { sort = "rating"; sav = true; }
                 else if (keypressed == ConsoleKey.Y && sort != "release") { sort = "release"; sav = true; }

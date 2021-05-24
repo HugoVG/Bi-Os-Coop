@@ -257,6 +257,7 @@ namespace Bi_Os_Coop
 
         public static dynamic login()
         {
+            MainMenu.ClearAndShowLogoPlusEsc("Main Menu");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("E-mail:");
             string username = newwayoftyping();
