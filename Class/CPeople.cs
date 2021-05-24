@@ -336,6 +336,10 @@ namespace Bi_Os_Coop
                 string taalfilm = loginscherm.FirstCharToUpper(loginscherm.newwayoftyping());
                 if (taalfilm == "1go2to3main4menu5") { goto exit; }
 
+                Console.WriteLine("Trailer film:");
+                string trailerfilm = loginscherm.newwayoftyping();
+                if (trailerfilm == "1go2to3main4menu5") { goto exit; }
+
                 Console.WriteLine("Beschrijving film:");
                 string beschrijvingfilm = loginscherm.FirstCharToUpper(loginscherm.newwayoftyping());
                 if (beschrijvingfilm == "1go2to3main4menu5") { goto exit; }
@@ -344,7 +348,7 @@ namespace Bi_Os_Coop
                 {
                     var lastMovieInList = MovieLibrary.movieList[MovieLibrary.movieList.Count - 1];
                     MovieInterpreter Movie = new MovieInterpreter();
-                    Movie.setFilm(lastMovieInList.movieid + 1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm, taalfilm, beschrijvingfilm);
+                    Movie.setFilm(lastMovieInList.movieid + 1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm, taalfilm, beschrijvingfilm, trailerfilm);
 
                     MovieLibrary.addFilm(Movie);
                     JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
