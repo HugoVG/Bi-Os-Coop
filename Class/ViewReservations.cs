@@ -160,6 +160,14 @@ namespace Bi_Os_Coop
                 }
             }
         }
+        /// <summary>
+        /// this menu let's you see what you can do with the resrvation you seleccted.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="moviename"></param>
+        /// <param name="movieid"></param>
+        /// <param name="datum"></param>
+        /// <param name="tijd"></param>
         public static void selectedmoviemenu(int id, string moviename, int movieid, string datum, string tijd)
         {
             Console.Clear();
@@ -181,6 +189,14 @@ namespace Bi_Os_Coop
             else if (keypressed == ConsoleKey.D3) { Console.Clear(); showres(id); }
         }
 
+        /// <summary>
+        /// Displays all the details about the movie (almost same as it is displayed in moviemenu).
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="moviename"></param>
+        /// <param name="movieid"></param>
+        /// <param name="datum"></param>
+        /// <param name="tijd"></param>
         public static void showmoviedetails(int id, string moviename = null, int movieid = 0, string datum = null, string tijd = null)
         {
             string json = Json.ReadJson("Films");
@@ -288,6 +304,11 @@ namespace Bi_Os_Coop
             while (keypressed != ConsoleKey.Escape) { keypressed = Console.ReadKey(true).Key; }
             if (keypressed == ConsoleKey.Escape) { selectedmoviemenu(id, moviename, movieid, datum, tijd); }
         }
+        /// <summary>
+        /// checks what the movie hall is depending on the amount of seats
+        /// </summary>
+        /// <param name="stoelen"></param>
+        /// <returns></returns>
         public static int checkwhichhall(int stoelen)
         {
             int zaalnummer = 404;
