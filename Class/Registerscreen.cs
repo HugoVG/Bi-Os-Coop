@@ -79,21 +79,21 @@ namespace Bi_Os_Coop
                 CPeople.Person persoon = jsonPeople.peopleList.Single(x => x.id == int.Parse(ret));
                 return createID();
             }
-            catch (InvalidOperationException)
+            catch (Exception)
             {
                 try
                 {
                     CPeople.Admin admin = jsonPeople.adminList.Single(x => x.id == int.Parse(ret));
                     return createID();
                 }
-                catch (InvalidOperationException)
+                catch (Exception)
                 {
                     try
                     {
                         CPeople.Employee employee = jsonPeople.employeeList.Single(x => x.id == int.Parse(ret));
                         return createID();
                     }
-                    catch (InvalidOperationException)
+                    catch (Exception)
                     {
                         CPeople.Person persoon = new CPeople.Person();
                         return int.Parse(ret);
@@ -176,7 +176,7 @@ namespace Bi_Os_Coop
                         Program.newEntry("Dit e-mailadres is al gekoppeld aan een account.\n", ConsoleColor.Red);
                         return false;
                     }
-                    catch (InvalidOperationException)
+                    catch (Exception)
                     {
                         try
                         {
@@ -184,7 +184,7 @@ namespace Bi_Os_Coop
                             Program.newEntry("Dit e-mailadres is al gekoppeld aan een account.\n", ConsoleColor.Red);
                             return false;
                         }
-                        catch (InvalidOperationException)
+                        catch (Exception)
                         {
                             try
                             {
@@ -192,7 +192,7 @@ namespace Bi_Os_Coop
                                 Program.newEntry("Dit e-mailadres is al gekoppeld aan een account.\n", ConsoleColor.Red);
                                 return false;
                             }
-                            catch
+                            catch (Exception)
                             {
                                 CPeople.Person persoon = new CPeople.Person();
                                 return true;
@@ -226,7 +226,7 @@ namespace Bi_Os_Coop
                             Program.newEntry("Dit telefoonnummer is al gekoppeld aan een account.\n", ConsoleColor.Red);
                             return false;
                         }
-                        catch (InvalidOperationException)
+                        catch (Exception)
                         {
                             try
                             {
@@ -234,7 +234,7 @@ namespace Bi_Os_Coop
                                 Program.newEntry("Dit telefoonnummer is al gekoppeld aan een account.\n", ConsoleColor.Red);
                                 return false;
                             }
-                            catch (InvalidOperationException)
+                            catch (Exception)
                             {
                                 try
                                 {
@@ -242,7 +242,7 @@ namespace Bi_Os_Coop
                                     Program.newEntry("Dit telefoonnummer is al gekoppeld aan een account.\n", ConsoleColor.Red);
                                     return false;
                                 }
-                                catch (InvalidOperationException)
+                                catch (Exception)
                                 {
                                     CPeople.Person persoon = new CPeople.Person();
                                     return true;
