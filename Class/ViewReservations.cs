@@ -14,7 +14,7 @@ namespace Bi_Os_Coop
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static List<List<int>> viewres(int id)
+        public static List<List<int>> ViewRes(int id)
         {
             string json = Json.ReadJson("Zalen");
             Zalen jsonZalen = System.Text.Json.JsonSerializer.Deserialize<Zalen>(json);
@@ -54,12 +54,12 @@ namespace Bi_Os_Coop
         /// voer voor users bij id automatisch hun eigen id in vanuit de MainMenu.json
         /// </summary>
         /// <param name="id"></param>
-        public static void showres(int id, int index = 0)
+        public static void ShowRes(int id, int index = 0)
         {
             string json = Json.ReadJson("Zalen");
             Zalen jsonZalen = System.Text.Json.JsonSerializer.Deserialize<Zalen>(json);
-            //call to the function that does all the work (viewres)
-            List<List<int>> reservationlist = viewres(id);
+            //call to the function that does all the work (ViewRes)
+            List<List<int>> reservationlist = ViewRes(id);
             MainMenu.Logo();
             Console.ForegroundColor = ConsoleColor.White;
             //wijzig dit later naar het profiel menu van Bjorn
@@ -99,7 +99,7 @@ namespace Bi_Os_Coop
                         Console.ForegroundColor = ConsoleColor.Black;
                         Console.Write("Zaal: ");
                         Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.WriteLine($"{checkwhichhall(jsonZalen.zalenList[reservationlist[i][0]].stoelen.Count())}".PadRight(Console.WindowWidth - 9));
+                        Console.WriteLine($"{CheckWhichHall(jsonZalen.zalenList[reservationlist[i][0]].stoelen.Count())}".PadRight(Console.WindowWidth - 9));
                         Console.ForegroundColor = ConsoleColor.Black;
                         Console.WriteLine("Stoelen: ".PadRight(Console.WindowWidth - 3));
                         Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -121,7 +121,7 @@ namespace Bi_Os_Coop
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.Write("Zaal: ");
                         Console.ForegroundColor = ConsoleColor.Gray;
-                        Console.WriteLine(checkwhichhall(jsonZalen.zalenList[reservationlist[i][0]].stoelen.Count()));
+                        Console.WriteLine(CheckWhichHall(jsonZalen.zalenList[reservationlist[i][0]].stoelen.Count()));
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.WriteLine("Stoelen: ");
                         Console.ForegroundColor = ConsoleColor.Gray;
@@ -150,13 +150,13 @@ namespace Bi_Os_Coop
                 ConsoleKey keypressed = Console.ReadKey(true).Key;
                 //verander esc later naar Bjorn's menu
                 if (keypressed == ConsoleKey.Escape) { Console.Clear(); MainMenu.MainMenuShow(); }
-                else if (keypressed == ConsoleKey.DownArrow && index != reservationlist.Count() - 1) { Console.Clear(); showres(id, index + 1); }
-                else if (keypressed == ConsoleKey.UpArrow && index != 0) { Console.Clear(); showres(id, index - 1); }
-                else if (keypressed == ConsoleKey.Enter) { Console.Clear(); selectedmoviemenu(id, jsonZalen.zalenList[reservationlist[index][0]].film.name, jsonZalen.zalenList[reservationlist[index][0]].film.movieid, jsonZalen.zalenList[reservationlist[index][0]].date, jsonZalen.zalenList[reservationlist[index][0]].time); }
+                else if (keypressed == ConsoleKey.DownArrow && index != reservationlist.Count() - 1) { Console.Clear(); ShowRes(id, index + 1); }
+                else if (keypressed == ConsoleKey.UpArrow && index != 0) { Console.Clear(); ShowRes(id, index - 1); }
+                else if (keypressed == ConsoleKey.Enter) { Console.Clear(); SelectedMovieMenu(id, jsonZalen.zalenList[reservationlist[index][0]].film.name, jsonZalen.zalenList[reservationlist[index][0]].film.movieid, jsonZalen.zalenList[reservationlist[index][0]].date, jsonZalen.zalenList[reservationlist[index][0]].time); }
                 else
                 {
                     Console.Clear();
-                    showres(id, index);
+                    ShowRes(id, index);
                 }
             }
         }
@@ -168,7 +168,7 @@ namespace Bi_Os_Coop
         /// <param name="movieid"></param>
         /// <param name="datum"></param>
         /// <param name="tijd"></param>
-        public static void selectedmoviemenu(int id, string moviename, int movieid, string datum, string tijd)
+        public static void SelectedMovieMenu(int id, string moviename, int movieid, string datum, string tijd)
         {
             Console.Clear();
             MainMenu.Logo();
@@ -181,12 +181,12 @@ namespace Bi_Os_Coop
 
             ConsoleKey keypressed = Console.ReadKey(true).Key;
             while (keypressed != ConsoleKey.Escape && keypressed != ConsoleKey.D1 && keypressed != ConsoleKey.D2 && keypressed != ConsoleKey.D3) { keypressed = Console.ReadKey(true).Key; }
-            if (keypressed == ConsoleKey.Escape) { Console.Clear(); showres(id); }
-            else if (keypressed == ConsoleKey.D1) { Console.Clear(); showmoviedetails(id, moviename, movieid, datum, tijd); }
+            if (keypressed == ConsoleKey.Escape) { Console.Clear(); ShowRes(id); }
+            else if (keypressed == ConsoleKey.D1) { Console.Clear(); ShowMovieDetails(id, moviename, movieid, datum, tijd); }
             //vragen aan hugo of dit ingebouwd zit, zo ja, link het dan aan d2
-            else if (keypressed == ConsoleKey.D2) { Console.Clear(); showres(id); }
+            else if (keypressed == ConsoleKey.D2) { Console.Clear(); ShowRes(id); }
             //vragen of hugo hier iets voor heeft, anders zelf maken
-            else if (keypressed == ConsoleKey.D3) { Console.Clear(); showres(id); }
+            else if (keypressed == ConsoleKey.D3) { Console.Clear(); ShowRes(id); }
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace Bi_Os_Coop
         /// <param name="movieid"></param>
         /// <param name="datum"></param>
         /// <param name="tijd"></param>
-        public static void showmoviedetails(int id, string moviename = null, int movieid = 0, string datum = null, string tijd = null)
+        public static void ShowMovieDetails(int id, string moviename = null, int movieid = 0, string datum = null, string tijd = null)
         {
             string json = Json.ReadJson("Films");
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
@@ -299,17 +299,17 @@ namespace Bi_Os_Coop
             ConsoleKey keypressed = Console.ReadKey(true).Key;
             if (hastrailer == true)
             {
-                if (keypressed == ConsoleKey.T) { System.Diagnostics.Process.Start(trailer); Console.Clear(); showmoviedetails(id, moviename, movieid, datum, tijd); }
+                if (keypressed == ConsoleKey.T) { System.Diagnostics.Process.Start(trailer); Console.Clear(); ShowMovieDetails(id, moviename, movieid, datum, tijd); }
             }
             while (keypressed != ConsoleKey.Escape) { keypressed = Console.ReadKey(true).Key; }
-            if (keypressed == ConsoleKey.Escape) { selectedmoviemenu(id, moviename, movieid, datum, tijd); }
+            if (keypressed == ConsoleKey.Escape) { SelectedMovieMenu(id, moviename, movieid, datum, tijd); }
         }
         /// <summary>
         /// checks what the movie hall is depending on the amount of seats
         /// </summary>
         /// <param name="stoelen"></param>
         /// <returns></returns>
-        public static int checkwhichhall(int stoelen)
+        public static int CheckWhichHall(int stoelen)
         {
             int zaalnummer = 404;
             if (stoelen == 630) { zaalnummer = 1; }
