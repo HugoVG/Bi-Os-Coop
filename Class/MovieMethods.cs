@@ -23,8 +23,9 @@ namespace Bi_Os_Coop
                 Console.WriteLine("6. Beoordeling aanpassen");
                 Console.WriteLine("7. taal aanpassen");
                 Console.WriteLine("8. Beschrijving aanpassen");
-                Console.WriteLine("9. Andere film aanpassen");
-                Console.WriteLine("0. Exit");
+                Console.WriteLine("9. Trailer aanpassen");
+                Console.WriteLine("0. Andere film aanpassen");
+                Console.WriteLine("Exit (Esc)");
 
                 ConsoleKeyInfo keyReaded = Console.ReadKey();
 
@@ -57,14 +58,17 @@ namespace Bi_Os_Coop
                         UpdateDescription(json, jsonFilms, tempMovie);
                         break;
                     case ConsoleKey.D9:
+                        UpdateTrailer(json, jsonFilms, tempMovie);
+                        break;
+                    case ConsoleKey.D0:
                         CPeople.Admin admin = new CPeople.Admin();
                         admin.UpdateMovies();
                         break;
-                    case ConsoleKey.D0:
+                    case ConsoleKey.Escape:
                         done = true;
                         break;
                     default:
-                        Console.WriteLine("Kies voor optie 1-9 of verlaat het menu.");
+                        Console.WriteLine("Kies voor optie 0-9 of verlaat het menu.");
                         UpdateMovieMenu(json, jsonFilms, tempMovie);
                         done = true;
                         break;
@@ -329,6 +333,28 @@ namespace Bi_Os_Coop
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Film taal is succesvol gewijzigd.");
+            System.Threading.Thread.Sleep(1000);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Clear();
+            return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
+        exit:
+            return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
+        }
+        public static Tuple<string, Films, MovieInterpreter> UpdateTrailer(string json, Films jsonFilms, MovieInterpreter tempMovie)
+        {
+            Console.Clear();
+            Console.Write("Terug naar het Update Menu (Esc)\n\n");
+            Console.WriteLine($"Wat is de nieuwe trailer van de film {tempMovie.name}?");
+            string newTrailer = loginscherm.newwayoftyping();
+            if (newTrailer == "1go2to3main4menu5") { goto exit; }
+            tempMovie.trailer = newTrailer;
+
+            JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+            json = JsonSerializer.Serialize(jsonFilms, opt);
+            Json.WriteJson("Films", json);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Film trailer is succesvol gewijzigd.");
             System.Threading.Thread.Sleep(1000);
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.Clear();
