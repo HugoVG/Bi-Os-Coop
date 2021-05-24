@@ -72,7 +72,19 @@ namespace Bi_Os_Coop
                 Console.Write($"time:{zaal.time} \t");
                 Console.Write($"movie:{zaal.film.name} \t");
                 Console.Write($"release Date:{zaal.film.releasedate} \t");
-                Console.Write($"Score:{zaal.film.beoordeling} ");
+                Console.Write($"Score:{zaal.film.beoordeling}\t");
+                if (zaal.stoelen.Count == 630)
+                {
+                    Console.Write($"Zaal:{1}\t");
+                }
+                else if (zaal.stoelen.Count == 342)
+                {
+                    Console.Write($"Zaal:{2}\t");
+                }
+                else
+                {
+                    Console.Write($"Zaal:{3}\t");
+                }
                 counter++;
             }
         }
@@ -144,7 +156,19 @@ namespace Bi_Os_Coop
                 Console.Write($"time:{zaal.time} \t");
                 Console.Write($"movie:{zaal.film.name} \t");
                 Console.Write($"release Date:{zaal.film.releasedate} \t");
-                Console.Write($"Score:{zaal.film.beoordeling} ");
+                Console.Write($"Score:{zaal.film.beoordeling}\t");
+                if (zaal.stoelen.Count == 630)
+                {
+                    Console.Write($"Zaal:{1}\t");
+                }
+                else if (zaal.stoelen.Count == 342)
+                {
+                    Console.Write($"Zaal:{2}\t");
+                }
+                else
+                {
+                    Console.Write($"Zaal:{3}\t");
+                }
                 counter++;
             }
         }
@@ -159,7 +183,19 @@ namespace Bi_Os_Coop
                 Console.Write($"time:{zaal.time} \t");
                 Console.Write($"movie:{zaal.film.name} \t");
                 Console.Write($"release Date:{zaal.film.releasedate} \t");
-                Console.Write($"Score:{zaal.film.beoordeling} ");
+                Console.Write($"Score:{zaal.film.beoordeling}\t");
+                if (zaal.stoelen.Count == 630)
+                {
+                    Console.Write($"Zaal:{1}\t");
+                }
+                else if (zaal.stoelen.Count == 342)
+                {
+                    Console.Write($"Zaal:{2}\t");
+                }
+                else
+                {
+                    Console.Write($"Zaal:{3}\t");
+                }
                 counter++;
             }
         }
