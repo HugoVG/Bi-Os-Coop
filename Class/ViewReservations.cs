@@ -51,7 +51,7 @@ namespace Bi_Os_Coop
         /// <summary>
         /// laat de gereserveerde stoel(en) per film zien en de data van de film.
         /// call deze functie als je het scherm met reserveringen wilt laten zien.
-        /// voer voor users bij id automatisch hun eigen id in vanuit de mainmenulist.
+        /// voer voor users bij id automatisch hun eigen id in vanuit de MainMenu.json
         /// </summary>
         /// <param name="id"></param>
         public static void showres(int id, int index = 0)
