@@ -18,7 +18,8 @@ namespace Bi_Os_Coop
         public string taal { get; set; }
         public string beschrijving { get; set; }
         public string trailer { get; set; }
-        public void setFilm(int movieid, string name, string releasedate, List<string> genres, int leeftijd, double beoordeling, List<string> acteurs, string taal = null, string beschrijving = null, string trailer = null)
+        public int MovieTime { get; set; }
+        public void setFilm(int movieid, string name, string releasedate, List<string> genres, int leeftijd, double beoordeling, List<string> acteurs, int movieTime, string taal = null, string beschrijving = null, string trailer = null)
         {
             this.movieid = movieid;
             this.name = name;
@@ -30,6 +31,7 @@ namespace Bi_Os_Coop
             this.taal = taal;
             this.beschrijving = beschrijving;
             this.trailer = trailer;
+            this.MovieTime = movieTime;
         }
     }
     public class Films

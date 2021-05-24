@@ -320,6 +320,12 @@ namespace Bi_Os_Coop
                     acteursFilm[i] = string.Join(" ", tempActeur);
                 }
 
+                Console.WriteLine("Tijdsduur film in minuten:");
+                var movietime = converttoint(loginscherm.newwayoftyping());
+                int movieTime;
+                if (movietime is string) { goto exit; }
+                else { movieTime = movietime; }
+
                 Console.WriteLine("Minimumleeftijd film:");
                 var minimumleeftijd = converttoint(loginscherm.newwayoftyping());
                 int minimumLeeftijd;
@@ -348,7 +354,7 @@ namespace Bi_Os_Coop
                 {
                     var lastMovieInList = MovieLibrary.movieList[MovieLibrary.movieList.Count - 1];
                     MovieInterpreter Movie = new MovieInterpreter();
-                    Movie.setFilm(lastMovieInList.movieid + 1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm, taalfilm, beschrijvingfilm, trailerfilm);
+                    Movie.setFilm(lastMovieInList.movieid + 1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm, movieTime, taalfilm, beschrijvingfilm, trailerfilm);
 
                     MovieLibrary.addFilm(Movie);
                     JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
@@ -366,7 +372,7 @@ namespace Bi_Os_Coop
                 else
                 {
                     MovieInterpreter Movie = new MovieInterpreter();
-                    Movie.setFilm(1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm, taalfilm, beschrijvingfilm);
+                    Movie.setFilm(1, naamFilm, releasedatumFilm, genresFilm, minimumLeeftijd, beoordelingFilm, acteursFilm, movieTime, taalfilm, beschrijvingfilm);
 
                     MovieLibrary.addFilm(Movie);
                     JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
@@ -384,7 +390,7 @@ namespace Bi_Os_Coop
 
             exit:
                 MovieInterpreter Movie2 = new MovieInterpreter();
-                Movie2.setFilm(234733, "1go2to3main4menu5", "", new List<string>(), 999, 888, new List<string>(), "", "");
+                Movie2.setFilm(234733, "1go2to3main4menu5", "", new List<string>(), 999, 888, new List<string>(), 0, "", "");
                 return Movie2;
             }
 
