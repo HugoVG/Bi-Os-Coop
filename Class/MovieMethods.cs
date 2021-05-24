@@ -516,5 +516,15 @@ namespace Bi_Os_Coop
                 return;
             }
         }
+
+        public static int movieBreaksCalculator(int movieTime)
+        {
+            int amountOfBreaks = 0;
+            if (movieTime > 150)
+            {
+                amountOfBreaks = (movieTime - 150) / 60 + 1;
+            }
+            return amountOfBreaks;
+        }
     }
 }
