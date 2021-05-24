@@ -97,9 +97,9 @@ namespace Bi_Os_Coop
                         Console.ForegroundColor = ConsoleColor.DarkGray;
                         Console.WriteLine($"{jsonZalen.zalenList[reservationlist[i][0]].time}".PadRight(Console.WindowWidth - 9));
                         Console.ForegroundColor = ConsoleColor.Black;
-                        Console.Write("Leeftijd: ");
+                        Console.Write("Zaal: ");
                         Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.WriteLine($"{jsonZalen.zalenList[reservationlist[i][0]].film.leeftijd}".PadRight(Console.WindowWidth - 13));
+                        Console.WriteLine($"{checkwhichhall(jsonZalen.zalenList[reservationlist[i][0]].stoelen.Count())}".PadRight(Console.WindowWidth - 9));
                         Console.ForegroundColor = ConsoleColor.Black;
                         Console.WriteLine("Stoelen: ".PadRight(Console.WindowWidth - 3));
                         Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -119,9 +119,9 @@ namespace Bi_Os_Coop
                         Console.ForegroundColor = ConsoleColor.Gray;
                         Console.WriteLine(jsonZalen.zalenList[reservationlist[i][0]].time);
                         Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write("Leeftijd: ");
+                        Console.Write("Zaal: ");
                         Console.ForegroundColor = ConsoleColor.Gray;
-                        Console.WriteLine(jsonZalen.zalenList[reservationlist[i][0]].film.leeftijd);
+                        Console.WriteLine(checkwhichhall(jsonZalen.zalenList[reservationlist[i][0]].stoelen.Count()));
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.WriteLine("Stoelen: ");
                         Console.ForegroundColor = ConsoleColor.Gray;
@@ -287,6 +287,14 @@ namespace Bi_Os_Coop
             }
             while (keypressed != ConsoleKey.Escape) { keypressed = Console.ReadKey(true).Key; }
             if (keypressed == ConsoleKey.Escape) { selectedmoviemenu(id, moviename, movieid, datum, tijd); }
+        }
+        public static int checkwhichhall(int stoelen)
+        {
+            int zaalnummer = 404;
+            if (stoelen == 630) { zaalnummer = 1; }
+            else if (stoelen == 342) { zaalnummer = 2; }
+            else if (stoelen == 168) { zaalnummer = 3; }
+            return zaalnummer;
         }
     }
 }
