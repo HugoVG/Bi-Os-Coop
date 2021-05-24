@@ -1,15 +1,7 @@
 {
-  "user": {
-    "id": 1,
-    "name": "Hugo",
-    "email": "coolste@min.com",
-    "password": "nietzoveilig",
-    "age": "30",
-    "phonenumber": "06123456789",
-    "BookedMovies": null
-  },
+  "user": null,
   "sort": "name",
   "reverse": false,
-  "login": "Admin",
+  "login": "None",
   "language": "Nederlands"
 }
