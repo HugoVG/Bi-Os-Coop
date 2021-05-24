@@ -76,7 +76,7 @@ namespace Bi_Os_Coop
             }
         }
         /// <summary>
-        /// Checks if movie exists in json, if found returns the movie
+        /// Checks if movie exists in json, if found returns the movie.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
