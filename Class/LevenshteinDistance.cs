@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Bi_Os_Coop
+namespace Bi_Os_Coop.Class
 {
     /// <summary>
     /// Deze class berekent hoeveel veranderingen er nodig zijn om een string gelijk te stellen aan een andere, des te lager de uitkomst des te meer het op de andere string lijkt.

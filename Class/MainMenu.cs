@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Text.Json;
 
-namespace Bi_Os_Coop
+namespace Bi_Os_Coop.Class
 {
     class MainMenu
     {
@@ -60,7 +58,7 @@ namespace Bi_Os_Coop
             if (reverse) { listing.Reverse(); }
             return listing;
         }
-        public static Bi_Os_Coop.Films getfilmlist()
+        public static Films getfilmlist()
         {
             string json = Json.ReadJson("Films");
             return JsonSerializer.Deserialize<Films>(json);

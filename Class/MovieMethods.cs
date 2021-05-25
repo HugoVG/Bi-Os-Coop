@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 
-namespace Bi_Os_Coop
+namespace Bi_Os_Coop.Class
 {
     public class MovieMethods
     {
@@ -515,6 +515,21 @@ namespace Bi_Os_Coop
             exit:
                 return;
             }
+        }
+        /// <summary>
+        /// Berekent hoeveel pauzes er tijdens een film gehouden moeten worden. Bij een film die 150 duurt, wordt 1 pauze gehouden, voor elk uur wat daar bovenop komt wordt een extra pauze gehouden.
+        /// Returnt een integer die het aantal pauzes weergeeft.
+        /// </summary>
+        /// <param name="movieTime"></param>
+        /// <returns></returns>
+        public static int movieBreaksCalculator(int movieTime)
+        {
+            int amountOfBreaks = 0;
+            if (movieTime > 150)
+            {
+                amountOfBreaks = (movieTime - 150) / 60 + 1;
+            }
+            return amountOfBreaks;
         }
     }
 }

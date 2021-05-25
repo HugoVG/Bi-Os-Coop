@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bi_Os_Coop.Class;
+
 // dertigste test - Hajar
 
 namespace Bi_Os_Coop

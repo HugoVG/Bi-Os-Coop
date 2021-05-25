@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json;
 
-namespace Bi_Os_Coop
+namespace Bi_Os_Coop.Class
 {
     class Registerscreen
-    {   
+    {
 
         /// <summary>
         /// CreateAccount is een functie waarin alle functies uit de class registerscreen achter elkaar worden uitgevoerd. Als je dus een heel nieuw account wilt maken moet je deze functie uitvoeren.
@@ -36,7 +32,7 @@ namespace Bi_Os_Coop
                 string password = validCheck("wachtwoord", lengthCheck);
                 if (password == "1go2to3main4menu5") { return; }
 
-                //In de volgende code worden alle inputs van de gebruiker opgeslagen 
+                //In de volgende code worden alle inputs van de gebruiker opgeslagen
                 CPeople.Person customer = new CPeople.Person();
                 customer.setPerson(id, naam, email.ToLower(), password, birthdate, phoneNumber);
                 jsonPeople.AddPerson(customer);
@@ -138,7 +134,7 @@ namespace Bi_Os_Coop
                     }
                     if (function(input))
                         valid = true;
-                }               
+                }
             }
 
 
@@ -300,7 +296,7 @@ namespace Bi_Os_Coop
 
         /// <summary>
         /// AgeVerify berekent de leeftijd aan de hand van variabele 'birthdate'. Je kunt ook een minimumleeftijd instellen, als je die niet meestuurt is het by default '0'.
-        /// 'birthdate' moet als format dd/mm/jjjj. Het maakt niet uit wat er op index 2 en 5 staat, zolang de volgorde maar dag/maand/jaar is en zolang de data 
+        /// 'birthdate' moet als format dd/mm/jjjj. Het maakt niet uit wat er op index 2 en 5 staat, zolang de volgorde maar dag/maand/jaar is en zolang de data
         /// maar op index [0,1][3,4][6,7,8,9] staan.
         /// Als de berekende leeftijd hetzelfde, of hoger, is dan de minimumleeftijd, dan returnt de functie 'true'. Anders returtn de functie 'false'
         /// </summary>
@@ -309,7 +305,7 @@ namespace Bi_Os_Coop
         /// <returns></returns>
         public static bool AgeVerify(string birthdate, int minimumAge = 0)
         {
-            
+
             //Hieronder wordt de huidige datum gecheckt en wordt de datum uit de 'birthdate' variabele gehaald.
             DateTime todaysDate = DateTime.Now.Date;
             int currentDay = todaysDate.Day;
@@ -319,7 +315,7 @@ namespace Bi_Os_Coop
             int month = int.Parse(birthdate.Substring(3, 2));
             int day = int.Parse(birthdate.Substring(0, 2));
             int age = currentYear - birthYear;
-            
+
             //Hieronder wordt berekend wat de leeftijd is.
             if (month > currentMonth)
             {
