@@ -1,11 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Text.Json;
 
-namespace Bi_Os_Coop
+namespace Bi_Os_Coop.Class
 {
     /// <summary>
     /// In deze class staan alle functies die met het hoofdmenu te maken hebben.
@@ -84,11 +82,11 @@ namespace Bi_Os_Coop
             if (reverse) { listing.Reverse(); }
             return listing;
         }
-
+      
         /// <summary>
         /// Deze method returnt de films uit de json.
         /// </summary>
-        public static Bi_Os_Coop.Films getfilmlist()
+        public static Films getfilmlist()
         {
             string json = Json.ReadJson("Films");
             return JsonSerializer.Deserialize<Films>(json);
@@ -383,6 +381,22 @@ namespace Bi_Os_Coop
             if (sav) { jsonmainmenu(user, sort, reverse, login, language); }
             Console.Clear();
             MainMenuShow();
+        }
+    }
+    class MainMenuThings
+    {
+        public CPeople.Person user { get; set; }
+        public string sort { get; set; }
+        public bool reverse { get; set; }
+        public string login { get; set; }
+        public string language { get; set; }
+        public void setlog(CPeople.Person user, string sort, bool reverse, string login, string language)
+        {
+            this.user = user;
+            this.sort = sort;
+            this.reverse = reverse;
+            this.login = login;
+            this.language = language;
         }
     }
 }

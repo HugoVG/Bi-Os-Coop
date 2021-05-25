@@ -76,13 +76,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\adminMenu.cs" />
-    <Compile Include="Class\AdminMethods.cs" />
     <Compile Include="Class\CPeople.cs" />
     <Compile Include="Class\Json.cs" />
     <Compile Include="Class\loginscherm.cs" />
     <Compile Include="Class\MainMenu.cs" />
-    <Compile Include="Class\MainMenuThings.cs" />
-    <Compile Include="Class\MovieInterpreter.cs" />
     <Compile Include="Class\MovieMenu.cs" />
     <Compile Include="Class\LevenshteinDistance.cs" />
     <Compile Include="Class\ViewReservations.cs" />
@@ -91,7 +88,6 @@
     <Compile Include="Class\Registerscreen.cs" />
     <Compile Include="Class\Zalen.cs" />
     <Compile Include="Class\PasswordMethods.cs" />
-    <Compile Include="Class\MovieMethods.cs" />
     <Compile Include="Class\UserProfile.cs" />
   </ItemGroup>
   <ItemGroup>

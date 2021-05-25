@@ -3,62 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 
-namespace Bi_Os_Coop
+namespace Bi_Os_Coop.Class
 {
-    public class ZAALTESTERNIETGEBRUIKEN
-    {
-        public void Test()
-        {
-            Zalen zalen = new Zalen();
-            zalen = zalen.FromJson(Json.ReadJson("Zalen"));
-            var a = zalen.selectZalen("JsonBjorn");
-            //ZalenExtender.reserveren(a.Item2);
-
-            //DateTime today = new DateTime(2021, 6, 15);
-            ///Console.WriteLine(today.ToString());
-            //string todaystring = $"0{today.Day}/0{today.Month}/{today.Year}";
-            //Console.WriteLine(todaystring);
-            //Zalen testzaal = new Zalen();
-            //Zaal tijdelijkeZaal = new Zaal();
-            ////tijdelijkeZaal.setZaal(10, "30-01-2021", "13:00", 100);
-            //tijdelijkeZaal.showStool();
-            //CPeople.Person Henk = new CPeople.Person();
-            //Henk.setPerson(69, "Henk", "Henkerino@HahaHenk.com", "0nlyWams", "30-01-2021", "06111111");
-            ////tijdelijkeZaal.Reser(-5, Henk);
-            //Console.ReadKey();
-            //testzaal.AddZaal(tijdelijkeZaal);
-            //testzaal.writeZalen();
-            //string json = testzaal.ToJson();
-            //Json.WriteJson("Zalen", json);
-            //Console.ReadKey();
-            Zalen testzaal2 = new Zalen();
-            string json2 = Json.ReadJson("Zalen");
-            testzaal2 = testzaal2.FromJson(json2);
-            //int[] gfdjhfskd = new int[] { 31, 32, 33, 34 };
-            //int gfdjhfskd = 30;
-            //testzaal2.Reserveseats(gfdjhfskd, Henk, "30-01-2021", "13:00");
-            //testzaal2.writeZalen();
-            Console.WriteLine("Name a film you want to search");
-            string henk = Console.ReadLine();
-            //foreach (Zaal zaal in testzaal2.zalenList)
-            //{
-            //    zaal.showStool();
-            //    Console.ReadKey();
-            //}
-
-            Tuple<bool, List<Zaal>> temp = testzaal2.selectZalen(henk);
-            //ZalenExtender.menu(temp.Item2);
-            json2 = testzaal2.ToJson();
-            Json.WriteJson("Zalen", json2);
-            testzaal2 = testzaal2.FromJson(json2);
-            foreach (Zaal zaal in testzaal2.zalenList)
-            {
-                zaal.showStool();
-                Console.ReadKey(true);
-            }
-            //Console.WriteLine("");
-        }
-    }
     internal static class ZalenExtender
     {
         public static void writeZalen(List<Zaal> selected)
@@ -75,15 +21,15 @@ namespace Bi_Os_Coop
                 Console.Write($"Score:{zaal.film.beoordeling}\t");
                 if (zaal.stoelen.Count == 630)
                 {
-                    Console.Write($"Zaal:{1}\t");
+                    Console.Write("Zaal: 1\t");
                 }
                 else if (zaal.stoelen.Count == 342)
                 {
-                    Console.Write($"Zaal:{2}\t");
+                    Console.Write("Zaal: 2\t");
                 }
                 else
                 {
-                    Console.Write($"Zaal:{3}\t");
+                    Console.Write("Zaal: 3\t");
                 }
                 counter++;
             }
@@ -110,20 +56,30 @@ namespace Bi_Os_Coop
                 choosenone.showStool();
                 Console.WriteLine("\nSelect the seats you want to reserve add an ',' between the stools ");
                 string henk = Console.ReadLine();
-                henk = henk.Trim();
-                string[] henkerino = henk.Split(',');
-                List<int> allIndexes = new List<int>();
-                foreach (string i in henkerino)
+                if (henk != null)
                 {
-                    if (Convert.ToInt32(i) == 0)
+                    henk = henk.Trim();
+                    string[] henkerino = henk.Split(',');
+                    List<int> allIndexes = new List<int>();
+                    foreach (string i in henkerino)
                     {
-                        Console.WriteLine("input was not a number");
+                        if (Convert.ToInt32(i) == 0)
+                        {
+                            Console.WriteLine("input was not a number");
+                        }
+
+                        allIndexes.Add(Convert.ToInt32(i) - 1);
                     }
-                    allIndexes.Add(Convert.ToInt32(i) -1 );
+
+                    MainMenuThings mmt = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
+                    int[] indexes = allIndexes.ToArray();
+                    if (mmt != null) choosenone.occupyStool(indexes, mmt.user);
                 }
-                MainMenuThings mmt = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
-                int[] indexes = allIndexes.ToArray();
-                choosenone.occupyStool(indexes, mmt.user);
+                else
+                {
+                    return;
+                }
+
                 string json1 = this.ToJson();
                 Json.WriteJson("Zalen", json1);
             }
@@ -159,15 +115,15 @@ namespace Bi_Os_Coop
                 Console.Write($"Score:{zaal.film.beoordeling}\t");
                 if (zaal.stoelen.Count == 630)
                 {
-                    Console.Write($"Zaal:{1}\t");
+                    Console.Write("Zaal: 1\t");
                 }
                 else if (zaal.stoelen.Count == 342)
                 {
-                    Console.Write($"Zaal:{2}\t");
+                    Console.Write("Zaal: 2\t");
                 }
                 else
                 {
-                    Console.Write($"Zaal:{3}\t");
+                    Console.Write("Zaal: 3\t");
                 }
                 counter++;
             }
@@ -186,15 +142,15 @@ namespace Bi_Os_Coop
                 Console.Write($"Score:{zaal.film.beoordeling}\t");
                 if (zaal.stoelen.Count == 630)
                 {
-                    Console.Write($"Zaal:{1}\t");
+                    Console.Write("Zaal: 1\t");
                 }
                 else if (zaal.stoelen.Count == 342)
                 {
-                    Console.Write($"Zaal:{2}\t");
+                    Console.Write("Zaal: 2\t");
                 }
                 else
                 {
-                    Console.Write($"Zaal:{3}\t");
+                    Console.Write("Zaal: 3\t");
                 }
                 counter++;
             }
@@ -249,14 +205,11 @@ namespace Bi_Os_Coop
                 Console.WriteLine($"Couldn't find any movie with name {naam}");
                 return Tuple.Create(false, selectedzalen.ToList());
             }
-
         }
-
     }
-
     internal class Zaal
     {
-        public enum Size : int // https://imgur.com/gallery/FmTnf7e Size chart
+        public enum Size // https://imgur.com/gallery/FmTnf7e Size chart
         {
             MegaChonker = 500,
             heftyChonk = 300,
@@ -361,21 +314,28 @@ namespace Bi_Os_Coop
             {
                 foreach (int index in indexs)
                 {
-                    if (stoelen.ElementAt(index).isOccupied)
+                    if (stoelen.ElementAt(index).isOccupied || stoelen.ElementAt(index).Price == Stoel.price.NONE)
                     {
-                        Console.WriteLine($"{index} stool is already ");
+                        Console.WriteLine($"{index + 1} stool is already Occupied");
                         return -1;
                     }
+                }
+                foreach (int index in indexs)
+                {
                     stoelen.ElementAt(index).isOccupied = true;
                     //Console.WriteLine($"{index} is now occupied by {orderer.id}");
                     stoelen.ElementAt(index).isOccupiedBy = orderer.id;
                 }
                 return 1;
             }
-            catch (ArgumentOutOfRangeException)
+            catch (Exception ex)
             {
-                Console.WriteLine($"\n\none of the chairs is not valid"); // Textbox.Hint
-                return 0;
+                if (ex is ArgumentException)
+                {
+                    Console.WriteLine("\n\none of the chairs is not valid"); // Textbox.Hint
+                    return 0;
+                }
+                else throw;
             }
         }
 
@@ -444,7 +404,7 @@ namespace Bi_Os_Coop
 
     internal class Stoel
     {
-        public enum price : int
+        public enum price
         {
             HIGH = 20,
             MEDIUM = 15,
@@ -462,10 +422,13 @@ namespace Bi_Os_Coop
                 this.isOccupied = true;
                 this.isOccupiedBy = 1;
                 this.Price = prijs;
-                return;
             }
-            this.isOccupied = false;
-            this.Price = prijs;
+            else
+            {
+                this.isOccupied = false;
+                this.Price = prijs;
+            }
+            
         }
 
         public price stoolworth(int index, int size)
