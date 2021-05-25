@@ -275,9 +275,17 @@ namespace Bi_Os_Coop.Class
             {
                 if (keypressed == ConsoleKey.T)
                 {
-                    System.Diagnostics.Process.Start(trailer);
-                    Console.Clear();
-                    showmov(tempMovie);
+                    try
+                    {
+                        System.Diagnostics.Process.Start(trailer);
+                        Console.Clear();
+                        showmov(tempMovie);
+                    }
+                    catch(Exception) 
+                    {
+                        Console.Clear();
+                        showmov(tempMovie);
+                    }
                 } // Idiot Esception
             }
             //verander Console.WriteLine("succes"); naar het reserveer scherm van hogo
