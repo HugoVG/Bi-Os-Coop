@@ -235,7 +235,7 @@ namespace Bi_Os_Coop.Class
                             occupiedStoelen[tempIndex++] = Tuple.Create(stoel2.isOccupied, stoel2.isOccupiedBy, stoel2.Price, stoel.FindIndex(a => a == stoel2));
                         }
                     }
-#warning "ik heb dit aangepast want de chairwidt is niet meer nodig"
+
                     zaal.setZaal(zaal.date, zaal.time, 100, zaal.film);
                     for (int j = 0, i = 0; j < 100; j++)
                     {
@@ -285,7 +285,6 @@ namespace Bi_Os_Coop.Class
                             occupiedStoelen[tempIndex++] = Tuple.Create(stoel2.isOccupied, stoel2.isOccupiedBy, stoel2.Price, stoel.FindIndex(a => a == stoel2));
                         }
                     }
-#warning "ik heb dit aangepast want de chairwidt is niet meer nodig"
                     zaal.setZaal(zaal.date, zaal.time, 100, zaal.film);
                     for (int j = 0, i = 0; j < 100; j++)
                     {
