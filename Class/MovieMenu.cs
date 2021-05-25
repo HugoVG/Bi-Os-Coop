@@ -273,8 +273,7 @@ namespace Bi_Os_Coop.Class
             ConsoleKey keypressed = Console.ReadKey(true).Key;
             if (hastrailer == true)
             {
-                try { if (keypressed == ConsoleKey.T) { System.Diagnostics.Process.Start(trailer); Console.Clear(); showmov(tempMovie); } }
-                catch (Exception) { Console.Clear(); showmov(tempMovie); }
+                if (keypressed == ConsoleKey.T) { System.Diagnostics.Process.Start(trailer); Console.Clear(); showmov(tempMovie); }
             }
             //verander Console.WriteLine("succes"); naar het reserveer scherm van hogo
             if (keypressed == ConsoleKey.J) { Console.WriteLine("succes"); }
