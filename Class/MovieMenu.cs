@@ -269,9 +269,9 @@ namespace Bi_Os_Coop
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write(")\n");
 
-            inputcheck(tempMovie, trailer, hastrailer);
+            inputcheck(tempMovie, trailer, hastrailer, jsonFilms.movieList[tempMovie].name);
         }
-        public static void inputcheck(int tempMovie, string trailer, bool hastrailer)
+        public static void inputcheck(int tempMovie, string trailer, bool hastrailer, string moviename)
         {
             ConsoleKey keypressed = Console.ReadKey(true).Key;
             if (hastrailer == true)
