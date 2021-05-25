@@ -5,36 +5,6 @@ using System.Text.Json;
 
 namespace Bi_Os_Coop.Class
 {
-    internal static class ZalenExtender
-    {
-        public static void writeZalen(List<Zaal> selected)
-        {
-            //List<Zaal> showingzaal = this.zalenList;
-            int counter = 1;
-            foreach (Zaal zaal in selected)
-            {
-                Console.Write($"\n{counter} \t");
-                Console.Write($"date:{zaal.date} \t");
-                Console.Write($"time:{zaal.time} \t");
-                Console.Write($"movie:{zaal.film.name} \t");
-                Console.Write($"release Date:{zaal.film.releasedate} \t");
-                Console.Write($"Score:{zaal.film.beoordeling}\t");
-                if (zaal.stoelen.Count == 630)
-                {
-                    Console.Write("Zaal: 1\t");
-                }
-                else if (zaal.stoelen.Count == 342)
-                {
-                    Console.Write("Zaal: 2\t");
-                }
-                else
-                {
-                    Console.Write("Zaal: 3\t");
-                }
-                counter++;
-            }
-        }
-    }
     internal class Zalen
     {
         public List<Zaal> zalenList { get; set; }
@@ -157,11 +127,7 @@ namespace Bi_Os_Coop.Class
             return JsonSerializer.Serialize(this, opt);
         }
 
-        public Zalen FromJson(string json)
-        {
-            return JsonSerializer.Deserialize<Zalen>(json);
-        }
-
+        public static Zalen FromJson(string json) => JsonSerializer.Deserialize<Zalen>(json);
         public void Reserveseats(int[] indexes, CPeople.Person orderer, string date, string time)
         {
             Zaal gekozenzaal = zalenList.Single(movie => movie.date == date && movie.time == time);
@@ -181,12 +147,13 @@ namespace Bi_Os_Coop.Class
             indexs[0] = index;
             zaal.occupyStool(indexs, orderer);
         }
+        
         public void Reserveseats(int[] index, CPeople.Person orderer, Zaal zaal)
         {
             zaal.occupyStool(index, orderer);
         }
         /// <summary>
-        /// returned de zalen waar de film draai met x naam
+        /// returned tuple met True en de zalen waarbij de film draait met x naam
         /// </summary>
         /// <param name="naam"></param>
         /// <returns></returns>

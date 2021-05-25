@@ -102,8 +102,7 @@ namespace Bi_Os_Coop.Class
         public static bool MailLeeftijdCheck(string username, string age)
         {
             string account = Json.ReadJson("Accounts");
-            CPeople.People accounts = new CPeople.People();
-            accounts = accounts.FromJson(account);
+            CPeople.People accounts = CPeople.People.FromJson(account);
             try
             {
                 CPeople.Person persoon = accounts.peopleList.Single(person => person.email == username && person.age == age);
@@ -118,8 +117,7 @@ namespace Bi_Os_Coop.Class
         public static bool MailWachtwoordCheck(string username, string password)
         {
             string account = Json.ReadJson("Accounts");
-            CPeople.People accounts = new CPeople.People();
-            accounts = accounts.FromJson(account);
+            CPeople.People accounts = CPeople.People.FromJson(account);
             try
             {
                 CPeople.Person persoon = accounts.peopleList.Single(person => person.email == username && person.password == password);

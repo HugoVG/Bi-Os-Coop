@@ -110,9 +110,8 @@ namespace Bi_Os_Coop.Class
         {
             public bool coronaCheck()
             {
-                Zalen zalen = new Zalen();
                 string jsonZalen = Json.ReadJson("Zalen");
-                zalen = zalen.FromJson(jsonZalen);
+                Zalen zalen = Zalen.FromJson(jsonZalen);
                 foreach (Zaal zaal in zalen.zalenList)
                 {
                     List<Stoel> stoel = zaal.stoelen;
@@ -313,9 +312,8 @@ namespace Bi_Os_Coop.Class
 
         public void CoronaFilter(bool isCoronaFilter)
         {
-            Zalen zalen = new Zalen();
             string jsonZalen = Json.ReadJson("Zalen");
-            zalen = zalen.FromJson(jsonZalen);
+            Zalen zalen = Zalen.FromJson(jsonZalen);
             if (!isCoronaFilter)
             {
                 foreach (Zaal zaal in zalen.zalenList)

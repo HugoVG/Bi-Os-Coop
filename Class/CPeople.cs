@@ -376,7 +376,7 @@ namespace Bi_Os_Coop.Class
                     }
                 }
 
-                MovieInterpreter film = new MovieInterpreter();
+                MovieInterpreter film;
                 while (true)
                 {
                     Console.WriteLine("Welke film wilt u dat er op dit tijdstip draait?");
@@ -409,10 +409,8 @@ namespace Bi_Os_Coop.Class
                 string time = Console.ReadLine();
 
                 zaal.setZaal(date, time, totalChairs, film); // someone has to fix this
-                Zalen zalen = new Zalen();
-                zalen = zalen.FromJson(Json.ReadJson("Zalen"));
+                Zalen zalen = Zalen.FromJson(Json.ReadJson("Zalen"));
                 zalen.AddZaal(zaal);
-
                 Json.WriteJson("Zalen", zalen.ToJson());
             exit:
                 return;
@@ -533,7 +531,7 @@ namespace Bi_Os_Coop.Class
                 JsonSerializerOptions opt = new JsonSerializerOptions() { WriteIndented = true };
                 return JsonSerializer.Serialize(this, opt);
             }
-            public People FromJson(string json)
+            public static People FromJson(string json)
             {
                 return JsonSerializer.Deserialize<People>(json);
             }

@@ -14,8 +14,7 @@ namespace Bi_Os_Coop.Class
         {
             //In de 4 regels hieronder wordt alle info uit Accounts.json gehaald en in de variabele jsonPeople gestopt.
             string json = Json.ReadJson("Accounts");
-            CPeople.People jsonPeople = new CPeople.People();
-            jsonPeople = jsonPeople.FromJson(json);
+            CPeople.People jsonPeople = CPeople.People.FromJson(json);
             Console.WriteLine("Terug naar hoofdmenu (Esc)");
 
             //De if statements hieronder checken of de input van de gebruiker volgens format is en of het e-mailadres of het telefoonnummer al gekoppeld is aa een account.
@@ -62,8 +61,7 @@ namespace Bi_Os_Coop.Class
         public static int createID()
         {
             string json = Json.ReadJson("Accounts");
-            CPeople.People jsonPeople = new CPeople.People();
-            jsonPeople = jsonPeople.FromJson(json);
+            CPeople.People jsonPeople = CPeople.People.FromJson(json);
             string ret = "";
             Random randint = new Random();
 
@@ -151,8 +149,7 @@ namespace Bi_Os_Coop.Class
         public static bool emailCheck(string input)
         {
             string json = Json.ReadJson("Accounts");
-            CPeople.People jsonPeople = new CPeople.People();
-            jsonPeople = jsonPeople.FromJson(json);
+            CPeople.People jsonPeople = CPeople.People.FromJson(json);
             bool at = false;
             bool dot = false;
             if (lengthCheck(input)){
@@ -211,8 +208,7 @@ namespace Bi_Os_Coop.Class
         public static bool phoneCheck(string input)
         {
             string json = Json.ReadJson("Accounts");
-            CPeople.People jsonPeople = new CPeople.People();
-            jsonPeople = jsonPeople.FromJson(json);
+            CPeople.People jsonPeople = CPeople.People.FromJson(json);
             int value;
             if (input.Length == 10){
                 if (input.Substring(0, 2) == "06"){
