@@ -516,7 +516,12 @@ namespace Bi_Os_Coop
                 return;
             }
         }
-
+        /// <summary>
+        /// Berekent hoeveel pauzes er tijdens een film gehouden moeten worden. Bij een film die 150 duurt, wordt 1 pauze gehouden, voor elk uur wat daar bovenop komt wordt een extra pauze gehouden.
+        /// Returnt een integer die het aantal pauzes weergeeft.
+        /// </summary>
+        /// <param name="movieTime"></param>
+        /// <returns></returns>
         public static int movieBreaksCalculator(int movieTime)
         {
             int amountOfBreaks = 0;
