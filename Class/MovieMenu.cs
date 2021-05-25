@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Windows.Input;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Threading;
 
-namespace Bi_Os_Coop
+namespace Bi_Os_Coop.Class
 {
     class MovieMenu
     {

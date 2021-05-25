@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Text.Json;
-using System.Collections.Generic;
 
-namespace Bi_Os_Coop
+namespace Bi_Os_Coop.Class
 {
     public class PasswordMethods
     {

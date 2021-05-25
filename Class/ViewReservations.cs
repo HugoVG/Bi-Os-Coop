@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
-namespace Bi_Os_Coop
+namespace Bi_Os_Coop.Class
 {
     class ViewReservations
     {
@@ -202,7 +200,7 @@ namespace Bi_Os_Coop
             string json = Json.ReadJson("Films");
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
             int tempMovie = 0;
-        
+
             for (int i = 0; i < jsonFilms.movieList.Count(); i++)
             {
                 if (jsonFilms.movieList[i].movieid == movieid)
