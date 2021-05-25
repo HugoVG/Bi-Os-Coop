@@ -43,11 +43,11 @@ namespace Bi_Os_Coop.Class
                     MainMenu.ClearAndShowLogoPlusEsc("Admin");
                     admin.DeleteMovies();
                 }
-                //else if (keuze == ConsoleKey.D5)
-                //{
-                //    Console.Clear();
-                //    admin.AddCinemaHall();
-                //}
+                else if (keuze == ConsoleKey.D5)
+                {
+                    Console.Clear();
+                    admin.AddCinemaHall();
+                }
                 //else if (keuze == ConsoleKey.D6)
                 //{
                 //    Console.Clear();
@@ -95,7 +95,7 @@ namespace Bi_Os_Coop.Class
             Console.WriteLine("4) Film verwijderen");
             //if (zalenInfo.Item1 == 1) { Console.WriteLine($"5) Zaal toevoegen \t Er is {zalenInfo.Item1} zaal"); }
             //else if (zalenInfo.Item1 > 1) { Console.WriteLine($"5) Zaal toevoegen \t Er zijn {zalenInfo.Item1} zalen"); }
-            //else { Console.WriteLine($"5) Zaal toevoegen \t Er zijn geen zalen"); }
+            Console.WriteLine($"5) Zaal toevoegen");
             //Console.WriteLine("6) Zaal verwijderen");
             //Console.WriteLine("7) Admin Toevoegen");
             //Console.WriteLine($"8) Corona filter toepassen \t {adminMethod.coronaCheck()}");

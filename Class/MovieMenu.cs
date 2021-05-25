@@ -283,7 +283,13 @@ namespace Bi_Os_Coop.Class
             //verander Console.WriteLine("succes"); naar het reserveer scherm van hogo
             if (keypressed == ConsoleKey.J)
             {
-                Console.WriteLine("succes");
+                Zalen zalen = new Zalen();
+                string json = Json.ReadJson("Zalen");
+                zalen = zalen.FromJson(json);
+                Tuple<bool, List<Zaal>> zalenMetNaam = zalen.selectZalen(moviename);
+                zalen.menu(zalenMetNaam.Item2);
+                json = zalen.ToJson();
+                Json.WriteJson("Zalen" ,json);
             }
         }
     }

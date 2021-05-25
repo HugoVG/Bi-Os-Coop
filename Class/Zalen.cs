@@ -205,11 +205,8 @@ namespace Bi_Os_Coop.Class
                 Console.WriteLine($"Couldn't find any movie with name {naam}");
                 return Tuple.Create(false, selectedzalen.ToList());
             }
-
         }
-
     }
-
     internal class Zaal
     {
         public enum Size // https://imgur.com/gallery/FmTnf7e Size chart
@@ -317,21 +314,28 @@ namespace Bi_Os_Coop.Class
             {
                 foreach (int index in indexs)
                 {
-                    if (stoelen.ElementAt(index).isOccupied)
+                    if (stoelen.ElementAt(index).isOccupied || stoelen.ElementAt(index).Price == Stoel.price.NONE)
                     {
-                        Console.WriteLine($"{index} stool is already ");
+                        Console.WriteLine($"{index + 1} stool is already Occupied");
                         return -1;
                     }
+                }
+                foreach (int index in indexs)
+                {
                     stoelen.ElementAt(index).isOccupied = true;
                     //Console.WriteLine($"{index} is now occupied by {orderer.id}");
                     stoelen.ElementAt(index).isOccupiedBy = orderer.id;
                 }
                 return 1;
             }
-            catch (ArgumentOutOfRangeException)
+            catch (Exception ex)
             {
-                Console.WriteLine("\n\none of the chairs is not valid"); // Textbox.Hint
-                return 0;
+                if (ex is ArgumentException)
+                {
+                    Console.WriteLine("\n\none of the chairs is not valid"); // Textbox.Hint
+                    return 0;
+                }
+                else throw;
             }
         }
 
@@ -418,10 +422,13 @@ namespace Bi_Os_Coop.Class
                 this.isOccupied = true;
                 this.isOccupiedBy = 1;
                 this.Price = prijs;
-                return;
             }
-            this.isOccupied = false;
-            this.Price = prijs;
+            else
+            {
+                this.isOccupied = false;
+                this.Price = prijs;
+            }
+            
         }
 
         public price stoolworth(int index, int size)
