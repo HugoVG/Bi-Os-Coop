@@ -8,7 +8,7 @@
     "phonenumber": "06123456789",
     "BookedMovies": null
   },
-  "sort": "name",
+  "sort": "rating",
   "reverse": false,
   "login": "Admin",
   "language": "Nederlands"
