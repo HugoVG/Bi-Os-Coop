@@ -269,7 +269,11 @@ namespace Bi_Os_Coop.Class
                 {
                     var inlog = loginscherm.mailwachtvragen(username.ToLower(), password);
                     try { if (inlog == false) { inlog = login(); } }
-                    catch { }
+                    catch
+                    {
+                        // ignored
+                    }
+
                     return inlog;
                 }
                 else

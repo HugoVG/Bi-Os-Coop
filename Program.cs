@@ -15,7 +15,11 @@ namespace Bi_Os_Coop
     {
         static void Main(string[] args)
         {
+            Console.WriteLine(ViewReservations.CheckWhichHall(342));
+            
+            
 #if (DEBUG)
+
             //#error Hold there Criminal scum
             CPeople.Admin tempadm = new CPeople.Admin();
             //Console.WriteLine(tempadm.isAdmin());

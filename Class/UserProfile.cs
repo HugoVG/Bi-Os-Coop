@@ -79,7 +79,7 @@ namespace Bi_Os_Coop.Class
             Json.WriteJson("Accounts", json);
 
             // writing it to logged in user json
-            MainMenuThings things = MainMenu.jsonfileloader();
+            MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
             CPeople.Person user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
             user.name = newName;
             MainMenu.jsonmainmenu(user, sort, reverse, login, language);
@@ -108,7 +108,7 @@ namespace Bi_Os_Coop.Class
             Json.WriteJson("Accounts", json);
 
             // writing it to logged in user json
-            MainMenuThings things = MainMenu.jsonfileloader();
+            MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
             CPeople.Person user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
             user.email = newEmail;
             MainMenu.jsonmainmenu(user, sort, reverse, login, language);
@@ -136,7 +136,7 @@ namespace Bi_Os_Coop.Class
             Json.WriteJson("Accounts", json);
 
             // writing it to logged in user json
-            MainMenuThings things = MainMenu.jsonfileloader();
+            MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
             CPeople.Person user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
             user.phonenumber = newPhoneNumber;
             MainMenu.jsonmainmenu(user, sort, reverse, login, language);

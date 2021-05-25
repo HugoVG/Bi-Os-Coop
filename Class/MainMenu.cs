@@ -112,7 +112,10 @@ namespace Bi_Os_Coop.Class
                             if (newlist.IndexOf(member) == (newlist.Count - 1)) { newlist.Add(release); break; }
                         }
                     }
-                    catch { }
+                    catch
+                    {
+                        // ignored
+                    }
                 }
             }
             List<int> sortlist = new List<int>();
@@ -205,12 +208,16 @@ namespace Bi_Os_Coop.Class
                     return new Tuple<string, dynamic>("1go2to3main4menu5", "1go2to3main4menu5");
                 }
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
+
             Console.Clear();
             Type userType = user.GetType();
             if (userType.Equals(typeof(CPeople.Person))) { return new Tuple<string, dynamic>("Person", user); }
-            else if (userType.Equals(typeof(CPeople.Admin))) { return new Tuple<string, dynamic>("Admin", user); }
-            else if (userType.Equals(typeof(CPeople.Employee))) { return new Tuple<string, dynamic>("Employee", user); }
+            if (userType.Equals(typeof(CPeople.Admin))) { return new Tuple<string, dynamic>("Admin", user); }
+            if (userType.Equals(typeof(CPeople.Employee))) { return new Tuple<string, dynamic>("Employee", user); }
             return new Tuple<string, dynamic>("None", false);
         }
         public static void sorttext(string sort, bool reverse)
@@ -255,15 +262,10 @@ namespace Bi_Os_Coop.Class
             string json = JsonSerializer.Serialize(jj, opt);
             Json.WriteJson("MainMenu", json);
         }
-        public static MainMenuThings jsonfileloader()
-        {
-            string json = Json.ReadJson("MainMenu");
-            return JsonSerializer.Deserialize<MainMenuThings>(json);
-        }
         public static void MainMenuShow()
         {
             Logo();
-            MainMenuThings things = jsonfileloader();
+            MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
             CPeople.Person user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
             bool sav = false;
             if (language == "Nederlands")

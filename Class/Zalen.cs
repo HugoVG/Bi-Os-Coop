@@ -34,11 +34,6 @@ namespace Bi_Os_Coop.Class
                 counter++;
             }
         }
-        /// <summary>
-        /// Put in a list of 'Zalen' in which it will choose from -> use this as a list of zalen wwitht the same movie
-        /// </summary>
-        /// <param name="selected"></param>
-        /// <returns></returns>
     }
     internal class Zalen
     {
@@ -235,8 +230,8 @@ namespace Bi_Os_Coop.Class
                 nstoelen.Add(stoel);
                 stoelen = nstoelen;
             }*/
-            /// De +130 // +42 // +18 is voor
-            /// de lege stoelen in de excel sheet
+            // De +130 // +42 // +18 is voor
+            // de lege stoelen in de excel sheet
             if (totalStools == (int)Size.MegaChonker)
             {
                 totalStools = totalStools +130;
@@ -296,7 +291,7 @@ namespace Bi_Os_Coop.Class
         /// <summary>
         /// Occupies a stool
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="indexs"></param>
         /// <param name="orderer"></param>
         public int occupyStool(int[] indexs, CPeople.Person orderer)
         {
@@ -411,7 +406,7 @@ namespace Bi_Os_Coop.Class
             LOW = 10,
             NONE = 0
         }
-        public bool isOccupied { get; set; } = false;
+        public bool isOccupied { get; set; }
         public int isOccupiedBy { get; set; } = 1; //dan kan je het ID van de persoon uit lezen
         public price Price { get; set; }
 

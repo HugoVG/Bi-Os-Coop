@@ -84,7 +84,6 @@ namespace Bi_Os_Coop.Class
 
         public static ConsoleKey hoofdPagina()
         {
-            adminMethods adminMethod = new adminMethods();
             //Tuple<int, bool[]> zalenInfo = adminMethod.CountCinemaHalls();
             Console.Clear();
             MainMenu.Logo();
@@ -119,7 +118,7 @@ namespace Bi_Os_Coop.Class
                     List<Stoel> stoel = zaal.stoelen;
                     foreach (Stoel stoel2 in stoel)
                     {
-                        if (stoel2.isOccupied == true && stoel2.Price == 0 && stoel2.isOccupiedBy == 0)
+                        if (stoel2.isOccupied && stoel2.Price == 0 && stoel2.isOccupiedBy == 0)
                         {
                             return true;
                         }
@@ -325,7 +324,7 @@ namespace Bi_Os_Coop.Class
                     List<Stoel> stoel = zaal.stoelen;
                     foreach (Stoel stoel2 in stoel)
                     {
-                        if (stoel2.isOccupied == true)
+                        if (stoel2.isOccupied)
                         {
                             count += 1;
                         }
@@ -334,7 +333,7 @@ namespace Bi_Os_Coop.Class
                     int tempIndex = 0;
                     foreach (Stoel stoel2 in stoel)
                     {
-                        if (stoel2.isOccupied == true && tempIndex < count)
+                        if (stoel2.isOccupied && tempIndex < count)
                         {
                             occupiedStoelen[tempIndex++] = Tuple.Create(stoel2.isOccupied, stoel2.isOccupiedBy, stoel2.Price, stoel.FindIndex(a => a == stoel2));
                         }
@@ -375,7 +374,7 @@ namespace Bi_Os_Coop.Class
                     List<Stoel> stoel = zaal.stoelen;
                     foreach (Stoel stoel2 in stoel)
                     {
-                        if (stoel2.isOccupied == true && stoel2.Price != 0)
+                        if (stoel2.isOccupied && stoel2.Price != 0)
                         {
                             count += 1;
                         }
@@ -384,7 +383,7 @@ namespace Bi_Os_Coop.Class
                     int tempIndex = 0;
                     foreach (Stoel stoel2 in stoel)
                     {
-                        if (stoel2.isOccupied == true && stoel2.Price != 0 && tempIndex < count)
+                        if (stoel2.isOccupied && stoel2.Price != 0 && tempIndex < count)
                         {
                             occupiedStoelen[tempIndex++] = Tuple.Create(stoel2.isOccupied, stoel2.isOccupiedBy, stoel2.Price, stoel.FindIndex(a => a == stoel2));
                         }

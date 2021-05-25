@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.Json;
 
 namespace Bi_Os_Coop.Class
 {
@@ -41,7 +42,7 @@ namespace Bi_Os_Coop.Class
                 Program.newEntry("\nUw account is gemaakt.\nDruk op ENTER om verder te gaan.");
                 Console.ReadLine();
                 Console.Clear();
-                MainMenuThings things = MainMenu.jsonfileloader();
+                MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
                 dynamic user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
                 MainMenu.jsonmainmenu(loginscherm.mailwachtvragen(email, password), sort, reverse, "Person", language);
             }

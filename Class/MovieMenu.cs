@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
 using System.Threading;
@@ -21,11 +22,12 @@ namespace Bi_Os_Coop.Class
             {
                 highestpage = (jsonFilms.movieList.Count() / 10);
             }
+
             Console.Clear();
             MainMenu.Logo();
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Film Menu");
-            MainMenuThings mainmenuthings = MainMenu.jsonfileloader();
+            MainMenuThings mainmenuthings = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
             MainMenu.sorttext(mainmenuthings.sort, mainmenuthings.reverse);
             Console.WriteLine("Type S om een film te zoeken");
             Console.WriteLine("Of type '0' om terug te gaan naar de main menu");
@@ -39,19 +41,23 @@ namespace Bi_Os_Coop.Class
             string indexstring = Console.ReadLine();
             if (indexstring.ToLower() == "r" && mainmenuthings.sort != "name")
             {
-                MainMenu.jsonmainmenu(mainmenuthings.user, "name", mainmenuthings.reverse, mainmenuthings.login, mainmenuthings.language);
+                MainMenu.jsonmainmenu(mainmenuthings.user, "name", mainmenuthings.reverse, mainmenuthings.login,
+                    mainmenuthings.language);
             }
             else if (indexstring.ToLower() == "t" && mainmenuthings.sort != "rating")
             {
-                MainMenu.jsonmainmenu(mainmenuthings.user, "rating", mainmenuthings.reverse, mainmenuthings.login, mainmenuthings.language);
+                MainMenu.jsonmainmenu(mainmenuthings.user, "rating", mainmenuthings.reverse, mainmenuthings.login,
+                    mainmenuthings.language);
             }
             else if (indexstring.ToLower() == "y" && mainmenuthings.sort != "release")
             {
-                MainMenu.jsonmainmenu(mainmenuthings.user, "release", mainmenuthings.reverse, mainmenuthings.login, mainmenuthings.language);
+                MainMenu.jsonmainmenu(mainmenuthings.user, "release", mainmenuthings.reverse, mainmenuthings.login,
+                    mainmenuthings.language);
             }
             else if (indexstring.ToLower() == "p")
             {
-                MainMenu.jsonmainmenu(mainmenuthings.user, mainmenuthings.sort, !mainmenuthings.reverse, mainmenuthings.login, mainmenuthings.language);
+                MainMenu.jsonmainmenu(mainmenuthings.user, mainmenuthings.sort, !mainmenuthings.reverse,
+                    mainmenuthings.login, mainmenuthings.language);
                 Console.Clear();
             }
             else if (indexstring.ToLower() == "s" || indexstring.ToLower() == "search")
@@ -60,7 +66,7 @@ namespace Bi_Os_Coop.Class
                 Console.Write("Type hier de film die u wilt zoeken: ");
                 Console.ForegroundColor = ConsoleColor.Gray;
                 string movsearch = Console.ReadLine();
-                MovieMenu.search(movsearch, mainmenulist);
+                search(movsearch, mainmenulist);
             }
             else if (indexstring == "0")
             {
@@ -80,7 +86,7 @@ namespace Bi_Os_Coop.Class
                         Thread.Sleep(1500);
                         index = highestpage;
                     }
-                    else if(index < 0)
+                    else if (index < 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Deze bladzijde bestaat niet!");
@@ -97,8 +103,10 @@ namespace Bi_Os_Coop.Class
                     Thread.Sleep(1000);
                 }
             }
-            MovieMenu.mainPagina(index);
+
+            mainPagina(index);
         }
+
         //functie die de ingetypte film zoekt in de JSON met alle films
         public static void search(string searchmov, List<string> mainmenulist = null)
         {
@@ -110,15 +118,17 @@ namespace Bi_Os_Coop.Class
                 int result = Int32.Parse(searchmov) - 1;
                 searchmov = mainmenulist[result];
             }
-            catch(Exception)
+            catch (Exception)
             {
 
             }
+
             searchmov = searchmov.ToLower().Replace(" ", "");
-            for(int i = 0; i < jsonFilms.movieList.Count(); i++)
+            for (int i = 0; i < jsonFilms.movieList.Count(); i++)
             {
-                    moviesearchlist.Add(jsonFilms.movieList[i].name.ToLower().Replace(" ", ""));
+                moviesearchlist.Add(jsonFilms.movieList[i].name.ToLower().Replace(" ", ""));
             }
+
             int lowest = LevenshteinDistance.Compute(searchmov, moviesearchlist[0]);
             int lowestindex = 0;
             bool contains = false;
@@ -126,37 +136,42 @@ namespace Bi_Os_Coop.Class
             for (int i = 0; i < moviesearchlist.Count(); i++)
             {
                 int temp = LevenshteinDistance.Compute(searchmov, moviesearchlist[i]);
-                if(searchmov.Count() < moviesearchlist[i].Count() - 6 && searchmov.Count() >= 4)
+                if (searchmov.Count() < moviesearchlist[i].Count() - 6 && searchmov.Count() >= 4)
                 {
-                    temp = LevenshteinDistance.Compute(searchmov, moviesearchlist[i]) - (moviesearchlist[i].Count() - searchmov.Count());
+                    temp = LevenshteinDistance.Compute(searchmov, moviesearchlist[i]) -
+                           (moviesearchlist[i].Count() - searchmov.Count());
                 }
+
                 if (temp < lowest)
                 {
                     lowest = temp;
                     lowestindex = i;
                 }
+
                 if (searchmov == moviesearchlist[i])
                 {
                     lowest = temp;
                     lowestindex = i;
                     break;
                 }
+
                 if (moviesearchlist[i].Contains(searchmov))
                 {
                     contains = true;
                     containindex = i;
                 }
             }
+
             //hoeveel typefouten er mogen gemaakt worden (momenteel 3) als het hoger wordt pakt hij altijd film loro omdat die 4 letters lang is!
             if (contains && searchmov.Count() >= 3 && lowest != 0)
             {
                 Console.Clear();
-                MovieMenu.showmov(containindex);
+                showmov(containindex);
             }
-            else if (lowest < (searchmov.Count() / 4) + 1  )
+            else if (lowest < (searchmov.Count() / 4) + 1)
             {
                 Console.Clear();
-                MovieMenu.showmov(lowestindex);
+                showmov(lowestindex);
             }
             else
             {
@@ -166,6 +181,7 @@ namespace Bi_Os_Coop.Class
                 Thread.Sleep(1000);
             }
         }
+
         //functie om alle kenmerken van een film te laten zien
         public static void showmov(int tempMovie)
         {
@@ -187,6 +203,7 @@ namespace Bi_Os_Coop.Class
                     gen = "Genres";
                 }
             }
+
             if (jsonFilms.movieList[tempMovie].acteurs != null)
             {
                 if (jsonFilms.movieList[tempMovie].acteurs.Count() <= 1)
@@ -198,11 +215,13 @@ namespace Bi_Os_Coop.Class
                     act = "Acteurs";
                 }
             }
+
             if (jsonFilms.movieList[tempMovie].trailer != null)
             {
                 trailer = jsonFilms.movieList[tempMovie].trailer;
                 hastrailer = true;
             }
+
             MainMenu.Logo();
             Console.WriteLine($"{jsonFilms.movieList[tempMovie].name}");
             Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -212,19 +231,23 @@ namespace Bi_Os_Coop.Class
             {
                 Console.WriteLine($"Publicatiedatum: {jsonFilms.movieList[tempMovie].releasedate}");
             }
+
             if (jsonFilms.movieList[tempMovie].taal != null)
             {
                 Console.WriteLine($"Taal: {jsonFilms.movieList[tempMovie].taal}");
             }
+
             Console.WriteLine($"Minimumleeftijd: {jsonFilms.movieList[tempMovie].leeftijd}");
             if (jsonFilms.movieList[tempMovie].genres != null)
             {
                 Console.WriteLine($"{gen}: {String.Join(", ", jsonFilms.movieList[tempMovie].genres)}");
             }
+
             if (jsonFilms.movieList[tempMovie].acteurs != null)
             {
                 Console.WriteLine($"{act}: {String.Join(", ", jsonFilms.movieList[tempMovie].acteurs)}");
             }
+
             Console.WriteLine($"Beoordeling: {jsonFilms.movieList[tempMovie].beoordeling}");
             if (jsonFilms.movieList[tempMovie].beschrijving != null)
             {
@@ -233,7 +256,7 @@ namespace Bi_Os_Coop.Class
                 {
                     char c = jsonFilms.movieList[tempMovie].beschrijving[i];
                     //zorgt ervoor dat na 90 characters er bij de eerstvolgende spatie een nieuwe regel wordt gestart.
-                    if ((i % 90 == 0 && i != 0) || newline == true)
+                    if ((i % 90 == 0 && i != 0) || newline)
                     {
                         if (c == ' ')
                         {
@@ -252,8 +275,10 @@ namespace Bi_Os_Coop.Class
                         newline = false;
                     }
                 }
+
                 Console.Write("\n");
             }
+
             //hierna moet als er ja geselecteerd is het resrvatie scherm komen!
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("\nWilt u deze film reserveren? (");
@@ -268,26 +293,28 @@ namespace Bi_Os_Coop.Class
 
             inputcheck(tempMovie, trailer, hastrailer, jsonFilms.movieList[tempMovie].name);
         }
+
         public static void inputcheck(int tempMovie, string trailer, bool hastrailer, string moviename)
         {
             ConsoleKey keypressed = Console.ReadKey(true).Key;
-            if (hastrailer == true)
+            if (hastrailer)
             {
                 if (keypressed == ConsoleKey.T)
                 {
                     try
                     {
-                        System.Diagnostics.Process.Start(trailer);
+                        Process.Start(trailer);
                         Console.Clear();
                         showmov(tempMovie);
                     }
-                    catch(Exception) 
+                    catch (Exception)
                     {
                         Console.Clear();
                         showmov(tempMovie);
                     }
                 } // Idiot Esception
             }
+
             //verander Console.WriteLine("succes"); naar het reserveer scherm van hogo
             if (keypressed == ConsoleKey.J)
             {
@@ -297,10 +324,11 @@ namespace Bi_Os_Coop.Class
                 Tuple<bool, List<Zaal>> zalenMetNaam = zalen.selectZalen(moviename);
                 zalen.menu(zalenMetNaam.Item2);
                 json = zalen.ToJson();
-                Json.WriteJson("Zalen" ,json);
+                Json.WriteJson("Zalen", json);
             }
         }
     }
+
     public class MovieInterpreter
     {
         public int movieid { get; set; }
@@ -314,7 +342,10 @@ namespace Bi_Os_Coop.Class
         public string beschrijving { get; set; }
         public string trailer { get; set; }
         public int MovieTime { get; set; }
-        public void setFilm(int movieid, string name, string releasedate, List<string> genres, int leeftijd, double beoordeling, List<string> acteurs, int movieTime, string taal = null, string beschrijving = null, string trailer = null)
+
+        public void setFilm(int movieid, string name, string releasedate, List<string> genres, int leeftijd,
+            double beoordeling, List<string> acteurs, int movieTime, string taal = null, string beschrijving = null,
+            string trailer = null)
         {
             this.movieid = movieid;
             this.name = name;
@@ -326,7 +357,7 @@ namespace Bi_Os_Coop.Class
             this.taal = taal;
             this.beschrijving = beschrijving;
             this.trailer = trailer;
-            this.MovieTime = movieTime;
+            MovieTime = movieTime;
         }
     }
     public class Films
@@ -414,10 +445,11 @@ namespace Bi_Os_Coop.Class
                     }
                 }
             }
+
             /// <summary>
             /// Checks if movie exists in json, if found returns the movie
             /// </summary>
-            /// <param name="name"></param>
+            /// <param name="movname"></param>
             /// <returns></returns>
             public static Tuple<bool, MovieInterpreter> DoesMovieExist(string movname)
             {
@@ -490,14 +522,16 @@ namespace Bi_Os_Coop.Class
                 var minimumleeftijd = CPeople.converttoint(loginscherm.newwayoftyping());
                 int minimumLeeftijd;
                 if (minimumleeftijd is string) { goto exit; }
-                else { minimumLeeftijd = minimumleeftijd; }
-    
+
+                minimumLeeftijd = minimumleeftijd;
+
                 Console.WriteLine("Beoordeling film: (bijv. 8.0)");
                 var beoordelingFilm2 = CPeople.converttodouble(loginscherm.newwayoftyping());
                 double beoordelingFilm;
                 if (beoordelingFilm2 is string) { goto exit; }
-                else { beoordelingFilm = beoordelingFilm2; }
-    
+
+                beoordelingFilm = beoordelingFilm2;
+
                 Console.WriteLine("Taal film:");
                 string taalfilm = loginscherm.FirstCharToUpper(loginscherm.newwayoftyping());
                 if (taalfilm == "1go2to3main4menu5") { goto exit; }
@@ -506,8 +540,9 @@ namespace Bi_Os_Coop.Class
                 var movietime = CPeople.converttoint(loginscherm.newwayoftyping());
                 int movieTime;
                 if (movietime is string) { goto exit; }
-                else { movieTime = movietime; }
-    
+
+                movieTime = movietime;
+
                 Console.WriteLine("Beschrijving film:");
                 string beschrijvingfilm = loginscherm.FirstCharToUpper(loginscherm.newwayoftyping());
                 if (beschrijvingfilm == "1go2to3main4menu5") { goto exit; }
@@ -532,7 +567,7 @@ namespace Bi_Os_Coop.Class
                     MainMenu.Logo();
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Film succesvol toegevoegd aan het aanbod.");
-                    System.Threading.Thread.Sleep(1500);
+                    Thread.Sleep(1500);
                     Console.ForegroundColor = ConsoleColor.Gray;
                     return Movie;
                 }
@@ -551,7 +586,7 @@ namespace Bi_Os_Coop.Class
                     MainMenu.Logo();
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Film succesvol toegevoegd aan het aanbod.");
-                    System.Threading.Thread.Sleep(1500);
+                    Thread.Sleep(1500);
                     Console.ForegroundColor = ConsoleColor.Gray;
                     return Movie;
                 }
@@ -576,7 +611,7 @@ namespace Bi_Os_Coop.Class
     
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Film naam is succesvol gewijzigd.");
-                System.Threading.Thread.Sleep(1000);
+                Thread.Sleep(1000);
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.Clear();
                 return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
@@ -597,7 +632,7 @@ namespace Bi_Os_Coop.Class
     
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("De releasedatum is succesvol gewijzigd.");
-                System.Threading.Thread.Sleep(1000);
+                Thread.Sleep(1000);
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.Clear();
                 return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
@@ -628,7 +663,7 @@ namespace Bi_Os_Coop.Class
     
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("De genre(s) is/zijn succesvol gewijzigd.");
-                System.Threading.Thread.Sleep(1000);
+                Thread.Sleep(1000);
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.Clear();
                 return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
@@ -664,7 +699,7 @@ namespace Bi_Os_Coop.Class
     
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("De acteur(s) is/zijn succesvol gewijzigd.");
-                System.Threading.Thread.Sleep(1000);
+                Thread.Sleep(1000);
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.Clear();
                 return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
@@ -692,7 +727,7 @@ namespace Bi_Os_Coop.Class
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Voer een getal tussen de 0 en 18 in.");
-                    System.Threading.Thread.Sleep(1000);
+                    Thread.Sleep(1000);
                     Console.ForegroundColor = ConsoleColor.Gray;
                     return new Tuple<string, Films, MovieInterpreter>("fail", jsonFilms, tempMovie);
                 }
@@ -703,7 +738,7 @@ namespace Bi_Os_Coop.Class
     
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("De minimumleeftijd is succesvol gewijzigd.");
-                System.Threading.Thread.Sleep(1000);
+                Thread.Sleep(1000);
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.Clear();
                 return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
@@ -724,7 +759,7 @@ namespace Bi_Os_Coop.Class
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Voer een getal tussen de 0 en 10.0 in.");
-                    System.Threading.Thread.Sleep(1000);
+                    Thread.Sleep(1000);
                     Console.ForegroundColor = ConsoleColor.Gray;
                     return new Tuple<string, Films, MovieInterpreter>("fail", jsonFilms, tempMovie);
                 }
@@ -735,7 +770,7 @@ namespace Bi_Os_Coop.Class
     
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("De beoordeling is succesvol gewijzigd.");
-                System.Threading.Thread.Sleep(1000);
+                Thread.Sleep(1000);
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.Clear();
                 return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
@@ -756,7 +791,7 @@ namespace Bi_Os_Coop.Class
     
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Film beschrijving is succesvol gewijzigd.");
-                System.Threading.Thread.Sleep(1000);
+                Thread.Sleep(1000);
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.Clear();
                 return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
@@ -777,7 +812,7 @@ namespace Bi_Os_Coop.Class
     
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Film taal is succesvol gewijzigd.");
-                System.Threading.Thread.Sleep(1000);
+                Thread.Sleep(1000);
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.Clear();
                 return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
@@ -800,7 +835,7 @@ namespace Bi_Os_Coop.Class
     
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Film trailer is succesvol gewijzigd.");
-                System.Threading.Thread.Sleep(1000);
+                Thread.Sleep(1000);
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.Clear();
                 return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
@@ -817,7 +852,7 @@ namespace Bi_Os_Coop.Class
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("Film niet gevonden. Probeer het nog een keer.");
-                    System.Threading.Thread.Sleep(1000);
+                    Thread.Sleep(1000);
                     Console.ForegroundColor = ConsoleColor.Gray;
                     admin.DeleteMovies();
                 }
@@ -844,7 +879,7 @@ namespace Bi_Os_Coop.Class
     
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Film is succesvol verwijderd.");
-                        System.Threading.Thread.Sleep(1000);
+                        Thread.Sleep(1000);
                         Console.ForegroundColor = ConsoleColor.Gray;
                         Console.Clear();
                     }
@@ -853,8 +888,7 @@ namespace Bi_Os_Coop.Class
                         Console.Clear();
                         adminMenu.hoofdPagina();
                     }
-                exit:
-                    return;
+                exit: ; //?
                 }
             }
             /// <summary>

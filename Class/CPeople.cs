@@ -267,9 +267,8 @@ namespace Bi_Os_Coop.Class
         {
             public MovieInterpreter AddMovies()
             {
-                MovieInterpreter Movie = new MovieInterpreter();
-                Movie = MovieMethods.AddMovie();
-                return Movie;
+                MovieInterpreter movie = MovieMethods.AddMovie();
+                return movie;
             }
 
             public void UpdateMovies()
@@ -307,7 +306,7 @@ namespace Bi_Os_Coop.Class
                             break;
                     }
                 }
-            exit:
+                exit:
                 return;
             }
 

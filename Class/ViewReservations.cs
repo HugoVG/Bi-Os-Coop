@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace Bi_Os_Coop.Class
 {
-    class ViewReservations
+    static class ViewReservations
     {
         /// <summary>
         /// returned een jagged list met in de list de eerste index de film en de rest de stoelen.
@@ -17,41 +17,31 @@ namespace Bi_Os_Coop.Class
             string json = Json.ReadJson("Zalen");
             Zalen jsonZalen = System.Text.Json.JsonSerializer.Deserialize<Zalen>(json);
             List<List<int>> reservationslist = new List<List<int>>();
-            List<int> seatlist = new List<int>();
-            int movieindex = 0;
-            int seatindex = 0;
-
-            for (int i = 0; i < jsonZalen.zalenList.Count(); i++)
-            {
-                seatlist = new List<int>();
-                movieindex = i;
-                seatlist.Add(movieindex);
-                for (int j = 0; j < jsonZalen.zalenList[i].stoelen.Count(); j++)
+            if (jsonZalen != null)
+                for (int i = 0; i < jsonZalen.zalenList.Count(); i++)
                 {
-                    if(jsonZalen.zalenList[i].stoelen[j].isOccupiedBy == id && jsonZalen.zalenList[i].stoelen[j].isOccupied)
+                    var seatlist = new List<int>();
+                    seatlist.Add(i);
+                    for (int j = 0; j < jsonZalen.zalenList[i].stoelen.Count(); j++)
                     {
-                        seatindex = j + 1;
-                        seatlist.Add(seatindex);
+                        if (jsonZalen.zalenList[i].stoelen[j].isOccupiedBy == id &&
+                            jsonZalen.zalenList[i].stoelen[j].isOccupied)
+                        {seatlist.Add(j + 1);} // j is de seat index
                     }
+                    if (seatlist.Count() > 2) 
+                        reservationslist.Add(seatlist);
                 }
-                if (seatlist.Count() > 2)
-                {
-                    reservationslist.Add(seatlist);
-                }
-                else
-                {
-                    seatlist = new List<int>();
-                }
-            }
             //het eerste item in de list is de filmindex, de rest van de items zijn de stoelen
             return reservationslist;
         }
+
         /// <summary>
         /// laat de gereserveerde stoel(en) per film zien en de data van de film.
         /// call deze functie als je het scherm met reserveringen wilt laten zien.
         /// voer voor users bij id automatisch hun eigen id in vanuit de MainMenu.json
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="index"></param>
         public static void ShowRes(int id, int index = 0)
         {
             string json = Json.ReadJson("Zalen");
@@ -85,19 +75,30 @@ namespace Bi_Os_Coop.Class
                         Console.ForegroundColor = ConsoleColor.Black;
                         Console.Write("Titel: ");
                         Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.WriteLine($"{jsonZalen.zalenList[reservationlist[i][0]].film.name}".PadRight(Console.WindowWidth - 10));
-                        Console.ForegroundColor = ConsoleColor.Black;
-                        Console.Write("Datum: ");
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.WriteLine($"{jsonZalen.zalenList[reservationlist[i][0]].date}".PadRight(Console.WindowWidth - 10));
-                        Console.ForegroundColor = ConsoleColor.Black;
-                        Console.Write("Tijd: ");
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.WriteLine($"{jsonZalen.zalenList[reservationlist[i][0]].time}".PadRight(Console.WindowWidth - 9));
-                        Console.ForegroundColor = ConsoleColor.Black;
-                        Console.Write("Zaal: ");
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.WriteLine($"{CheckWhichHall(jsonZalen.zalenList[reservationlist[i][0]].stoelen.Count())}".PadRight(Console.WindowWidth - 9));
+                        if (jsonZalen != null)
+                        {
+                            Console.WriteLine(
+                                $"{jsonZalen.zalenList[reservationlist[i][0]].film.name}".PadRight(Console.WindowWidth -
+                                    10));
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.Write("Datum: ");
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                            Console.WriteLine(
+                                $"{jsonZalen.zalenList[reservationlist[i][0]].date}"
+                                    .PadRight(Console.WindowWidth - 10));
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.Write("Tijd: ");
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                            Console.WriteLine(
+                                $"{jsonZalen.zalenList[reservationlist[i][0]].time}".PadRight(Console.WindowWidth - 9));
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.Write("Zaal: ");
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                            Console.WriteLine(
+                                $"{CheckWhichHall(jsonZalen.zalenList[reservationlist[i][0]].stoelen.Count())}"
+                                    .PadRight(Console.WindowWidth - 9));
+                        }
+
                         Console.ForegroundColor = ConsoleColor.Black;
                         Console.WriteLine("Stoelen: ".PadRight(Console.WindowWidth - 3));
                         Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -107,19 +108,24 @@ namespace Bi_Os_Coop.Class
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.Write("Titel: ");
                         Console.ForegroundColor = ConsoleColor.Gray;
-                        Console.WriteLine(jsonZalen.zalenList[reservationlist[i][0]].film.name);
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write("Datum: ");
-                        Console.ForegroundColor = ConsoleColor.Gray;
-                        Console.WriteLine(jsonZalen.zalenList[reservationlist[i][0]].date);
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write("Tijd: ");
-                        Console.ForegroundColor = ConsoleColor.Gray;
-                        Console.WriteLine(jsonZalen.zalenList[reservationlist[i][0]].time);
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write("Zaal: ");
-                        Console.ForegroundColor = ConsoleColor.Gray;
-                        Console.WriteLine(CheckWhichHall(jsonZalen.zalenList[reservationlist[i][0]].stoelen.Count()));
+                        if (jsonZalen != null)
+                        {
+                            Console.WriteLine(jsonZalen.zalenList[reservationlist[i][0]].film.name);
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write("Datum: ");
+                            Console.ForegroundColor = ConsoleColor.Gray;
+                            Console.WriteLine(jsonZalen.zalenList[reservationlist[i][0]].date);
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write("Tijd: ");
+                            Console.ForegroundColor = ConsoleColor.Gray;
+                            Console.WriteLine(jsonZalen.zalenList[reservationlist[i][0]].time);
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write("Zaal: ");
+                            Console.ForegroundColor = ConsoleColor.Gray;
+                            Console.WriteLine(
+                                CheckWhichHall(jsonZalen.zalenList[reservationlist[i][0]].stoelen.Count()));
+                        }
+
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.WriteLine("Stoelen: ");
                         Console.ForegroundColor = ConsoleColor.Gray;
@@ -201,20 +207,21 @@ namespace Bi_Os_Coop.Class
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
             int tempMovie = 0;
 
-            for (int i = 0; i < jsonFilms.movieList.Count(); i++)
-            {
-                if (jsonFilms.movieList[i].movieid == movieid)
+            if (jsonFilms != null)
+                for (int i = 0; i < jsonFilms.movieList.Count(); i++)
                 {
-                    tempMovie = i;
+                    if (jsonFilms.movieList[i].movieid == movieid)
+                    {
+                        tempMovie = i;
+                    }
                 }
-            }
 
             string gen = null;
             string act = null;
             bool newline = false;
             bool hastrailer = false;
             string trailer = null;
-            if (jsonFilms.movieList[tempMovie].genres != null)
+            if (jsonFilms != null && jsonFilms.movieList[tempMovie].genres != null)
             {
                 if (jsonFilms.movieList[tempMovie].genres.Count() <= 1)
                 {
@@ -309,10 +316,19 @@ namespace Bi_Os_Coop.Class
         /// <returns></returns>
         public static int CheckWhichHall(int stoelen)
         {
-            int zaalnummer = 404;
-            if (stoelen == 630) { zaalnummer = 1; }
-            else if (stoelen == 342) { zaalnummer = 2; }
-            else if (stoelen == 168) { zaalnummer = 3; }
+            int zaalnummer = 0b110010100;
+            switch (stoelen)
+            {
+                case 0b1001110110:
+                    zaalnummer = 0b1;
+                    break;
+                case 0b101010110:
+                    zaalnummer = 0b10;
+                    break;
+                case 0b10101000:
+                    zaalnummer = 0b11;
+                    break;
+            }
             return zaalnummer;
         }
     }
