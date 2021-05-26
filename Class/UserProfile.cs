@@ -79,10 +79,10 @@ namespace Bi_Os_Coop.Class
             Json.WriteJson("Accounts", json);
 
             // writing it to logged in user json
-            MainMenuThings things = MainMenu.jsonfileloader();
+            MainMenuThings things = MainMenu.JsonMainMenuLoad();
             CPeople.Person user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
             user.name = newName;
-            MainMenu.jsonmainmenu(user, sort, reverse, login, language);
+            MainMenu.JsonMainMenuSave(user, sort, reverse, login, language);
 
             // end of method
             Console.ForegroundColor = ConsoleColor.Green;
@@ -108,10 +108,10 @@ namespace Bi_Os_Coop.Class
             Json.WriteJson("Accounts", json);
 
             // writing it to logged in user json
-            MainMenuThings things = MainMenu.jsonfileloader();
+            MainMenuThings things = MainMenu.JsonMainMenuLoad();
             CPeople.Person user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
             user.email = newEmail;
-            MainMenu.jsonmainmenu(user, sort, reverse, login, language);
+            MainMenu.JsonMainMenuSave(user, sort, reverse, login, language);
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Je email is succesvol gewijzigd.");
@@ -136,10 +136,10 @@ namespace Bi_Os_Coop.Class
             Json.WriteJson("Accounts", json);
 
             // writing it to logged in user json
-            MainMenuThings things = MainMenu.jsonfileloader();
+            MainMenuThings things = MainMenu.JsonMainMenuLoad();
             CPeople.Person user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
             user.phonenumber = newPhoneNumber;
-            MainMenu.jsonmainmenu(user, sort, reverse, login, language);
+            MainMenu.JsonMainMenuSave(user, sort, reverse, login, language);
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Je email is succesvol gewijzigd.");
