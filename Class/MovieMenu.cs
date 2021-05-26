@@ -62,7 +62,7 @@ namespace Bi_Os_Coop.Class
                 Console.Write("Type hier de film die u wilt zoeken: ");
                 Console.ForegroundColor = ConsoleColor.Gray;
                 string movsearch = Console.ReadLine();
-                search(movsearch, mainmenulist);
+                inputcheck(movsearch, mainmenulist);
             }
             else if (indexstring == "0")
             {
@@ -103,9 +103,9 @@ namespace Bi_Os_Coop.Class
             mainPagina(index);
         }
         //functie die de ingetypte film zoekt in de JSON met alle films
-        public static void search(string searchmov, List<string> mainmenulist = null)
+        public static Tuple<bool, int> search(string searchmov, List<string> mainmenulist = null)
         {
-            string json = Json.ReadJson("Films");
+            string json = Json.ReadJson("Films"); 
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
             List<string> moviesearchlist = new List<string>();
             try
@@ -161,24 +161,21 @@ namespace Bi_Os_Coop.Class
             if (contains && searchmov.Count() >= 3 && lowest != 0)
             {
                 Console.Clear();
-                showmov(containindex);
+                return Tuple.Create(true, containindex);
             }
             else if (lowest < (searchmov.Count() / 4) + 1)
             {
                 Console.Clear();
-                showmov(lowestindex);
+                return Tuple.Create(true, lowestindex);
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Film niet gevonden, probeer opnieuw!");
-                Console.ForegroundColor = ConsoleColor.Gray;
-                Thread.Sleep(1000);
+                return Tuple.Create(false, 0);
             }
         }
 
         //functie om alle kenmerken van een film te laten zien
-        public static void showmov(int tempMovie)
+        public static Tuple<string, bool, string, string, List<string>> showmov(string movsearch, List<string> mainmenulist = null)
         {
             string json = Json.ReadJson("Films");
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
@@ -187,138 +184,157 @@ namespace Bi_Os_Coop.Class
             bool newline = false;
             bool hastrailer = false;
             string trailer = null;
-            if (jsonFilms.movieList[tempMovie].genres != null)
+            Tuple<bool, int> SearchResult = search(movsearch, mainmenulist);
+            if (SearchResult.Item1)
             {
-                if (jsonFilms.movieList[tempMovie].genres.Count() <= 1)
+                int tempMovie = SearchResult.Item2;
+                if (jsonFilms.movieList[tempMovie].genres != null)
                 {
-                    gen = "Genre";
-                }
-                else
-                {
-                    gen = "Genres";
-                }
-            }
-
-            if (jsonFilms.movieList[tempMovie].acteurs != null)
-            {
-                if (jsonFilms.movieList[tempMovie].acteurs.Count() <= 1)
-                {
-                    act = "Acteur";
-                }
-                else
-                {
-                    act = "Acteurs";
-                }
-            }
-
-            if (jsonFilms.movieList[tempMovie].trailer != null)
-            {
-                trailer = jsonFilms.movieList[tempMovie].trailer;
-                hastrailer = true;
-            }
-
-            MainMenu.Logo();
-            Console.WriteLine($"{jsonFilms.movieList[tempMovie].name}");
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine($"{(hastrailer ? "Trailer(T)\n" : "")}");
-            Console.ForegroundColor = ConsoleColor.Gray;
-            if (jsonFilms.movieList[tempMovie].releasedate != null)
-            {
-                Console.WriteLine($"Publicatiedatum: {jsonFilms.movieList[tempMovie].releasedate}");
-            }
-
-            if (jsonFilms.movieList[tempMovie].taal != null)
-            {
-                Console.WriteLine($"Taal: {jsonFilms.movieList[tempMovie].taal}");
-            }
-
-            Console.WriteLine($"Minimumleeftijd: {jsonFilms.movieList[tempMovie].leeftijd}");
-            if (jsonFilms.movieList[tempMovie].genres != null)
-            {
-                Console.WriteLine($"{gen}: {String.Join(", ", jsonFilms.movieList[tempMovie].genres)}");
-            }
-
-            if (jsonFilms.movieList[tempMovie].acteurs != null)
-            {
-                Console.WriteLine($"{act}: {String.Join(", ", jsonFilms.movieList[tempMovie].acteurs)}");
-            }
-
-            Console.WriteLine($"Beoordeling: {jsonFilms.movieList[tempMovie].beoordeling}");
-            if (jsonFilms.movieList[tempMovie].beschrijving != null)
-            {
-                Console.WriteLine("\nBeschrijving: ");
-                for (int i = 0; i < jsonFilms.movieList[tempMovie].beschrijving.Length; i++)
-                {
-                    char c = jsonFilms.movieList[tempMovie].beschrijving[i];
-                    //zorgt ervoor dat na 90 characters er bij de eerstvolgende spatie een nieuwe regel wordt gestart.
-                    if ((i % 90 == 0 && i != 0) || newline)
+                    if (jsonFilms.movieList[tempMovie].genres.Count() <= 1)
                     {
-                        if (c == ' ')
+                        gen = "Genre";
+                    }
+                    else
+                    {
+                        gen = "Genres";
+                    }
+                }
+
+                if (jsonFilms.movieList[tempMovie].acteurs != null)
+                {
+                    if (jsonFilms.movieList[tempMovie].acteurs.Count() <= 1)
+                    {
+                        act = "Acteur";
+                    }
+                    else
+                    {
+                        act = "Acteurs";
+                    }
+                }
+
+                if (jsonFilms.movieList[tempMovie].trailer != null)
+                {
+                    trailer = jsonFilms.movieList[tempMovie].trailer;
+                    hastrailer = true;
+                }
+
+                MainMenu.Logo();
+                Console.WriteLine($"{jsonFilms.movieList[tempMovie].name}");
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.WriteLine($"{(hastrailer ? "Trailer(T)\n" : "")}");
+                Console.ForegroundColor = ConsoleColor.Gray;
+                if (jsonFilms.movieList[tempMovie].releasedate != null)
+                {
+                    Console.WriteLine($"Publicatiedatum: {jsonFilms.movieList[tempMovie].releasedate}");
+                }
+
+                if (jsonFilms.movieList[tempMovie].taal != null)
+                {
+                    Console.WriteLine($"Taal: {jsonFilms.movieList[tempMovie].taal}");
+                }
+
+                Console.WriteLine($"Minimumleeftijd: {jsonFilms.movieList[tempMovie].leeftijd}");
+                if (jsonFilms.movieList[tempMovie].genres != null)
+                {
+                    Console.WriteLine($"{gen}: {String.Join(", ", jsonFilms.movieList[tempMovie].genres)}");
+                }
+
+                if (jsonFilms.movieList[tempMovie].acteurs != null)
+                {
+                    Console.WriteLine($"{act}: {String.Join(", ", jsonFilms.movieList[tempMovie].acteurs)}");
+                }
+
+                Console.WriteLine($"Beoordeling: {jsonFilms.movieList[tempMovie].beoordeling}");
+                if (jsonFilms.movieList[tempMovie].beschrijving != null)
+                {
+                    Console.WriteLine("\nBeschrijving: ");
+                    for (int i = 0; i < jsonFilms.movieList[tempMovie].beschrijving.Length; i++)
+                    {
+                        char c = jsonFilms.movieList[tempMovie].beschrijving[i];
+                        //zorgt ervoor dat na 90 characters er bij de eerstvolgende spatie een nieuwe regel wordt gestart.
+                        if ((i % 90 == 0 && i != 0) || newline)
                         {
-                            Console.Write("\n");
-                            newline = false;
+                            if (c == ' ')
+                            {
+                                Console.Write("\n");
+                                newline = false;
+                            }
+                            else
+                            {
+                                Console.Write(c);
+                                newline = true;
+                            }
                         }
                         else
                         {
                             Console.Write(c);
-                            newline = true;
+                            newline = false;
                         }
                     }
-                    else
-                    {
-                        Console.Write(c);
-                        newline = false;
-                    }
+
+                    Console.Write("\n");
                 }
-
-                Console.Write("\n");
+                return Tuple.Create(trailer, hastrailer, jsonFilms.movieList[tempMovie].name, movsearch, mainmenulist);
             }
-
-            //hierna moet als er ja geselecteerd is het resrvatie scherm komen!
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("\nWilt u deze film reserveren? (");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("J");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("/");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("N");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(")\n");
-
-            inputcheck(tempMovie, trailer, hastrailer, jsonFilms.movieList[tempMovie].name);
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Deze film is niet gevonden!");
+                Console.ForegroundColor = ConsoleColor.White;
+                Thread.Sleep(1000);
+                return null;
+            }
         }
 
-        public static void inputcheck(int tempMovie, string trailer, bool hastrailer, string moviename)
+        public static void inputcheck(string movsearch, List<string> mainmenulist = null)
         {
-            ConsoleKey keypressed = Console.ReadKey(true).Key;
-            if (hastrailer)
+            Tuple<string, bool, string, string, List<string>> MovieInformation = showmov(movsearch, mainmenulist);
+            if (MovieInformation != null)
             {
-                if (keypressed == ConsoleKey.T)
-                {
-                    try
-                    {
-                        Process.Start(trailer);
-                        Console.Clear();
-                        showmov(tempMovie);
-                    }
-                    catch (Exception)
-                    {
-                        Console.Clear();
-                        showmov(tempMovie);
-                    }
-                } // Idiot Esception
-            }
+                bool hastrailer = MovieInformation.Item2;
+                string trailer = MovieInformation.Item1;
+                string moviename = MovieInformation.Item3;
+                //hierna moet als er ja geselecteerd is het resrvatie scherm komen!
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("\nWilt u deze film reserveren? (");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("J");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("/");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("N");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(")\n");
 
-            //verander Console.WriteLine("succes"); naar het reserveer scherm van hogo
-            if (keypressed == ConsoleKey.J)
-            {
-                string json = Json.ReadJson("Zalen");
-                Zalen zalen = Zalen.FromJson(json);
-                Tuple<bool, List<Zaal>> zalenMetNaam = zalen.selectZalen(moviename);
-                zalen.menu(zalenMetNaam.Item2);
-                json = zalen.ToJson();
-                Json.WriteJson("Zalen", json);
+                ConsoleKey keypressed = Console.ReadKey(true).Key;
+                if (hastrailer)
+                {
+                    if (keypressed == ConsoleKey.T)
+                    {
+                        try
+                        {
+                            Process.Start(trailer);
+                            Console.Clear();
+                            inputcheck(movsearch, mainmenulist);
+                        }
+                        catch (Exception)
+                        {
+                            Console.Clear();
+                            inputcheck(movsearch, mainmenulist);
+                        }
+                    } // Idiot Esception
+                }
+
+                //verander Console.WriteLine("succes"); naar het reserveer scherm van hogo
+                if (keypressed == ConsoleKey.J)
+                {
+                    string json = Json.ReadJson("Zalen");
+                    Zalen zalen = Zalen.FromJson(json);
+                    Tuple<bool, List<Zaal>> zalenMetNaam = zalen.selectZalen(moviename);
+                    zalen.menu(zalenMetNaam.Item2);
+                    json = zalen.ToJson();
+                    Json.WriteJson("Zalen", json);
+                }
             }
         }
     }
