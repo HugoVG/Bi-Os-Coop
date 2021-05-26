@@ -102,7 +102,6 @@ namespace Bi_Os_Coop.Class
 
             mainPagina(index);
         }
-#error please fucking fix dit, waarom een VOID laat het de film returnen
         //functie die de ingetypte film zoekt in de JSON met alle films
         public static void search(string searchmov, List<string> mainmenulist = null)
         {

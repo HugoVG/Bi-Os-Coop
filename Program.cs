@@ -16,12 +16,6 @@ namespace Bi_Os_Coop
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(ViewReservations.CheckWhichHall(342));
-
-            WatchLists wls  = FromJson();
-            wls.AddList();
-            wls.ToJson(true);
-            Console.ReadKey(true);
 #if (DEBUG)
 
             //#error Hold there Criminal scum
