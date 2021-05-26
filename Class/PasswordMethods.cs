@@ -25,8 +25,11 @@ namespace Bi_Os_Coop.Class
                             CPeople.People jsonPeople = JsonSerializer.Deserialize<CPeople.People>(json);
                             try
                             {
-                                CPeople.Person tempPerson = jsonPeople.peopleList.Single(person => person.email == emailIngelogd && person.password == passwordIngelogd);
-                                tempPerson.password = newPassword;
+                                if (jsonPeople != null)
+                                {
+                                    CPeople.Person tempPerson = jsonPeople.peopleList.Single(person => person.email == emailIngelogd && person.password == passwordIngelogd);
+                                    tempPerson.password = newPassword;
+                                }
 
                                 json = JsonSerializer.Serialize(jsonPeople);
                                 Json.WriteJson("Accounts", json);
@@ -99,8 +102,7 @@ namespace Bi_Os_Coop.Class
         public static bool MailLeeftijdCheck(string username, string age)
         {
             string account = Json.ReadJson("Accounts");
-            CPeople.People accounts = new CPeople.People();
-            accounts = accounts.FromJson(account);
+            CPeople.People accounts = CPeople.People.FromJson(account);
             try
             {
                 CPeople.Person persoon = accounts.peopleList.Single(person => person.email == username && person.age == age);
@@ -115,8 +117,7 @@ namespace Bi_Os_Coop.Class
         public static bool MailWachtwoordCheck(string username, string password)
         {
             string account = Json.ReadJson("Accounts");
-            CPeople.People accounts = new CPeople.People();
-            accounts = accounts.FromJson(account);
+            CPeople.People accounts = CPeople.People.FromJson(account);
             try
             {
                 CPeople.Person persoon = accounts.peopleList.Single(person => person.email == username && person.password == password);

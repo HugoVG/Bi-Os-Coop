@@ -14,8 +14,7 @@ namespace Bi_Os_Coop.Class
         public static dynamic mailwachtvragen(string username, string password)
         {
             string account = Json.ReadJson("Accounts");
-            CPeople.People accounts = new CPeople.People();
-            accounts = accounts.FromJson(account);
+            CPeople.People accounts = CPeople.People.FromJson(account);
             try
             {
                 CPeople.Person persoon = accounts.peopleList.Single(henk => henk.email.ToLower() == username.ToLower() && henk.password == password);
@@ -269,7 +268,11 @@ namespace Bi_Os_Coop.Class
                 {
                     var inlog = loginscherm.mailwachtvragen(username.ToLower(), password);
                     try { if (inlog == false) { inlog = login(); } }
-                    catch { }
+                    catch
+                    {
+                        // ignored
+                    }
+
                     return inlog;
                 }
                 else

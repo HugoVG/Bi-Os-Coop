@@ -21,7 +21,7 @@ namespace Bi_Os_Coop.Class
 
             if (string.IsNullOrEmpty(movielistitem))
             {
-                return movielistitem.Length;
+                if (movielistitem != null) return movielistitem.Length;
             }
 
             int searchmovlength = searchmov.Length;

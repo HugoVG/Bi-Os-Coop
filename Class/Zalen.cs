@@ -5,41 +5,6 @@ using System.Text.Json;
 
 namespace Bi_Os_Coop.Class
 {
-    internal static class ZalenExtender
-    {
-        public static void writeZalen(List<Zaal> selected)
-        {
-            //List<Zaal> showingzaal = this.zalenList;
-            int counter = 1;
-            foreach (Zaal zaal in selected)
-            {
-                Console.Write($"\n{counter} \t");
-                Console.Write($"date:{zaal.date} \t");
-                Console.Write($"time:{zaal.time} \t");
-                Console.Write($"movie:{zaal.film.name} \t");
-                Console.Write($"release Date:{zaal.film.releasedate} \t");
-                Console.Write($"Score:{zaal.film.beoordeling}\t");
-                if (zaal.stoelen.Count == 630)
-                {
-                    Console.Write("Zaal: 1\t");
-                }
-                else if (zaal.stoelen.Count == 342)
-                {
-                    Console.Write("Zaal: 2\t");
-                }
-                else
-                {
-                    Console.Write("Zaal: 3\t");
-                }
-                counter++;
-            }
-        }
-        /// <summary>
-        /// Put in a list of 'Zalen' in which it will choose from -> use this as a list of zalen wwitht the same movie
-        /// </summary>
-        /// <param name="selected"></param>
-        /// <returns></returns>
-    }
     internal class Zalen
     {
         public List<Zaal> zalenList { get; set; }
@@ -162,11 +127,7 @@ namespace Bi_Os_Coop.Class
             return JsonSerializer.Serialize(this, opt);
         }
 
-        public Zalen FromJson(string json)
-        {
-            return JsonSerializer.Deserialize<Zalen>(json);
-        }
-
+        public static Zalen FromJson(string json) => JsonSerializer.Deserialize<Zalen>(json);
         public void Reserveseats(int[] indexes, CPeople.Person orderer, string date, string time)
         {
             Zaal gekozenzaal = zalenList.Single(movie => movie.date == date && movie.time == time);
@@ -186,12 +147,13 @@ namespace Bi_Os_Coop.Class
             indexs[0] = index;
             zaal.occupyStool(indexs, orderer);
         }
+        
         public void Reserveseats(int[] index, CPeople.Person orderer, Zaal zaal)
         {
             zaal.occupyStool(index, orderer);
         }
         /// <summary>
-        /// returned de zalen waar de film draai met x naam
+        /// returned tuple met True en de zalen waarbij de film draait met x naam
         /// </summary>
         /// <param name="naam"></param>
         /// <returns></returns>
@@ -235,8 +197,8 @@ namespace Bi_Os_Coop.Class
                 nstoelen.Add(stoel);
                 stoelen = nstoelen;
             }*/
-            /// De +130 // +42 // +18 is voor
-            /// de lege stoelen in de excel sheet
+            // De +130 // +42 // +18 is voor
+            // de lege stoelen in de excel sheet
             if (totalStools == (int)Size.MegaChonker)
             {
                 totalStools = totalStools +130;
@@ -296,7 +258,7 @@ namespace Bi_Os_Coop.Class
         /// <summary>
         /// Occupies a stool
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="indexs"></param>
         /// <param name="orderer"></param>
         public int occupyStool(int[] indexs, CPeople.Person orderer)
         {
@@ -411,7 +373,7 @@ namespace Bi_Os_Coop.Class
             LOW = 10,
             NONE = 0
         }
-        public bool isOccupied { get; set; } = false;
+        public bool isOccupied { get; set; }
         public int isOccupiedBy { get; set; } = 1; //dan kan je het ID van de persoon uit lezen
         public price Price { get; set; }
 

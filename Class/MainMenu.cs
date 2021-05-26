@@ -158,7 +158,10 @@ namespace Bi_Os_Coop.Class
                             if (newlist.IndexOf(member) == (newlist.Count - 1)) { newlist.Add(release); break; }
                         }
                     }
-                    catch { }
+                    catch
+                    {
+                        // ignored
+                    }
                 }
             }
 
@@ -302,14 +305,18 @@ namespace Bi_Os_Coop.Class
                     return new Tuple<string, dynamic>("1go2to3main4menu5", "1go2to3main4menu5");
                 }
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
+
             Console.Clear();
 
             // Vraagt om de Type en returnt de type en de inloggegevens.
             Type userType = user.GetType();
             if (userType.Equals(typeof(CPeople.Person))) { return new Tuple<string, dynamic>("Person", user); }
-            else if (userType.Equals(typeof(CPeople.Admin))) { return new Tuple<string, dynamic>("Admin", user); }
-            else if (userType.Equals(typeof(CPeople.Employee))) { return new Tuple<string, dynamic>("Employee", user); }
+            if (userType.Equals(typeof(CPeople.Admin))) { return new Tuple<string, dynamic>("Admin", user); }
+            if (userType.Equals(typeof(CPeople.Employee))) { return new Tuple<string, dynamic>("Employee", user); }
             return new Tuple<string, dynamic>("None", false);
         }
 
@@ -367,21 +374,12 @@ namespace Bi_Os_Coop.Class
         }
 
         /// <summary>
-        /// Haalt gegevens op uit MainMenu.json
-        /// </summary>
-        public static MainMenuThings JsonMainMenuLoad()
-        {
-            string json = Json.ReadJson("MainMenu");
-            return JsonSerializer.Deserialize<MainMenuThings>(json);
-        }
-
-        /// <summary>
         /// Dit is het mainmenu scherm.
         /// </summary>
         public static void MainMenuShow()
         {
             Logo();
-            MainMenuThings things = JsonMainMenuLoad();
+            MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
             CPeople.Person user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
             bool sav = false;
             if (language == "Nederlands")
