@@ -103,19 +103,22 @@ namespace Bi_Os_Coop.Class
             mainPagina(index);
         }
         //functie die de ingetypte film zoekt in de JSON met alle films
-        public static Tuple<bool, int> search(string searchmov, List<string> mainmenulist = null)
+        public static Tuple<bool, int> search(string searchmov, List<string> mainmenulist = null, bool InMovieMenu = true)
         {
             string json = Json.ReadJson("Films"); 
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
             List<string> moviesearchlist = new List<string>();
-            try
+            if (InMovieMenu)
             {
-                int result = Int32.Parse(searchmov) - 1;
-                searchmov = mainmenulist[result];
-            }
-            catch (Exception)
-            {
-                // ignored
+                try
+                {
+                    int result = Int32.Parse(searchmov) - 1;
+                    searchmov = mainmenulist[result];
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
             }
 
             searchmov = searchmov.ToLower().Replace(" ", "");
