@@ -83,6 +83,7 @@
     <Compile Include="Class\MovieMenu.cs" />
     <Compile Include="Class\LevenshteinDistance.cs" />
     <Compile Include="Class\ViewReservations.cs" />
+    <Compile Include="Class\WatchList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Class\Registerscreen.cs" />
@@ -100,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Bi_Os_Coop_groot_.ico" />
+    <Content Include="Json\WatchList.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions />

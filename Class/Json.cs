@@ -5,6 +5,11 @@ namespace Bi_Os_Coop.Class
 {
     class Json
     {
+        public const string accounts = "Accounts";
+        public const string Films = "Films";
+        public const string MainMenu = "MainMenu";
+        public const string WatchList = "WatchList";
+        public const string Zalen = "Zalen";
         /*
          * How to use Json class
          * for reading and writing you only need the name of the file in Json folder

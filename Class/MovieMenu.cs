@@ -106,7 +106,7 @@ namespace Bi_Os_Coop.Class
 
             mainPagina(index);
         }
-
+#error please fucking fix dit, waarom een VOID laat het de film returnen
         //functie die de ingetypte film zoekt in de JSON met alle films
         public static void search(string searchmov, List<string> mainmenulist = null)
         {
@@ -120,7 +120,7 @@ namespace Bi_Os_Coop.Class
             }
             catch (Exception)
             {
-
+                // ignored
             }
 
             searchmov = searchmov.ToLower().Replace(" ", "");
@@ -374,6 +374,27 @@ namespace Bi_Os_Coop.Class
             {
                 movieList.Add(newMovie);
             }
+        }
+        public string ToJson(bool write = false)
+        {
+            if (write)
+            {
+                JsonSerializerOptions opt = new JsonSerializerOptions() { WriteIndented = true };
+                string json = JsonSerializer.Serialize(this, opt);
+                Json.WriteJson("Films", json);
+                return null;
+            }
+            else
+            {
+                JsonSerializerOptions opt = new JsonSerializerOptions() { WriteIndented = true };
+                return JsonSerializer.Serialize(this, opt);
+            }
+        }
+        public static Films FromJson(string json) => JsonSerializer.Deserialize<Films>(json);
+        public static Films FromJson()
+        {
+            string json = Json.ReadJson("Films");
+            return JsonSerializer.Deserialize<Films>(json);
         }
     }
     public class MovieMethods
