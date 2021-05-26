@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -28,12 +28,12 @@ namespace Bi_Os_Coop.Class
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Film Menu");
             MainMenuThings mainmenuthings = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
-            MainMenu.sorttext(mainmenuthings.sort, mainmenuthings.reverse);
+            MainMenu.SortText(mainmenuthings.sort, mainmenuthings.reverse);
             Console.WriteLine("Type S om een film te zoeken");
             Console.WriteLine("Of type '0' om terug te gaan naar de main menu");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("Beschikbare films:\n");
-            List<string> mainmenulist = MainMenu.actualmovies(mainmenuthings.sort, mainmenuthings.reverse, index);
+            List<string> mainmenulist = MainMenu.ActualMovies(mainmenuthings.sort, mainmenuthings.reverse, index);
             Console.WriteLine($"\t\t\t\t\t\t\t\t\t\t\t\tBladzijde {index} van {highestpage}");
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Type een paginanummer of sorteerfunctie: ");
@@ -41,23 +41,19 @@ namespace Bi_Os_Coop.Class
             string indexstring = Console.ReadLine();
             if (indexstring.ToLower() == "r" && mainmenuthings.sort != "name")
             {
-                MainMenu.jsonmainmenu(mainmenuthings.user, "name", mainmenuthings.reverse, mainmenuthings.login,
-                    mainmenuthings.language);
+                MainMenu.JsonMainMenuSave(mainmenuthings.user, "name", mainmenuthings.reverse, mainmenuthings.login, mainmenuthings.language);
             }
             else if (indexstring.ToLower() == "t" && mainmenuthings.sort != "rating")
             {
-                MainMenu.jsonmainmenu(mainmenuthings.user, "rating", mainmenuthings.reverse, mainmenuthings.login,
-                    mainmenuthings.language);
+                MainMenu.JsonMainMenuSave(mainmenuthings.user, "rating", mainmenuthings.reverse, mainmenuthings.login, mainmenuthings.language);
             }
             else if (indexstring.ToLower() == "y" && mainmenuthings.sort != "release")
             {
-                MainMenu.jsonmainmenu(mainmenuthings.user, "release", mainmenuthings.reverse, mainmenuthings.login,
-                    mainmenuthings.language);
+                MainMenu.JsonMainMenuSave(mainmenuthings.user, "release", mainmenuthings.reverse, mainmenuthings.login, mainmenuthings.language);
             }
             else if (indexstring.ToLower() == "p")
             {
-                MainMenu.jsonmainmenu(mainmenuthings.user, mainmenuthings.sort, !mainmenuthings.reverse,
-                    mainmenuthings.login, mainmenuthings.language);
+                MainMenu.JsonMainMenuSave(mainmenuthings.user, mainmenuthings.sort, !mainmenuthings.reverse, mainmenuthings.login, mainmenuthings.language);
                 Console.Clear();
             }
             else if (indexstring.ToLower() == "s" || indexstring.ToLower() == "search")
@@ -727,7 +723,7 @@ namespace Bi_Os_Coop.Class
                 return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
             }
     
-            public static dynamic errormaker()
+            public static dynamic ErrorMaker()
             {
                 return "2a";
             }
@@ -740,7 +736,7 @@ namespace Bi_Os_Coop.Class
                 try
                 {
                     int ageing = Convert.ToInt32(newMinimumAge);
-                    if (ageing < 0 || ageing > 18) { Convert.ToInt32(errormaker()); }
+                    if (ageing < 0 || ageing > 18) { Convert.ToInt32(ErrorMaker()); }
                     tempMovie.leeftijd = ageing;
                 }
                 catch (FormatException)
@@ -772,7 +768,7 @@ namespace Bi_Os_Coop.Class
                 try
                 {
                     double ageing = Convert.ToDouble(newScore);
-                    if (ageing < 0 || ageing > 10) { Convert.ToInt32(errormaker()); }
+                    if (ageing < 0 || ageing > 10) { Convert.ToInt32(ErrorMaker()); }
                     tempMovie.beoordeling = ageing;
                 }
                 catch (FormatException)

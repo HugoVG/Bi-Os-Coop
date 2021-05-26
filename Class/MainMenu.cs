@@ -55,10 +55,10 @@ namespace Bi_Os_Coop.Class
         /// <summary>
         /// Deze method returnt een lijst met film id's (uit de films json) die gesorteerd zijn op publicatiedatum.
         /// </summary>
-        public static List<int> sortbyname()
+        public static List<int> SortByName()
         {
             // Maakt een dictionary van films uit jsonFilms met de movieid en naam.
-            Films jsonFilms = getfilmlist();
+            Films jsonFilms = GetFilmList();
             var movielistname = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, name => name.name);
 
             // Checkt of er niet een film is zonder naam.
@@ -77,7 +77,7 @@ namespace Bi_Os_Coop.Class
         /// <summary>
         /// In deze method geef je de lijst mee die al gesorteerd is en als reverse true is keert deze functie de lijst om en returnt het deze.
         /// </summary>
-        public static List<int> reversing(List<int> listing, bool reverse)
+        public static List<int> Reversing(List<int> listing, bool reverse)
         {
             if (reverse) { listing.Reverse(); }
             return listing;
@@ -86,7 +86,7 @@ namespace Bi_Os_Coop.Class
         /// <summary>
         /// Deze method returnt de films uit de json.
         /// </summary>
-        public static Films getfilmlist()
+        public static Films GetFilmList()
         {
             string json = Json.ReadJson("Films");
             return JsonSerializer.Deserialize<Films>(json);
@@ -95,10 +95,10 @@ namespace Bi_Os_Coop.Class
         /// <summary>
         /// Deze method returnt een lijst met film id's (uit de films json) die gesorteerd zijn op publicatiedatum.
         /// </summary>
-        public static List<int> sortbyrelease()
+        public static List<int> SortByRelease()
         {
             // Maakt een dictionary van films uit jsonFilms met de movieid en releasedate.
-            Films jsonFilms = getfilmlist();
+            Films jsonFilms = GetFilmList();
             var movielistrelease = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, releasedate => releasedate.releasedate);
 
             // Vergelijkt elke datum met elkaar en plaatst deze in de lijst newlist met de movie id en publicatiedatum.
@@ -174,10 +174,10 @@ namespace Bi_Os_Coop.Class
         /// <summary>
         /// Deze method returnt een lijst met film id's (uit de films json) die gesorteerd zijn op beoordeling.
         /// </summary>
-        public static List<int> sortbyrating()
+        public static List<int> SortByRating()
         {
             // Maakt een dictionary van films uit jsonFilms met de movieid en naam.
-            Films jsonFilms = getfilmlist();
+            Films jsonFilms = GetFilmList();
             var movielistrating = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, beoordeling => beoordeling.beoordeling);
 
             // Checkt of er een film is zonder beoordeling.
@@ -196,10 +196,10 @@ namespace Bi_Os_Coop.Class
         /// <summary>
         /// Deze method returnt een lijst met alle films.
         /// </summary>
-        public static List<string> namelistthing(List<int> printablelist)
+        public static List<string> ReturnAllFilms(List<int> printablelist)
         {
             // Pakt de films uit de json.
-            Films jsonFilms = getfilmlist();
+            Films jsonFilms = GetFilmList();
 
             // Zet alle films uit de json in een lijst en returnt deze.
             List<string> listthing = new List<string>();
@@ -216,56 +216,88 @@ namespace Bi_Os_Coop.Class
         }
 
         /// <summary>
-        /// e
+        /// Deze method print de naam, publicatiedatum en minimumleeftijd van 10 films uit een list van movie id's die op een aangegeven pagina staan (index). Bijvoorbeeld: index 2 print films 11 t/m 20.
         /// </summary>
-        public static List<string> printlist(List<int> printablelist, int index)
+        public static List<string> PrintList(List<int> printablelist, int index)
         {
-            Films jsonFilms = getfilmlist();
+            // Pakt de films uit de json.
+            Films jsonFilms = GetFilmList();
+
+            // Berekent eerst de start en stop index. Daarna print het de naam, publicatiedatum en minimumleeftijd van de films tussen de start en stop index.
             for (int i = ((index * 10 + 1) - 10); i < (index * 10 + 1); i++)
             {
                 try
                 {
+                    // Verkrijgt de informatie over de film door te vragen naar een film met movieid.
                     MovieInterpreter mov = jsonFilms.movieList.Single(movie1 => movie1.movieid == printablelist[i - 1]);
+
+                    // Zorgt ervoor dat namen die te lang zijn worden afgekort met '...'.
                     string name;
                     if (mov.name.Length > 35) { name = mov.name.Substring(0, 35).Trim() + "..."; }
                     else { name = mov.name; }
-                    Console.WriteLine($"{i}.\t{name} ({mov.releasedate}){lengthmakerthing(58 - $"e.\t{name} ({mov.releasedate})".Length, ' ')}Leeftijd: {mov.leeftijd}\tBeoordeling: {mov.beoordeling}");
+
+                    // Print de film met gelijke ruimte tussen naam, releasedate en minimumleeftijd.
+                    Console.WriteLine($"{i}.\t{name} ({mov.releasedate}){LengthMaker(58 - $"e.\t{name} ({mov.releasedate})".Length, ' ')}Leeftijd: {mov.leeftijd}\tBeoordeling: {mov.beoordeling}");
                 }
                 catch { break; }
             }
-            return namelistthing(printablelist);
+            // Returnt alle namen van films in een gesorteerde lijst.
+            return ReturnAllFilms(printablelist);
         }
-        public static string lengthmakerthing(int length, char character)
+
+        /// <summary>
+        /// Deze method maakt een string met een ingevulde karakter van een ingevulde lengte.
+        /// </summary>
+        public static string LengthMaker(int length, char character)
         {
             string spaces = "";
             for (int j = 1; j < length; j++) { spaces += character; }
             return spaces;
         }
-        public static void logintext()
+
+        /// <summary>
+        /// Deze method print "Inloggen (I)" en "Registreren (O)" aan de rechterkant van het scherm.
+        /// </summary>
+        public static void LogInText()
         {
             string loginstructions = "Inloggen (I)";
-            Console.WriteLine(lengthmakerthing(Console.WindowWidth - loginstructions.Length - 15, ' ') + loginstructions);
+            Console.WriteLine(LengthMaker(Console.WindowWidth - loginstructions.Length - 15, ' ') + loginstructions);
 
             string reginstructions = "Registreren (O)";
-            Console.WriteLine(lengthmakerthing(Console.WindowWidth - reginstructions.Length, ' ') + reginstructions);
+            Console.WriteLine(LengthMaker(Console.WindowWidth - reginstructions.Length, ' ') + reginstructions);
         }
-        public static void logouttext()
+
+        /// <summary>
+        /// Deze method print "Uitloggen (U)" aan de rechterkant van het scherm.
+        /// </summary>
+        public static void LogOutText()
         {
             string logoutstructions = "Uitloggen (U)";
-            Console.WriteLine(lengthmakerthing(Console.WindowWidth - logoutstructions.Length - 15, ' ') + logoutstructions);
+            Console.WriteLine(LengthMaker(Console.WindowWidth - logoutstructions.Length - 15, ' ') + logoutstructions);
         }
-        public static List<string> actualmovies(string sort, bool reverse, int index)
+
+        /// <summary>
+        /// Deze method regelt op welke manier gesorteerd wordt, met welk paginanummer (index) en returnt de lijst met film namen.
+        /// </summary>
+        public static List<string> ActualMovies(string sort, bool reverse, int index)
         {
             List<string> returninglist = new List<string>();
-            if (sort == "name") { returninglist = printlist(reversing(sortbyname(), reverse), index); }
-            else if (sort == "release") { returninglist = printlist(reversing(sortbyrelease(), reverse), index); }
-            else if (sort == "rating") { returninglist = printlist(reversing(sortbyrating(), reverse), index); }
+            if (sort == "name") { returninglist = PrintList(Reversing(SortByName(), reverse), index); }
+            else if (sort == "release") { returninglist = PrintList(Reversing(SortByRelease(), reverse), index); }
+            else if (sort == "rating") { returninglist = PrintList(Reversing(SortByRating(), reverse), index); }
             return returninglist;
         }
-        public static Tuple<string, dynamic> loginscreenthing(string login)
+
+        /// <summary>
+        /// Deze method regelt het inloggen. Het vangt de inloggegevens op, kijkt vervolgens wat voor type het is en returnt een tuple met de type en de inloggegevens.
+        /// </summary>
+        public static Tuple<string, dynamic> LoginScreenThing()
         {
+            // Gaat naar het inlogscherm.
             Console.Clear();
             var user = loginscherm.login();
+
+            // Wanneer er op escape is gedrukt ga je terug naar het main menu.
             try
             {
                 if (user == "1go2to3main4menu5")
@@ -279,54 +311,71 @@ namespace Bi_Os_Coop.Class
             }
 
             Console.Clear();
+
+            // Vraagt om de Type en returnt de type en de inloggegevens.
             Type userType = user.GetType();
             if (userType.Equals(typeof(CPeople.Person))) { return new Tuple<string, dynamic>("Person", user); }
             if (userType.Equals(typeof(CPeople.Admin))) { return new Tuple<string, dynamic>("Admin", user); }
             if (userType.Equals(typeof(CPeople.Employee))) { return new Tuple<string, dynamic>("Employee", user); }
             return new Tuple<string, dynamic>("None", false);
         }
-        public static void sorttext(string sort, bool reverse)
+
+        /// <summary>
+        /// Print de sorteermethodes. Wanneer er een sorteermethode geselecteerd is wordt deze rood.
+        /// </summary>
+        public static void SortText(string sort, bool reverse)
         {
-            Program.newEntry(lengthmakerthing(Console.WindowWidth - 46, ' '));
+            // Zorgt ervoor dat de text in de rechterkant van de console geprint wordt.
+            Program.newEntry(LengthMaker(Console.WindowWidth - 46, ' '));
+
+            // Wanneer de naam sorteermode is geselecteerd wordt "Naam (R)" rood en blijft de rest zwart.
             if (sort == "name")
             {
                 Program.newEntry("Naam (R)", ConsoleColor.Red);
                 Program.newEntry(", Beoordeling (T), Publicatiedatum (Y)\n");
             }
+
+            // Wanneer de publicatiedatum sorteermode is geselecteerd wordt "Publicatiedatum (Y)" rood en blijft de rest zwart.
             if (sort == "release")
             {
                 Program.newEntry("Naam (R), Beoordeling (T), ");
                 Program.newEntry("Publicatiedatum (Y)\n", ConsoleColor.Red);
             }
+
+            // Wanneer de beoordeling sorteermode is geselecteerd wordt "Beoordeling (T)" rood en blijft de rest zwart.
             if (sort == "rating")
             {
                 Program.newEntry("Naam (R), ");
                 Program.newEntry("Beoordeling (T)", ConsoleColor.Red);
                 Program.newEntry(", Publicatiedatum (Y)\n");
             }
-            Program.newEntry(lengthmakerthing(Console.WindowWidth - 11, ' '));
-            if (reverse) { Program.newEntry("Omkeren (P)\n", ConsoleColor.Green); }
+
+            // Zorgt ervoor dat de text in de rechterkant van de console geprint wordt.
+            Program.newEntry(LengthMaker(Console.WindowWidth - 11, ' '));
+
+            // Wanneer omkeren is geselecteerd wordt "Omkeren (P)" rood uitgeprint. Anders wordt dit zwart uitgeprint.
+            if (reverse) { Program.newEntry("Omkeren (P)\n", ConsoleColor.Red); }
             else { Program.newEntry("Omkeren (P)\n"); }
         }
-        public static Type Typegetter(dynamic gettype)
+
+        /// <summary>
+        /// Slaat gegevens uit mainmenu op in MainMenu.json
+        /// </summary>
+        public static void JsonMainMenuSave(dynamic user, string sort, bool reverse, string login, string language)
         {
-            Type userType;
-            try { userType = gettype.GetType(); }
-            catch
-            {
-                string strinng = "";
-                userType = strinng.GetType();
-            }
-            return userType;
-        }
-        public static void jsonmainmenu(dynamic user, string sort, bool reverse, string login, string language)
-        {
+            // Maakt een MainMenuThings object aan met de mainmenu gegevens
             MainMenuThings jj = new MainMenuThings();
-            jj.setlog(user, sort, reverse, login, language);
+            jj.SetGegevens(user, sort, reverse, login, language);
+
+            // Slaat het MainMenuThings object op in MainMenu.json
             JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
             string json = JsonSerializer.Serialize(jj, opt);
             Json.WriteJson("MainMenu", json);
         }
+
+        /// <summary>
+        /// Dit is het mainmenu scherm.
+        /// </summary>
         public static void MainMenuShow()
         {
             Logo();
@@ -336,18 +385,18 @@ namespace Bi_Os_Coop.Class
             if (language == "Nederlands")
             {
                 Console.Write("Afsluiten (Esc)");
-                if (login == "None") { logintext(); }
-                else { logouttext(); }
+                if (login == "None") { LogInText(); }
+                else { LogOutText(); }
                 string goAM = "Admin Menu (A)";
-                if (login == "Admin") { Console.WriteLine(lengthmakerthing(Console.WindowWidth - goAM.Length, ' ') + goAM); }
+                if (login == "Admin") { Console.WriteLine(LengthMaker(Console.WindowWidth - goAM.Length, ' ') + goAM); }
                 string goUserProfile = "Profile (W)";
-                if (login == "Person") { Console.WriteLine(lengthmakerthing(Console.WindowWidth - goUserProfile.Length, ' ') + goUserProfile); }
-                sorttext(sort, reverse);
+                if (login == "Person") { Console.WriteLine(LengthMaker(Console.WindowWidth - goUserProfile.Length, ' ') + goUserProfile); }
+                SortText(sort, reverse);
 
                 Console.WriteLine("ACTUELE FILMS:");
-                actualmovies(sort, reverse, 1);
+                ActualMovies(sort, reverse, 1);
                 string moviemenugo = "Meer Films (E)";
-                Console.WriteLine(lengthmakerthing(Console.WindowWidth - moviemenugo.Length - 22, ' ') + moviemenugo);
+                Console.WriteLine(LengthMaker(Console.WindowWidth - moviemenugo.Length - 22, ' ') + moviemenugo);
                 ConsoleKey keypressed = Console.ReadKey(true).Key;
                 while (keypressed != ConsoleKey.E && keypressed != ConsoleKey.A && keypressed != ConsoleKey.W && keypressed != ConsoleKey.Escape && keypressed != ConsoleKey.R && keypressed != ConsoleKey.T && keypressed != ConsoleKey.Y && keypressed != ConsoleKey.U && keypressed != ConsoleKey.I && keypressed != ConsoleKey.O && keypressed != ConsoleKey.P)
                 {
@@ -357,12 +406,12 @@ namespace Bi_Os_Coop.Class
                 if (keypressed == ConsoleKey.E) { MovieMenu.mainPagina(); }
                 else if (keypressed == ConsoleKey.I && login == "None")
                 {
-                    Tuple<string, dynamic> login2 = loginscreenthing(login);
+                    Tuple<string, dynamic> login2 = LoginScreenThing();
                     if (login2.Item1 != "1go2to3main4menu5")
                     {
                         login = login2.Item1;
                         if (login2.Item1 != "None") { user = login2.Item2; }
-                        jsonmainmenu(user, sort, reverse, login, language);
+                        JsonMainMenuSave(user, sort, reverse, login, language);
                         if (login == "Admin") { adminMenu.AM(); }
                     }
                 }
@@ -380,19 +429,47 @@ namespace Bi_Os_Coop.Class
                 else if (keypressed == ConsoleKey.P) { reverse = !reverse; sav = true; }
                 else if (keypressed == ConsoleKey.Escape) { Environment.Exit(0); }
             }
-            if (sav) { jsonmainmenu(user, sort, reverse, login, language); }
+            if (sav) { JsonMainMenuSave(user, sort, reverse, login, language); }
             Console.Clear();
             MainMenuShow();
         }
     }
+
+    /// <summary>
+    /// Maakt een object van de ingelogde user, sorteermethode, omkeren (true or false), het type van de ingelogde user en de taal.
+    /// </summary>
     class MainMenuThings
     {
+
+        /// <summary>
+        /// Variabele voor ingelogde gebruiker.
+        /// </summary>
         public CPeople.Person user { get; set; }
+
+        /// <summary>
+        /// Variabele voor welke sorteermethode gebruikt wordt.
+        /// </summary>
         public string sort { get; set; }
+
+        /// <summary>
+        /// Variabele voor omkeren die waar of onwaar kan zijn.
+        /// </summary>
         public bool reverse { get; set; }
+
+        /// <summary>
+        /// Variabele voor het type van de ingelogde gebruiker.
+        /// </summary>
         public string login { get; set; }
+
+        /// <summary>
+        /// Variabele voor taal voorkeur.
+        /// </summary>
         public string language { get; set; }
-        public void setlog(CPeople.Person user, string sort, bool reverse, string login, string language)
+
+        /// <summary>
+        /// Deze method maakt een MainMenuThings object van benodigde variabelen.
+        /// </summary>
+        public void SetGegevens(CPeople.Person user, string sort, bool reverse, string login, string language)
         {
             this.user = user;
             this.sort = sort;

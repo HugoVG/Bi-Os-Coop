@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text.Json;
 
@@ -43,7 +43,7 @@ namespace Bi_Os_Coop.Class
                 Console.Clear();
                 MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
                 dynamic user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
-                MainMenu.jsonmainmenu(loginscherm.mailwachtvragen(email, password), sort, reverse, "Person", language);
+                MainMenu.JsonMainMenuSave(loginscherm.mailwachtvragen(email, password), sort, reverse, "Person", language);
             }
             //Zodra je je geboortedatum invult wordt je leeftijd berekent. Als blijkt dat je nog geen 14 bent, dan spring je deze else in en sluit de functie af.
             else{
