@@ -12,6 +12,10 @@ namespace Bi_Os_Coop.Class
         public void menu(List<Zaal> selected)
         {
             writeZalen(selected);
+            if (selected.Count != 0)
+            {
+                return;
+            }
             Console.WriteLine("\nselect the number of the timeframe and date you want to order");
             string temp = Console.ReadLine();
             try
@@ -99,7 +103,9 @@ namespace Bi_Os_Coop.Class
             //List<Zaal> showingzaal = this.zalenList;
             foreach (Zaal zaal in selected)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write($"\n{counter} \t");
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.Write($"date:{zaal.date} \t");
                 Console.Write($"time:{zaal.time} \t");
                 Console.Write($"movie:{zaal.film.name} \t");
@@ -126,7 +132,12 @@ namespace Bi_Os_Coop.Class
             JsonSerializerOptions opt = new JsonSerializerOptions() { WriteIndented = true };
             return JsonSerializer.Serialize(this, opt);
         }
-
+        public static Zalen FromJson()
+        {
+            string json = Json.ReadJson(Json.Zalen);
+            Zalen temp = JsonSerializer.Deserialize<Zalen>(json);
+            return temp;
+        }
         public static Zalen FromJson(string json) => JsonSerializer.Deserialize<Zalen>(json);
         public void Reserveseats(int[] indexes, CPeople.Person orderer, string date, string time)
         {
@@ -159,7 +170,7 @@ namespace Bi_Os_Coop.Class
         /// <returns></returns>
         public Tuple<bool, List<Zaal>> selectZalen(string naam)
         {
-            IEnumerable<Zaal> selectedzalen = zalenList.Where(movie => movie.film.name.ToLower() == naam.ToLower() && DateTime.Parse(movie.date) >= DateTime.Now); //fixt ook de out dated films
+            IEnumerable<Zaal> selectedzalen = zalenList.Where(movie => movie.film.name.ToLower() == naam.ToLower() && DateTime.Parse(movie.date) >= DateTime.Today); //fixt ook de out dated films
             if (selectedzalen.Count() != 0)
                 return Tuple.Create(true, selectedzalen.ToList());
             else

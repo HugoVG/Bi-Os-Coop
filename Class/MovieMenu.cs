@@ -288,7 +288,6 @@ namespace Bi_Os_Coop.Class
                 return null;
             }
         }
-
         public static void inputcheck(string movsearch, List<string> mainmenulist = null)
         {
             Tuple<string, bool, string, string, List<string>> MovieInformation = showmov(movsearch, mainmenulist);
@@ -298,17 +297,27 @@ namespace Bi_Os_Coop.Class
                 string trailer = MovieInformation.Item1;
                 string moviename = MovieInformation.Item3;
                 //hierna moet als er ja geselecteerd is het resrvatie scherm komen!
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.Write("\nWilt u deze film reserveren? (");
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("J");
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.Write("/");
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("N");
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.Write(")\n");
+                IEnumerable<Zaal> selectedzalen = Zalen.FromJson().zalenList.Where(movie => movie.film.name.ToLower() == moviename.ToLower() && DateTime.Parse(movie.date) >= DateTime.Today); //fixt ook de out dated films
+                if (selectedzalen.Count() != 0)
+                {
 
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("\nWilt u deze film reserveren? (");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("J");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("/");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("N");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(")\n");
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write($"Ask an Admin to make a new showing for {moviename}\n");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
                 ConsoleKey keypressed = Console.ReadKey(true).Key;
                 if (hastrailer)
                 {
@@ -327,21 +336,24 @@ namespace Bi_Os_Coop.Class
                         }
                     } // Idiot Esception
                 }
-
-                //verander Console.WriteLine("succes"); naar het reserveer scherm van hogo
-                if (keypressed == ConsoleKey.J)
+                if (selectedzalen.Count() != 0)
                 {
-                    string json = Json.ReadJson("Zalen");
-                    Zalen zalen = Zalen.FromJson(json);
-                    Tuple<bool, List<Zaal>> zalenMetNaam = zalen.selectZalen(moviename);
-                    zalen.menu(zalenMetNaam.Item2);
-                    json = zalen.ToJson();
-                    Json.WriteJson("Zalen", json);
+                    //verander Console.WriteLine("succes"); naar het reserveer scherm van hogo
+                    if (keypressed == ConsoleKey.J)
+                    {
+                        Zalen zalen = Zalen.FromJson();
+                        Tuple<bool, List<Zaal>> zalenMetNaam = zalen.selectZalen(moviename);
+                        if (zalenMetNaam.Item1)
+                        {
+                            zalen.menu(zalenMetNaam.Item2);
+                            var json = zalen.ToJson();
+                            Json.WriteJson(Json.Zalen, json);
+                        }
+                    }
                 }
             }
         }
     }
-
     public class MovieInterpreter
     {
         public int movieid { get; set; }
