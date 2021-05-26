@@ -48,7 +48,7 @@ namespace Bi_Os_Coop.Class
                 string json1 = this.ToJson();
                 Json.WriteJson("Zalen", json1);
             }
-            catch (FormatException) { Console.WriteLine("Invalid Number"); menu(selected); }
+            catch (Exception ex) { Console.WriteLine("Invalid Number"); menu(selected); }
 
 
         }
