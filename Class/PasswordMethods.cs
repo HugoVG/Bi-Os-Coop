@@ -8,6 +8,8 @@ namespace Bi_Os_Coop.Class
     {
         public static dynamic SetNewPassword(string emailIngelogd, string passwordIngelogd)
         {
+            MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
+            string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
             MainMenu.ClearAndShowLogoPlusEsc("Admin");
             Console.WriteLine("Vul nu uw nieuwe wachtwoord in:");
             string newPassword = loginscherm.newwayoftyping();
@@ -29,6 +31,7 @@ namespace Bi_Os_Coop.Class
                                 {
                                     CPeople.Person tempPerson = jsonPeople.peopleList.Single(person => person.email == emailIngelogd && person.password == passwordIngelogd);
                                     tempPerson.password = newPassword;
+                                    MainMenu.JsonMainMenuSave(tempPerson, sort, reverse, login, language);
                                 }
 
                                 json = JsonSerializer.Serialize(jsonPeople);

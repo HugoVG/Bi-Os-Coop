@@ -11,7 +11,7 @@ namespace Bi_Os_Coop.Class
             // retrieve account that belongs to the logged in person
             string json = Json.ReadJson("Accounts");
             CPeople.People jsonPeople = JsonSerializer.Deserialize<CPeople.People>(json);
-            CPeople.Person accountUser = jsonPeople.peopleList.Single(person => person.name == loggedinPersonTest.name);
+            CPeople.Person accountUser = jsonPeople.peopleList.Single(person => person.id == loggedinPersonTest.id);
 
             bool done = false;
             while (done == false)
@@ -50,7 +50,8 @@ namespace Bi_Os_Coop.Class
                         break;
                     case ConsoleKey.D5:
                         MainMenu.ClearAndShowLogoPlusEsc("Update");
-                        ProfileMenu(accountUser);
+                        Console.Clear();
+                        ViewReservations.ShowRes(accountUser.id);
                         break;
                     case ConsoleKey.D6:
                         MainMenu.ClearAndShowLogoPlusEsc("Update");
@@ -80,8 +81,7 @@ namespace Bi_Os_Coop.Class
 
             // writing it to logged in user json
             MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
-            CPeople.Person user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
-            user.name = newName;
+            CPeople.Person user = ingelogdePersoon; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
             MainMenu.JsonMainMenuSave(user, sort, reverse, login, language);
 
             // end of method
@@ -109,8 +109,7 @@ namespace Bi_Os_Coop.Class
 
             // writing it to logged in user json
             MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
-            CPeople.Person user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
-            user.email = newEmail;
+            CPeople.Person user = ingelogdePersoon; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
             MainMenu.JsonMainMenuSave(user, sort, reverse, login, language);
 
             Console.ForegroundColor = ConsoleColor.Green;
@@ -128,7 +127,7 @@ namespace Bi_Os_Coop.Class
             Console.Write($"Je huidige telefoonnummer: {ingelogdePersoon.phonenumber}");
             string newPhoneNumber = Registerscreen.validCheck("nieuwe telefoonnummer", Registerscreen.phoneCheck);
             if (newPhoneNumber == "1go2to3main4menu5") { goto exit; }
-            ingelogdePersoon.email = newPhoneNumber;
+            ingelogdePersoon.phonenumber = newPhoneNumber;
 
             // writing it to accounts json
             JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
@@ -142,7 +141,7 @@ namespace Bi_Os_Coop.Class
             MainMenu.JsonMainMenuSave(user, sort, reverse, login, language);
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Je email is succesvol gewijzigd.");
+            Console.WriteLine("Je telefoonnummer is succesvol gewijzigd.");
             System.Threading.Thread.Sleep(1000);
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.Clear();
@@ -185,6 +184,9 @@ namespace Bi_Os_Coop.Class
                         if (keypressed == ConsoleKey.Escape) { goto exit; }
                         if (keypressed == ConsoleKey.J)
                         {
+                            MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
+                            string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
+
                             jsonPeople.peopleList.RemoveAt(index);
                             json = JsonSerializer.Serialize(jsonPeople);
                             Json.WriteJson("Accounts", json);
@@ -193,6 +195,8 @@ namespace Bi_Os_Coop.Class
                             Console.WriteLine("Uw account is succesvol verwijderd.");
                             System.Threading.Thread.Sleep(2000);
                             Console.ForegroundColor = ConsoleColor.Gray;
+                            Console.Clear();
+                            MainMenu.JsonMainMenuSave(null, sort, reverse, "None", language);
                             MainMenu.MainMenuShow();
                         }
                         if (keypressed == ConsoleKey.N)

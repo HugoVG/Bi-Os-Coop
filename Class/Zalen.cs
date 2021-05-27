@@ -12,7 +12,7 @@ namespace Bi_Os_Coop.Class
         public void menu(List<Zaal> selected)
         {
             writeZalen(selected);
-            if (selected.Count != 0)
+            if (selected.Count == 0)
             {
                 return;
             }

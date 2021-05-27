@@ -24,11 +24,10 @@ namespace Bi_Os_Coop.Class
                     seatlist.Add(i);
                     for (int j = 0; j < jsonZalen.zalenList[i].stoelen.Count(); j++)
                     {
-                        if (jsonZalen.zalenList[i].stoelen[j].isOccupiedBy == id &&
-                            jsonZalen.zalenList[i].stoelen[j].isOccupied)
+                        if (jsonZalen.zalenList[i].stoelen[j].isOccupiedBy == id && jsonZalen.zalenList[i].stoelen[j].isOccupied)
                         {seatlist.Add(j + 1);} // j is de seat index
                     }
-                    if (seatlist.Count() > 2) 
+                    if (seatlist.Count() > 1) 
                         reservationslist.Add(seatlist);
                 }
             //het eerste item in de list is de filmindex, de rest van de items zijn de stoelen
