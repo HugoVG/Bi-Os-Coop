@@ -224,17 +224,6 @@ namespace Bi_Os_Coop.Class
                 return;
             }
 
-
-            public void ViewReservedMovies()
-            {
-
-            }
-
-            public void BookTicket()
-            {
-
-            }
-
             public void CancelTicket()
             {
 

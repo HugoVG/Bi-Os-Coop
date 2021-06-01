@@ -178,7 +178,7 @@ namespace Bi_Os_Coop.Class
         }
 
         //functie om alle kenmerken van een film te laten zien
-        public static Tuple<string, bool, string, string, List<string>> showmov(string movsearch, List<string> mainmenulist = null)
+        public static Tuple<string, bool, int, string, List<string>> showmov(string movsearch, List<string> mainmenulist = null)
         {
             string json = Json.ReadJson("Films");
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
@@ -277,7 +277,7 @@ namespace Bi_Os_Coop.Class
 
                     Console.Write("\n");
                 }
-                return Tuple.Create(trailer, hastrailer, jsonFilms.movieList[tempMovie].name, movsearch, mainmenulist);
+                return Tuple.Create(trailer, hastrailer, jsonFilms.movieList[tempMovie].movieid, movsearch, mainmenulist);
             }
             else
             {
@@ -290,17 +290,37 @@ namespace Bi_Os_Coop.Class
         }
         public static void inputcheck(string movsearch, List<string> mainmenulist = null)
         {
-            Tuple<string, bool, string, string, List<string>> MovieInformation = showmov(movsearch, mainmenulist);
+            Tuple<string, bool, int, string, List<string>> MovieInformation = showmov(movsearch, mainmenulist);
             if (MovieInformation != null)
             {
+                MovieInterpreter chosenmovie = Films.FromJson().movieList.Single(movie => movie.movieid == MovieInformation.Item3);
+                MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
+                bool oldenough = Registerscreen.AgeVerify(things.user.age, chosenmovie.leeftijd);
                 bool hastrailer = MovieInformation.Item2;
                 string trailer = MovieInformation.Item1;
-                string moviename = MovieInformation.Item3;
+                string moviename = chosenmovie.name;
                 //hierna moet als er ja geselecteerd is het resrvatie scherm komen!
                 IEnumerable<Zaal> selectedzalen = Zalen.FromJson().zalenList.Where(movie => movie.film.name.ToLower() == moviename.ToLower() && DateTime.Parse(movie.date) >= DateTime.Today); //fixt ook de out dated films
-                if (selectedzalen.Count() != 0)
+                if (things.login == "Admin")
                 {
-
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write($"Je kan als admin niet reserveren voor {moviename}\n");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else if (!oldenough)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write($"Je bent niet oud genoeg voor {moviename}\n");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else if (selectedzalen.Count() == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write($"Vraag aan een admin voor een nieuwe screening voor {moviename}\n");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else if (selectedzalen.Count() != 0 && oldenough)
+                {
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.Write("\nWilt u deze film reserveren? (");
                     Console.ForegroundColor = ConsoleColor.Green;
@@ -315,7 +335,7 @@ namespace Bi_Os_Coop.Class
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write($"Ask an Admin to make a new showing for {moviename}\n");
+                    Console.Write($"Je kan niet reserveren voor {moviename}\n");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
                 ConsoleKey keypressed = Console.ReadKey(true).Key;

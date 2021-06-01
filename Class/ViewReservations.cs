@@ -202,7 +202,7 @@ namespace Bi_Os_Coop.Class
         /// <param name="tijd"></param>
         public static void ShowMovieDetails(int id, string moviename = null, int movieid = 0, string datum = null, string tijd = null)
         {
-            Tuple<string, bool, string, string, List<string>> MovieInformation = MovieMenu.showmov(moviename, null);
+            Tuple<string, bool, int, string, List<string>> MovieInformation = MovieMenu.showmov(moviename, null);
 
             ConsoleKey keypressed = Console.ReadKey(true).Key;
             if (MovieInformation.Item2)
