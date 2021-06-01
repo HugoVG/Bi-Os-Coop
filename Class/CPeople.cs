@@ -175,21 +175,29 @@ namespace Bi_Os_Coop.Class
                 return "1go2to3main4menu5";
             }
 
-            public void ForgotPassword()
+            public static void ForgotPassword()
             {
-                if (this.id == 0) // person is not logged in
+                MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
+                if (things.login == "None") // person is not logged in
                 {
                     // if the person is not logged in we ask for email and birthdate
                     Console.WriteLine("Vul uw emailadres in:");
-                    string currentEmail = Console.ReadLine();
+                    string currentEmail = loginscherm.newwayoftyping();
+                    if (currentEmail == "1go2to3main4menu5") { goto exit; }
 
                     Console.WriteLine("Vul uw geboortedatum in: (dd/mm/jjjj)");
-                    string currentAge = Console.ReadLine();
+                    string currentAge = loginscherm.getdate();
+                    if (currentAge == "1go2to3main4menu5") { goto exit; }
 
                     // checks if email and age are in the peopleList
                     if (PasswordMethods.MailLeeftijdCheck(currentEmail, currentAge))
                     {
-                        PasswordMethods.SetNewPassword(currentEmail, currentAge); // both are correct
+                        string account = Json.ReadJson("Accounts");
+                        CPeople.People accounts = CPeople.People.FromJson(account);
+                        CPeople.Person persoon = accounts.peopleList.Single(person => person.email == currentEmail && person.age == currentAge);
+                        PasswordMethods.SetNewPassword(currentEmail, persoon.password); // both are correct
+                        things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
+                        MainMenu.JsonMainMenuSave(things.user, things.sort, things.reverse, "Person", things.language);
                     }
                     else
                     {

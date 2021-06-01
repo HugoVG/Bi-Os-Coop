@@ -253,10 +253,21 @@ namespace Bi_Os_Coop.Class
             }
         }
 
-        public static dynamic login()
+        public static dynamic login(int fails = 3)
         {
             MainMenu.ClearAndShowLogoPlusEsc("Main Menu");
             Console.ForegroundColor = ConsoleColor.Gray;
+            if (fails < 3)
+            {
+                Program.newEntry($"{fails} pogingen over.\n\n", ConsoleColor.Red);
+            }
+            if (fails == 0)
+            {
+                Console.Clear();
+                MainMenu.ClearAndShowLogoPlusEsc("Wachtwoord Vergeten");
+                CPeople.Person.ForgotPassword();
+                return "1go2to3main4menu5";
+            }
             Console.WriteLine("E-mail:");
             string username = newwayoftyping();
             if (username != "1go2to3main4menu5")
@@ -267,7 +278,7 @@ namespace Bi_Os_Coop.Class
                 if (password != "1go2to3main4menu5")
                 {
                     var inlog = loginscherm.mailwachtvragen(username.ToLower(), password);
-                    try { if (inlog == false) { inlog = login(); } }
+                    try { if (inlog == false) { inlog = login(fails - 1); } }
                     catch
                     {
                         // ignored

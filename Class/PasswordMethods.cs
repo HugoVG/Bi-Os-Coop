@@ -42,7 +42,6 @@ namespace Bi_Os_Coop.Class
                                 System.Threading.Thread.Sleep(2000);
                                 Console.ForegroundColor = ConsoleColor.Gray;
                                 Console.Clear();
-                                MainMenu.MainMenuShow();
                             }
                             catch (InvalidOperationException)
                             {
