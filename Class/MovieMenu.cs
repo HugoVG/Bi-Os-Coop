@@ -389,7 +389,7 @@ namespace Bi_Os_Coop.Class
         public int MovieTime { get; set; }
 
         public void setFilm(int movieid, string name, string releasedate, List<string> genres, int leeftijd,
-            double beoordeling, List<string> acteurs, int movieTime, string taal = null, string beschrijving = null,
+            double beoordeling, List<string> acteurs, int movieTime = 0, string taal = null, string beschrijving = null,
             string trailer = null)
         {
             this.movieid = movieid;
@@ -402,7 +402,7 @@ namespace Bi_Os_Coop.Class
             this.taal = taal;
             this.beschrijving = beschrijving;
             this.trailer = trailer;
-            MovieTime = movieTime;
+            this.MovieTime = movieTime;
         }
     }
     public class Films
@@ -462,6 +462,7 @@ namespace Bi_Os_Coop.Class
                     Console.WriteLine("7. Taal aanpassen");
                     Console.WriteLine("8. Beschrijving aanpassen");
                     Console.WriteLine("9. Trailer aanpassen");
+                    Console.WriteLine("A. Tijdsduur aanpassen"); 
     
                     ConsoleKeyInfo keyReaded = Console.ReadKey();
     
@@ -505,6 +506,12 @@ namespace Bi_Os_Coop.Class
                             MainMenu.ClearAndShowLogoPlusEsc("Update");
                             UpdateTrailer(json, jsonFilms, tempMovie);
                             break;
+                        case ConsoleKey.A:
+                            MainMenu.ClearAndShowLogoPlusEsc("Update");
+                            Tuple<string, Films, MovieInterpreter> g = UpdateMovieTime(json, jsonFilms, tempMovie);
+                            if (g.Item1 == "fail") { while (g.Item1 == "fail") { g = UpdateMovieTime(json, jsonFilms, tempMovie); } }
+                        break;        
+
                         case ConsoleKey.Escape:
                             done = true;
                             break;
@@ -908,6 +915,39 @@ namespace Bi_Os_Coop.Class
             exit:
                 return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
             }
+
+            public static Tuple<string, Films, MovieInterpreter> UpdateMovieTime(string json, Films jsonFilms, MovieInterpreter tempMovie)
+            {
+                Console.WriteLine($"Wat is de tijdsduur van de film {tempMovie.name}?");
+                string newMinimumAge = loginscherm.newwayoftyping();
+                if (newMinimumAge == "1go2to3main4menu5") { return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie); }
+                try
+                {
+                    int newMovieTime = Convert.ToInt32(newMinimumAge);
+                    if (newMovieTime < 0) { Convert.ToInt32(ErrorMaker()); }
+                    tempMovie.MovieTime = newMovieTime;
+                }
+                catch (FormatException)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Voer een positief, heel getal in.");
+                    System.Threading.Thread.Sleep(1000);
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    return new Tuple<string, Films, MovieInterpreter>("fail", jsonFilms, tempMovie);
+                }
+
+                JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+                json = JsonSerializer.Serialize(jsonFilms, opt);
+                Json.WriteJson("Films", json);
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("De tijdsduur is succesvol gewijzigd.");
+                System.Threading.Thread.Sleep(1000);
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.Clear();
+                return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
+            }
+
     
             public static void DeleteMovie(string json, Films jsonFilms, string movieToRemove)
             {
