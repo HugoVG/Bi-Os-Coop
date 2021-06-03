@@ -179,17 +179,72 @@ namespace Bi_Os_Coop.Class
             Console.WriteLine($"Titel: {moviename}\nDatum: {datum}\nTijd: {tijd}");
             Console.WriteLine($"\nKies hier wat u met de film {moviename} wilt doen:");
             Console.WriteLine($"1) Film details bekijken");
-            Console.WriteLine($"2) Reservering wijzigen");
-            Console.WriteLine($"3) Reservering anuleren");
+            Console.WriteLine($"2) Reservering anuleren");
 
             ConsoleKey keypressed = Console.ReadKey(true).Key;
             while (keypressed != ConsoleKey.Escape && keypressed != ConsoleKey.D1 && keypressed != ConsoleKey.D2 && keypressed != ConsoleKey.D3) { keypressed = Console.ReadKey(true).Key; }
             if (keypressed == ConsoleKey.Escape) { Console.Clear(); ShowRes(id); }
             else if (keypressed == ConsoleKey.D1) { Console.Clear(); ShowMovieDetails(id, moviename, movieid, datum, tijd); }
             //vragen aan hugo of dit ingebouwd zit, zo ja, link het dan aan d2
-            else if (keypressed == ConsoleKey.D2) { Console.Clear(); ShowRes(id); }
-            //vragen of hugo hier iets voor heeft, anders zelf maken
-            else if (keypressed == ConsoleKey.D3) { Console.Clear(); ShowRes(id); }
+            else if (keypressed == ConsoleKey.D2)
+            {
+                Console.Clear();
+                DeleteReservation(moviename, id);
+            }
+        }
+
+        public static void DeleteReservation(string moviename, int id)
+        {
+            MainMenu.Logo();
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write($"Wilt u de reservering voor {moviename} anuleren? (");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("J");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("/");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("N");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(")\n");
+
+            ConsoleKey keypressed = Console.ReadKey(true).Key;
+            if (keypressed == ConsoleKey.J)
+            {
+                string jsonZalen = Json.ReadJson("Zalen");
+                Zalen zalen = Zalen.FromJson(jsonZalen);
+                if (jsonZalen != null)
+                {
+                    for (int i = 0; i < zalen.zalenList.Count(); i++)
+                    {
+                        for (int j = 0; j < zalen.zalenList[i].stoelen.Count(); j++)
+                        {
+                            if (zalen.zalenList[i].stoelen[j].isOccupiedBy == id && zalen.zalenList[i].stoelen[j].isOccupied && zalen.zalenList[i].film.name == moviename)
+                            {
+                                zalen.zalenList[i].stoelen[j].isOccupiedBy = 1;
+                                zalen.zalenList[i].stoelen[j].isOccupied = false;
+                            }
+                        }
+                    }
+                }
+                Json.WriteJson("Zalen", zalen.ToJson());
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Resservering succesvol geanuleerd");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Druk op esc om terug te gaan");
+                Console.ReadKey();
+                Console.Clear();
+                ShowRes(id);
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Resservering niet geanuleerd");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Druk op esc om terug te gaan");
+                Console.ReadKey();
+                Console.Clear();
+                ShowRes(id);
+            }
         }
 
         /// <summary>
