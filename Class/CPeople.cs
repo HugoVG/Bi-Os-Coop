@@ -65,6 +65,13 @@ namespace Bi_Os_Coop.Class
                 this.age = age;
                 this.phonenumber = phonenumber;
             }
+
+            public string ViewDetails()
+            {
+                return $"E-mail: {this.email}, Geboortedatum: {this.age}, Telefoonnummer: {this.phonenumber}";
+            }
+
+
             public bool isPerson()
             {
                 if (this.GetType().Equals(typeof(Person)))
@@ -149,16 +156,18 @@ namespace Bi_Os_Coop.Class
                 return;
             }
 
-            public dynamic ChangePassword()
+            public void ChangePassword()
             {
                 // asks for email and password of the person
                 Console.WriteLine("Vul uw emailadres in:");
                 string email = loginscherm.newwayoftyping();
+                if (email == "1go2to3main4menu5") { goto exit; }
                 if (email != "1go2to3main4menu5")
                 {
                     Console.WriteLine("Vul uw huidige wachtwoord in:");
                     SecureString pass = loginscherm.maskInputString();
                     string password = new System.Net.NetworkCredential(string.Empty, pass).Password;
+                    if (password == "1go2to3main4menu5") { goto exit; }
                     if (password != "1go2to3main4menu5")
                     {
                         // checks if email and password are in the peopleList
@@ -172,7 +181,8 @@ namespace Bi_Os_Coop.Class
                         }
                     }
                 }
-                return "1go2to3main4menu5";
+            exit:
+                return;
             }
 
             public static void ForgotPassword()

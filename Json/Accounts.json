@@ -35,6 +35,15 @@
       "age": "15/06/1997",
       "phonenumber": "0629050124",
       "BookedMovies": null
+    },
+    {
+      "id": 85570,
+      "name": "bjorn mooldijk",
+      "email": "json@bjorn.com",
+      "password": "jsonBjorn",
+      "age": "25/09/1990",
+      "phonenumber": "0612345678",
+      "BookedMovies": null
     }
   ],
   "adminList": [

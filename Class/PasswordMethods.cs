@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text.Json;
+using System.Security;
 
 namespace Bi_Os_Coop.Class
 {
@@ -74,31 +75,45 @@ namespace Bi_Os_Coop.Class
         public static void PasswordEntries()
         {
             int amountOfPasswordEntries = 3;
-            while (amountOfPasswordEntries > 0)
+            ConsoleKey keypressed = Console.ReadKey(true).Key;
+            while (amountOfPasswordEntries > 0 && keypressed != ConsoleKey.Escape)
             {
+                MainMenu.ClearAndShowLogoPlusEsc("Update");
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine($"Wachtwoord of email onjuist. U heeft nog {amountOfPasswordEntries} pogingen.");
+                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine("Vul nogmaals uw emailadres in:");
-                string currentEmail = Console.ReadLine();
+                string email = loginscherm.newwayoftyping();
 
-                Console.WriteLine("Vul nogmaals uw wachtwoord in:");
-                string currentPassword = Console.ReadLine();
-
-                if (MailWachtwoordCheck(currentEmail, currentPassword))
+                if (email == "1go2to3main4menu5") { goto exit; }
+                if (email != "1go2to3main4menu5")
                 {
-                    SetNewPassword(currentEmail, currentPassword);
-                }
-                else
-                {
-                    amountOfPasswordEntries--;
-                    if (amountOfPasswordEntries == 0)
+                    Console.WriteLine("Vul nogmaals uw wachtwoord in:");
+                    SecureString pass = loginscherm.maskInputString();
+                    string password = new System.Net.NetworkCredential(string.Empty, pass).Password;
+                    if (password == "1go2to3main4menu5") { goto exit; }
+                    if (password != "1go2to3main4menu5")
                     {
-                        Console.WriteLine("U heeft geen pogingen meer. Probeer het later nog eens.");
-                        System.Threading.Thread.Sleep(2000);
-                        Console.Clear();
-                        MainMenu.MainMenuShow();
+                        if (MailWachtwoordCheck(email, password))
+                        {
+                            SetNewPassword(email, password);
+                        }
+                        else
+                        {
+                            amountOfPasswordEntries--;
+                            if (amountOfPasswordEntries == 0)
+                            {
+                                MainMenu.ClearAndShowLogoPlusEsc("Update");
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("U heeft geen pogingen meer. Probeer het later nog eens.");
+                                System.Threading.Thread.Sleep(1500);
+                            }
+                        }
                     }
-                }
+                }                
             }
+        exit:
+            return;
         }
 
         public static bool MailLeeftijdCheck(string username, string age)

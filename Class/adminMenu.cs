@@ -5,7 +5,7 @@ namespace Bi_Os_Coop.Class
 {
     public class adminMenu
     {
-        public static void AM()
+        public static void AM(CPeople.Person loggedInAdmin, string login)
         {
             CPeople.Admin admin = new CPeople.Admin();
             adminMethods adminMethod = new adminMethods();
@@ -71,14 +71,24 @@ namespace Bi_Os_Coop.Class
                 //    Console.Clear();
                 //    MainMenu.MainMenuShow(null, "name", false, "None", "Nederlands");
                 //}
-                else
+                else if (keuze == ConsoleKey.W)
                 {
-                    Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Probeer het opnieuw.");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    adminMenu.AM();
+                    UserProfile.ProfileMenu(loggedInAdmin, login);
                 }
+                else if (keuze == ConsoleKey.Escape)
+                {
+                    inDitMenu = false;
+                    Console.Clear();
+                    break;
+                }
+                //else
+                //{
+                //    Console.Clear();
+                //    Console.ForegroundColor = ConsoleColor.Red;
+                //    Console.WriteLine("Probeer het opnieuw.");
+                //    Console.ForegroundColor = ConsoleColor.White;
+                //    adminMenu.AM(loggedInAdmin);
+                //}
             }
         }
 
@@ -87,7 +97,9 @@ namespace Bi_Os_Coop.Class
             //Tuple<int, bool[]> zalenInfo = adminMethod.CountCinemaHalls();
             Console.Clear();
             MainMenu.Logo();
-            Console.WriteLine("Admin Menu\n");
+            Console.WriteLine("Afsluiten (Esc)\n");
+            Console.WriteLine("Admin Menu");
+            Console.Write(MainMenu.LengthMaker(Console.WindowWidth - 34, ' ') + "Profiel (W)\n");
             Console.WriteLine("Maak een keuze: ");
             Console.WriteLine("1) Naar Main Menu");
             Console.WriteLine("2) Film toevoegen");

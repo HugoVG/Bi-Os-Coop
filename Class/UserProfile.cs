@@ -6,7 +6,7 @@ namespace Bi_Os_Coop.Class
 {
     public class UserProfile
     {
-        public static void ProfileMenu(CPeople.Person loggedinPersonTest)
+        public static void ProfileMenu(CPeople.Person loggedinPersonTest, string login)
         {
             // retrieve account that belongs to the logged in person
             string json = Json.ReadJson("Accounts");
@@ -18,15 +18,16 @@ namespace Bi_Os_Coop.Class
             {
                 Console.Clear();
                 MainMenu.Logo();
-                Console.WriteLine($"Profiel: {accountUser.name}\n");
+                Console.WriteLine("Afsluiten (Esc)\n");
+                Console.WriteLine($"Naam: {accountUser.name}");
+                Console.WriteLine($"{accountUser.ViewDetails()}\n");
                 Console.WriteLine("======Profiel Menu======");
                 Console.WriteLine("1. Naam aanpassen");
                 Console.WriteLine("2. Email aanpassen");
                 Console.WriteLine("3. Telefoonnummer aanpassen");
                 Console.WriteLine("4. Wachtwoord veranderen");
-                Console.WriteLine("5. Reserveringen bekijken");
-                Console.WriteLine("6. Account verwijderen");
-                Console.WriteLine("7. Terug naar hoofdmenu");
+                if (login == "Person") { Console.WriteLine($"5. Reserveringen bekijken"); }
+                if (login == "Person") { Console.WriteLine($"6. Account verwijderen"); }
 
                 ConsoleKeyInfo keyReaded = Console.ReadKey();
 
@@ -51,16 +52,15 @@ namespace Bi_Os_Coop.Class
                     case ConsoleKey.D5:
                         MainMenu.ClearAndShowLogoPlusEsc("Update");
                         Console.Clear();
-                        ViewReservations.ShowRes(accountUser.id);
+                        if (login == "Person") { ViewReservations.ShowRes(accountUser.id); }
                         break;
                     case ConsoleKey.D6:
                         MainMenu.ClearAndShowLogoPlusEsc("Update");
-                        accountUser.DeleteAccount(accountUser);
+                        if (login == "Person") { accountUser.DeleteAccount(accountUser); }
                         break;
-                    case ConsoleKey.D7:
+                    case ConsoleKey.Escape:
                         done = true;
                         Console.Clear();
-                        MainMenu.MainMenuShow();
                         break;
                 }
             }
@@ -167,7 +167,6 @@ namespace Bi_Os_Coop.Class
                         Console.WriteLine("Account niet gevonden. Neem contact op met de klantenservice.");
                         System.Threading.Thread.Sleep(1000);
                         Console.ForegroundColor = ConsoleColor.Gray;
-                        MainMenu.MainMenuShow();
                     }
                     else
                     {
@@ -205,10 +204,7 @@ namespace Bi_Os_Coop.Class
                             Console.WriteLine("\nBedankt voor het blijven!");
                             Console.ForegroundColor = ConsoleColor.Gray;
                             Console.WriteLine("U wordt nu teruggestuurd naar het hoofdmenu.");
-                            System.Threading.Thread.Sleep(2000);
-                            Console.ForegroundColor = ConsoleColor.Gray;
-                            Console.Clear();
-                            MainMenu.MainMenuShow(); ;
+                            System.Threading.Thread.Sleep(1500);
                         }
                     }
                 exit:
@@ -217,11 +213,8 @@ namespace Bi_Os_Coop.Class
                 else
                 {
                     MainMenu.ClearAndShowLogoPlusEsc("Update");
-                    Console.WriteLine("Account bestaat niet.");
-                    Console.WriteLine("U wordt nu teruggestuurd naar het hoofdmenu.");
-                    System.Threading.Thread.Sleep(1000);
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                    MainMenu.MainMenuShow();
+                    Console.WriteLine("Account niet gevonden. Neem contact op met de klantenservice.");
+                    System.Threading.Thread.Sleep(1500);
                 }
             }
             catch (InvalidOperationException)
@@ -229,9 +222,7 @@ namespace Bi_Os_Coop.Class
                 MainMenu.ClearAndShowLogoPlusEsc("Update");
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Account niet gevonden. Neem contact op met de klantenservice.");
-                System.Threading.Thread.Sleep(1000);
-                Console.ForegroundColor = ConsoleColor.Gray;
-                MainMenu.MainMenuShow();
+                System.Threading.Thread.Sleep(1500);
             }
         }
     }

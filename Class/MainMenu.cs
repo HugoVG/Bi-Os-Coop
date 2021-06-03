@@ -399,7 +399,7 @@ namespace Bi_Os_Coop.Class
                 else { LogOutText(); }
                 string goAM = "Admin Menu (A)";
                 if (login == "Admin") { Console.WriteLine(LengthMaker(Console.WindowWidth - goAM.Length, ' ') + goAM); }
-                string goUserProfile = "Profile (W)";
+                string goUserProfile = "Profiel (W)";
                 if (login == "Person") { Console.WriteLine(LengthMaker(Console.WindowWidth - goUserProfile.Length, ' ') + goUserProfile); }
                 SortText(sort, reverse);
 
@@ -421,7 +421,7 @@ namespace Bi_Os_Coop.Class
                         login = login2.Item1;
                         if (login2.Item1 != "None") { user = login2.Item2; }
                         JsonMainMenuSave(user, sort, reverse, login, language);
-                        if (login == "Admin") { adminMenu.AM(); }
+                        if (login == "Admin") { adminMenu.AM(user, login); }
                     }
                 }
                 else if (keypressed == ConsoleKey.O && login == "None")
@@ -429,8 +429,8 @@ namespace Bi_Os_Coop.Class
                     Console.Clear();
                     Registerscreen.CreateAccount();
                 }
-                else if (keypressed == ConsoleKey.A) { if (login == "Admin") { adminMenu.AM(); } }
-                else if (keypressed == ConsoleKey.W) { if (login == "Person") { UserProfile.ProfileMenu(user); } }
+                else if (keypressed == ConsoleKey.A) { if (login == "Admin") { adminMenu.AM(user, login); } }
+                else if (keypressed == ConsoleKey.W) { if (login == "Person") { UserProfile.ProfileMenu(user, login); } }
                 else if (keypressed == ConsoleKey.R && sort != "name") { sort = "name"; sav = true; }
                 else if (keypressed == ConsoleKey.T && sort != "rating") { sort = "rating"; sav = true; }
                 else if (keypressed == ConsoleKey.Y && sort != "release") { sort = "release"; sav = true; }
