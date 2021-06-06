@@ -307,6 +307,10 @@ namespace Bi_Os_Coop.Class
                     Console.Write($"Je kan als admin niet reserveren voor {moviename}\n");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
+                else if (things.login == "Employee")
+                {
+                    Reservations.MakeReservation(moviename);
+                }
                 else if (!oldenough)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -316,7 +320,7 @@ namespace Bi_Os_Coop.Class
                 else if (selectedzalen.Count() == 0)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write($"Vraag aan een admin voor een nieuwe screening voor {moviename}\n");
+                    Console.Write($"Vraag aan een medewerker voor een nieuwe screening voor {moviename}\n");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
                 else if (selectedzalen.Count() != 0 && oldenough)
@@ -554,7 +558,7 @@ namespace Bi_Os_Coop.Class
                 string json = Json.ReadJson("Films");
                 Films MovieLibrary = JsonSerializer.Deserialize<Films>(json);
     
-                Console.WriteLine("Voeg hier een nieuwe film toe.");
+                Console.WriteLine("\nVoeg hier een nieuwe film toe.");
                 Console.WriteLine("Naam film:");
                 string naamFilm = loginscherm.FirstCharToUpper(loginscherm.newwayoftyping());
                 if (naamFilm == "1go2to3main4menu5") { goto exit; }

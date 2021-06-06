@@ -10,27 +10,27 @@ namespace Bi_Os_Coop.Class
         /// <summary>
         /// CreateAccount is een functie waarin alle functies uit de class registerscreen achter elkaar worden uitgevoerd. Als je dus een heel nieuw account wilt maken moet je deze functie uitvoeren.
         /// </summary>
-        public static void CreateAccount()
+        public static CPeople.Person CreateAccount()
         {
             //In de 4 regels hieronder wordt alle info uit Accounts.json gehaald en in de variabele jsonPeople gestopt.
             string json = Json.ReadJson("Accounts");
             CPeople.People jsonPeople = CPeople.People.FromJson(json);
-            Console.WriteLine("Terug naar hoofdmenu (Esc)");
+            MainMenu.ClearAndShowLogoPlusEsc("Main");
 
             //De if statements hieronder checken of de input van de gebruiker volgens format is en of het e-mailadres of het telefoonnummer al gekoppeld is aa een account.
-            string naam = validCheck("voor- en achternaam", lengthCheck);
-            if (naam == "1go2to3main4menu5") { return; }
-            string birthdate = validCheck("geboortedatum (dd/mm/jjjj)", dateCheck);
-            if (birthdate == "1go2to3main4menu5") { return; }
+            string naam = validCheck("uw voor- en achternaam", lengthCheck);
+            if (naam == "1go2to3main4menu5") { return null; }
+            string birthdate = validCheck("uw geboortedatum (dd/mm/jjjj)", dateCheck);
+            if (birthdate == "1go2to3main4menu5") { return null; }
             if (AgeVerify(birthdate, 14)) {
 
                 int id = createID();
-                string email = validCheck("e-mailadres", emailCheck);
-                if (email == "1go2to3main4menu5") { return; }
-                string phoneNumber = validCheck("mobiele telefoonnummer", phoneCheck);
-                if (phoneNumber == "1go2to3main4menu5") { return; }
-                string password = validCheck("wachtwoord", lengthCheck);
-                if (password == "1go2to3main4menu5") { return; }
+                string email = validCheck("uw e-mailadres", emailCheck);
+                if (email == "1go2to3main4menu5") { return null; }
+                string phoneNumber = validCheck("uw mobiele telefoonnummer", phoneCheck);
+                if (phoneNumber == "1go2to3main4menu5") { return null; }
+                string password = validCheck("uw wachtwoord", lengthCheck);
+                if (password == "1go2to3main4menu5") { return null; }
 
                 //In de volgende code worden alle inputs van de gebruiker opgeslagen
                 CPeople.Person customer = new CPeople.Person();
@@ -40,17 +40,20 @@ namespace Bi_Os_Coop.Class
                 Json.WriteJson("Accounts", add);
                 Program.newEntry("\nUw account is gemaakt.\nDruk op ENTER om verder te gaan.");
                 Console.ReadLine();
-                Console.Clear();
-                MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
-                dynamic user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
-                MainMenu.JsonMainMenuSave(loginscherm.mailwachtvragen(email, password), sort, reverse, "Person", language);
+                return customer;
+                //Console.Clear();
+                //MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
+                //dynamic user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
+                //MainMenu.JsonMainMenuSave(loginscherm.mailwachtvragen(email, password), sort, reverse, "Person", language);
             }
             //Zodra je je geboortedatum invult wordt je leeftijd berekent. Als blijkt dat je nog geen 14 bent, dan spring je deze else in en sluit de functie af.
-            else{
+            else
+            {
                 Program.newEntry("\nSorry, je kunt pas een account aanmaken als je 14 jaar of ouder bent.", ConsoleColor.Red);
                 Program.newEntry("\nDruk op enter om terug te gaan.");
                 Console.ReadLine();
                 Console.Clear();
+                return null;
             }
         }
 
@@ -114,7 +117,7 @@ namespace Bi_Os_Coop.Class
             {
                 if (print == "geboortedatum (dd/mm/jjjj)")
                 {
-                    Console.WriteLine($"\nTyp hier uw {print}:");
+                    Console.WriteLine($"\nTyp hier {print}:");
                     input = loginscherm.getdate();
                     if (input == "1go2to3main4menu5")
                     {
@@ -125,7 +128,7 @@ namespace Bi_Os_Coop.Class
                 }
                 else
                 {
-                    Console.WriteLine($"\nTyp hier uw {print}:");
+                    Console.WriteLine($"\nTyp hier {print}:");
                     input = loginscherm.newwayoftyping();
                     if (input == "1go2to3main4menu5")
                     {

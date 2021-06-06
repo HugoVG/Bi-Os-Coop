@@ -290,4 +290,141 @@ namespace Bi_Os_Coop.Class
             return zaalnummer;
         }
     }
+
+    public static class Reservations
+    {
+        public static int NumberOfPeople()
+        {
+            Console.WriteLine("\nVoor hoeveel personen moet je een reservatie maken?");
+            try
+            {
+                int count = Convert.ToInt32(Console.ReadLine());
+                return count;
+            }
+            catch (FormatException)
+            {
+                Program.newEntry("Not a number. Try again", ConsoleColor.Yellow);
+                System.Threading.Thread.Sleep(1000);
+                MainMenu.ClearAndShowLogoPlusEsc("Film menu");
+                return NumberOfPeople();
+            }
+        }
+
+        public static CPeople.Person NotAnExistingCustomer()
+        {
+            MainMenu.ClearAndShowLogoPlusEsc("Film");
+            Console.WriteLine("\nPersoon heeft nog geen account. Een account is verplicht om naar de film te kunnen gaan.");
+            Console.WriteLine("Wilt de persoon zich registreren? (j/n)");
+            ConsoleKey keypressed = Console.ReadKey(true).Key;
+            while (keypressed != ConsoleKey.J && keypressed != ConsoleKey.N && keypressed != ConsoleKey.Escape)
+            {
+                keypressed = Console.ReadKey(true).Key;
+            }
+            if (keypressed == ConsoleKey.Escape) { goto exit; }
+            if (keypressed == ConsoleKey.J) // person wants to create a new account
+            {
+                Console.Clear();
+                return Registerscreen.CreateAccount();
+
+            }
+            else if (keypressed == ConsoleKey.N) // person is send to main menu
+            {
+                Console.WriteLine("\nZonder account kan er geen film gereserveerd worden. U keert nu terug naar het filmoverzicht.");
+                System.Threading.Thread.Sleep(2500);
+                Console.Clear();
+                MovieMenu.mainPagina();
+            }
+        exit:
+            return null;
+        }
+
+        public static void MakeReservationForCustomers(string movieName)
+        {
+            MainMenu.ClearAndShowLogoPlusEsc("Film");
+            List<CPeople.Person> personsToMakeReservationFor = new List<CPeople.Person>();
+            int numberOfPeople = NumberOfPeople();
+
+            for (int i = 1; i <= numberOfPeople; i++)
+            {
+                Console.WriteLine($"\nNaam Persoon {i}:");
+                string name = loginscherm.newwayoftyping();
+                if (name == "1go2to3main4menu5") { goto exit; }
+
+                Console.WriteLine($"Geboortedatum Persoon {i}:");
+                string currentAge = loginscherm.getdate();
+                if (currentAge == "1go2to3main4menu5") { goto exit; }
+
+                // checks if name and age are in the peopleList
+                if (PasswordMethods.NameBirthdayCheck(name, currentAge))
+                {
+                    string account = Json.ReadJson("Accounts");
+                    CPeople.People accounts = CPeople.People.FromJson(account);
+                    CPeople.Person existingPerson = accounts.peopleList.Single(person => person.name.ToLower() == name.ToLower() && person.age == currentAge);
+                    personsToMakeReservationFor.Add(existingPerson);
+                }
+                else
+                {
+                    CPeople.Person newCustomer = NotAnExistingCustomer();
+                    if (newCustomer != null)
+                        personsToMakeReservationFor.Add(newCustomer);
+                    else
+                        MovieMenu.mainPagina();
+                }
+            }
+
+            Zalen zalen = Zalen.FromJson();
+            Tuple<bool, List<Zaal>> zalenMetNaam = zalen.selectZalen(movieName);
+            if (zalenMetNaam.Item1)
+            {
+                zalen.menu(zalenMetNaam.Item2);
+                var json = zalen.ToJson();
+                Json.WriteJson(Json.Zalen, json);
+            }
+
+        exit:
+            return;
+        }
+
+        public static void MakeReservation(string movieName)
+        {
+            MainMenu.ClearAndShowLogoPlusEsc("Film");
+
+            Console.WriteLine($"\nNaam Persoon:");
+            string name = loginscherm.newwayoftyping();
+            if (name == "1go2to3main4menu5") { goto exit; }
+
+            Console.WriteLine($"Geboortedatum Persoon:");
+            string currentAge = loginscherm.getdate();
+            if (currentAge == "1go2to3main4menu5") { goto exit; }
+
+            // checks if name and age are in the peopleList
+            if (PasswordMethods.NameBirthdayCheck(name, currentAge))
+            {
+                string account = Json.ReadJson("Accounts");
+                CPeople.People accounts = CPeople.People.FromJson(account);
+                CPeople.Person existingPerson = accounts.peopleList.Single(person => person.name.ToLower() == name.ToLower() && person.age == currentAge);
+            }
+            else
+            {
+                CPeople.Person tempPerson = NotAnExistingCustomer();
+                CPeople.Person existingPerson = null;
+                if (tempPerson != null)
+                    existingPerson = tempPerson;
+                else
+                    MovieMenu.mainPagina();
+            }
+
+            Zalen zalen = Zalen.FromJson();
+            Tuple<bool, List<Zaal>> zalenMetNaam = zalen.selectZalen(movieName);
+            if (zalenMetNaam.Item1)
+            {
+                zalen.menu(zalenMetNaam.Item2);
+                var json = zalen.ToJson();
+                Json.WriteJson(Json.Zalen, json);
+            }
+
+        exit:
+            return;
+        }
+    }
 }
