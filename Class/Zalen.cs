@@ -16,14 +16,14 @@ namespace Bi_Os_Coop.Class
             {
                 return;
             }
-            Console.WriteLine("\nselect the number of the timeframe and date you want to order");
+            Console.WriteLine("\nSelecteer het nummer van het tijdvak en de datum wanneer u wilt reserveren");
             string temp = Console.ReadLine();
             try
             {
                 int index = Convert.ToInt32(temp);
                 Zaal choosenone = selected.ElementAt(index-1);
                 choosenone.showStool();
-                Console.WriteLine("\nSelect the seats you want to reserve add an ',' between the stools ");
+                Console.WriteLine("\nSelecteer de stoelen die u wilt reserveren en zet een ',' tussen de stoelen");
                 string henk = Console.ReadLine();
                 if (henk != null)
                 {
@@ -34,7 +34,7 @@ namespace Bi_Os_Coop.Class
                     {
                         if (Convert.ToInt32(i) == 0)
                         {
-                            Console.WriteLine("input was not a number");
+                            Console.WriteLine("Uw input was geen nummer. Probeer het nog eens");
                         }
 
                         allIndexes.Add(Convert.ToInt32(i) - 1);
@@ -52,7 +52,7 @@ namespace Bi_Os_Coop.Class
                 string json1 = this.ToJson();
                 Json.WriteJson("Zalen", json1);
             }
-            catch (Exception ex) { Console.WriteLine("Invalid Number"); menu(selected); }
+            catch (Exception ex) { Console.WriteLine("Ongeldig nummer"); menu(selected); }
 
 
         }
@@ -77,11 +77,11 @@ namespace Bi_Os_Coop.Class
             foreach (Zaal zaal in this.zalenList)
             {
                 Console.Write($"\n{counter} \t");
-                Console.Write($"date:{zaal.date} \t");
-                Console.Write($"time:{zaal.time} \t");
-                Console.Write($"movie:{zaal.film.name} \t");
-                Console.Write($"release Date:{zaal.film.releasedate} \t");
-                Console.Write($"Score:{zaal.film.beoordeling}\t");
+                Console.Write($"datum:{zaal.date} \t");
+                Console.Write($"tijd:{zaal.time} \t");
+                Console.Write($"film:{zaal.film.name} \t");
+                Console.Write($"releasedatum:{zaal.film.releasedate} \t");
+                Console.Write($"beoordeling:{zaal.film.beoordeling}\t");
                 if (zaal.stoelen.Count == 630)
                 {
                     Console.Write("Zaal: 1\t");
@@ -106,11 +106,11 @@ namespace Bi_Os_Coop.Class
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write($"\n{counter} \t");
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.Write($"date:{zaal.date} \t");
-                Console.Write($"time:{zaal.time} \t");
-                Console.Write($"movie:{zaal.film.name} \t");
-                Console.Write($"release Date:{zaal.film.releasedate} \t");
-                Console.Write($"Score:{zaal.film.beoordeling}\t");
+                Console.Write($"datum:{zaal.date} \t");
+                Console.Write($"tijd:{zaal.time} \t");
+                Console.Write($"film:{zaal.film.name} \t");
+                Console.Write($"releasedatum:{zaal.film.releasedate} \t");
+                Console.Write($"beoordeling:{zaal.film.beoordeling}\t");
                 if (zaal.stoelen.Count == 630)
                 {
                     Console.Write("Zaal: 1\t");
@@ -175,7 +175,7 @@ namespace Bi_Os_Coop.Class
                 return Tuple.Create(true, selectedzalen.ToList());
             else
             {
-                Console.WriteLine($"Couldn't find any movie with name {naam}");
+                Console.WriteLine($"We konden geen film vinden met de naam {naam}");
                 return Tuple.Create(false, selectedzalen.ToList());
             }
         }
@@ -254,11 +254,11 @@ namespace Bi_Os_Coop.Class
             //List<Zaal> showingzaal = this.zalenList;
             foreach (Zaal zaal in selected)
             {
-                Console.Write($"\ndate:{zaal.date} \t");
-                Console.Write($"time:{zaal.time} \t");
-                Console.Write($"movie:{zaal.film.name} \t");
-                Console.Write($"release Date:{zaal.film.releasedate} \t");
-                Console.Write($"Score:{zaal.film.beoordeling} ");
+                Console.Write($"\ndatum:{zaal.date} \t");
+                Console.Write($"tijd:{zaal.time} \t");
+                Console.Write($"film:{zaal.film.name} \t");
+                Console.Write($"releasedatum:{zaal.film.releasedate} \t");
+                Console.Write($"beoordeling:{zaal.film.beoordeling} ");
             }
         }
 
@@ -289,7 +289,7 @@ namespace Bi_Os_Coop.Class
                 {
                     if (stoelen.ElementAt(index).isOccupied || stoelen.ElementAt(index).Price == Stoel.price.NONE)
                     {
-                        Console.WriteLine($"{index + 1} stool is already Occupied");
+                        Console.WriteLine($"{index + 1} stoel is al bezet");
                         return -1;
                     }
                 }
@@ -305,7 +305,7 @@ namespace Bi_Os_Coop.Class
             {
                 if (ex is ArgumentException)
                 {
-                    Console.WriteLine("\n\none of the chairs is not valid"); // Textbox.Hint
+                    Console.WriteLine("\n\neen van de stoelen is niet geldig"); // Textbox.Hint
                     return 0;
                 }
                 else throw;

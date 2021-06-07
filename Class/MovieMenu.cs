@@ -624,7 +624,7 @@ namespace Bi_Os_Coop.Class
                     goto exit;
                 }
 
-                Console.WriteLine("Voeg tussen elke genre een komma toe, bijv: Komedie, Actie, Thriller");
+                Console.WriteLine("Voeg tussen elke genre een komma toe, bijvoorbeeld: Komedie, Actie, Thriller");
                 Console.WriteLine("Genres film:");
                 string genres = loginscherm.newwayoftyping();
                 if (genres == "1go2to3main4menu5")
@@ -640,7 +640,7 @@ namespace Bi_Os_Coop.Class
                 }
 
                 Console.WriteLine(
-                    "Voeg tussen elke acteur een komma toe, bijv: Sean Connery, Ryan Gosling, Ryan Reynolds");
+                    "Voeg tussen elke acteur een komma toe, bijvoorbeeld: Sean Connery, Ryan Gosling, Ryan Reynolds");
                 Console.WriteLine("Acteurs film:");
                 string acteurs = loginscherm.newwayoftyping();
 
@@ -819,7 +819,7 @@ namespace Bi_Os_Coop.Class
                 MovieInterpreter tempMovie)
             {
                 Console.WriteLine($"Wat is/zijn de nieuwe genre(s) van de film {tempMovie.name}?");
-                Console.WriteLine("Voeg tussen elke genre een komma toe, bijv: Komedie, Actie, Thriller");
+                Console.WriteLine("Voeg tussen elke genre een komma toe, bijvoorbeeld: Komedie, Actie, Thriller");
                 Console.WriteLine("Genres film:");
                 string genres = loginscherm.newwayoftyping();
 
@@ -855,7 +855,7 @@ namespace Bi_Os_Coop.Class
             {
                 Console.WriteLine($"Wie zijn de nieuwe acteurs van de film {tempMovie.name}?");
                 Console.WriteLine(
-                    "Voeg tussen elke acteur een komma toe, bijv: Sean Connery, Ryan Gosling, Ryan Reynolds");
+                    "Voeg tussen elke acteur een komma toe, bijvoorbeeld: Sean Connery, Ryan Gosling, Ryan Reynolds");
                 Console.WriteLine("Acteurs film:");
                 string actors = loginscherm.newwayoftyping();
 

@@ -58,7 +58,7 @@ namespace Bi_Os_Coop.Class
                         if (isleapyear(Convert.ToInt32(newstring.Substring(6)))) { unlocked = true; }
                         else
                         {
-                            Program.newEntry("\nNot a leap year\n", ConsoleColor.Red);
+                            Program.newEntry("\nDit is geen schrikkeljaar\n", ConsoleColor.Red);
                             newstring = "";
                             Console.Write(newstring);
                         }

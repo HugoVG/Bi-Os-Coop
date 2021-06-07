@@ -295,7 +295,7 @@ namespace Bi_Os_Coop.Class
     {
         public static int NumberOfPeople()
         {
-            Console.WriteLine("\nVoor hoeveel personen moet je een reservatie maken?");
+            Console.WriteLine("\nVoor hoeveel personen moet je een reservering maken?");
             try
             {
                 int count = Convert.ToInt32(Console.ReadLine());
@@ -303,7 +303,7 @@ namespace Bi_Os_Coop.Class
             }
             catch (FormatException)
             {
-                Program.newEntry("Not a number. Try again", ConsoleColor.Yellow);
+                Program.newEntry("Dit is geen geldig nummer. Probeer het nog eens", ConsoleColor.Yellow);
                 System.Threading.Thread.Sleep(1000);
                 MainMenu.ClearAndShowLogoPlusEsc("Film menu");
                 return NumberOfPeople();
@@ -314,7 +314,7 @@ namespace Bi_Os_Coop.Class
         {
             MainMenu.ClearAndShowLogoPlusEsc("Film");
             Console.WriteLine("\nPersoon heeft nog geen account. Een account is verplicht om naar de film te kunnen gaan.");
-            Console.WriteLine("Wilt de persoon zich registreren? (j/n)");
+            Console.WriteLine("Wil de persoon zich registreren? (j/n)");
             ConsoleKey keypressed = Console.ReadKey(true).Key;
             while (keypressed != ConsoleKey.J && keypressed != ConsoleKey.N && keypressed != ConsoleKey.Escape)
             {
