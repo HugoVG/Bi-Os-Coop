@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace Bi_Os_Coop.Class
 {
-    class MovieMenu
+    public class MovieMenu
     {
         public static void mainPagina(int index = 1)
         {
@@ -306,18 +306,27 @@ namespace Bi_Os_Coop.Class
                 MovieInterpreter chosenmovie =
                     Films.FromJson().movieList.Single(movie => movie.movieid == MovieInformation.Item3);
                 MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
-                bool oldenough = Registerscreen.AgeVerify(things.user.age, chosenmovie.leeftijd);
+                bool oldenough;
+                if (things.user == null) { oldenough = false; }
+                else
+                {
+                    oldenough = Registerscreen.AgeVerify(things.user.age, chosenmovie.leeftijd);
+                }
                 bool hastrailer = MovieInformation.Item2;
                 string trailer = MovieInformation.Item1;
                 string moviename = chosenmovie.name;
                 //hierna moet als er ja geselecteerd is het resrvatie scherm komen!
-                IEnumerable<Zaal> selectedzalen = Zalen.FromJson().zalenList.Where(movie =>
-                    movie.film.name.ToLower() == moviename.ToLower() &&
-                    DateTime.Parse(movie.date) >= DateTime.Today); //fixt ook de out dated films
+                IEnumerable<Zaal> selectedzalen = Zalen.FromJson().zalenList.Where(movie => movie.film.name.ToLower() == moviename.ToLower() && DateTime.Parse(movie.date) >= DateTime.Today); //fixt ook de out dated films
                 if (things.login == "Admin")
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write($"Je kan als admin niet reserveren voor {moviename}\n");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else if (things.user == null)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write($"Je bent niet ingelogd!\n");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
                 else if (things.login == "Employee")

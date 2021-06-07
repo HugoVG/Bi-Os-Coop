@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Text.Json;
+using static Bi_Os_Coop.Class.MovieMenu;
 
 namespace Bi_Os_Coop.Class
 {
@@ -54,7 +55,7 @@ namespace Bi_Os_Coop.Class
             public string password { get; set; }
             public string age { get; set; }
             public string phonenumber { get; set; }
-            public List<MovieInterpreter> BookedMovies { get; set; }
+            List<MovieInterpreter> BookedMovies { get; set; }
             //If you gonna edit this EDIT ALL
             public void setPerson(int id, string name, string email, string password, string age, string phonenumber)
             {
