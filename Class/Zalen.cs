@@ -192,10 +192,10 @@ namespace Bi_Os_Coop.Class
         private int stoelWidth { get; set; }
         public string date { get; set; }
         public string time { get; set; }
-        public MovieInterpreter film { get; set; } //Film film {get; set;}
+        public MovieMenu.MovieInterpreter film { get; set; } //Film film {get; set;}
         public List<Stoel> stoelen { get; set; }
 
-        public void setZaal(string date, string time, int totalStools, MovieInterpreter film = null)
+        public void setZaal(string date, string time, int totalStools, MovieMenu.MovieInterpreter film = null)
         {
             this.date = date;
             this.time = time;

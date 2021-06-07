@@ -58,7 +58,7 @@ namespace Bi_Os_Coop.Class
         public static List<int> SortByName()
         {
             // Maakt een dictionary van films uit jsonFilms met de movieid en naam.
-            Films jsonFilms = GetFilmList();
+            MovieMenu.Films jsonFilms = GetFilmList();
             var movielistname = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, name => name.name);
 
             // Checkt of er niet een film is zonder naam.
@@ -86,10 +86,10 @@ namespace Bi_Os_Coop.Class
         /// <summary>
         /// Deze method returnt de films uit de json.
         /// </summary>
-        public static Films GetFilmList()
+        public static MovieMenu.Films GetFilmList()
         {
             string json = Json.ReadJson("Films");
-            return JsonSerializer.Deserialize<Films>(json);
+            return JsonSerializer.Deserialize<MovieMenu.Films>(json);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Bi_Os_Coop.Class
         public static List<int> SortByRelease()
         {
             // Maakt een dictionary van films uit jsonFilms met de movieid en releasedate.
-            Films jsonFilms = GetFilmList();
+            MovieMenu.Films jsonFilms = GetFilmList();
             var movielistrelease = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, releasedate => releasedate.releasedate);
 
             // Vergelijkt elke datum met elkaar en plaatst deze in de lijst newlist met de movie id en publicatiedatum.
@@ -177,7 +177,7 @@ namespace Bi_Os_Coop.Class
         public static List<int> SortByRating()
         {
             // Maakt een dictionary van films uit jsonFilms met de movieid en naam.
-            Films jsonFilms = GetFilmList();
+            MovieMenu.Films jsonFilms = GetFilmList();
             var movielistrating = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, beoordeling => beoordeling.beoordeling);
 
             // Checkt of er een film is zonder beoordeling.
@@ -199,7 +199,7 @@ namespace Bi_Os_Coop.Class
         public static List<string> ReturnAllFilms(List<int> printablelist)
         {
             // Pakt de films uit de json.
-            Films jsonFilms = GetFilmList();
+            MovieMenu.Films jsonFilms = GetFilmList();
 
             // Zet alle films uit de json in een lijst en returnt deze.
             List<string> listthing = new List<string>();
@@ -207,7 +207,7 @@ namespace Bi_Os_Coop.Class
             {
                 try
                 {
-                    MovieInterpreter mov = jsonFilms.movieList.Single(movie1 => movie1.movieid == printablelist[i - 1]);
+                    MovieMenu.MovieInterpreter mov = jsonFilms.movieList.Single(movie1 => movie1.movieid == printablelist[i - 1]);
                     listthing.Add(mov.name);
                 }
                 catch { break; }
@@ -221,7 +221,7 @@ namespace Bi_Os_Coop.Class
         public static List<string> PrintList(List<int> printablelist, int index)
         {
             // Pakt de films uit de json.
-            Films jsonFilms = GetFilmList();
+            MovieMenu.Films jsonFilms = GetFilmList();
 
             // Berekent eerst de start en stop index. Daarna print het de naam, publicatiedatum en minimumleeftijd van de films tussen de start en stop index.
             for (int i = ((index * 10 + 1) - 10); i < (index * 10 + 1); i++)
@@ -229,7 +229,7 @@ namespace Bi_Os_Coop.Class
                 try
                 {
                     // Verkrijgt de informatie over de film door te vragen naar een film met movieid.
-                    MovieInterpreter mov = jsonFilms.movieList.Single(movie1 => movie1.movieid == printablelist[i - 1]);
+                    MovieMenu.MovieInterpreter mov = jsonFilms.movieList.Single(movie1 => movie1.movieid == printablelist[i - 1]);
 
                     // Zorgt ervoor dat namen die te lang zijn worden afgekort met '...'.
                     string name;
