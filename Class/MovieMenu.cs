@@ -178,7 +178,7 @@ namespace Bi_Os_Coop.Class
         }
 
         //functie om alle kenmerken van een film te laten zien
-        public static Tuple<string, bool, string, string, List<string>> showmov(string movsearch, List<string> mainmenulist = null)
+        public static Tuple<string, bool, int, string, List<string>> showmov(string movsearch, List<string> mainmenulist = null)
         {
             string json = Json.ReadJson("Films");
             Films jsonFilms = JsonSerializer.Deserialize<Films>(json);
@@ -277,7 +277,7 @@ namespace Bi_Os_Coop.Class
 
                     Console.Write("\n");
                 }
-                return Tuple.Create(trailer, hastrailer, jsonFilms.movieList[tempMovie].name, movsearch, mainmenulist);
+                return Tuple.Create(trailer, hastrailer, jsonFilms.movieList[tempMovie].movieid, movsearch, mainmenulist);
             }
             else
             {
@@ -290,17 +290,41 @@ namespace Bi_Os_Coop.Class
         }
         public static void inputcheck(string movsearch, List<string> mainmenulist = null)
         {
-            Tuple<string, bool, string, string, List<string>> MovieInformation = showmov(movsearch, mainmenulist);
+            Tuple<string, bool, int, string, List<string>> MovieInformation = showmov(movsearch, mainmenulist);
             if (MovieInformation != null)
             {
+                MovieInterpreter chosenmovie = Films.FromJson().movieList.Single(movie => movie.movieid == MovieInformation.Item3);
+                MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
+                bool oldenough = Registerscreen.AgeVerify(things.user.age, chosenmovie.leeftijd);
                 bool hastrailer = MovieInformation.Item2;
                 string trailer = MovieInformation.Item1;
-                string moviename = MovieInformation.Item3;
+                string moviename = chosenmovie.name;
                 //hierna moet als er ja geselecteerd is het resrvatie scherm komen!
                 IEnumerable<Zaal> selectedzalen = Zalen.FromJson().zalenList.Where(movie => movie.film.name.ToLower() == moviename.ToLower() && DateTime.Parse(movie.date) >= DateTime.Today); //fixt ook de out dated films
-                if (selectedzalen.Count() != 0)
+                if (things.login == "Admin")
                 {
-
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write($"Je kan als admin niet reserveren voor {moviename}\n");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else if (things.login == "Employee")
+                {
+                    Reservations.MakeReservation(moviename);
+                }
+                else if (!oldenough)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write($"Je bent niet oud genoeg voor {moviename}\n");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else if (selectedzalen.Count() == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write($"Vraag aan een medewerker voor een nieuwe screening voor {moviename}\n");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else if (selectedzalen.Count() != 0 && oldenough)
+                {
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.Write("\nWilt u deze film reserveren? (");
                     Console.ForegroundColor = ConsoleColor.Green;
@@ -315,7 +339,7 @@ namespace Bi_Os_Coop.Class
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write($"Ask an Admin to make a new showing for {moviename}\n");
+                    Console.Write($"Je kan niet reserveren voor {moviename}\n");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
                 ConsoleKey keypressed = Console.ReadKey(true).Key;
@@ -370,7 +394,7 @@ namespace Bi_Os_Coop.Class
         public int MovieTime { get; set; }
 
         public void setFilm(int movieid, string name, string releasedate, List<string> genres, int leeftijd,
-            double beoordeling, List<string> acteurs, int movieTime, string taal = null, string beschrijving = null,
+            double beoordeling, List<string> acteurs, int movieTime = 0, string taal = null, string beschrijving = null,
             string trailer = null)
         {
             this.movieid = movieid;
@@ -383,7 +407,7 @@ namespace Bi_Os_Coop.Class
             this.taal = taal;
             this.beschrijving = beschrijving;
             this.trailer = trailer;
-            MovieTime = movieTime;
+            this.MovieTime = movieTime;
         }
     }
     public class Films
@@ -442,8 +466,8 @@ namespace Bi_Os_Coop.Class
                     Console.WriteLine("6. Beoordeling aanpassen");
                     Console.WriteLine("7. Taal aanpassen");
                     Console.WriteLine("8. Beschrijving aanpassen");
-                    Console.WriteLine("9. Trailer aanpassen");
-
+                    Console.WriteLine("A. Tijdsduur aanpassen"); 
+    
                     ConsoleKeyInfo keyReaded = Console.ReadKey();
 
                     switch (keyReaded.Key)
@@ -486,6 +510,12 @@ namespace Bi_Os_Coop.Class
                             MainMenu.ClearAndShowLogoPlusEsc("Update");
                             UpdateTrailer(json, jsonFilms, tempMovie);
                             break;
+                        case ConsoleKey.A:
+                            MainMenu.ClearAndShowLogoPlusEsc("Update");
+                            Tuple<string, Films, MovieInterpreter> g = UpdateMovieTime(json, jsonFilms, tempMovie);
+                            if (g.Item1 == "fail") { while (g.Item1 == "fail") { g = UpdateMovieTime(json, jsonFilms, tempMovie); } }
+                        break;
+
                         case ConsoleKey.Escape:
                             done = true;
                             break;
@@ -527,8 +557,8 @@ namespace Bi_Os_Coop.Class
             {
                 string json = Json.ReadJson("Films");
                 Films MovieLibrary = JsonSerializer.Deserialize<Films>(json);
-
-                Console.WriteLine("Voeg hier een nieuwe film toe.");
+    
+                Console.WriteLine("\nVoeg hier een nieuwe film toe.");
                 Console.WriteLine("Naam film:");
                 string naamFilm = loginscherm.FirstCharToUpper(loginscherm.newwayoftyping());
                 if (naamFilm == "1go2to3main4menu5") { goto exit; }
@@ -890,6 +920,39 @@ namespace Bi_Os_Coop.Class
                 return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
             }
 
+            public static Tuple<string, Films, MovieInterpreter> UpdateMovieTime(string json, Films jsonFilms, MovieInterpreter tempMovie)
+            {
+                Console.WriteLine($"Wat is de tijdsduur van de film {tempMovie.name}?");
+                string newMinimumAge = loginscherm.newwayoftyping();
+                if (newMinimumAge == "1go2to3main4menu5") { return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie); }
+                try
+                {
+                    int newMovieTime = Convert.ToInt32(newMinimumAge);
+                    if (newMovieTime < 0) { Convert.ToInt32(ErrorMaker()); }
+                    tempMovie.MovieTime = newMovieTime;
+                }
+                catch (FormatException)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Voer een positief, heel getal in.");
+                    System.Threading.Thread.Sleep(1000);
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    return new Tuple<string, Films, MovieInterpreter>("fail", jsonFilms, tempMovie);
+                }
+
+                JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+                json = JsonSerializer.Serialize(jsonFilms, opt);
+                Json.WriteJson("Films", json);
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("De tijdsduur is succesvol gewijzigd.");
+                System.Threading.Thread.Sleep(1000);
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.Clear();
+                return new Tuple<string, Films, MovieInterpreter>(json, jsonFilms, tempMovie);
+            }
+
+    
             public static void DeleteMovie(string json, Films jsonFilms, string movieToRemove)
             {
                 CPeople.Admin admin = new CPeople.Admin();

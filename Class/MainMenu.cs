@@ -49,7 +49,7 @@ namespace Bi_Os_Coop.Class
         {
             Console.Clear();
             Logo();
-            Console.Write($"Terug naar het {menu} Menu (Esc)\n\n");
+            Console.Write($"Terug naar het {menu} Menu (Esc)\n");
         }
 
         /// <summary>
@@ -260,11 +260,8 @@ namespace Bi_Os_Coop.Class
         /// </summary>
         public static void LogInText()
         {
-            string loginstructions = "Inloggen (I)";
-            Console.WriteLine(LengthMaker(Console.WindowWidth - loginstructions.Length - 15, ' ') + loginstructions);
-
-            string reginstructions = "Registreren (O)";
-            Console.WriteLine(LengthMaker(Console.WindowWidth - reginstructions.Length, ' ') + reginstructions);
+            string loginstructions = "Inloggen (I), Registreren (R)";
+            Console.WriteLine(LengthMaker(Console.WindowWidth - loginstructions.Length, ' ') + loginstructions);
         }
 
         /// <summary>
@@ -273,7 +270,7 @@ namespace Bi_Os_Coop.Class
         public static void LogOutText()
         {
             string logoutstructions = "Uitloggen (U)";
-            Console.WriteLine(LengthMaker(Console.WindowWidth - logoutstructions.Length - 15, ' ') + logoutstructions);
+            Console.WriteLine(LengthMaker(Console.WindowWidth - logoutstructions.Length, ' ') + logoutstructions);
         }
 
         /// <summary>
@@ -305,10 +302,7 @@ namespace Bi_Os_Coop.Class
                     return new Tuple<string, dynamic>("1go2to3main4menu5", "1go2to3main4menu5");
                 }
             }
-            catch
-            {
-                // ignored
-            }
+            catch { }
 
             Console.Clear();
 
@@ -331,21 +325,21 @@ namespace Bi_Os_Coop.Class
             // Wanneer de naam sorteermode is geselecteerd wordt "Naam (R)" rood en blijft de rest zwart.
             if (sort == "name")
             {
-                Program.newEntry("Naam (R)", ConsoleColor.Red);
+                Program.newEntry("Naam (N)", ConsoleColor.Red);
                 Program.newEntry(", Beoordeling (T), Publicatiedatum (Y)\n");
             }
 
             // Wanneer de publicatiedatum sorteermode is geselecteerd wordt "Publicatiedatum (Y)" rood en blijft de rest zwart.
             if (sort == "release")
             {
-                Program.newEntry("Naam (R), Beoordeling (T), ");
+                Program.newEntry("Naam (N), Beoordeling (T), ");
                 Program.newEntry("Publicatiedatum (Y)\n", ConsoleColor.Red);
             }
 
             // Wanneer de beoordeling sorteermode is geselecteerd wordt "Beoordeling (T)" rood en blijft de rest zwart.
             if (sort == "rating")
             {
-                Program.newEntry("Naam (R), ");
+                Program.newEntry("Naam (N), ");
                 Program.newEntry("Beoordeling (T)", ConsoleColor.Red);
                 Program.newEntry(", Publicatiedatum (Y)\n");
             }
@@ -373,6 +367,20 @@ namespace Bi_Os_Coop.Class
             Json.WriteJson("MainMenu", json);
         }
 
+
+        public static void ContactPage()
+        {
+            Console.Clear();
+            ClearAndShowLogoPlusEsc("Main");
+            Console.Write("\nDevelopers:\t\t\t\t\tAdmins:\n\n  Hajar Akkouh\t\t(1008536@hr.nl)\t\t  Alessandro Ibba\t(a.ibba@hr.nl)\n  Thijs van Rixoort\t(1005205@hr.nl)\t\t  Hugo\t\t\t(coolste@min.com)\n  Rick Slingerland\t(1007523@hr.nl)\n  Hugo van Geijn\t(1014168@hr.nl)\n  Victor Roskam\t\t(1007353@hr.nl)\n  Bjorn Mooldijk\t(1017503@hr.nl)\n\nMet dank aan:\n\n  Diana van Roon\t(d.a.van.roon@hr.nl)\n  Bart Westhoff\t\t(0991807@hr.nl)\n\nAdres:\t\tWijnhaven 107, 3011 WN Rotterdam\nTelefoon:\t010 794 4000");
+            ConsoleKey keypressed = Console.ReadKey(true).Key;
+            while (keypressed != ConsoleKey.Escape)
+            {
+                keypressed = Console.ReadKey(true).Key;
+            }
+            if (keypressed == ConsoleKey.Escape) { return; }
+        }
+
         /// <summary>
         /// Dit is het mainmenu scherm.
         /// </summary>
@@ -385,12 +393,14 @@ namespace Bi_Os_Coop.Class
             if (language == "Nederlands")
             {
                 Console.Write("Afsluiten (Esc)");
+
+                Console.Write(LengthMaker(Console.WindowWidth - 34, ' ') + "Over Bi-Os-Coop (Q)\n");
                 if (login == "None") { LogInText(); }
                 else { LogOutText(); }
                 string goAM = "Admin Menu (A)";
                 if (login == "Admin") { Console.WriteLine(LengthMaker(Console.WindowWidth - goAM.Length, ' ') + goAM); }
-                string goUserProfile = "Profile (W)";
-                if (login == "Person") { Console.WriteLine(LengthMaker(Console.WindowWidth - goUserProfile.Length, ' ') + goUserProfile); }
+                string goUserProfile = "Profiel (W)";
+                if (login == "Person" || login == "Employee") { Console.WriteLine(LengthMaker(Console.WindowWidth - goUserProfile.Length, ' ') + goUserProfile); }
                 SortText(sort, reverse);
 
                 Console.WriteLine("ACTUELE FILMS:");
@@ -398,11 +408,12 @@ namespace Bi_Os_Coop.Class
                 string moviemenugo = "Meer Films (E)";
                 Console.WriteLine(LengthMaker(Console.WindowWidth - moviemenugo.Length - 22, ' ') + moviemenugo);
                 ConsoleKey keypressed = Console.ReadKey(true).Key;
-                while (keypressed != ConsoleKey.E && keypressed != ConsoleKey.A && keypressed != ConsoleKey.W && keypressed != ConsoleKey.Escape && keypressed != ConsoleKey.R && keypressed != ConsoleKey.T && keypressed != ConsoleKey.Y && keypressed != ConsoleKey.U && keypressed != ConsoleKey.I && keypressed != ConsoleKey.O && keypressed != ConsoleKey.P)
+                while (keypressed != ConsoleKey.E && keypressed != ConsoleKey.A && keypressed != ConsoleKey.W && keypressed != ConsoleKey.Escape
+                    && keypressed != ConsoleKey.R && keypressed != ConsoleKey.T && keypressed != ConsoleKey.Y && keypressed != ConsoleKey.U
+                    && keypressed != ConsoleKey.I && keypressed != ConsoleKey.N && keypressed != ConsoleKey.P && keypressed != ConsoleKey.Q)
                 {
                     keypressed = Console.ReadKey(true).Key;
                 }
-                Console.WriteLine(keypressed);
                 if (keypressed == ConsoleKey.E) { MovieMenu.mainPagina(); }
                 else if (keypressed == ConsoleKey.I && login == "None")
                 {
@@ -412,22 +423,19 @@ namespace Bi_Os_Coop.Class
                         login = login2.Item1;
                         if (login2.Item1 != "None") { user = login2.Item2; }
                         JsonMainMenuSave(user, sort, reverse, login, language);
-                        if (login == "Admin") { adminMenu.AM(); }
+                        if (login == "Admin") { adminMenu.AM(user, login); }
                     }
                 }
-                else if (keypressed == ConsoleKey.O && login == "None")
-                {
-                    Console.Clear();
-                    Registerscreen.CreateAccount();
-                }
-                else if (keypressed == ConsoleKey.A) { if (login == "Admin") { adminMenu.AM(); } }
-                else if (keypressed == ConsoleKey.W) { if (login == "Person") { UserProfile.ProfileMenu(user); } }
-                else if (keypressed == ConsoleKey.R && sort != "name") { sort = "name"; sav = true; }
+                else if (keypressed == ConsoleKey.R && login == "None") { Registerscreen.CreateAccount(); }
+                else if (keypressed == ConsoleKey.A) { if (login == "Admin") { adminMenu.AM(user, login); } }
+                else if (keypressed == ConsoleKey.W) { if (login == "Person" || login == "Employee") { UserProfile.ProfileMenu(); } }
+                else if (keypressed == ConsoleKey.N && sort != "name") { sort = "name"; sav = true; }
                 else if (keypressed == ConsoleKey.T && sort != "rating") { sort = "rating"; sav = true; }
                 else if (keypressed == ConsoleKey.Y && sort != "release") { sort = "release"; sav = true; }
                 else if (keypressed == ConsoleKey.U && login != "None") { login = "None"; user = null; sav = true; }
                 else if (keypressed == ConsoleKey.P) { reverse = !reverse; sav = true; }
                 else if (keypressed == ConsoleKey.Escape) { Environment.Exit(0); }
+                else if (keypressed == ConsoleKey.Q) { ContactPage(); }
             }
             if (sav) { JsonMainMenuSave(user, sort, reverse, login, language); }
             Console.Clear();
@@ -438,7 +446,7 @@ namespace Bi_Os_Coop.Class
     /// <summary>
     /// Maakt een object van de ingelogde user, sorteermethode, omkeren (true or false), het type van de ingelogde user en de taal.
     /// </summary>
-    class MainMenuThings
+    public class MainMenuThings
     {
 
         /// <summary>

@@ -4,11 +4,11 @@
     "name": "Hugo",
     "email": "coolste@min.com",
     "password": "nietzoveilig",
-    "age": "30",
+    "age": "05/01/1991",
     "phonenumber": "06123456789",
     "BookedMovies": null
   },
-  "sort": "rating",
+  "sort": "name",
   "reverse": false,
   "login": "Admin",
   "language": "Nederlands"

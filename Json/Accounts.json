@@ -6,7 +6,8 @@
       "email": "mijnfakeemail@test.com",
       "password": "H3nk123",
       "age": "16/05/2000",
-      "phonenumber": null
+      "phonenumber": null,
+      "BookedMovies": null
     },
     {
       "id": 2,
@@ -14,7 +15,8 @@
       "email": "lilo@stitch.com",
       "password": "m@tress",
       "age": "16/05/2000",
-      "phonenumber": null
+      "phonenumber": null,
+      "BookedMovies": null
     },
     {
       "id": 54327,
@@ -22,7 +24,8 @@
       "email": "rickyman2002.rick@gmail.com",
       "password": "Zook2012",
       "age": "15/06/2002",
-      "phonenumber": "0657050124"
+      "phonenumber": "0657050124",
+      "BookedMovies": null
     },
     {
       "id": 75514,
@@ -30,7 +33,17 @@
       "email": "rickyslingerplant@gmail.com",
       "password": "Zook2012",
       "age": "15/06/1997",
-      "phonenumber": "0629050124"
+      "phonenumber": "0629050124",
+      "BookedMovies": null
+    },
+    {
+      "id": 85570,
+      "name": "bjorn mooldijk",
+      "email": "json@bjorn.com",
+      "password": "jsonBjorn",
+      "age": "25/09/1990",
+      "phonenumber": "0612345678",
+      "BookedMovies": null
     }
   ],
   "adminList": [
@@ -39,8 +52,9 @@
       "name": "Hugo",
       "email": "coolste@min.com",
       "password": "nietzoveilig",
-      "age": "30",
-      "phonenumber": "06123456789"
+      "age": "05/01/1991",
+      "phonenumber": "06123456789",
+      "BookedMovies": null
     }
   ],
   "employeeList": null
