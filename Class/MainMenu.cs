@@ -17,28 +17,28 @@ namespace Bi_Os_Coop.Class
         {
             // Dit berekent het aantal streepjes dat boven en onder het logo komen te staan. Dit maakt het mogelijk om de grootte
             // van de console te veranderen zonder dat de streepjes er opeens mee stoppen.
-            string dashes = "";
-            for (int i = 1; i < Console.WindowWidth; i++) { dashes += "-"; }
+            string dashes = LengthMaker(Console.WindowWidth, '-');
+            string spaces = LengthMaker((Console.WindowWidth - 105) / 2, ' ');
 
             // Hier wordt het logo geprint.
             Program.newEntry(dashes + "\n");
-            Program.newEntry("oooooooooo  o88", ConsoleColor.Magenta);
+            Program.newEntry(spaces + "oooooooooo  o88", ConsoleColor.Magenta);
             Program.newEntry("              ooooooo", ConsoleColor.DarkMagenta);
             Program.newEntry("                          oooooooo8\n", ConsoleColor.DarkBlue);
-            Program.newEntry(" 888    888 oooo", ConsoleColor.Magenta);
+            Program.newEntry(spaces + " 888    888 oooo", ConsoleColor.Magenta);
             Program.newEntry("           o888   888o  oooooooo8", ConsoleColor.DarkMagenta);
             Program.newEntry("           o888     88   ooooooo     ooooooo  ooooooooo\n", ConsoleColor.DarkBlue);
-            Program.newEntry(" 888oooo88   888", ConsoleColor.Magenta);
+            Program.newEntry(spaces + " 888oooo88   888", ConsoleColor.Magenta);
             Program.newEntry(" ooooooooo", ConsoleColor.DarkYellow);
             Program.newEntry(" 888     888 888ooooooo", ConsoleColor.DarkMagenta);
             Program.newEntry(" ooooooooo", ConsoleColor.DarkYellow);
             Program.newEntry(" 888         888     888 888     888 888    888\n", ConsoleColor.DarkBlue);
-            Program.newEntry(" 888    888  888", ConsoleColor.Magenta);
+            Program.newEntry(spaces + " 888    888  888", ConsoleColor.Magenta);
             Program.newEntry("           888o   o888         888", ConsoleColor.DarkMagenta);
             Program.newEntry("          888o     oo 888     888 888     888 888    888\n", ConsoleColor.DarkBlue);
-            Program.newEntry("o888ooo888  o888o", ConsoleColor.Magenta);
+            Program.newEntry(spaces + "o888ooo888  o888o", ConsoleColor.Magenta);
             Program.newEntry("            88ooo88   88oooooo88", ConsoleColor.DarkMagenta);
-            Program.newEntry("            888oooo88    88ooo88     88ooo88   888ooo88\n                                                                                               o888\n", ConsoleColor.DarkBlue);
+            Program.newEntry("            888oooo88    88ooo88     88ooo88   888ooo88\n" + spaces + "                                                                                               o888\n", ConsoleColor.DarkBlue);
             Program.newEntry(dashes + "\n");
         }
 
