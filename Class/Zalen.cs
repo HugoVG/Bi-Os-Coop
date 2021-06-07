@@ -12,7 +12,7 @@ namespace Bi_Os_Coop.Class
         public void menu(List<Zaal> selected)
         {
             writeZalen(selected);
-            if (selected.Count != 0)
+            if (selected.Count == 0)
             {
                 return;
             }
@@ -158,7 +158,7 @@ namespace Bi_Os_Coop.Class
             indexs[0] = index;
             zaal.occupyStool(indexs, orderer);
         }
-        
+
         public void Reserveseats(int[] index, CPeople.Person orderer, Zaal zaal)
         {
             zaal.occupyStool(index, orderer);
@@ -401,7 +401,7 @@ namespace Bi_Os_Coop.Class
                 this.isOccupied = false;
                 this.Price = prijs;
             }
-            
+
         }
 
         public price stoolworth(int index, int size)
