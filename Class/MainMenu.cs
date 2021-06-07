@@ -49,7 +49,7 @@ namespace Bi_Os_Coop.Class
         {
             Console.Clear();
             Logo();
-            Console.Write($"Terug naar het {menu} Menu (Esc)\n\n");
+            Console.Write($"Terug naar het {menu} Menu (Esc)\n");
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Bi_Os_Coop.Class
         public static List<int> SortByName()
         {
             // Maakt een dictionary van films uit jsonFilms met de movieid en naam.
-            Films jsonFilms = GetFilmList();
+            MovieMenu.Films jsonFilms = GetFilmList();
             var movielistname = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, name => name.name);
 
             // Checkt of er niet een film is zonder naam.
@@ -86,10 +86,10 @@ namespace Bi_Os_Coop.Class
         /// <summary>
         /// Deze method returnt de films uit de json.
         /// </summary>
-        public static Films GetFilmList()
+        public static MovieMenu.Films GetFilmList()
         {
             string json = Json.ReadJson("Films");
-            return JsonSerializer.Deserialize<Films>(json);
+            return JsonSerializer.Deserialize<MovieMenu.Films>(json);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Bi_Os_Coop.Class
         public static List<int> SortByRelease()
         {
             // Maakt een dictionary van films uit jsonFilms met de movieid en releasedate.
-            Films jsonFilms = GetFilmList();
+            MovieMenu.Films jsonFilms = GetFilmList();
             var movielistrelease = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, releasedate => releasedate.releasedate);
 
             // Vergelijkt elke datum met elkaar en plaatst deze in de lijst newlist met de movie id en publicatiedatum.
@@ -177,7 +177,7 @@ namespace Bi_Os_Coop.Class
         public static List<int> SortByRating()
         {
             // Maakt een dictionary van films uit jsonFilms met de movieid en naam.
-            Films jsonFilms = GetFilmList();
+            MovieMenu.Films jsonFilms = GetFilmList();
             var movielistrating = jsonFilms.movieList.ToDictionary(movieid => movieid.movieid, beoordeling => beoordeling.beoordeling);
 
             // Checkt of er een film is zonder beoordeling.
@@ -199,7 +199,7 @@ namespace Bi_Os_Coop.Class
         public static List<string> ReturnAllFilms(List<int> printablelist)
         {
             // Pakt de films uit de json.
-            Films jsonFilms = GetFilmList();
+            MovieMenu.Films jsonFilms = GetFilmList();
 
             // Zet alle films uit de json in een lijst en returnt deze.
             List<string> listthing = new List<string>();
@@ -207,7 +207,7 @@ namespace Bi_Os_Coop.Class
             {
                 try
                 {
-                    MovieInterpreter mov = jsonFilms.movieList.Single(movie1 => movie1.movieid == printablelist[i - 1]);
+                    MovieMenu.MovieInterpreter mov = jsonFilms.movieList.Single(movie1 => movie1.movieid == printablelist[i - 1]);
                     listthing.Add(mov.name);
                 }
                 catch { break; }
@@ -221,7 +221,7 @@ namespace Bi_Os_Coop.Class
         public static List<string> PrintList(List<int> printablelist, int index)
         {
             // Pakt de films uit de json.
-            Films jsonFilms = GetFilmList();
+            MovieMenu.Films jsonFilms = GetFilmList();
 
             // Berekent eerst de start en stop index. Daarna print het de naam, publicatiedatum en minimumleeftijd van de films tussen de start en stop index.
             for (int i = ((index * 10 + 1) - 10); i < (index * 10 + 1); i++)
@@ -229,7 +229,7 @@ namespace Bi_Os_Coop.Class
                 try
                 {
                     // Verkrijgt de informatie over de film door te vragen naar een film met movieid.
-                    MovieInterpreter mov = jsonFilms.movieList.Single(movie1 => movie1.movieid == printablelist[i - 1]);
+                    MovieMenu.MovieInterpreter mov = jsonFilms.movieList.Single(movie1 => movie1.movieid == printablelist[i - 1]);
 
                     // Zorgt ervoor dat namen die te lang zijn worden afgekort met '...'.
                     string name;
@@ -260,7 +260,7 @@ namespace Bi_Os_Coop.Class
         /// </summary>
         public static void LogInText()
         {
-            string loginstructions = "Inloggen (I), Registreren (O)";
+            string loginstructions = "Inloggen (I), Registreren (R)";
             Console.WriteLine(LengthMaker(Console.WindowWidth - loginstructions.Length, ' ') + loginstructions);
         }
 
@@ -325,21 +325,21 @@ namespace Bi_Os_Coop.Class
             // Wanneer de naam sorteermode is geselecteerd wordt "Naam (R)" rood en blijft de rest zwart.
             if (sort == "name")
             {
-                Program.newEntry("Naam (R)", ConsoleColor.Red);
+                Program.newEntry("Naam (N)", ConsoleColor.Red);
                 Program.newEntry(", Beoordeling (T), Publicatiedatum (Y)\n");
             }
 
             // Wanneer de publicatiedatum sorteermode is geselecteerd wordt "Publicatiedatum (Y)" rood en blijft de rest zwart.
             if (sort == "release")
             {
-                Program.newEntry("Naam (R), Beoordeling (T), ");
+                Program.newEntry("Naam (N), Beoordeling (T), ");
                 Program.newEntry("Publicatiedatum (Y)\n", ConsoleColor.Red);
             }
 
             // Wanneer de beoordeling sorteermode is geselecteerd wordt "Beoordeling (T)" rood en blijft de rest zwart.
             if (sort == "rating")
             {
-                Program.newEntry("Naam (R), ");
+                Program.newEntry("Naam (N), ");
                 Program.newEntry("Beoordeling (T)", ConsoleColor.Red);
                 Program.newEntry(", Publicatiedatum (Y)\n");
             }
@@ -372,7 +372,7 @@ namespace Bi_Os_Coop.Class
         {
             Console.Clear();
             ClearAndShowLogoPlusEsc("Main");
-            Console.Write("Developers:\t\t\t\t\tAdmins:\n\n  Hajar Akkouh\t\t(1008536@hr.nl)\t\t  Alessandro Ibba\t(a.ibba@hr.nl)\n  Thijs van Rixoort\t(1005205@hr.nl)\t\t  Hugo\t\t\t(coolste@min.com)\n  Rick Slingerland\t(1007523@hr.nl)\n  Hugo van Geijn\t(1014168@hr.nl)\n  Victor Roskam\t\t(1007353@hr.nl)\n  Bjorn Mooldijk\t(1017503@hr.nl)\n\nMet dank aan:\n\n  Diana van Roon\t(d.a.van.roon@hr.nl)\n  Bart Westhoff\t\t(0991807@hr.nl)\n\nAdres:\t\tWijnhaven 107, 3011 WN Rotterdam\nTelefoon:\t010 794 4000");
+            Console.Write("\nDevelopers:\t\t\t\t\tAdmins:\n\n  Hajar Akkouh\t\t(1008536@hr.nl)\t\t  Alessandro Ibba\t(a.ibba@hr.nl)\n  Thijs van Rixoort\t(1005205@hr.nl)\t\t  Hugo\t\t\t(coolste@min.com)\n  Rick Slingerland\t(1007523@hr.nl)\n  Hugo van Geijn\t(1014168@hr.nl)\n  Victor Roskam\t\t(1007353@hr.nl)\n  Bjorn Mooldijk\t(1017503@hr.nl)\n\nMet dank aan:\n\n  Diana van Roon\t(d.a.van.roon@hr.nl)\n  Bart Westhoff\t\t(0991807@hr.nl)\n\nAdres:\t\tWijnhaven 107, 3011 WN Rotterdam\nTelefoon:\t010 794 4000");
             ConsoleKey keypressed = Console.ReadKey(true).Key;
             while (keypressed != ConsoleKey.Escape)
             {
@@ -400,7 +400,7 @@ namespace Bi_Os_Coop.Class
                 string goAM = "Admin Menu (A)";
                 if (login == "Admin") { Console.WriteLine(LengthMaker(Console.WindowWidth - goAM.Length, ' ') + goAM); }
                 string goUserProfile = "Profiel (W)";
-                if (login == "Person") { Console.WriteLine(LengthMaker(Console.WindowWidth - goUserProfile.Length, ' ') + goUserProfile); }
+                if (login == "Person" || login == "Employee") { Console.WriteLine(LengthMaker(Console.WindowWidth - goUserProfile.Length, ' ') + goUserProfile); }
                 SortText(sort, reverse);
 
                 Console.WriteLine("ACTUELE FILMS:");
@@ -408,7 +408,9 @@ namespace Bi_Os_Coop.Class
                 string moviemenugo = "Meer Films (E)";
                 Console.WriteLine(LengthMaker(Console.WindowWidth - moviemenugo.Length - 22, ' ') + moviemenugo);
                 ConsoleKey keypressed = Console.ReadKey(true).Key;
-                while (keypressed != ConsoleKey.E && keypressed != ConsoleKey.A && keypressed != ConsoleKey.W && keypressed != ConsoleKey.Escape && keypressed != ConsoleKey.R && keypressed != ConsoleKey.T && keypressed != ConsoleKey.Y && keypressed != ConsoleKey.U && keypressed != ConsoleKey.I && keypressed != ConsoleKey.O && keypressed != ConsoleKey.P && keypressed != ConsoleKey.Q)
+                while (keypressed != ConsoleKey.E && keypressed != ConsoleKey.A && keypressed != ConsoleKey.W && keypressed != ConsoleKey.Escape
+                    && keypressed != ConsoleKey.R && keypressed != ConsoleKey.T && keypressed != ConsoleKey.Y && keypressed != ConsoleKey.U
+                    && keypressed != ConsoleKey.I && keypressed != ConsoleKey.N && keypressed != ConsoleKey.P && keypressed != ConsoleKey.Q)
                 {
                     keypressed = Console.ReadKey(true).Key;
                 }
@@ -424,14 +426,10 @@ namespace Bi_Os_Coop.Class
                         if (login == "Admin") { adminMenu.AM(user, login); }
                     }
                 }
-                else if (keypressed == ConsoleKey.O && login == "None")
-                {
-                    Console.Clear();
-                    Registerscreen.CreateAccount();
-                }
+                else if (keypressed == ConsoleKey.R && login == "None") { Registerscreen.CreateAccount(); }
                 else if (keypressed == ConsoleKey.A) { if (login == "Admin") { adminMenu.AM(user, login); } }
-                else if (keypressed == ConsoleKey.W) { if (login == "Person") { UserProfile.ProfileMenu(user, login); } }
-                else if (keypressed == ConsoleKey.R && sort != "name") { sort = "name"; sav = true; }
+                else if (keypressed == ConsoleKey.W) { if (login == "Person" || login == "Employee") { UserProfile.ProfileMenu(); } }
+                else if (keypressed == ConsoleKey.N && sort != "name") { sort = "name"; sav = true; }
                 else if (keypressed == ConsoleKey.T && sort != "rating") { sort = "rating"; sav = true; }
                 else if (keypressed == ConsoleKey.Y && sort != "release") { sort = "release"; sav = true; }
                 else if (keypressed == ConsoleKey.U && login != "None") { login = "None"; user = null; sav = true; }
@@ -448,7 +446,7 @@ namespace Bi_Os_Coop.Class
     /// <summary>
     /// Maakt een object van de ingelogde user, sorteermethode, omkeren (true or false), het type van de ingelogde user en de taal.
     /// </summary>
-    class MainMenuThings
+    public class MainMenuThings
     {
 
         /// <summary>

@@ -49,6 +49,40 @@ namespace Bi_Os_Coop.Class
                     Console.Clear();
                     admin.AddCinemaHall();
                 }
+                else if (keuze == ConsoleKey.D9)
+                {
+                    MainMenu.ClearAndShowLogoPlusEsc("Main");
+                    Console.WriteLine("\nRegistreer nieuwe medewerker.");
+                    //De if statements hieronder checken of de input van de gebruiker volgens format is en of het e-mailadres of het telefoonnummer al gekoppeld is aa een account.
+                    string name = Registerscreen.validCheck("zijn/haar voor- en achternaam", Registerscreen.lengthCheck);
+                    if (name == "1go2to3main4menu5") { return; }
+                    string birthdate = Registerscreen.validCheck("zijn/haar geboortedatum (dd/mm/jjjj)", Registerscreen.dateCheck);
+                    if (birthdate == "1go2to3main4menu5") { return; }
+                    if (Registerscreen.AgeVerify(birthdate, 16))
+                    {
+
+                        int id = Registerscreen.createID();
+                        string email = Registerscreen.validCheck("zijn/haar e-mailadres", Registerscreen.emailCheck);
+                        if (email == "1go2to3main4menu5") { return; }
+                        string phoneNumber = Registerscreen.validCheck("zijn/haar mobiele telefoonnummer", Registerscreen.phoneCheck);
+                        if (phoneNumber == "1go2to3main4menu5") { return; }
+                        string password = Registerscreen.validCheck("zijn/haar wachtwoord", Registerscreen.lengthCheck);
+                        if (password == "1go2to3main4menu5") { return; }
+
+                        admin.NewEmployee(name, email, password, birthdate, phoneNumber);
+
+                        Program.newEntry("\nAccount is aangemaakt.\nDruk op ENTER om verder te gaan.", ConsoleColor.Green);
+                        Console.ReadLine();
+                    }
+                    else
+                    {
+                        Program.newEntry("\nSorry, minimale leeftijd voor een medewerker is 16.", ConsoleColor.Red);
+                        Program.newEntry("\nDruk op enter om terug te gaan.");
+                        Console.ReadLine();
+                        Console.Clear();
+                    }
+                    
+                }
                 //else if (keuze == ConsoleKey.D6)
                 //{
                 //    Console.Clear();
@@ -73,7 +107,7 @@ namespace Bi_Os_Coop.Class
                 //}
                 else if (keuze == ConsoleKey.W)
                 {
-                    UserProfile.ProfileMenu(loggedInAdmin, login);
+                    UserProfile.ProfileMenu();
                 }
                 else if (keuze == ConsoleKey.Escape)
                 {
@@ -112,6 +146,7 @@ namespace Bi_Os_Coop.Class
             //Console.WriteLine("7) Admin Toevoegen");
             //Console.WriteLine($"8) Corona filter toepassen \t {adminMethod.coronaCheck()}");
             //Console.WriteLine("9) Uitloggen");
+            Console.WriteLine("9) Registreer nieuwe medewerker");
             Console.WriteLine("Of type '0' om te stoppen");
             Console.Write("\nMaak een keuze: ");
             ConsoleKey keuze = Console.ReadKey(true).Key;

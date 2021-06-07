@@ -249,13 +249,14 @@ namespace Bi_Os_Coop.Class
             {
                 case null: throw new ArgumentNullException(nameof(input));
                 case "": throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input));
-                default: return input.First().ToString().ToUpper() + input.Substring(1);
+                default: return input.First().ToString().ToUpper() + input.Substring(1).ToLower();
             }
         }
 
         public static dynamic login(int fails = 3)
         {
-            MainMenu.ClearAndShowLogoPlusEsc("Main Menu");
+            MainMenu.ClearAndShowLogoPlusEsc("Main");
+            Console.WriteLine("\nLoginscherm\n");
             Console.ForegroundColor = ConsoleColor.Gray;
             if (fails < 3)
             {
@@ -263,8 +264,6 @@ namespace Bi_Os_Coop.Class
             }
             if (fails == 0)
             {
-                Console.Clear();
-                MainMenu.ClearAndShowLogoPlusEsc("Wachtwoord Vergeten");
                 CPeople.Person.ForgotPassword();
                 return "1go2to3main4menu5";
             }

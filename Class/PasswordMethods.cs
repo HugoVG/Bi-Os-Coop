@@ -145,5 +145,20 @@ namespace Bi_Os_Coop.Class
                 return false;
             }
         }
+
+        public static bool NameBirthdayCheck(string name, string age)
+        {
+            string account = Json.ReadJson("Accounts");
+            CPeople.People accounts = CPeople.People.FromJson(account);
+            try
+            {
+                CPeople.Person persoon = accounts.peopleList.Single(person => person.name.ToLower() == name.ToLower() && person.age == age);
+                return true;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
+        }
     }
 }

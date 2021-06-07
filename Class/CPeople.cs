@@ -104,7 +104,7 @@ namespace Bi_Os_Coop.Class
             public void DeleteAccount(Person ingelogdepersoon)
             {
                 MainMenu.ClearAndShowLogoPlusEsc("Update");
-                Console.WriteLine("Wilt u uw account verwijderen? (j/n)");
+                Console.WriteLine("\nWilt u uw account verwijderen? (j/n)");
 
                 ConsoleKey keypressed = Console.ReadKey(true).Key;
                 while (keypressed != ConsoleKey.J && keypressed != ConsoleKey.N && keypressed != ConsoleKey.Escape)
@@ -116,7 +116,7 @@ namespace Bi_Os_Coop.Class
                 {
                     // asks for email and password of the person
                     MainMenu.ClearAndShowLogoPlusEsc("Update");
-                    Console.WriteLine("Vul uw emailadres in:");
+                    Console.WriteLine("\nVul uw emailadres in:");
                     string email = loginscherm.newwayoftyping();
                     if (email != "1go2to3main4menu5")
                     {
@@ -159,7 +159,7 @@ namespace Bi_Os_Coop.Class
             public void ChangePassword()
             {
                 // asks for email and password of the person
-                Console.WriteLine("Vul uw emailadres in:");
+                Console.WriteLine("\nVul uw emailadres in:");
                 string email = loginscherm.newwayoftyping();
                 if (email == "1go2to3main4menu5") { goto exit; }
                 if (email != "1go2to3main4menu5")
@@ -190,6 +190,8 @@ namespace Bi_Os_Coop.Class
                 MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
                 if (things.login == "None") // person is not logged in
                 {
+                    MainMenu.ClearAndShowLogoPlusEsc("Main");
+                    Console.WriteLine("\nHerstel wachtwoord\n");
                     // if the person is not logged in we ask for email and birthdate
                     Console.WriteLine("Vul uw emailadres in:");
                     string currentEmail = loginscherm.newwayoftyping();
@@ -203,16 +205,17 @@ namespace Bi_Os_Coop.Class
                     if (PasswordMethods.MailLeeftijdCheck(currentEmail, currentAge))
                     {
                         string account = Json.ReadJson("Accounts");
-                        CPeople.People accounts = CPeople.People.FromJson(account);
-                        CPeople.Person persoon = accounts.peopleList.Single(person => person.email == currentEmail && person.age == currentAge);
+                        People accounts = People.FromJson(account);
+                        Person persoon = accounts.peopleList.Single(person => person.email == currentEmail && person.age == currentAge);
                         PasswordMethods.SetNewPassword(currentEmail, persoon.password); // both are correct
-                        things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
-                        MainMenu.JsonMainMenuSave(things.user, things.sort, things.reverse, "Person", things.language);
                     }
                     else
                     {
                         // if the person doesn't exist we ask if the person wants to make a new account, if not send to Main Menu
+                        MainMenu.ClearAndShowLogoPlusEsc("Main");
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine("Sorry, dit account bestaat niet.");
+                        Console.ForegroundColor = ConsoleColor.Gray;
                         Console.WriteLine("Wilt u een nieuw account aanmaken? (j/n)");
 
                         ConsoleKey keypressed = Console.ReadKey(true).Key;
@@ -270,8 +273,26 @@ namespace Bi_Os_Coop.Class
             }
         }
 
+        public class Employee : Person
+        {
+            
+        }
+
         public class Admin : Person
         {
+            public void NewEmployee(string name, string email, string password, string age, string phoneNumber)
+            {
+                string json = Json.ReadJson("Accounts");
+                People jsonPeople = JsonSerializer.Deserialize<CPeople.People>(json);
+                Employee newEmployee = new Employee();
+                newEmployee.setPerson(1, name, email, password, age, phoneNumber);
+                jsonPeople.AddEmployee(newEmployee);
+                JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+                json = JsonSerializer.Serialize(jsonPeople, opt);
+                Json.WriteJson("Accounts", json);
+            }
+
+
             public MovieInterpreter AddMovies()
             {
                 MovieInterpreter movie = MovieMethods.AddMovie();
@@ -280,7 +301,7 @@ namespace Bi_Os_Coop.Class
 
             public void UpdateMovies()
             {
-                Console.WriteLine("Welke film wilt u updaten?");
+                Console.WriteLine("\nWelke film wilt u updaten?");
                 string naamFilm = loginscherm.RemoveSpecialCharacters(loginscherm.newwayoftyping());
 
                 if (naamFilm == "1go2to3main4menu5") { goto exit; }
@@ -319,7 +340,7 @@ namespace Bi_Os_Coop.Class
 
             public void DeleteMovies()
             {
-                Console.WriteLine("Welke film wilt u verwijderen?");
+                Console.WriteLine("\nWelke film wilt u verwijderen?");
                 string movieToRemove = loginscherm.RemoveSpecialCharacters(loginscherm.newwayoftyping());
 
                 if (movieToRemove == "1go2to3main4menu5") { goto exit; }
@@ -433,12 +454,6 @@ namespace Bi_Os_Coop.Class
 
             }
         }
-
-        public class Employee : Person
-        {
-
-        }
-
 
         /// <summary>
         /// People class for JSON
