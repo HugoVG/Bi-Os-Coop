@@ -1,19 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security;
+using System.Text.Json;
 
 namespace Bi_Os_Coop.Class
 {
     public class adminMenu
     {
-        public static void AM(CPeople.Person loggedInAdmin, string login)
+        public static void AM(dynamic user=null, string login=null)
         {
+
+#warning regel 426 en 430 in mainmenu.cs zorgt voor error
+
             CPeople.Admin admin = new CPeople.Admin();
             adminMethods adminMethod = new adminMethods();
 
             //while loop die hoofdPagina loopt tot je "0" in tikt
             bool inDitMenu = true;
             bool isCoronaFilter = adminMethod.coronaCheck();
-            Console.WriteLine(isCoronaFilter);
             while (inDitMenu)
             {
                 ConsoleKey keuze = hoofdPagina();
@@ -46,8 +51,22 @@ namespace Bi_Os_Coop.Class
                 }
                 else if (keuze == ConsoleKey.D5)
                 {
-                    Console.Clear();
+                    MainMenu.ClearAndShowLogoPlusEsc("Admin");
                     admin.AddCinemaHall();
+                }
+                else if (keuze == ConsoleKey.D6)
+                {
+                    MainMenu.ClearAndShowLogoPlusEsc("Admin");
+                    adminMethod.DeleteCinemaHall();
+                }
+                else if (keuze == ConsoleKey.D7)
+                {
+                    MainMenu.ClearAndShowLogoPlusEsc("Admin");
+                    adminMethod.AddAdminOrWorker();
+                }
+                else if (keuze == ConsoleKey.D8)
+                {
+                    adminMethod.CoronaFilter(isCoronaFilter);
                 }
                 else if (keuze == ConsoleKey.D9)
                 {
@@ -81,79 +100,40 @@ namespace Bi_Os_Coop.Class
                         Console.ReadLine();
                         Console.Clear();
                     }
-                    
                 }
-                //else if (keuze == ConsoleKey.D6)
-                //{
-                //    Console.Clear();
-                //    admin.DeleteCinemaHall();
-                //}
-                //else if (keuze == ConsoleKey.D7)
-                //{
-                //    Console.Clear();
-                //    adminMethod.AddAdmin();
-                //}
-                //else if (keuze == ConsoleKey.D8)
-                //{
-                //    Console.Clear();
-                //    adminMethod.CoronaFilter(isCoronaFilter);
-                //}
-                //else if (keuze == ConsoleKey.D9)
-                //{
-                //    inDitMenu = false;
-                //    Console.WriteLine("U bent nu uitgelogd en gaat naar het main menu.");
-                //    Console.Clear();
-                //    MainMenu.MainMenuShow(null, "name", false, "None", "Nederlands");
-                //}
-                else if (keuze == ConsoleKey.W)
+                else
                 {
-                    UserProfile.ProfileMenu();
+                    adminMenu.AM();
                 }
-                else if (keuze == ConsoleKey.Escape)
-                {
-                    inDitMenu = false;
-                    Console.Clear();
-                    break;
                 }
-                //else
-                //{
-                //    Console.Clear();
-                //    Console.ForegroundColor = ConsoleColor.Red;
-                //    Console.WriteLine("Probeer het opnieuw.");
-                //    Console.ForegroundColor = ConsoleColor.White;
-                //    adminMenu.AM(loggedInAdmin);
-                //}
+            }
+
+            public static ConsoleKey hoofdPagina()
+            {
+                adminMethods adminMethod = new adminMethods();
+                Tuple<int, bool[]> zalenInfo = adminMethod.CountCinemaHalls();
+                Console.Clear();
+                MainMenu.Logo();
+                Console.WriteLine("Admin Menu\n");
+                Console.WriteLine("Maak een keuze: ");
+                Console.WriteLine("1) Naar Main Menu");
+                Console.WriteLine("2) Film toevoegen");
+                Console.WriteLine("3) Film aanpassen");
+                Console.WriteLine("4) Film verwijderen");
+                if (zalenInfo.Item1 == 1) { Console.WriteLine($"5) Zaal toevoegen \t\t Er is {zalenInfo.Item1} zaal"); }
+                else if (zalenInfo.Item1 > 1) { Console.WriteLine($"5) Zaal toevoegen \t\t Er zijn {zalenInfo.Item1} zalen"); }
+                else { Console.WriteLine("5) Zaal toevoegen \t\t Er zijn geen zalen"); }
+                Console.WriteLine("6) Zaal verwijderen");
+                Console.WriteLine("7) Admin of medewerker toevoegen");
+                Console.WriteLine($"8) Corona filter toepassen \t {adminMethod.coronaCheck()}");
+                Console.WriteLine("9) Bjorns manier van medewerker toevoegen (tijdelijk)");
+                Console.WriteLine("Of type '0' om te stoppen");
+                Console.Write("\nMaak een keuze: ");
+                ConsoleKey keuze = Console.ReadKey(true).Key;
+                return keuze;
             }
         }
-
-        public static ConsoleKey hoofdPagina()
-        {
-            //Tuple<int, bool[]> zalenInfo = adminMethod.CountCinemaHalls();
-            Console.Clear();
-            MainMenu.Logo();
-            Console.WriteLine("Afsluiten (Esc)\n");
-            Console.WriteLine("Admin Menu");
-            Console.Write(MainMenu.LengthMaker(Console.WindowWidth - 34, ' ') + "Profiel (W)\n");
-            Console.WriteLine("Maak een keuze: ");
-            Console.WriteLine("1) Naar Main Menu");
-            Console.WriteLine("2) Film toevoegen");
-            Console.WriteLine("3) Film aanpassen");
-            Console.WriteLine("4) Film verwijderen");
-            //if (zalenInfo.Item1 == 1) { Console.WriteLine($"5) Zaal toevoegen \t Er is {zalenInfo.Item1} zaal"); }
-            //else if (zalenInfo.Item1 > 1) { Console.WriteLine($"5) Zaal toevoegen \t Er zijn {zalenInfo.Item1} zalen"); }
-            Console.WriteLine($"5) Zaal toevoegen");
-            //Console.WriteLine("6) Zaal verwijderen");
-            //Console.WriteLine("7) Admin Toevoegen");
-            //Console.WriteLine($"8) Corona filter toepassen \t {adminMethod.coronaCheck()}");
-            //Console.WriteLine("9) Uitloggen");
-            Console.WriteLine("9) Registreer nieuwe medewerker");
-            Console.WriteLine("Of type '0' om te stoppen");
-            Console.Write("\nMaak een keuze: ");
-            ConsoleKey keuze = Console.ReadKey(true).Key;
-            return keuze;
-        }
-    }
-    public class adminMethods
+        public class adminMethods
         {
             public bool coronaCheck()
             {
@@ -172,282 +152,362 @@ namespace Bi_Os_Coop.Class
                 }
                 return false;
             }
-            //public void CoronaFilter(bool isCoronaFilter)
-            //{
-            //    Zalen zalen = new Zalen();
-            //    string jsonZalen = Json.ReadJson("Zalen");
-            //    zalen = zalen.FromJson(jsonZalen);
-            //    if (!isCoronaFilter)
-            //    {
-            //        foreach (Zaal zaal in zalen.zalenList)
-            //        {
-            //            int count = 0;
-            //            List<Stoel> stoel = zaal.stoelen;
-            //            foreach (Stoel stoel2 in stoel)
-            //            {
-            //                if (stoel2.isOccupied == true)
-            //                {
-            //                    count += 1;
-            //                }
-            //            }
-            //            Tuple<bool, int, int, int>[] occupiedStoelen = new Tuple<bool, int, int, int>[count];
-            //            int tempIndex = 0;
-            //            foreach (Stoel stoel2 in stoel)
-            //            {
-            //                if (stoel2.isOccupied == true && tempIndex < count)
-            //                {
-            //                    occupiedStoelen[tempIndex++] = Tuple.Create(stoel2.isOccupied, stoel2.isOccupiedBy, stoel.stoel2.price, stoel.FindIndex(a => a == stoel2));
-            //                }
-            //            }
-            //            zaal.setZaal(zaal.date, zaal.time, 100, zaal.film);
-            //            for (int j = 0, i = 0; j < 100; j++)
-            //            {
-            //                if (j % 3 == 0)
-            //                {
-            //                    zaal.stoelen[j].isOccupied = false;
-            //                    zaal.stoelen[j].isOccupiedBy = 1;
-            //                    zaal.stoelen[j].Price = 10;
-            //                }
-            //                else
-            //                {
-            //                    zaal.stoelen[j].isOccupied = true;
-            //                    zaal.stoelen[j].isOccupiedBy = 0;
-            //                    zaal.stoelen[j].Price = 0;
-            //                }
-            //                int index = zaal.stoelen.FindIndex(st => st == zaal.stoelen[j]);
-            //                if (i < occupiedStoelen.Length && occupiedStoelen[i].Item4 == index)
-            //                {
-            //                    zaal.stoelen[j].isOccupied = occupiedStoelen[i].Item1;
-            //                    zaal.stoelen[j].isOccupiedBy = occupiedStoelen[i].Item2;
-            //                    zaal.stoelen[j].Price = occupiedStoelen[i].Item3;
-            //                    i++;
-            //                }
-            //            }
-            //            Json.WriteJson("Zalen", zalen.ToJson());
-            //        }
-            //    }
-            //    else
-            //    {
-            //        foreach (Zaal zaal in zalen.zalenList)
-            //        {
-            //            int count = 0;
-            //            List<Stoel> stoel = zaal.stoelen;
-            //            foreach (Stoel stoel2 in stoel)
-            //            {
-            //                if (stoel2.isOccupied == true && stoel2.Price != 0)
-            //                {
-            //                    count += 1;
-            //                }
-            //            }
-            //            Tuple<bool, int, double, int>[] occupiedStoelen = new Tuple<bool, int, double, int>[count];
-            //            int tempIndex = 0;
-            //            foreach (Stoel stoel2 in stoel)
-            //            {
-            //                if (stoel2.isOccupied == true && stoel2.Price != 0 && tempIndex < count)
-            //                {
-            //                    occupiedStoelen[tempIndex++] = Tuple.Create(stoel2.isOccupied, stoel2.isOccupiedBy, stoel2.Price, stoel.FindIndex(a => a == stoel2));
-            //                }
-            //            }
-            //            zaal.setZaal(10, zaal.date, zaal.time, 100, zaal.film);
-            //            for (int j = 0, i = 0; j < 100; j++)
-            //            {
-            //                int index = zaal.stoelen.FindIndex(st => st == zaal.stoelen[j]);
-            //                if (i < occupiedStoelen.Length && occupiedStoelen[i].Item4 == index)
-            //                {
-            //                    zaal.stoelen[j].isOccupied = occupiedStoelen[i].Item1;
-            //                    zaal.stoelen[j].isOccupiedBy = occupiedStoelen[i].Item2;
-            //                    zaal.stoelen[j].Price = occupiedStoelen[i].Item3;
-            //                    i++;
-            //                }
-            //            }
-            //            Json.WriteJson("Zalen", zalen.ToJson());
-            //        }
-            //    }
-            //}
 
-            //public Tuple<int, bool[]> CountCinemaHalls()
-            //{
-            //    int zalenAmount = 0;
-            //    Zalen zalen = new Zalen();
-            //    string jsonZalen = Json.ReadJson("Zalen");
-            //    zalen = zalen.FromJson(jsonZalen);
-            //    foreach (Zaal zaal in zalen.zalenList)
-            //    {
-            //        zalenAmount++;
-            //    }
-            //    if (zalenAmount == 0) { return null; }
-            //    bool[] delete = new bool[zalenAmount];
-            //    int index = 0;
-            //    foreach (Zaal zaal in zalen.zalenList)
-            //    {
-            //        List<Stoel> stoel = zaal.stoelen;
-            //        foreach (Stoel stoel2 in stoel)
-            //        {
-            //            if (stoel2.isOccupied == true && stoel2.Price != 0 && index < delete.Length)
-            //            {
-            //                delete[index++] = false;
-            //            }
-            //        }
-            //    }
-            //    return Tuple.Create(zalenAmount, delete);
-            //}
-
-            //public void DeleteCinemaHall()
-            //{
-            //    Tuple<int, bool[]> zalenInfo = CountCinemaHalls();
-            //    Console.Clear();
-            //    if (zalenInfo != null)
-            //    {
-            //        bool asking = true;
-            //        while (asking)
-            //        {
-            //            Console.WriteLine($"Er zijn op dit moment {zalenInfo.Item1} zalen in de Bi-Os-Coop.\n Kies een zaal om te verwijderen: ");
-            //            try
-            //            {
-            //                asking = false;
-            //                int antwoord = Convert.ToInt32(Console.ReadLine());
-            //                if (antwoord < zalenInfo.Item1)
-            //                {
-            //                    int index = 1;
-            //                    Zalen zalen = new Zalen();
-            //                    string jsonZalen = Json.ReadJson("Zalen");
-            //                    zalen = zalen.FromJson(jsonZalen);
-            //                    foreach (Zaal zaal in zalen.zalenList)
-            //                    {
-            //                        if (index == antwoord)
-            //                        {
-            //                            if (zalenInfo.Item2[index - 1])
-            //                            {
-            //                                Console.WriteLine("lmao de code is nog niet af, sorry");
-            //                            }
-            //                            else
-            //                            {
-            //                                Console.WriteLine("Deze zaal kan niet verwijdert worden omdat er al stoelen zijn gereserveerd.");
-            //                            }
-            //                        }
-            //                        else { index++; }
-            //                    }
-            //                }
-            //            }
-            //            catch
-            //            {
-            //                string antwoord = Console.ReadLine();
-            //                Console.WriteLine($"De keuze {antwoord} is niet valide. Probeer het opnieuw");
-            //                asking = true;
-            //            }
-            //        }
-            //    }
-            //    else
-            //    {
-            //        Console.ForegroundColor = ConsoleColor.Red;
-            //        Console.WriteLine($"De zaal {zalenInfo.Item2} kan niet verwijdert worden.");
-            //        Console.ForegroundColor = ConsoleColor.Gray;
-            //        List<dynamic> mainmenuthings = new List<dynamic>() { null, "name", false, "None", "Nederlands" };
-            //        adminMenu.AM(mainmenuthings);
-            //    }
-            //    //nog niet af
-            //}
-
-            //public void AddAdmin()
-            //{
-            //    Console.WriteLine("Vul hier uw e-mailadres in: ");
-            //    string accountNaam = Console.ReadLine();
-            //    Console.WriteLine("Vul hier uw wachtwoord in: ");
-            //    string accountWachtwoord = Console.ReadLine();
-            //    //obv nog niet af
-            //}
-
-        public void CoronaFilter(bool isCoronaFilter)
-        {
-            string jsonZalen = Json.ReadJson("Zalen");
-            Zalen zalen = Zalen.FromJson(jsonZalen);
-            if (!isCoronaFilter)
+            public Tuple<int, bool[]> CountCinemaHalls()
             {
+                MainMenu.ClearAndShowLogoPlusEsc("Admin");
+                int zalenAmount = 0;
+                Zalen zalen = new Zalen();
+                string jsonZalen = Json.ReadJson("Zalen");
+                zalen = Zalen.FromJson(jsonZalen);
                 foreach (Zaal zaal in zalen.zalenList)
                 {
-                    int count = 0;
+                    zalenAmount++;
+                }
+                if (zalenAmount == 0) { return null; }
+                bool[] delete = new bool[zalenAmount];
+                for (int i = 0; i < delete.Length; i++) { delete[i] = true; }
+                int index = 0;
+                foreach (Zaal zaal in zalen.zalenList)
+                {
                     List<Stoel> stoel = zaal.stoelen;
                     foreach (Stoel stoel2 in stoel)
                     {
-                        if (stoel2.isOccupied)
+                        if (stoel2.isOccupied == true && stoel2.Price != 0 && index < delete.Length && stoel2.isOccupiedBy != 1)
                         {
-                            count += 1;
+                            delete[index++] = false;
                         }
                     }
-                    Tuple<bool, int, Stoel.price, int>[] occupiedStoelen = new Tuple<bool, int, Stoel.price, int>[count];
-                    int tempIndex = 0;
-                    foreach (Stoel stoel2 in stoel)
-                    {
-                        if (stoel2.isOccupied && tempIndex < count)
-                        {
-                            occupiedStoelen[tempIndex++] = Tuple.Create(stoel2.isOccupied, stoel2.isOccupiedBy, stoel2.Price, stoel.FindIndex(a => a == stoel2));
-                        }
-                    }
+                }
+                return Tuple.Create(zalenAmount, delete);
+            }
 
-                    zaal.setZaal(zaal.date, zaal.time, 100, zaal.film);
-                    for (int j = 0, i = 0; j < 100; j++)
+            public void DeleteCinemaHall()
+            {
+                Tuple<int, bool[]> zalenInfo = CountCinemaHalls();
+                if (zalenInfo != null)
+                {
+                Zalen zalen = new Zalen();
+                string jsonZalen = Json.ReadJson("Zalen");
+                zalen = Zalen.FromJson(jsonZalen);
+                Console.WriteLine($"Er zijn op dit moment {zalenInfo.Item1} zalen in de Bi-Os-Coop.\nKies een zaal om te verwijderen of tik '0' voor alle info rondom de zalen: ");
+                string antwoord = Console.ReadLine();
+                //if (antwoord == "1go2to3main4menu5") { goto exit; }
+                try
+                {
+                    int antwoordAlsGetal = Convert.ToInt32(antwoord);
+                    if (antwoordAlsGetal == 0) {zalen.writeZalen(zalen.zalenList);}
+                    Console.WriteLine("\nKies een zaal om te verwijderen met de getallen links van het scherm: ");
+                    antwoord = Console.ReadLine();
+                    try { antwoordAlsGetal = Convert.ToInt32(antwoord); }
+                    catch {
+                        Console.WriteLine($"De keuze {antwoord} is niet valide. Probeer het opnieuw");
+                        MainMenu.ClearAndShowLogoPlusEsc("Admin");
+                        DeleteCinemaHall();
+                    }
+                    if (antwoordAlsGetal <= zalenInfo.Item1)
                     {
-                        if (j % 3 == 0)
+                        int index = 0;
+                        
+                        foreach (Zaal zaal in zalen.zalenList)
                         {
-                            zaal.stoelen[j].isOccupied = false;
-                            zaal.stoelen[j].isOccupiedBy = 1;
-                            zaal.stoelen[j].Price = Stoel.price.LOW;
+                            if (index + 1 == antwoordAlsGetal)
+                            {
+                                if (zalenInfo.Item2[antwoordAlsGetal-1])
+                                {
+                                    // hier moet ik de json aanpassen
+                                }
+                                else if (zalenInfo.Item2[antwoordAlsGetal-1] == false)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine("Deze zaal kan niet verwijdert worden omdat er al stoelen zijn gereserveerd.");
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                    Console.WriteLine("Wilt u een andere zaal verwijderen? (J/N)");
+                                    string antwoord2 = Console.ReadLine().ToLower();
+                                    if (antwoord2 == "j" || antwoord2 == "ja" || antwoord2 == "y" || antwoord2 == "yes")
+                                    {
+                                        MainMenu.ClearAndShowLogoPlusEsc("Admin");
+                                        DeleteCinemaHall();
+                                    }
+                                    else
+                                    {
+                                        adminMenu.AM();
+                                    }
+                                }
+                            }
+                            else { index++; }
+                        }
+                    }
+                }
+                catch
+                     {
+                        Console.WriteLine($"De keuze {antwoord} is niet valide. Probeer het opnieuw");
+                        MainMenu.ClearAndShowLogoPlusEsc("Admin");
+                        DeleteCinemaHall();
+                     }
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"De zaal {zalenInfo.Item2} kan niet verwijdert worden.");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    adminMenu.AM();
+                }
+            }
+
+            public void AddAdminOrWorker()
+            {
+                string json = Json.ReadJson("Accounts");
+                CPeople.People jsonPeople = JsonSerializer.Deserialize<CPeople.People>(json);
+                Console.WriteLine("Wilt u een medewerker of admin toevoegen? 'A'/'M'");
+                string antwoord = Console.ReadLine().ToLower();
+                if (antwoord == "1go2to3main4menu5") { return; }
+                if (antwoord == "admin" || antwoord == "a")
+                {
+                    Console.WriteLine("Vul hier het e-mailadres in van de medewerker: ");
+                    string accountNaam = Console.ReadLine();
+                    if (accountNaam == "1go2to3main4menu5") { return;}
+                    Console.WriteLine("Vul hier het wachtwoord in: ");
+                    SecureString pass = loginscherm.maskInputString();
+                    string password = new System.Net.NetworkCredential(string.Empty, pass).Password;
+                    string accountWachtwoord = password;
+                    if (accountWachtwoord == "1go2to3main4menu5") { return; }
+                    var feedback = loginscherm.mailwachtvragen(accountNaam, accountWachtwoord);
+                    bool accountFound = false;
+                    try
+                    {
+                        if (feedback == false)
+                        {
+                            accountFound = false;
+                        }
+                    }
+                    catch
+                    {
+                        accountFound = true;
+                    }
+                    if (accountFound)
+                    {
+                        if (feedback.isAdmin())
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Deze persoon is al een admin en dit kan niet veranderd worden.");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.WriteLine("Wilt u het opnieuw proberen? (J/N)");
+                            string antwoord2 = Console.ReadLine().ToLower();
+                            if (antwoord2 == "1go2to3main4menu5") { return; }
+                            if (antwoord2 == "j" || antwoord2 == "ja" || antwoord2 == "yes" || antwoord2 == "y")
+                            {
+                                Console.Clear();
+                                AddAdminOrWorker();
+                            }
+                            else
+                            {
+                                adminMenu.AM();
+                            }
+                        }
+                        else if (isEmployee(feedback))
+                        {
+                            CPeople.Admin user = new CPeople.Admin();
+                            user.setPerson(feedback.id, feedback.name, feedback.email, feedback.password, feedback.age, feedback.phonenumber);
+                            jsonPeople.AddAdmin(user);
+                            JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+                            int index = jsonPeople.employeeList.FindIndex(person => person.name == feedback.name);
+                            jsonPeople.employeeList.RemoveAt(index);
+                            json = JsonSerializer.Serialize(jsonPeople, opt);
+                            Json.WriteJson("Accounts", json);
+                        }
+                    }
+                    else if (feedback == false)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Clear();
+                        Console.WriteLine("Dit account bestaat niet in ons systeem.");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine("Wilt u het opnieuw proberen? (J/N)");
+                        string opnieuw = Console.ReadLine().ToLower();
+                        if (opnieuw == "1go2to3main4menu5") { return; }
+                        if (opnieuw == "j" || opnieuw == "ja" || opnieuw == "yes" || opnieuw == "y")
+                        {
+                            Console.Clear();
+                            AddAdminOrWorker();
                         }
                         else
                         {
-                            zaal.stoelen[j].isOccupied = true;
-                            zaal.stoelen[j].isOccupiedBy = 0;
-                            zaal.stoelen[j].Price = 0;
-                        }
-                        int index = zaal.stoelen.FindIndex(st => st == zaal.stoelen[j]);
-                        if (i < occupiedStoelen.Length && occupiedStoelen[i].Item4 == index)
-                        {
-                            zaal.stoelen[j].isOccupied = occupiedStoelen[i].Item1;
-                            zaal.stoelen[j].isOccupiedBy = occupiedStoelen[i].Item2;
-                            zaal.stoelen[j].Price = occupiedStoelen[i].Item3;
-                            i++;
+                            adminMenu.AM();
                         }
                     }
-                    Json.WriteJson("Zalen", zalen.ToJson());
+                }
+                else if (antwoord == "medewerker" || antwoord == "m")
+                {
+                    Console.Clear();
+                    CPeople.Person person = AddWorker();
+                    CPeople.Employee user = new CPeople.Employee();
+                    user.setPerson(person.id, person.name, person.email, person.password, person.age, person.phonenumber);
+                    jsonPeople.AddEmployee(user);
+                    JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+                    json = JsonSerializer.Serialize(jsonPeople, opt);
+                    Json.WriteJson("Accounts", json);
+                    if (user != null)
+                    {
+                        Console.WriteLine("Wilt u de medewerker een admin maken? (J/N)");
+                        string antwoord2 = Console.ReadLine().ToLower();
+                        if (antwoord2 == "j" || antwoord2 == "ja" || antwoord2 == "yes" || antwoord2 == "y")
+                        {
+                            CPeople.Admin AdminUser = new CPeople.Admin();
+                            AdminUser.setPerson(user.id, user.name, user.email, user.password, user.age, user.phonenumber);
+                            jsonPeople.AddAdmin(AdminUser);
+                            int index = jsonPeople.employeeList.FindIndex(Person => Person.name == AdminUser.name);
+                            json = JsonSerializer.Serialize(jsonPeople, opt);
+                            jsonPeople.employeeList.RemoveAt(index);
+                            json = JsonSerializer.Serialize(jsonPeople, opt);
+                            Json.WriteJson("Accounts", json);
+                        }
+                        else
+                        {
+                            adminMenu.AM();
+                        }
+                    }
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"{antwoord} is geen valide antwoord.");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine("Wilt u het nog een keer proberen? (J/N)");
+                    string vraag = Console.ReadLine().ToLower();
+                    if (vraag == "j" || vraag == "ja" || vraag == "yes" || vraag == "y") { AddAdminOrWorker(); }
+                    else if (vraag == "nee" || vraag == "no" || vraag == "n") { adminMenu.AM(); }
+                    else { adminMenu.AM(); }
                 }
             }
-            else
+
+            public dynamic AddWorker()
             {
-                foreach (Zaal zaal in zalen.zalenList)
+                CPeople.Person worker = new CPeople.Person();
+                string ingelogd = Json.ReadJson("MainMenu");
+                Registerscreen.CreateAccount();
+                Json.WriteJson("MainMenu", ingelogd);
+                string accounts = Json.ReadJson("Accounts");
+                CPeople.People list = CPeople.People.FromJson(accounts);
+                if (list.peopleList != null)
                 {
-                    int count = 0;
-                    List<Stoel> stoel = zaal.stoelen;
-                    foreach (Stoel stoel2 in stoel)
+                    int length = 0;
+                    foreach (CPeople.Person person in list.peopleList) { length++; }
+                    int length2 = 0;
+                    foreach (CPeople.Person person in list.peopleList)
                     {
-                        if (stoel2.isOccupied && stoel2.Price != 0)
+                        length2++;
+                        if (length2 == length)
                         {
-                            count += 1;
+                            worker.setPerson(person.id, person.name, person.email, person.password, person.age, person.phonenumber);
                         }
                     }
-                    Tuple<bool, int, Stoel.price, int>[] occupiedStoelen = new Tuple<bool, int, Stoel.price, int>[count];
-                    int tempIndex = 0;
-                    foreach (Stoel stoel2 in stoel)
+                }
+                return worker;
+            }
+
+            public bool isEmployee(CPeople.Employee person) { if (person.GetType().Equals(typeof(CPeople.Employee))) { return true; } return false; }
+            public bool isEmployee(CPeople.Admin person) { if (person.GetType().Equals(typeof(CPeople.Employee))) { return true; } return false; }
+            public bool isEmployee(CPeople.Person person) { if (person.GetType().Equals(typeof(CPeople.Employee))) { return true; } return false; }
+
+            public void CoronaFilter(bool isCoronaFilter)
+            {
+                string jsonZalen = Json.ReadJson("Zalen");
+                Zalen zalen = Zalen.FromJson(jsonZalen);
+                if (!isCoronaFilter)
+                {
+                    foreach (Zaal zaal in zalen.zalenList)
                     {
-                        if (stoel2.isOccupied && stoel2.Price != 0 && tempIndex < count)
+                        int count = 0;
+                        int length = 0;
+                        List<Stoel> stoel = zaal.stoelen;
+                        foreach (Stoel stoel2 in stoel)
                         {
-                            occupiedStoelen[tempIndex++] = Tuple.Create(stoel2.isOccupied, stoel2.isOccupiedBy, stoel2.Price, stoel.FindIndex(a => a == stoel2));
+                            if (stoel2.isOccupied)
+                            {
+                                count += 1;
+                            }
+                            length++;
                         }
+                        Tuple<bool, int, Stoel.price, int>[] occupiedStoelen = new Tuple<bool, int, Stoel.price, int>[count];
+                        int tempIndex = 0;
+                        foreach (Stoel stoel2 in stoel)
+                        {
+                            if (stoel2.isOccupied && tempIndex < count)
+                            {
+                                occupiedStoelen[tempIndex++] = Tuple.Create(stoel2.isOccupied, stoel2.isOccupiedBy, stoel2.Price, stoel.FindIndex(a => a == stoel2));
+                            }
+                        }
+
+                        zaal.setZaal(zaal.date, zaal.time, length, zaal.film);
+                        for (int j = 0, i = 0; j < length; j++)
+                        {
+                            if (j % 3 == 0)
+                            {
+                                zaal.stoelen[j].isOccupied = false;
+                                zaal.stoelen[j].isOccupiedBy = 1;
+                                zaal.stoelen[j].Price = Stoel.price.LOW;
+                            }
+                            else
+                            {
+                                zaal.stoelen[j].isOccupied = true;
+                                zaal.stoelen[j].isOccupiedBy = 0;
+                                zaal.stoelen[j].Price = 0;
+                            }
+                            int index = zaal.stoelen.FindIndex(st => st == zaal.stoelen[j]);
+                            if (i < occupiedStoelen.Length && occupiedStoelen[i].Item4 == index)
+                            {
+                                zaal.stoelen[j].isOccupied = occupiedStoelen[i].Item1;
+                                zaal.stoelen[j].isOccupiedBy = occupiedStoelen[i].Item2;
+                                zaal.stoelen[j].Price = occupiedStoelen[i].Item3;
+                                i++;
+                            }
+                        }
+                        Json.WriteJson("Zalen", zalen.ToJson());
                     }
-                    zaal.setZaal(zaal.date, zaal.time, 100, zaal.film);
-                    for (int j = 0, i = 0; j < 100; j++)
+                }
+                else
+                {
+                    foreach (Zaal zaal in zalen.zalenList)
                     {
-                        int index = zaal.stoelen.FindIndex(st => st == zaal.stoelen[j]);
-                        if (i < occupiedStoelen.Length && occupiedStoelen[i].Item4 == index)
+                        int count = 0;
+                        int length = 0;
+                        List<Stoel> stoel = zaal.stoelen;
+                        foreach (Stoel stoel2 in stoel)
                         {
-                            zaal.stoelen[j].isOccupied = occupiedStoelen[i].Item1;
-                            zaal.stoelen[j].isOccupiedBy = occupiedStoelen[i].Item2;
-                            zaal.stoelen[j].Price = occupiedStoelen[i].Item3;
-                            i++;
+                            if (stoel2.isOccupied && stoel2.isOccupiedBy != 0)
+                            {
+                                count += 1;
+                            }
+                            length++;
                         }
+                        Tuple<bool, int, Stoel.price, int>[] occupiedStoelen = new Tuple<bool, int, Stoel.price, int>[count];
+                        int tempIndex = 0;
+                        foreach (Stoel stoel2 in stoel)
+                        {
+                            if (stoel2.isOccupied && stoel2.isOccupiedBy != 0 && tempIndex < count)
+                            {
+                                occupiedStoelen[tempIndex++] = Tuple.Create(stoel2.isOccupied, stoel2.isOccupiedBy, stoel2.Price, stoel.FindIndex(a => a == stoel2));
+                            }
+                        }
+                        int minus = 18;
+                        if (length > 499) { minus = 130; }
+                        else if (length < 500 && length > 299) { minus = 42; }
+                        zaal.setZaal(zaal.date, zaal.time, length - minus, zaal.film);
+                        for (int j = 0, i = 0; j < length - minus; j++)
+                        {
+                            int index = zaal.stoelen.FindIndex(st => st == zaal.stoelen[j]);
+                            if (i < occupiedStoelen.Length && occupiedStoelen[i].Item4 == index)
+                            {
+                                zaal.stoelen[j].isOccupied = occupiedStoelen[i].Item1;
+                                zaal.stoelen[j].isOccupiedBy = occupiedStoelen[i].Item2;
+                                zaal.stoelen[j].Price = occupiedStoelen[i].Item3;
+                                i++;
+                            }
+                        }
+                        Json.WriteJson("Zalen", zalen.ToJson());
                     }
-                    Json.WriteJson("Zalen", zalen.ToJson());
                 }
             }
         }
     }
-}
