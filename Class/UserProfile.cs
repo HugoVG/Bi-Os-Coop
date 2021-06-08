@@ -82,7 +82,10 @@ namespace Bi_Os_Coop.Class
 
         public static Tuple<CPeople.People, dynamic, MainMenuThings> UpdateName(CPeople.People jsonPeople, dynamic ingelogdePersoon, MainMenuThings things)
         {
-            Console.WriteLine($"\nJe huidige naam: {ingelogdePersoon.name}");
+            string nm;
+            if (ingelogdePersoon.name == null) { nm = "Niet Ingevuld"; }
+            else { nm = ingelogdePersoon.name; }
+            Console.WriteLine($"\nJe huidige naam: {nm}");
             Console.WriteLine("Wat is je nieuwe naam?");
             string newName = loginscherm.FirstCharToUpper(loginscherm.newwayoftyping());
             if (newName == "1go2to3main4menu5") { goto exit; }
@@ -121,7 +124,10 @@ namespace Bi_Os_Coop.Class
 
         public static Tuple<CPeople.People, dynamic, MainMenuThings> UpdateEmail(CPeople.People jsonPeople, dynamic ingelogdePersoon, MainMenuThings things)
         {
-            Console.Write($"\nJe huidige email: {ingelogdePersoon.email}");
+            string nm;
+            if (ingelogdePersoon.email == null) { nm = "Niet Ingevuld"; }
+            else { nm = ingelogdePersoon.email; }
+            Console.Write($"\nJe huidige email: {nm}");
             string newEmail = Registerscreen.validCheck("nieuwe e-mailadres", Registerscreen.emailCheck);
             if (newEmail == "1go2to3main4menu5") { goto exit; }
             ingelogdePersoon.email = newEmail;
@@ -145,7 +151,10 @@ namespace Bi_Os_Coop.Class
 
         public static Tuple<CPeople.People, dynamic, MainMenuThings> UpdatePhoneNumber(CPeople.People jsonPeople, dynamic ingelogdePersoon, MainMenuThings things)
         {
-            Console.Write($"\nJe huidige telefoonnummer: {ingelogdePersoon.phonenumber}");
+            string nm;
+            if (ingelogdePersoon.phonenumber == null) { nm = "Niet Ingevuld"; }
+            else { nm = ingelogdePersoon.phonenumber; }
+            Console.Write($"\nJe huidige telefoonnummer: {nm}");
             string newPhoneNumber = Registerscreen.validCheck("nieuwe telefoonnummer", Registerscreen.phoneCheck);
             if (newPhoneNumber == "1go2to3main4menu5") { goto exit; }
             ingelogdePersoon.phonenumber = newPhoneNumber;

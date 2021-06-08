@@ -69,7 +69,16 @@ namespace Bi_Os_Coop.Class
 
             public string ViewDetails()
             {
-                return $"E-mail: {this.email}, Geboortedatum: {this.age}, Telefoonnummer: {this.phonenumber}";
+                string email;
+                if (this.email == null) { email = "Niet ingevuld"; }
+                else { email = this.email; }
+                string age;
+                if (this.age == null) { age = "Niet ingevuld"; }
+                else { age = this.age; }
+                string pnr;
+                if (this.phonenumber == null) { pnr = "Niet ingevuld"; }
+                else { pnr = this.phonenumber; }
+                return $"E-mail: {email}, Geboortedatum: {age}, Telefoonnummer: {pnr}";
             }
 
 

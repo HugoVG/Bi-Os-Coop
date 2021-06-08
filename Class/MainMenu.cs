@@ -367,7 +367,9 @@ namespace Bi_Os_Coop.Class
             Json.WriteJson("MainMenu", json);
         }
 
-
+        /// <summary>
+        /// Dit is het scherm voor de contactpagina.
+        /// </summary>
         public static void ContactPage()
         {
             Console.Clear();
