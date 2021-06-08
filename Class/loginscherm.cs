@@ -51,6 +51,11 @@ namespace Bi_Os_Coop.Class
             do
             {
                 keyInfo = Console.ReadKey(true);
+                if ((newstring.Length == 2 || newstring.Length == 5) && keyInfo.Key != ConsoleKey.Backspace)
+                {
+                    newstring += "/";
+                    Console.Write('/');
+                }
                 if (keyInfo.Key == ConsoleKey.Enter && newstring.Length == 10)
                 {
                     if (newstring.Substring(0, 5) == "29/02")
@@ -66,11 +71,6 @@ namespace Bi_Os_Coop.Class
                     else { unlocked = true; }
                 }
                 else if (keyInfo.Key == ConsoleKey.Escape) { unlocked = true; }
-                if ((newstring.Length == 2 || newstring.Length == 5) && keyInfo.Key != ConsoleKey.Backspace)
-                {
-                    newstring += "/";
-                    Console.Write('/');
-                }
                 if (Char.IsNumber(keyInfo.KeyChar))
                 {
                     if (newstring.Length == 0 && (keyInfo.Key == ConsoleKey.D0 || keyInfo.Key == ConsoleKey.D1 || keyInfo.Key == ConsoleKey.D2 || keyInfo.Key == ConsoleKey.D3))
@@ -185,6 +185,11 @@ namespace Bi_Os_Coop.Class
             }
         }
 
+        /// <summary>
+        /// Vraagt om een jaartal en berekent of het een schrikkeljaar is.
+        /// </summary>
+        /// <param name="year"></param>
+        /// <returns>True: Wanneer het een schikkeljaar is. False: Wanneer het geen schrikkeljaar is.</returns>
         public static bool isleapyear(int year)
         {
             if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) { return true; }
@@ -194,6 +199,10 @@ namespace Bi_Os_Coop.Class
             }
         }
 
+        /// <summary>
+        /// Deze manier van typen maakt het mogelijk om op escape te drukken.
+        /// </summary>
+        /// <returns>1go2to3main4menu5 wanneer er op escape is gedrukt, anders hetgeen wat men heeft ingetypt.</returns>
         public static string newwayoftyping()
         {
             string newstring = "";

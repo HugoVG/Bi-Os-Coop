@@ -20,7 +20,7 @@ namespace Bi_Os_Coop.Class
             //De if statements hieronder checken of de input van de gebruiker volgens format is en of het e-mailadres of het telefoonnummer al gekoppeld is aa een account.
             string naam = validCheck("uw voor- en achternaam", lengthCheck);
             if (naam == "1go2to3main4menu5") { return null; }
-            string birthdate = validCheck("uw geboortedatum (dd/mm/jjjj)", dateCheck);
+            string birthdate = validCheck("geboortedatum (dd/mm/jjjj)", dateCheck);
             if (birthdate == "1go2to3main4menu5") { return null; }
             if (AgeVerify(birthdate, 14)) {
 
@@ -112,12 +112,11 @@ namespace Bi_Os_Coop.Class
         {
             bool valid = false;
             string input = "";
-
             while (!valid)
             {
                 if (print == "geboortedatum (dd/mm/jjjj)")
                 {
-                    Console.WriteLine($"\nTyp hier {print}:");
+                    Console.WriteLine($"\nTyp hier uw {print}:");
                     input = loginscherm.getdate();
                     if (input == "1go2to3main4menu5")
                     {
