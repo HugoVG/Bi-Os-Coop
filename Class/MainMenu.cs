@@ -374,7 +374,94 @@ namespace Bi_Os_Coop.Class
         {
             Console.Clear();
             ClearAndShowLogoPlusEsc("Main");
-            Console.Write("\nDevelopers:\t\t\t\t\tAdmins:\n\n  Hajar Akkouh\t\t(1008536@hr.nl)\t\t  Alessandro Ibba\t(a.ibba@hr.nl)\n  Thijs van Rixoort\t(1005205@hr.nl)\t\t  Hugo\t\t\t(coolste@min.com)\n  Rick Slingerland\t(1007523@hr.nl)\n  Hugo van Geijn\t(1014168@hr.nl)\n  Victor Roskam\t\t(1007353@hr.nl)\n  Bjorn Mooldijk\t(1017503@hr.nl)\n\nMet dank aan:\n\n  Diana van Roon\t(d.a.van.roon@hr.nl)\n  Bart Westhoff\t\t(0991807@hr.nl)\n\nAdres:\t\tWijnhaven 107, 3011 WN Rotterdam\nTelefoon:\t010 794 4000");
+            CPeople.People accountlist = JsonSerializer.Deserialize<CPeople.People>(Json.ReadJson("Accounts"));
+            List<CPeople.Admin> adminaccounts = accountlist.adminList;
+            Console.Write("\nDevelopers:\t\t\t\t\tAdmins:\n\n  Hajar Akkouh\t\t(1008536@hr.nl)\t\t  ");
+
+            if (adminaccounts.Count() >= 1)
+            {
+                int length = 27 - adminaccounts[0].name.Length;
+                string adminname = adminaccounts[0].name;
+                if (length < 0) { length = 5; }
+                string space = LengthMaker(length, ' ');
+                Console.Write($"{adminname}{space}{adminaccounts[0].email}\n");
+            }
+            else
+            {
+                Console.Write("\n");
+            }
+            Console.Write("  Thijs van Rixoort\t(1005205@hr.nl)\t\t  ");
+            
+            if (adminaccounts.Count() >= 2)
+            {
+                int length = 27 - adminaccounts[1].name.Length;
+                string adminname = adminaccounts[1].name;
+                if (length < 0) { length = 5; }
+                string space = LengthMaker(length, ' ');
+                Console.Write($"{adminname}{space}{adminaccounts[1].email}\n");
+            }
+            else
+            {
+                Console.Write("\n");
+            }
+            Console.Write("  Rick Slingerland\t(1007523@hr.nl)\t\t  ");
+
+            if (adminaccounts.Count() >= 3)
+            {
+                int length = 27 - adminaccounts[2].name.Length;
+                string adminname = adminaccounts[2].name;
+                if (length < 0) { length = 5; }
+                string space = LengthMaker(length, ' ');
+                Console.Write($"{adminname}{space}{adminaccounts[2].email}\n");
+            }
+            else
+            {
+                Console.Write("\n");
+            }
+            Console.Write("  Hugo van Geijn\t(1014168@hr.nl)\t\t  ");
+
+            if (adminaccounts.Count() >= 4)
+            {
+                int length = 27 - adminaccounts[3].name.Length;
+                string adminname = adminaccounts[3].name;
+                if (length < 0) { length = 5; }
+                string space = LengthMaker(length, ' ');
+                Console.Write($"{adminname}{space}{adminaccounts[3].email}\n");
+            }
+            else
+            {
+                Console.Write("\n");
+            }
+            Console.Write("  Victor Roskam\t\t(1007353@hr.nl)\t\t  ");
+
+            if (adminaccounts.Count() >= 5)
+            {
+                int length = 27 - adminaccounts[4].name.Length;
+                string adminname = adminaccounts[4].name;
+                if (length < 0) { length = 5; }
+                string space = LengthMaker(length, ' ');
+                Console.Write($"{adminname}{space}{adminaccounts[4].email}\n");
+            }
+            else
+            {
+                Console.Write("\n");
+            }
+            Console.Write("  Bjorn Mooldijk\t(1017503@hr.nl)\t\t  ");
+
+            if (adminaccounts.Count() >= 6)
+            {
+                int length = 27 - adminaccounts[5].name.Length;
+                string adminname = adminaccounts[5].name;
+                if (length < 0) { length = 5; }
+                string space = LengthMaker(length, ' ');
+                Console.Write($"{adminname}{space}{adminaccounts[5].email}\n\n");
+            }
+            else
+            {
+                Console.Write("\n\n");
+            }
+            Console.Write("Met dank aan:\n\n  Diana van Roon\t(d.a.van.roon@hr.nl)\n  Bart Westhoff\t\t(0991807@hr.nl)\n\n\nAdres:\t\tWijnhaven 107, 3011 WN Rotterdam\nTelefoon:\t010 794 4000");
+
             ConsoleKey keypressed = Console.ReadKey(true).Key;
             while (keypressed != ConsoleKey.Escape)
             {
@@ -383,15 +470,74 @@ namespace Bi_Os_Coop.Class
             if (keypressed == ConsoleKey.Escape) { return; }
         }
 
+        public static void JsonChecker()
+        {
+            try
+            {
+                MainMenuThings Things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
+            }
+            catch
+            {
+                JsonMainMenuSave(null, "name", false, "None", "Nederlands");
+            }
+
+            try
+            {
+                CPeople.People Accounts = JsonSerializer.Deserialize<CPeople.People>(Json.ReadJson("Accounts"));
+            }
+            catch
+            {
+                CPeople.People Accounts = new CPeople.People();
+                CPeople.Admin AdminUser = new CPeople.Admin();
+                AdminUser.setPerson(1, "Hugo", "coolste@min.com", "nietzoveilig", "05/01/1991", "06123456789");
+                Accounts.AddAdmin(AdminUser);
+                JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+                string json = JsonSerializer.Serialize(Accounts, opt);
+                Json.WriteJson("Accounts", json);
+            }
+
+            try
+            {
+                MovieMenu.Films Films = JsonSerializer.Deserialize<MovieMenu.Films>(Json.ReadJson("Films"));
+            }
+            catch
+            {
+                MovieMenu.Films Films = new MovieMenu.Films();
+                MovieMenu.MovieInterpreter Film = new MovieMenu.MovieInterpreter();
+                List<string> Genres = new List<string>() { "Actie", "Thriller" };
+                List<string> Acteurs = new List<string>() { "Json Bjorn", "Henkie Henk" };
+                Film.setFilm(1, "JsonBjorn", "14/04/2021", Genres, 13, 8, Acteurs, 123, "Engels", "De gevaarlijkste voormalige piloot van de KLM wordt uit zijn schuilplaats gehaald om meer explosieve waarheden over zijn verleden te ontdekken.", "https://www.youtube.com/watch?v=v71ce1Dqqns");
+                Films.addFilm(Film);
+                JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+                string json = JsonSerializer.Serialize(Films, opt);
+                Json.WriteJson("Films", json);
+            }
+
+            try
+            {
+                Zalen zaln = JsonSerializer.Deserialize<Zalen>(Json.ReadJson("Zalen"));
+            }
+            catch
+            {
+                Zalen zaln = new Zalen();
+                JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
+                string json = JsonSerializer.Serialize(zaln, opt);
+                Json.WriteJson("Zalen", json);
+            }
+
+            Console.Clear();
+        }
+
         /// <summary>
         /// Dit is het mainmenu scherm.
         /// </summary>
         public static void MainMenuShow()
         {
-            Logo();
+            JsonChecker();
             MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
             CPeople.Person user = things.user; string sort = things.sort; bool reverse = things.reverse; string login = things.login; string language = things.language;
             bool sav = false;
+            Logo();
             if (language == "Nederlands")
             {
                 Console.Write("Afsluiten (Esc)");

@@ -55,6 +55,15 @@
       "age": "05/01/1991",
       "phonenumber": "06123456789",
       "BookedMovies": null
+    },
+    {
+      "id": 2,
+      "name": "Alessandro Ibba",
+      "email": "a.ibba@hr.nl",
+      "password": "nietzoveiligpart2",
+      "age": "05/01/1991",
+      "phonenumber": "06123456789",
+      "BookedMovies": null
     }
   ],
   "employeeList": null

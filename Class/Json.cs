@@ -49,7 +49,15 @@ namespace Bi_Os_Coop.Class
         /// <param name="content"></param>
         public static void WriteJson(string filename, string content)
         {
-            File.WriteAllText($"../../Json/{filename}.json", content);
+            try
+            {
+                File.WriteAllText($"../../Json/{filename}.json", content);
+            }
+            catch
+            {
+                System.IO.Directory.CreateDirectory("../../Json/");
+                File.WriteAllText($"../../Json/{filename}.json", content);
+            }
 
         }
     }
