@@ -376,7 +376,72 @@ namespace Bi_Os_Coop.Class
             Tuple<bool, List<Zaal>> zalenMetNaam = zalen.selectZalen(movieName);
             if (zalenMetNaam.Item1)
             {
+                string beforeChange = Json.ReadJson("Zalen");
+                Zalen zalenBeforeChange = Zalen.FromJson(beforeChange);
+                int count = 0;
+                foreach (Zaal zaal in zalenMetNaam.Item2)
+                {
+                        foreach (Stoel stoel in zaal.stoelen)
+                        {
+                            if (stoel.isOccupied)
+                            {
+                                count += 1;
+                            }
+                        }
+                }
+                Tuple<int, int>[] occupiedStoelen = new Tuple<int, int>[count];
+                Tuple<int, int>[] occupiedStoelen2 = new Tuple<int, int>[count+numberOfPeople];
+                int tempIndex = 0;
+                foreach (Zaal zaal in zalenMetNaam.Item2)
+                {
+                    int index = 0;
+                    foreach (Stoel stoel in zaal.stoelen)
+                    {
+                        if (stoel.isOccupied && tempIndex < count)
+                        {
+                            occupiedStoelen[tempIndex++] = Tuple.Create(stoel.isOccupiedBy, index);
+                        }
+                        index++;
+                    }
+                }
                 zalen.menu(zalenMetNaam.Item2);
+                tempIndex = 0;
+                foreach (Zaal zaal in zalenMetNaam.Item2)
+                {
+                    int index = 0;
+                    foreach (Stoel stoel in zaal.stoelen)
+                    {
+                        if (stoel.isOccupied && tempIndex < count)
+                        {
+                            occupiedStoelen2[tempIndex++] = Tuple.Create(stoel.isOccupiedBy, index);
+                        }
+                        index++;
+                    }
+                }
+                int person = 0;
+                int chairs = 0;
+                for (int i = 0; i < occupiedStoelen2.Length; i++)
+                {
+                    if (i < occupiedStoelen.Length)
+                    {
+                        if (occupiedStoelen[i].Item2 != occupiedStoelen2[i].Item2)
+                        {
+                            foreach (Zaal zaal in zalenMetNaam.Item2)
+                            {
+                                int index2 = 0;
+                                foreach (Stoel stoel in zaal.stoelen)
+                                {
+                                    if (index2 == occupiedStoelen2[i].Item2 && chairs < numberOfPeople)
+                                    {
+                                        stoel.isOccupiedBy = personsToMakeReservationFor[person].id;
+                                        chairs++;
+                                    }
+                                    index2++;
+                                }
+                            }
+                        }
+                    }
+                }
                 var json = zalen.ToJson();
                 Json.WriteJson(Json.Zalen, json);
             }

@@ -331,7 +331,7 @@ namespace Bi_Os_Coop.Class
                 }
                 else if (things.login == "Employee")
                 {
-                    Reservations.MakeReservation(moviename);
+                    Reservations.MakeReservationForCustomers(moviename);
                 }
                 else if (!oldenough)
                 {
