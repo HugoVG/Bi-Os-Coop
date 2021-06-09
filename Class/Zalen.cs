@@ -346,14 +346,17 @@ namespace Bi_Os_Coop.Class
                     else if (stoel.Price == Stoel.price.LOW)
                     {
                         Console.BackgroundColor = ConsoleColor.Blue;
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     else if (stoel.Price == Stoel.price.MEDIUM)
                     {
-                        Console.BackgroundColor = ConsoleColor.Yellow;
+                        Console.BackgroundColor = ConsoleColor.DarkGreen;
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     else if (stoel.Price == Stoel.price.HIGH)
                     {
                         Console.BackgroundColor = ConsoleColor.DarkYellow;
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                 }
                 if (counter <= 8)
