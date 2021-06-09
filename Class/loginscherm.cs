@@ -212,7 +212,7 @@ namespace Bi_Os_Coop.Class
             do
             {
                 keyInfo = Console.ReadKey(true);
-                if ((keyInfo.Key == ConsoleKey.Enter && newstring.Length > 1) || keyInfo.Key == ConsoleKey.Escape) { unlocked = true; }
+                if ((keyInfo.Key == ConsoleKey.Enter && newstring.Length > 0) || keyInfo.Key == ConsoleKey.Escape) { unlocked = true; }
 
                 if (!char.IsControl(keyInfo.KeyChar))
                 {
