@@ -166,14 +166,15 @@ namespace Bi_Os_Coop.Class
                 string jsonZalen = Json.ReadJson("Zalen");
                 zalen = Zalen.FromJson(jsonZalen);
                 Console.WriteLine($"Er zijn op dit moment {zalenInfo.Item1} zalen in de Bi-Os-Coop.\nKies een zaal om te verwijderen of tik '0' voor alle info rondom de zalen: ");
-                string antwoord = Console.ReadLine();
-                //if (antwoord == "1go2to3main4menu5") { goto exit; }
+                string antwoord = loginscherm.newwayoftyping().ToLower();
+                if (antwoord == "1go2to3main4menu5") { return; }
                 try
                 {
                     int antwoordAlsGetal = Convert.ToInt32(antwoord);
                     if (antwoordAlsGetal == 0) { zalen.writeZalen(zalen.zalenList); }
                     Console.WriteLine("\nKies een zaal om te verwijderen met de getallen links van het scherm: ");
-                    antwoord = Console.ReadLine();
+                    antwoord = loginscherm.newwayoftyping().ToLower();
+                    if (antwoord == "1go2to3main4menu5") { return; }
                     try { antwoordAlsGetal = Convert.ToInt32(antwoord); }
                     catch
                     {
@@ -201,7 +202,8 @@ namespace Bi_Os_Coop.Class
                                     Console.WriteLine("Deze zaal kan niet verwijdert worden omdat er al stoelen zijn gereserveerd.");
                                     Console.ForegroundColor = ConsoleColor.White;
                                     Console.WriteLine("Wilt u een andere zaal verwijderen? (J/N)");
-                                    string antwoord2 = Console.ReadLine().ToLower();
+                                    string antwoord2 = loginscherm.newwayoftyping().ToLower();
+                                    if (antwoord2 == "1go2to3main4menu5") { return; }
                                     if (antwoord2 == "j" || antwoord2 == "ja" || antwoord2 == "y" || antwoord2 == "yes")
                                     {
                                         MainMenu.ClearAndShowLogoPlusEsc("Admin");
@@ -222,7 +224,7 @@ namespace Bi_Os_Coop.Class
                         Console.WriteLine($"De zaal {antwoord} kon niet gevonden worden.");
                         Console.ForegroundColor = ConsoleColor.Gray;
                         Console.WriteLine("Wilt u het opnieuw proberen?");
-                        string antwoord2 = Console.ReadLine().ToLower();
+                        string antwoord2 = loginscherm.newwayoftyping().ToLower();
                         if (antwoord2 == "j" || antwoord2 == "ja" || antwoord2 == "y" || antwoord2 == "yes")
                         {
                             MainMenu.ClearAndShowLogoPlusEsc("Admin");
@@ -249,7 +251,7 @@ namespace Bi_Os_Coop.Class
                 Console.WriteLine("Er zijn op dit moment geen zalen.");
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine("Wilt u een zaal aanmaken voor een film?");
-                string antwoord2 = Console.ReadLine().ToLower();
+                string antwoord2 = loginscherm.newwayoftyping().ToLower();
                 if (antwoord2 == "j" || antwoord2 == "ja" || antwoord2 == "y" || antwoord2 == "yes")
                 {
                     CPeople.Admin admin = new CPeople.Admin();
@@ -267,12 +269,12 @@ namespace Bi_Os_Coop.Class
             string json = Json.ReadJson("Accounts");
             CPeople.People jsonPeople = JsonSerializer.Deserialize<CPeople.People>(json);
             Console.WriteLine("Wilt u een medewerker of admin toevoegen? 'A'/'M'");
-            string antwoord = Console.ReadLine().ToLower();
+            string antwoord = loginscherm.newwayoftyping().ToLower();
             if (antwoord == "1go2to3main4menu5") { return; }
             if (antwoord == "admin" || antwoord == "a")
             {
                 Console.WriteLine("Vul hier het e-mailadres in van de medewerker: ");
-                string accountNaam = Console.ReadLine().ToLower();
+                string accountNaam = loginscherm.newwayoftyping().ToLower();
                 if (accountNaam == "1go2to3main4menu5") { return; }
                 Console.WriteLine("Vul hier het wachtwoord in: ");
                 SecureString pass = loginscherm.maskInputString();
@@ -300,7 +302,7 @@ namespace Bi_Os_Coop.Class
                         Console.WriteLine("Deze persoon is al een admin en dit kan niet veranderd worden.");
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.WriteLine("Wilt u het opnieuw proberen? (J/N)");
-                        string antwoord2 = Console.ReadLine().ToLower();
+                        string antwoord2 = loginscherm.newwayoftyping().ToLower();
                         if (antwoord2 == "1go2to3main4menu5") { return; }
                         if (antwoord2 == "j" || antwoord2 == "ja" || antwoord2 == "yes" || antwoord2 == "y")
                         {
@@ -331,7 +333,7 @@ namespace Bi_Os_Coop.Class
                     Console.WriteLine("Dit account bestaat niet in ons systeem.");
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("Wilt u het opnieuw proberen? (J/N)");
-                    string opnieuw = Console.ReadLine().ToLower();
+                    string opnieuw = loginscherm.newwayoftyping().ToLower();
                     if (opnieuw == "1go2to3main4menu5") { return; }
                     if (opnieuw == "j" || opnieuw == "ja" || opnieuw == "yes" || opnieuw == "y")
                     {
@@ -353,11 +355,11 @@ namespace Bi_Os_Coop.Class
                 jsonPeople.AddEmployee(user);
                 JsonSerializerOptions opt = new JsonSerializerOptions { WriteIndented = true };
                 json = JsonSerializer.Serialize(jsonPeople, opt);
-                Json.WriteJson("Accounts", json);
-                if (user != null)
+                if (person.name != null && user.name != null) { Json.WriteJson("Accounts", json); }
+                if (user.name != null && person.name != null)
                 {
                     Console.WriteLine("Wilt u de medewerker een admin maken? (J/N)");
-                    string antwoord2 = Console.ReadLine().ToLower();
+                    string antwoord2 = loginscherm.newwayoftyping().ToLower();
                     if (antwoord2 == "j" || antwoord2 == "ja" || antwoord2 == "yes" || antwoord2 == "y")
                     {
                         CPeople.Admin AdminUser = new CPeople.Admin();
@@ -381,7 +383,7 @@ namespace Bi_Os_Coop.Class
                 Console.WriteLine($"{antwoord} is geen valide antwoord.");
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Wilt u het nog een keer proberen? (J/N)");
-                string vraag = Console.ReadLine().ToLower();
+                string vraag = loginscherm.newwayoftyping().ToLower();
                 if (vraag == "j" || vraag == "ja" || vraag == "yes" || vraag == "y") { AddAdminOrWorker(); }
                 else if (vraag == "nee" || vraag == "no" || vraag == "n") { adminMenu.AM(); }
                 else { adminMenu.AM(); }
@@ -392,11 +394,12 @@ namespace Bi_Os_Coop.Class
         {
             CPeople.Person worker = new CPeople.Person();
             string ingelogd = Json.ReadJson("MainMenu");
+            string accountsBefore = Json.ReadJson("Accounts");
             Registerscreen.CreateAccount();
             Json.WriteJson("MainMenu", ingelogd);
             string accounts = Json.ReadJson("Accounts");
             CPeople.People list = CPeople.People.FromJson(accounts);
-            if (list.peopleList != null)
+            if (list.peopleList != null && accountsBefore != accounts)
             {
                 int length = 0;
                 foreach (CPeople.Person person in list.peopleList) { length++; }
