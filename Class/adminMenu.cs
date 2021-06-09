@@ -8,12 +8,15 @@ namespace Bi_Os_Coop.Class
 {
     public class adminMenu
     {
+        /// <summary>
+        /// adminMenu.AM() is waar alle methods die te maken hebben met een admin samen komen en het resulaat van hoofdpagina() verwerken
+        /// </summary>
+    
         public static void AM(dynamic user = null, string login = null)
         {
             CPeople.Admin admin = new CPeople.Admin();
             adminMethods adminMethod = new adminMethods();
 
-            //while loop die hoofdPagina loopt tot je "0" in tikt
             bool inDitMenu = true;
             bool isCoronaFilter = adminMethod.coronaCheck();
             while (inDitMenu)
@@ -83,6 +86,11 @@ namespace Bi_Os_Coop.Class
             }
         }
 
+        /// <summary>
+        /// hoofpagina() is de Console.WriteLine() en de frontend van Admin Menu
+        /// </summary>
+        /// <returns></returns>
+    
         public static ConsoleKey hoofdPagina()
         {
             adminMethods adminMethod = new adminMethods();
@@ -108,8 +116,18 @@ namespace Bi_Os_Coop.Class
             return keuze;
         }
     }
+
+    /// <summary>
+    /// dit is een class met een aantal adminMethods die worden gebruikt in adminMenu.AM()
+    /// </summary>
+  
     public class adminMethods
     {
+        /// <summary>
+        /// deze method returnet of de coronaFilter een boolean nadat er door de zalen.json is geloopet
+        /// </summary>
+        /// <returns></returns>
+     
         public bool coronaCheck()
         {
             string jsonZalen = Json.ReadJson("Zalen");
@@ -128,9 +146,15 @@ namespace Bi_Os_Coop.Class
             return false;
         }
 
+        /// <summary>
+        /// deze method telt het aantal zalen in de bioscoop en returnet per zaal een boolean voor als er gereserveerd is in de zaal
+        /// dit wordt in een Tuple gereturned die een int heeft en een boolean array, als er geen zalen zijn returnet de functie null
+        /// de info wordt uit de zalen.json gehaald door middel van foreach loops
+        /// </summary>
+        /// <returns></returns>
+
         public Tuple<int, bool[]> CountCinemaHalls()
         {
-            MainMenu.ClearAndShowLogoPlusEsc("Admin");
             int zalenAmount = 0;
             Zalen zalen = new Zalen();
             string jsonZalen = Json.ReadJson("Zalen");
@@ -157,6 +181,11 @@ namespace Bi_Os_Coop.Class
             return Tuple.Create(zalenAmount, delete);
         }
 
+        /// <summary>
+        /// deze method laat een admin een zaal verwijderen mits er geen reservering in de zaal is door een klant
+        /// de method leest info uit zalen.json en checkt of de zaal er is, of je het kan verwijderen en als beide antwoorden ja zijn, wordt de zaal verwijdert
+        /// </summary>        
+     
         public void DeleteCinemaHall()
         {
             Tuple<int, bool[]> zalenInfo = CountCinemaHalls();
@@ -171,16 +200,19 @@ namespace Bi_Os_Coop.Class
                 try
                 {
                     int antwoordAlsGetal = Convert.ToInt32(antwoord);
-                    if (antwoordAlsGetal == 0) { zalen.writeZalen(zalen.zalenList); }
-                    Console.WriteLine("\nKies een zaal om te verwijderen met de getallen links van het scherm: ");
-                    antwoord = loginscherm.newwayoftyping().ToLower();
-                    if (antwoord == "1go2to3main4menu5") { return; }
-                    try { antwoordAlsGetal = Convert.ToInt32(antwoord); }
-                    catch
+                    if (antwoordAlsGetal == 0)
                     {
-                        Console.WriteLine($"De keuze {antwoord} is niet valide. Probeer het opnieuw");
-                        MainMenu.ClearAndShowLogoPlusEsc("Admin");
-                        DeleteCinemaHall();
+                        zalen.writeZalen(zalen.zalenList);
+                        Console.WriteLine("\nKies een zaal om te verwijderen met de getallen links van het scherm: ");
+                        antwoord = loginscherm.newwayoftyping().ToLower();
+                        if (antwoord == "1go2to3main4menu5") { return; }
+                        try { antwoordAlsGetal = Convert.ToInt32(antwoord); }
+                        catch
+                        {
+                            Console.WriteLine($"De keuze {antwoord} is niet valide. Probeer het opnieuw");
+                            MainMenu.ClearAndShowLogoPlusEsc("Admin");
+                            DeleteCinemaHall();
+                        }
                     }
                     if (antwoordAlsGetal <= zalenInfo.Item1)
                     {
@@ -223,7 +255,7 @@ namespace Bi_Os_Coop.Class
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine($"De zaal {antwoord} kon niet gevonden worden.");
                         Console.ForegroundColor = ConsoleColor.Gray;
-                        Console.WriteLine("Wilt u het opnieuw proberen?");
+                        Console.WriteLine("Wilt u het opnieuw proberen? (J/N)");
                         string antwoord2 = loginscherm.newwayoftyping().ToLower();
                         if (antwoord2 == "j" || antwoord2 == "ja" || antwoord2 == "y" || antwoord2 == "yes")
                         {
@@ -239,10 +271,19 @@ namespace Bi_Os_Coop.Class
                 catch
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"De keuze {antwoord} is niet valide. Probeer het opnieuw");
+                    Console.WriteLine($"De keuze {antwoord} is niet valide.");
                     Console.ForegroundColor = ConsoleColor.Gray;
-                    MainMenu.ClearAndShowLogoPlusEsc("Admin");
-                    DeleteCinemaHall();
+                    Console.WriteLine("Wilt u het opnieuw proberen? (J/N)");
+                    string antwoord2 = loginscherm.newwayoftyping().ToLower();
+                    if (antwoord2 == "j" || antwoord2 == "ja" || antwoord2 == "y" || antwoord2 == "yes")
+                    {
+                        MainMenu.ClearAndShowLogoPlusEsc("Admin");
+                        DeleteCinemaHall();
+                    }
+                    else
+                    {
+                        adminMenu.AM();
+                    }
                 }
             }
             else
@@ -264,6 +305,14 @@ namespace Bi_Os_Coop.Class
             }
         }
 
+        /// <summary>
+        /// deze method geeft een admin de optie om nieuwe medewerkers toe te voegen met behulp van AddWorker() die een object persoon returnet
+        /// waar ik een nieuwe employee object voor maak en dan naar de employeelist in de accounts.json zet
+        /// deze method kan ook admins toevoegen met medewerkers accounts, dit wordt gedaan door aanpassingen te maken in de json
+        /// eerst wordt er gecheckt of het account bestaat met loginscherm.mailwachtvragen en als het bestaat returnet het de object van de persoon
+        /// hierna hoef ik alleen te checken of deze persoon een medewerker is en de json dan aanpassen en heeft de medewerker admin rechten.
+        /// </summary>
+     
         public void AddAdminOrWorker()
         {
             string json = Json.ReadJson("Accounts");
@@ -324,6 +373,24 @@ namespace Bi_Os_Coop.Class
                         jsonPeople.employeeList.RemoveAt(index);
                         json = JsonSerializer.Serialize(jsonPeople, opt);
                         Json.WriteJson("Accounts", json);
+                    }
+                    else if(feedback.isPerson())
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("\nDeze persoon is een klant en kan geen admin worden.");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine("Wilt u het opnieuw proberen? (J/N)");
+                        string antwoord2 = loginscherm.newwayoftyping().ToLower();
+                        if (antwoord2 == "1go2to3main4menu5") { return; }
+                        if (antwoord2 == "j" || antwoord2 == "ja" || antwoord2 == "yes" || antwoord2 == "y")
+                        {
+                            Console.Clear();
+                            AddAdminOrWorker();
+                        }
+                        else
+                        {
+                            adminMenu.AM();
+                        }
                     }
                 }
                 else if (feedback == false)
@@ -390,6 +457,11 @@ namespace Bi_Os_Coop.Class
             }
         }
 
+        /// <summary>
+        /// deze method wordt gebruikt in AddWorkerOrAdmin() en gebruikt Registerscreen.CreateAccount() om een persoon account te maken 
+        /// waarvan ik ook het object return voor AddWorkerOrAdmin()
+        /// </summary>
+        /// <returns></returns>
         public dynamic AddWorker()
         {
             CPeople.Person worker = new CPeople.Person();
@@ -416,10 +488,22 @@ namespace Bi_Os_Coop.Class
             return worker;
         }
 
+        /// <summary>
+        /// dit is de check voor of een persoon een medewerker is, hier zijn 3 verschillende versies van om errors te voorkomen
+        /// </summary>
+        /// <returns></returns>
         public bool isEmployee(CPeople.Employee person) { if (person.GetType().Equals(typeof(CPeople.Employee))) { return true; } return false; }
         public bool isEmployee(CPeople.Admin person) { if (person.GetType().Equals(typeof(CPeople.Employee))) { return true; } return false; }
         public bool isEmployee(CPeople.Person person) { if (person.GetType().Equals(typeof(CPeople.Employee))) { return true; } return false; }
 
+        /// <summary>
+        /// dit is de backend method die op alle zalen een coronafilter toepast, dit doe ik door te loopen door de zalenList met informatie uit de zalen.json
+        /// als een stoel bezet is onthoud ik de gegevens van de stoel en zorg ik ervoor dat deze gegevens niet verwijderd worden nadat de coronafilter is toegepast, 
+        /// wat betekent dat reserveringen niet aangepast worden door deze method. na deze check maak ik een volledig nieuwe zaal aan en 
+        /// zet ik om de 3 stoelen en beschikbare stoel neer met de bijbehorende prijs.
+        /// in deze method zit ook het terug zettten van de coronafilter wat dezelfde check heeft voor de stoelen maar geen stoelen om de 3 plaatsen naar beschikbaar zet
+        /// </summary>
+        /// <param name="isCoronaFilter"></param>
         public void CoronaFilter(bool isCoronaFilter)
         {
             string jsonZalen = Json.ReadJson("Zalen");
