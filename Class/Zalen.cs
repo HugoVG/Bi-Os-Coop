@@ -46,11 +46,13 @@ namespace Bi_Os_Coop.Class
                 }
                 else
                 {
+                    Console.ReadKey(true);
                     return;
                 }
 
                 string json1 = this.ToJson();
                 Json.WriteJson("Zalen", json1);
+                Console.ReadKey(true);
             }
             catch (Exception ex) { Console.WriteLine("Ongeldig nummer"); menu(selected); }
 
