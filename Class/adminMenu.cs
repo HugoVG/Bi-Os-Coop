@@ -10,7 +10,6 @@ namespace Bi_Os_Coop.Class
     {
         public static void AM(dynamic user = null, string login = null)
         {
-#warning regel 426 en 430 in mainmenu.cs zorgt voor error
             CPeople.Admin admin = new CPeople.Admin();
             adminMethods adminMethod = new adminMethods();
 
@@ -43,7 +42,6 @@ namespace Bi_Os_Coop.Class
                 }
                 else if (keuze == ConsoleKey.D4)
                 {
-                    // koppelen met boeken; if (!geboekt) > delete movie
                     MainMenu.ClearAndShowLogoPlusEsc("Admin");
                     admin.DeleteMovies();
                 }
@@ -68,36 +66,15 @@ namespace Bi_Os_Coop.Class
                 }
                 else if (keuze == ConsoleKey.D9)
                 {
-                    MainMenu.ClearAndShowLogoPlusEsc("Main");
-                    Console.WriteLine("\nRegistreer nieuwe medewerker.");
-                    //De if statements hieronder checken of de input van de gebruiker volgens format is en of het e-mailadres of het telefoonnummer al gekoppeld is aa een account.
-                    string name = Registerscreen.validCheck("zijn/haar voor- en achternaam", Registerscreen.lengthCheck);
-                    if (name == "1go2to3main4menu5") { return; }
-                    string birthdate = Registerscreen.validCheck("zijn/haar geboortedatum (dd/mm/jjjj)", Registerscreen.dateCheck);
-                    if (birthdate == "1go2to3main4menu5") { return; }
-                    if (Registerscreen.AgeVerify(birthdate, 16))
-                    {
-
-                        int id = Registerscreen.createID();
-                        string email = Registerscreen.validCheck("zijn/haar e-mailadres", Registerscreen.emailCheck);
-                        if (email == "1go2to3main4menu5") { return; }
-                        string phoneNumber = Registerscreen.validCheck("zijn/haar mobiele telefoonnummer", Registerscreen.phoneCheck);
-                        if (phoneNumber == "1go2to3main4menu5") { return; }
-                        string password = Registerscreen.validCheck("zijn/haar wachtwoord", Registerscreen.lengthCheck);
-                        if (password == "1go2to3main4menu5") { return; }
-
-                        admin.NewEmployee(name, email, password, birthdate, phoneNumber);
-
-                        Program.newEntry("\nAccount is aangemaakt.\nDruk op ENTER om verder te gaan.", ConsoleColor.Green);
-                        Console.ReadLine();
-                    }
-                    else
-                    {
-                        Program.newEntry("\nSorry, minimale leeftijd voor een medewerker is 16.", ConsoleColor.Red);
-                        Program.newEntry("\nDruk op enter om terug te gaan.");
-                        Console.ReadLine();
-                        Console.Clear();
-                    }
+                    MainMenuThings things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
+                    things.user = null;
+                    things.sort = "name";
+                    things.reverse = false;
+                    things.login = "None";
+                    things.language = "Nederlands";
+                    MainMenu.JsonMainMenuSave(things.user, things.sort, things.reverse, things.login, things.language);
+                    Console.Clear();
+                    MainMenu.MainMenuShow();
                 }
                 else
                 {
@@ -124,7 +101,7 @@ namespace Bi_Os_Coop.Class
             Console.WriteLine("6) Zaal verwijderen");
             Console.WriteLine("7) Admin of medewerker toevoegen");
             Console.WriteLine($"8) Corona filter toepassen \t {adminMethod.coronaCheck()}");
-            Console.WriteLine("9) Bjorns manier van medewerker toevoegen (tijdelijk)");
+            Console.WriteLine("9) Uitloggen");
             Console.WriteLine("Of type '0' om te stoppen");
             Console.Write("\nMaak een keuze: ");
             ConsoleKey keuze = Console.ReadKey(true).Key;

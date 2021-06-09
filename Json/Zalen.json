@@ -2914,27 +2914,27 @@
           "Price": 0
         },
         {
-          "isOccupied": false,
+          "isOccupied": true,
           "isOccupiedBy": 1,
           "Price": 10
         },
         {
-          "isOccupied": false,
+          "isOccupied": true,
           "isOccupiedBy": 1,
           "Price": 10
         },
         {
-          "isOccupied": false,
+          "isOccupied": true,
           "isOccupiedBy": 1,
           "Price": 10
         },
         {
-          "isOccupied": false,
+          "isOccupied": true,
           "isOccupiedBy": 1,
           "Price": 10
         },
         {
-          "isOccupied": false,
+          "isOccupied": true,
           "isOccupiedBy": 1,
           "Price": 10
         },
