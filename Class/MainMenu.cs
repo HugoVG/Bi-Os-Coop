@@ -574,7 +574,13 @@ namespace Bi_Os_Coop.Class
                         if (login == "Admin") { adminMenu.AM(user, login); }
                     }
                 }
-                else if (keypressed == ConsoleKey.R && login == "None") { Registerscreen.CreateAccount(); }
+                else if (keypressed == ConsoleKey.R && login == "None")
+                {
+                    var newCustomer = Registerscreen.CreateAccount();
+                    things = JsonSerializer.Deserialize<MainMenuThings>(Json.ReadJson("MainMenu"));
+                    user = things.user; sort = things.sort; reverse = things.reverse; login = things.login; language = things.language;
+                    MainMenu.JsonMainMenuSave(loginscherm.mailwachtvragen(newCustomer.email, newCustomer.password), sort, reverse, "Person", language);
+                }
                 else if (keypressed == ConsoleKey.A) { if (login == "Admin") { adminMenu.AM(user, login); } }
                 else if (keypressed == ConsoleKey.W) { if (login == "Person" || login == "Employee") { UserProfile.ProfileMenu(); } }
                 else if (keypressed == ConsoleKey.N && sort != "name") { sort = "name"; sav = true; }
